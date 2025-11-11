@@ -7,46 +7,29 @@ service: webapp
 
 image: uppertown/webapp
 
+primary_role: web
+
 servers:
   web:
-    hosts:
-      - upper.town
+    host: upper.town
+    proxy: true
   workers:
-    hosts:
-      - upper.town
+    host: upper.town
+    proxy: false
     cmd: bin/jobs
-
-ssh:
-  user: app
-  port: 22
-  config: true
-  keys_only: true
-  keys:
-    - "~/.ssh/app-uppertown-production"
-
-proxy:
-  ssl: true
-  host: upper.town
-  response_timeout: 60
-  healthcheck:
-    interval: 5
-    path: /up
-    timeout: 60
-
-registry:
-  server: localhost:5555
 
 env:
   clear:
     APP_ENV: production
     APP_HOST: upper.town
+    # Thruster expects Puma on port 3000 by default.
     APP_PORT: 3000
     RAILS_ENV: production
     RAILS_MAX_THREADS: 5
     POSTGRES_POOL: 25
     POSTGRES_HOST: webapp-postgres
     NOREPLY_EMAIL: noreply@upper.town
-    PERIODS_MIN_PAST_TIME: "2024-01-01T00:00:00Z"
+    PERIODS_MIN_PAST_TIME: 2024-01-01T00:00:00Z
   secret:
     - POSTGRES_USER
     - POSTGRES_PASSWORD
@@ -66,6 +49,31 @@ env:
     - CODE_SALT
     - CODE_ADMIN_SALT
     - SUPER_ADMIN_ACCOUNT_IDS
+    - SSL_CERTIFICATE_PEM
+    - SSL_PRIVATE_KEY_PEM
+
+proxy:
+  host: upper.town
+  app_port: 80
+  response_timeout: 60
+  ssl:
+    certificate_pem: SSL_CERTIFICATE_PEM
+    private_key_pem: SSL_PRIVATE_KEY_PEM
+  healthcheck:
+    interval: 5
+    path: /up
+    timeout: 60
+
+ssh:
+  user: app
+  port: 22
+  config: true
+  keys_only: true
+  keys:
+    - ~/.ssh/app-uppertown-production
+
+registry:
+  server: localhost:5555
 
 aliases:
   console: app exec --interactive --reuse "bin/rails console"
@@ -81,15 +89,53 @@ asset_path: /rails/public/assets
 builder:
   arch: amd64
   local: true
+  dockerfile: Dockerfile
 
 accessories:
   postgres:
     image: postgres:18.0
     host: upper.town
-    port: "127.0.0.1:5432:5432" # POSTGRES_PORT
+    # POSTGRES_PORT
+    port: 127.0.0.1:5432:5432
+    proxy: false
     env:
       secret:
         - POSTGRES_USER
         - POSTGRES_PASSWORD
     volumes:
       - /mnt/uppertown_production_webapp_volume/postgres:/var/lib/postgresql
+
+  mox:
+    image: r.xmox.nl/mox:v0.0.15
+    host: upper.town
+    options:
+      publish:
+        - 80:1080
+        - 0.0.0.0:25:1025
+        - 0.0.0.0:587:1587
+        - 0.0.0.0:465:1465
+        - 0.0.0.0:143:1143
+        - 0.0.0.0:993:1993
+    proxy:
+      hosts:
+        - mail.upper.town
+        - autoconfig.upper.town
+        - mta-sts.upper.town
+      app_port: 80
+      healthcheck:
+        interval: 5
+        path: /
+        timeout: 60
+    env:
+      secret:
+        - SSL_CERTIFICATE_PEM
+        - SSL_PRIVATE_KEY_PEM
+        - DKIM_DOMAINKEY_MAIL_PEM
+    files:
+      - config/mox/mox.conf:/mox/config/mox.conf
+      - config/mox/domains.conf:/mox/config/domains.conf
+      - config/mox/ssl_certificate.pem.erb:/mox/config/ssl_certificate.pem
+      - config/mox/ssl_private_key.pem.erb:/mox/config/ssl_private_key.pem
+      - config/mox/dkim_domainkey_mail.pem.erb:/mox/config/dkim_domainkey_mail.pem
+    volumes:
+      - /mnt/uppertown_production_webapp_volume/mox:/mox/data
