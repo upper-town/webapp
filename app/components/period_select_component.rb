@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PeriodSelectComponent < ViewComponent::Base
+class PeriodSelectComponent < ApplicationComponent
   attr_reader(:form, :default_value, :selected_value)
 
   def initialize(form, default_value: Periods::MONTH, selected_value: nil)

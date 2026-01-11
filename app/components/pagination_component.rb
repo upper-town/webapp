@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PaginationComponent < ViewComponent::Base
+class PaginationComponent < ApplicationComponent
   DEFAULT_OPTIONS = {
     show_first: true,
     show_last:  false, # This calls pagination's total_count

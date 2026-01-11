@@ -31,10 +31,11 @@ That is the domain used locally for `development` and `test` environments.
 
 ### Ruby
 
-You can manage Ruby versions using a version manager like [`asdf`].
+You can manage Ruby versions using a version manager like [`asdf`] or [`mise`].
 Read more about how to install and use it.
 
 [`asdf`]: https://asdf-vm.com/guide/getting-started.html
+[`mise`]: https://mise.jdx.dev/getting-started.html
 
 ### Postgres
 
@@ -133,7 +134,7 @@ cases, defining a state machine is not necessary.
 
 Service objects encapsulate business logic code:
 
-- Create a service class in `app/services/` or `app/domain/`
+- Create a service class in `app/services/` or `app/concepts/`
 - Use a descriptive name for the service class with a verb, and do _not_ add a
   suffix to it
 - Use descriptive names for the service methods. If it only exposes one method,
@@ -147,7 +148,7 @@ Service objects encapsulate business logic code:
 Query objects can compose or perform database queries using `ActiveRecord`
 or `SQL`:
 
-- Create a query class in `app/queries/` or `app/domain/`
+- Create a query class in `app/queries/` or `app/concepts/`
 - Use a descriptive name for the query class and add a `Query` suffix to it
 - Use descriptive names for the query methods. If it only exposes one method,
   name it `call`
@@ -163,7 +164,7 @@ or `SQL`:
 Background jobs can perform an action asynchronously. [Solid Queue] is the
 framework in use:
 
-- Create a job class in `app/jobs/` or `app/domain/`
+- Create a job class in `app/jobs/` or `app/concepts/`
 - Use a descriptive name for the job class and add a `Job` suffix to it
 - Inherit from `ApplicationJob` and use the Active Job interface
 
@@ -174,7 +175,7 @@ framework in use:
 Policies are service/query objects specialized in checking if a user meets
 certain conditions:
 
-- Create a policy in `app/policies/` or `app/domain/`
+- Create a policy in `app/policies/` or `app/concepts/`
 - Use a descriptive name for the policy class and add a `Policy` suffix to it
 - Use names like `#allowed?` for the policy methods
 - Return `true`/`false`
@@ -186,7 +187,7 @@ certain conditions:
 Validators run a set of validations on an `ActiveRecord`-like object. They can
 be Ruby classes or inherit from a Rails validator class:
 
-- Create a validator in `app/validators/` or `app/domain/`
+- Create a validator in `app/validators/` or `app/concepts/`
 - Use a descriptive name for the validator class and add a `Validator`
   suffix to it when it is a model validator
 - Use names like `#valid?` and `#validate` for the validator methods
@@ -208,13 +209,13 @@ your presenter logic:
 
 [`ViewComponent`]: https://rubygems.org/gems/view_component
 
-### Domain
+### Concepts
 
 If you notice a set of services, queries, jobs etc composes a concept in your
 domain, feel free to group them together under a more descriptive concept name.
 
 For example, if a set of business logic relates to a concept called
-"My New Concept", you can create a `app/domain/my_new_concept/` folder and
+"My New Concept", you can create a `app/concepts/my_new_concept/` folder and
 place files there namespaced with a `MyNewConcept` module.
 
 Inside a concept folder, keep the same class naming convention for services,
