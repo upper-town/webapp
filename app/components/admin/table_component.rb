@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Admin
-  class TableComponent < ViewComponent::Base
+  class TableComponent < ApplicationComponent
     def initialize(collection: [], columns: [])
       super()
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class FlashItemComponent < ViewComponent::Base
+class FlashItemComponent < ApplicationComponent
   attr_reader(
     :flash_item,
     :key,

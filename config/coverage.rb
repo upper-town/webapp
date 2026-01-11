@@ -13,7 +13,7 @@ SimpleCov.start do
   add_group "Channels",    "app/channels"
   add_group "Components",  "app/components"
   add_group "Controllers", "app/controllers"
-  add_group "Domain",      "app/domain"
+  add_group "Concepts",    "app/concepts"
   add_group "Helpers",     "app/helpers"
   add_group "Jobs",        "app/jobs"
   add_group "Libraries",   "app/lib"

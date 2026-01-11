@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CountrySelectComponent < ViewComponent::Base
+class CountrySelectComponent < ApplicationComponent
   attr_reader(
     :form,
     :only_in_use,

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class GameSelectComponent < ViewComponent::Base
+class GameSelectComponent < ApplicationComponent
   attr_reader(
     :form,
     :only_in_use,
