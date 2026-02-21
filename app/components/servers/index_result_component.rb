@@ -37,7 +37,8 @@ module Servers
         number_to_human(
           value,
           precision: 4,
-          units: { thousand: "k", million: "M", billion: "G", trillion: "T" }
+          format: "%n%u",
+          units: { thousand: "k", million: "M", billion: "B", trillion: "T" }
         )
       end
     end
