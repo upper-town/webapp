@@ -329,6 +329,41 @@ class Webhooks::PublishBatchJobTest < ActiveSupport::TestCase
       end
     end
 
+    describe "when webhook config method is unsupported" do
+      it "raises an error" do
+        webhook_config = create_webhook_config(
+          method: "POST",
+          url: "https://game.company.com/webhook_events",
+          secret: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        )
+        webhook_config.update_column(:method, "GET") # Force invalid method.
+        webhook_batch = create_webhook_batch(
+          config: webhook_config,
+          status: "queued",
+          failed_attempts: 0
+        )
+        create_webhook_event(
+          uuid: "88888888-8888-8888-8888-888888888888",
+          config: webhook_config,
+          batch: webhook_batch,
+          type: "server_vote.created",
+          data: { "server_vote" => { "uuid" => "11111111-1111-1111-1111-111111111111" } },
+          metadata: {},
+          created_at: "2025-01-01T12:00:01Z"
+        )
+
+        error = assert_raises(RuntimeError) do
+          described_class.new.perform(webhook_batch)
+        end
+
+        assert_equal("HTTP method not supported for webhook request", error.message)
+        webhook_batch.reload
+        assert(webhook_batch.queued?)
+        assert_equal(1, webhook_batch.failed_attempts)
+        assert_match(/RuntimeError/, webhook_batch.metadata["failed_attempts"]["1"])
+      end
+    end
+
     describe "when webhook request responds with 2xx status" do
       it "does not raise any errors set status 'delivered'" do
         webhook_config = create_webhook_config(

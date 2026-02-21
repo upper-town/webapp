@@ -30,8 +30,9 @@ module StringHelper
   end
 
   def format_sentence(str)
+    str = normalize_whitespaces(str)
     period = str.end_with?(".", ",", ";", ":", "!", "?") ? "" : "."
 
-    normalize_whitespaces("#{str}#{period}").upcase_first
+    "#{str}#{period}".upcase_first
   end
 end

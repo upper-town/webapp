@@ -6,14 +6,14 @@ module TokenGenerator
   extend self
 
   def generate(length = 44, secret = SECRET)
-    token = SecureRandom.base58(length)
-    token_digest = digest(token, secret)
-    token_last_four = token.last(4)
+    token_value = SecureRandom.base58(length)
+    token_digest = digest(token_value, secret)
+    token_last_four = token_value.last(4)
 
-    [token, token_digest, token_last_four]
+    [token_value, token_digest, token_last_four]
   end
 
-  def digest(token, secret = SECRET)
-    OpenSSL::HMAC.hexdigest("sha256", secret, token)
+  def digest(token_value, secret = SECRET)
+    OpenSSL::HMAC.hexdigest("sha256", secret, token_value)
   end
 end

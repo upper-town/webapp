@@ -85,6 +85,28 @@ class StringHelperTest < ActiveSupport::TestCase
     end
   end
 
+  describe ".format_sentence" do
+    it "formats string as a sentence" do
+      [
+        ["hello",       "Hello."],
+        ["hello world", "Hello world."],
+        ["Hello.",      "Hello."],
+        ["hello!",      "Hello!"],
+        ["hello?",      "Hello?"],
+        ["hello,",      "Hello,"],
+        ["hello;",      "Hello;"],
+        ["hello:",      "Hello:"],
+
+        [" \n\t hello \t world \n ", "Hello world."],
+        ["  already Fine.  ",        "Already Fine."]
+      ].each do |value, expected_str|
+        returned = described_class.format_sentence(value)
+
+        assert_equal(expected_str, returned, "Failed for #{value.inspect}")
+      end
+    end
+  end
+
   describe ".values_list_uniq" do
     it "returns an array of strings" do
       [

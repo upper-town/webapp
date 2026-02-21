@@ -10,11 +10,11 @@ module HasTokens
       TokenGenerator
     end
 
-    def find_by_token(purpose, token)
-      return if purpose.blank? || token.blank?
+    def find_by_token(purpose, token_value)
+      return if purpose.blank? || token_value.blank?
 
       joins(:tokens)
-        .where(tokens: { purpose:, token_digest: token_generator.digest(token) })
+        .where(tokens: { purpose:, token_digest: token_generator.digest(token_value) })
         .where("tokens.expires_at > ?", Time.current)
         .first
     end
@@ -23,7 +23,7 @@ module HasTokens
   def generate_token!(purpose, expires_in = nil, data = {})
     expires_in ||= TOKEN_EXPIRATION
 
-    token, token_digest, token_last_four = self.class.token_generator.generate
+    token_value, token_digest, token_last_four = self.class.token_generator.generate
 
     tokens.create!(
       purpose:,
@@ -33,7 +33,7 @@ module HasTokens
       token_last_four:
     )
 
-    token
+    token_value
   end
 
   def expire_token!(purpose)

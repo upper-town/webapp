@@ -3,13 +3,13 @@
 class AdminCode < ApplicationRecord
   belongs_to :admin_user
 
-  def self.find_by_code(code, include_expired = false)
-    return if code.blank?
+  def self.find_by_code(code_value, include_expired: false)
+    return if code_value.blank?
 
     if include_expired
-      find_by(code_digest: CodeGenerator::Admin.digest(code))
+      find_by(code_digest: CodeGenerator::Admin.digest(code_value))
     else
-      not_expired.where(code_digest: CodeGenerator::Admin.digest(code)).first
+      not_expired.where(code_digest: CodeGenerator::Admin.digest(code_value)).first
     end
   end
 

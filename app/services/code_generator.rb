@@ -11,13 +11,13 @@ module CodeGenerator
   extend self
 
   def generate(length = 8, secret = SECRET)
-    code = Array.new(length) { ALPHABET[SecureRandom.random_number(32)] }.join
-    code_digest = digest(code, secret)
+    code_value = Array.new(length) { ALPHABET[SecureRandom.random_number(32)] }.join
+    code_digest = digest(code_value, secret)
 
-    [code, code_digest]
+    [code_value, code_digest]
   end
 
-  def digest(code, secret = SECRET)
-    OpenSSL::HMAC.hexdigest("sha256", secret, code)
+  def digest(code_value, secret = SECRET)
+    OpenSSL::HMAC.hexdigest("sha256", secret, code_value)
   end
 end

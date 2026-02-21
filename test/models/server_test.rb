@@ -456,6 +456,56 @@ class ServerTest < ActiveSupport::TestCase
     end
   end
 
+  describe "#banner_image_approved?" do
+    describe "when banner_image is present and banner_image_approved_at is present" do
+      it "returns true" do
+        server = create_server(banner_image_approved_at: Time.current)
+        server.banner_image.attach(io: StringIO.new(png_1px), filename: "test.png")
+
+        assert(server.banner_image_approved?)
+      end
+    end
+
+    describe "when banner_image or banner_image_approved_at is not present" do
+      it "returns false" do
+        server = create_server(banner_image_approved_at: nil)
+        server.banner_image.attach(io: StringIO.new(png_1px), filename: "test.png")
+
+        assert_not(server.banner_image_approved?)
+
+        server = create_server(banner_image_approved_at: Time.current)
+
+        assert_not(server.banner_image_approved?)
+
+        server = create_server(banner_image_approved_at: nil)
+
+        assert_not(server.banner_image_approved?)
+      end
+    end
+  end
+
+  describe "#approve_banner_image!" do
+    it "sets banner_image_approved_at" do
+      server = create_server(banner_image_approved_at: nil)
+
+      freeze_time do
+        server.approve_banner_image!
+
+        assert_equal(Time.current, server.reload.banner_image_approved_at)
+      end
+    end
+  end
+
+  describe "#unapprove_banner_image!" do
+    it "clears banner_image_approved_at" do
+      server = create_server(banner_image_approved_at: Time.current)
+
+      server.unapprove_banner_image!
+
+      assert_nil(server.reload.banner_image_approved_at)
+    end
+  end
+
   describe "#webhook_config" do
     describe "when enabled webhook_config exists for event_type" do
       it "returns it" do
