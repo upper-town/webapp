@@ -3,13 +3,16 @@
 ENV["APP_ENV"] ||= "test"
 ENV["RAILS_ENV"] ||= "test"
 
-require_relative "../config/environment"
-
-if AppUtil.env_var_enabled?("COVERAGE")
+# Start SimpleCov before Rails loads so application code loaded during
+# initialization (e.g. ApplicationModel via controller concerns) is tracked.
+# See: https://github.com/simplecov-ruby/simplecov/issues/1082
+if %w[true t 1 on yes y enable enabled].include?(ENV["COVERAGE"].to_s.strip.downcase)
   require "simplecov"
   require "simplecov-lcov"
   require_relative "../config/coverage"
 end
+
+require_relative "../config/environment"
 
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
@@ -55,5 +58,11 @@ module ActiveSupport
     include RequestTestHelper
 
     include Rails.application.routes.url_helpers
+  end
+end
+
+module ActionDispatch
+  class IntegrationTest
+    include RequestTestSetup
   end
 end

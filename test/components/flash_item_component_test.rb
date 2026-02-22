@@ -128,4 +128,18 @@ class FlashItemComponentTest < ViewComponent::TestCase
       assert_text(/email/i)
     end
   end
+
+  describe "hash value with content: ActiveModel::Errors" do
+    it "renders error full messages from hash content" do
+      model = User.new
+      model.errors.add(:email, :blank)
+      model.errors.add(:password, "is too short")
+
+      render_inline(described_class.new(["danger", { content: model.errors }]))
+
+      assert_selector("div.alert.alert-danger")
+      assert_text(/email/i)
+      assert_text(/password/i)
+    end
+  end
 end

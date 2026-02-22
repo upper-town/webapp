@@ -72,7 +72,7 @@ class FlashItemComponent < ApplicationComponent
       when Hash
         case value[:content]
         when ActiveModel::Errors
-          value.full_messages
+          value[:content].full_messages
         else
           value[:content]
         end
