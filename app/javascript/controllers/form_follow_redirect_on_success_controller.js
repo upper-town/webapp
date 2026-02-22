@@ -1,5 +1,4 @@
 import { Controller } from '@hotwired/stimulus'
-import '@hotwired/turbo-rails' // TODO: Do we need this?
 
 export default class extends Controller {
   #eventName = 'turbo:submit-end'

@@ -1,5 +1,3 @@
-import '@hotwired/turbo-rails' // TODO: Do we need this?
-
 class Navigate {
   constructor(url) {
     this.url = url
