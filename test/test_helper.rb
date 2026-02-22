@@ -3,7 +3,7 @@
 ENV["APP_ENV"] ||= "test"
 ENV["RAILS_ENV"] ||= "test"
 
-require_relative "../lib/app_util"
+require_relative "../app/lib/app_util"
 
 if AppUtil.env_var_enabled?("COVERAGE")
   require "simplecov"

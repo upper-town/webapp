@@ -2,7 +2,7 @@ require_relative "boot"
 
 require "rails/all"
 
-require_relative "../lib/app_util"
+require_relative "../app/lib/app_util"
 
 require "dotenv" if Rails.env.local?
 

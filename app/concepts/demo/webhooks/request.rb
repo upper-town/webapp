@@ -11,6 +11,8 @@ module Demo
       end
 
       def valid?
+        return false if request.headers["X-Signature"].blank?
+
         ActiveSupport::SecurityUtils.secure_compare(
           OpenSSL::HMAC.hexdigest("sha256", ENV.fetch("DEMO_WEBHOOK_SECRET"), request_body),
           request.headers["X-Signature"]
