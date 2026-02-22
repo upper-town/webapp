@@ -23,7 +23,8 @@ module Auth
         :current_admin_user,
         :current_admin_account,
         :signed_in_admin_user?,
-        :signed_out_admin_user?
+        :signed_out_admin_user?,
+        :admin_jobs_access?
       )
 
       rescue_from(NotAuthenticatedError, with: :handle_admin_user_not_authenticated)
@@ -86,6 +87,12 @@ module Auth
         admin_root_path,
         info: "Your account has been locked."
       )
+    end
+
+    def admin_jobs_access?
+      Admin::AccessPolicy
+        .new(current_admin_account, AdminPermission::JOBS_ACCESS)
+        .allowed?
     end
   end
 end

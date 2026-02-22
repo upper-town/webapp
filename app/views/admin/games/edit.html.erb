@@ -1,0 +1,6 @@
+<div class="mb-4">
+  <h1 class="mb-0"><%= t("admin.games.edit.title", name: @game.name) %></h1>
+  <%= render(Admin::ShowActionsComponent.new(back_path: admin_game_path(@game))) %>
+</div>
+
+<%= render("form", form: @form, form_url: admin_game_path(@game), form_method: :patch, submit_label: t("admin.games.edit.update_game")) %>

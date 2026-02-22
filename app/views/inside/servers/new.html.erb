@@ -1,5 +1,5 @@
 <%= form_with(
-  model: @server,
+  model: @form,
   method: :post,
   url: inside_servers_path,
   data: { "controller" => "form-error-messages-handler" }
@@ -10,7 +10,7 @@
       form,
       only_in_use: false,
       blank_name: nil,
-      selected_value: @server.game_id
+      selected_value: @form.game_id
     )) %>
   </div>
 
@@ -21,7 +21,7 @@
       only_in_use: false,
       with_continents: false,
       blank_name: nil,
-      selected_value: @server.country_code
+      selected_value: @form.country_code
     )) %>
   </div>
 

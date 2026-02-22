@@ -1,4 +1,4 @@
-<div class="d-flex flex-row gap-2 justify-content-center" data-turbo-prefetch="true">
+<div class="d-flex flex-row gap-2 <%= wrapper_justify_class %>" data-turbo-prefetch="true">
   <% if show_first? || show_last? %>
     <nav role="navigation">
       <ul class="pagination">
@@ -9,7 +9,7 @@
             </li>
           <% else %>
             <li class="page-item">
-              <%= link_to(first_icon, pagination.first_page_url, class: 'page-link') %>
+              <%= link_to(first_icon, pagination.first_page_url, class: "page-link") %>
             </li>
           <% end %>
         <% end %>
@@ -21,7 +21,7 @@
             </li>
           <% else %>
             <li class="page-item">
-              <%= link_to(last_icon, pagination.last_page_url, class: 'page-link') %>
+              <%= link_to(last_icon, pagination.last_page_url, class: "page-link") %>
             </li>
           <% end %>
         <% end %>
@@ -33,7 +33,7 @@
     <ul class="pagination">
       <% if pagination.has_prev_page? %>
         <li class="page-item">
-          <%= link_to(prev_icon, pagination.prev_page_url, class: 'page-link') %>
+          <%= link_to(prev_icon, pagination.prev_page_url, class: "page-link") %>
         </li>
       <% else %>
         <li class="page-item disabled">
@@ -45,7 +45,7 @@
 
       <% if pagination.has_next_page? %>
         <li class="page-item">
-          <%= link_to(next_icon, pagination.next_page_url, class: 'page-link') %>
+          <%= link_to(next_icon, pagination.next_page_url, class: "page-link") %>
         </li>
       <% else %>
         <li class="page-item disabled">
@@ -62,7 +62,7 @@
       <ul class="pagination">
         <li class="page-item pagination-goto">
           <%= form_with(method: :get, url: request.path) do |form| %>
-            <%= RequestHelper.new(request).hidden_fields_for_query({}, ['page']) %>
+            <%= RequestHelper.new(request).hidden_fields_for_query({}, ["page"]) %>
             <div class="input-group">
               <input
                 type="text"
@@ -82,7 +82,7 @@
 </div>
 
 <% if show_badges? %>
-  <div class="d-flex flex-row gap-1 justify-content-center mb-2">
+  <div class="d-flex flex-row gap-1 <%= wrapper_justify_class %> mb-2">
     <% if show_page? %>
       <span class="badge text-bg-secondary">
         page <%= pagination.page %>

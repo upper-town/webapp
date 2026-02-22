@@ -1,0 +1,32 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="mb-0"><%= t("admin.games.index.title") %></h1>
+  <%= link_to(t("admin.games.index.new_game"), new_admin_game_path, class: "btn btn-primary") %>
+</div>
+
+<div class="admin-pagination-search-row mb-3">
+  <div class="admin-pagination-search-row__pagination">
+    <%= render(PaginationComponent.new(@pagination, align: :start)) %>
+  </div>
+  <%= render(Admin::SearchFormComponent.new(
+    url: admin_games_path,
+    search_term: @search_term,
+    placeholder: t("admin.games.index.search_placeholder")
+  )) %>
+</div>
+
+<%=
+  render(Admin::TableComponent.new(
+    collection: @games,
+    empty_message: t("admin.games.index.empty_message"),
+    columns: [
+      [t("admin.shared.id"), -> { link_to(it.id, admin_game_path(it), class: "fw-medium") }, { copyable: :id }],
+      [t("admin.games.form.name"), -> { it.name.presence || content_tag(:span, t("admin.shared.empty_placeholder"), class: "text-muted") }, { copyable: :name }],
+      [t("admin.games.form.slug"), -> { it.slug.presence || content_tag(:span, t("admin.shared.empty_placeholder"), class: "text-muted") }, { copyable: :slug }],
+      [t("admin.games.form.site_url"), -> { it.site_url.present? ? link_to(truncate(it.site_url, length: 35), it.site_url, target: "_blank", rel: "noopener", class: "text-break") : content_tag(:span, t("admin.shared.empty_placeholder"), class: "text-muted") }, { copyable: :site_url }],
+      [t("admin.games.columns.servers"), -> { it.servers.count }],
+      [t("admin.shared.actions"), -> { render(Admin::IndexActionsComponent.new(view_path: admin_game_path(it), edit_path: edit_admin_game_path(it))) }],
+    ],
+  ))
+%>
+
+<%= render(PaginationComponent.new(@pagination, align: :start)) %>

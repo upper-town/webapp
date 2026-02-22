@@ -1,0 +1,6 @@
+<div class="mb-4">
+  <h1 class="mb-0"><%= t("admin.games.new.title") %></h1>
+  <%= render(Admin::ShowActionsComponent.new(back_path: admin_games_path)) %>
+</div>
+
+<%= render("form", form: @form, form_url: admin_games_path, form_method: :post, submit_label: t("admin.games.new.create_game")) %>

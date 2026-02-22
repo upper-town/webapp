@@ -21,11 +21,11 @@ module Demo
     private
 
     def perform(delay: 0)
-      webhook_request = Webhooks::Request.new(request)
+      webhook_request = Demo::Webhooks::Request.new(request)
 
       if webhook_request.valid?
         sleep(delay)
-        DemoWebhookEvent.insert_all(webhook_request.webhook_event_hashes)
+        Demo::WebhookEvents::Create.call(webhook_request.webhook_event_hashes)
 
         head :ok
       else

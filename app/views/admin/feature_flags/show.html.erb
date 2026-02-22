@@ -1,0 +1,35 @@
+<div class="mb-4">
+  <h1 class="mb-0"><%= @feature_flag.name %></h1>
+  <%= render(Admin::ShowActionsComponent.new(
+    back_path: admin_feature_flags_path,
+    actions: [{ path: edit_admin_feature_flag_path(@feature_flag), label: t("admin.shared.edit") }]
+  )) %>
+</div>
+
+<%= render(Admin::DetailsTableComponent.new(sections: [
+  {
+    title: t("admin.shared.details"),
+    rows: [
+      [t("admin.shared.id"), @feature_flag.id, { copyable: true }],
+      [t("admin.feature_flags.show.name"), content_tag(:code, @feature_flag.name), { copy_value: @feature_flag.name }],
+      [t("admin.feature_flags.show.value"), content_tag(:code, @feature_flag.value), { copy_value: @feature_flag.value }],
+      [t("admin.feature_flags.show.enabled"), -> {
+        enabled = FeatureFlag.enabled?(@feature_flag.name)
+        content_tag(:span, enabled ? t("admin.shared.yes") : t("admin.shared.no"), class: "badge #{enabled ? "bg-success" : "bg-secondary"}")
+      }],
+      [t("admin.feature_flags.show.env_override"), -> {
+        if FeatureFlag.fetch_value_from_env_var(@feature_flag.name).present?
+          safe_join([
+            content_tag(:span, t("admin.shared.yes"), class: "badge bg-warning text-dark"),
+            content_tag(:small, " #{t("admin.feature_flags.show.env_override_suffix", var: @feature_flag.name.upcase)}", class: "text-muted ms-1")
+          ])
+        else
+          content_tag(:span, t("admin.shared.no"), class: "text-muted")
+        end
+      }],
+      [t("admin.feature_flags.show.comment"), simple_format(@feature_flag.comment.presence || t("admin.shared.empty_placeholder")), { align_top: true }],
+      [t("admin.shared.created"), l(@feature_flag.created_at), { copyable: true }],
+      [t("admin.shared.updated"), l(@feature_flag.updated_at), { copyable: true }],
+    ],
+  },
+])) %>

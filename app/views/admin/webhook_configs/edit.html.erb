@@ -1,0 +1,6 @@
+<div class="mb-4">
+  <h1 class="mb-0"><%= t("admin.webhook_configs.edit.title", id: @webhook_config.id) %></h1>
+  <%= render(Admin::ShowActionsComponent.new(back_path: admin_webhook_config_path(@webhook_config))) %>
+</div>
+
+<%= render("form", form: @form, servers: @servers, form_url: admin_webhook_config_path(@webhook_config), form_method: :patch, submit_label: t("admin.webhook_configs.edit.update_webhook_config")) %>

@@ -14,8 +14,7 @@ class ServersController < ApplicationController
 
     @pagination = Pagination.new(
       Servers::IndexQuery.new(@game, @period, @country_codes, current_time).call,
-      request,
-      per_page: 10
+      request
     )
 
     @servers = @pagination.results

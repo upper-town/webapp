@@ -1,0 +1,29 @@
+<div class="mb-4">
+  <h1 class="mb-0"><%= t("admin.server_stats.show.title", id: @server_stat.id) %></h1>
+  <%= render(Admin::ShowActionsComponent.new(
+    back_path: admin_server_stats_path,
+    actions: [
+      { path: admin_server_path(@server_stat.server), label: t("admin.server_stats.columns.server") },
+      { path: admin_game_path(@server_stat.game), label: t("admin.server_stats.columns.game") },
+    ]
+  )) %>
+</div>
+
+<%= render(Admin::DetailsTableComponent.new(sections: [
+  {
+    title: t("admin.shared.details"),
+    rows: [
+      [t("admin.shared.id"), @server_stat.id],
+      [t("admin.server_stats.columns.server"), link_to(@server_stat.server.name, admin_server_path(@server_stat.server))],
+      [t("admin.server_stats.columns.game"), link_to(@server_stat.game.name, admin_game_path(@server_stat.game))],
+      [t("admin.server_stats.columns.period"), content_tag(:code, @server_stat.period)],
+      [t("admin.server_stats.columns.reference_date"), l(@server_stat.reference_date), { copyable: true }],
+      [t("admin.server_stats.columns.vote_count"), @server_stat.vote_count],
+      [t("admin.server_stats.columns.ranking_number"), @server_stat.ranking_number || t("admin.shared.empty_placeholder")],
+      [t("admin.server_stats.columns.vote_count_consolidated_at"), @server_stat.vote_count_consolidated_at ? l(@server_stat.vote_count_consolidated_at) : nil, { copyable: true }],
+      [t("admin.server_stats.columns.ranking_consolidated_at"), @server_stat.ranking_number_consolidated_at ? l(@server_stat.ranking_number_consolidated_at) : nil, { copyable: true }],
+      [t("admin.shared.created"), l(@server_stat.created_at), { copyable: true }],
+      [t("admin.shared.updated"), l(@server_stat.updated_at), { copyable: true }],
+    ],
+  },
+])) %>

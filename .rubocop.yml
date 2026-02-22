@@ -198,6 +198,8 @@ Style/RedundantBegin:
   Enabled: false
 Style/RedundantParentheses:
   Enabled: false
+Style/ReturnNil:
+  Enabled: true
 Style/RegexpLiteral:
   Enabled: false
 Style/SafeNavigation:

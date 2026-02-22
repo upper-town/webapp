@@ -28,6 +28,610 @@
 #       enabled: "ON"
 
 en:
+  admin:
+    dashboard:
+      title: "Dashboard"
+      users: "Users"
+      admin_users: "Admin Users"
+      accounts: "Accounts"
+      admin_accounts: "Admin Accounts"
+      codes: "Codes"
+      admin_codes: "Admin Codes"
+      tokens: "Tokens"
+      admin_tokens: "Admin Tokens"
+      sessions: "Sessions"
+      admin_sessions: "Admin Sessions"
+      games: "Games"
+      servers: "Servers"
+      feature_flags: "Feature Flags"
+      webhook_configs: "Webhook Configs"
+      webhook_events: "Webhook Events"
+      jobs: "Jobs"
+      locked: "Locked"
+      verified: "Verified"
+      archived: "Archived"
+      marked_for_deletion: "Marked for deletion"
+      quick_links: "Quick links"
+      jobs_solidqueue: "SolidQueue"
+      jobs_view_queue: "View job queue and workers"
+    users:
+      update:
+        success: "User updated."
+    admin_users:
+      update:
+        success: "Admin User updated."
+    admin_accounts:
+      update:
+        success: "Admin Account roles updated."
+    admin_roles:
+      update:
+        success: "Role permissions updated."
+    games:
+      create:
+        success: "Game created."
+      update:
+        success: "Game updated."
+    feature_flags:
+      create:
+        success: "Feature Flag created."
+      update:
+        success: "Feature Flag updated."
+    webhook_configs:
+      create:
+        success: "Webhook Config created."
+      update:
+        success: "Webhook Config updated."
+    servers:
+      update:
+        success: "Server updated."
+    nav:
+      brand: "Admin"
+      dashboard: "Dashboard"
+      users: "Users"
+      admin_users: "Admin Users"
+      accounts: "Accounts"
+      admin_accounts: "Admin Accounts"
+      codes: "Codes"
+      admin_codes: "Admin Codes"
+      tokens: "Tokens"
+      admin_tokens: "Admin Tokens"
+      sessions: "Sessions"
+      admin_sessions: "Admin Sessions"
+      roles: "Roles"
+      permissions: "Permissions"
+      games: "Games"
+      servers: "Servers"
+      server_accounts: "Server Accounts"
+      server_stats: "Server Stats"
+      server_votes: "Server Votes"
+      feature_flags: "Feature Flags"
+      webhook_configs: "Webhook Configs"
+      webhook_events: "Webhook Events"
+      webhook_batches: "Webhook Batches"
+      jobs: "Jobs"
+      section_users: "Users"
+      section_admin: "Admin"
+      section_platform: "Platform"
+      section_webhook: "Webhook"
+      section_system: "System"
+      site: "Site"
+      sign_out: "Sign Out"
+
+    shared:
+      search: "Search"
+      clear_search: "Clear"
+      search_placeholder: "Search…"
+      view: "View"
+      edit: "Edit"
+      cancel: "Cancel"
+      details: "Details"
+      actions: "Actions"
+      id: "ID"
+      created: "Created"
+      updated: "Updated"
+      "yes": "Yes"
+      "no": "No"
+      none: "None"
+      active: "Active"
+      copy_to_clipboard: "Copy to clipboard"
+      copied: "Copied!"
+      expired: "Expired"
+      locked: "Locked"
+      verified: "Verified"
+      not_verified: "Not verified"
+      archived: "Archived"
+      marked_for_deletion: "Marked for deletion"
+      anonymous: "Anonymous"
+      view_public_page: "View public page"
+      show_actions:
+        back: "Back"
+      back_to: "Back to %{resource}"
+      back_to_resource: "Back to %{resource}"
+      for_resource: "for %{resource}"
+      all: "All %{resource}"
+      new: "New %{resource}"
+      edit_resource: "Edit %{resource}"
+      update_resource: "Update %{resource}"
+      create_resource: "Create %{resource}"
+      empty_placeholder: "--"
+      loading: "Loading…"
+
+    admin_sessions:
+      index:
+        title: "Admin Sessions"
+        search_placeholder: "Search by ID, email, last 4, IP…"
+        empty_message: "No Admin Sessions found."
+      show:
+        title: "Admin Session #%{id}"
+        back_to: "Back to Admin Sessions"
+      columns:
+        admin_user: "Admin User"
+        admin_user_id: "Admin User ID"
+        last_4: "Last 4"
+        remote_ip: "Remote IP"
+        expires: "Expires"
+        status: "Status"
+        token_last_4: "Token last 4"
+        token_digest: "Token digest"
+        user_agent: "User agent"
+        expires_at: "Expires at"
+        expired: "Expired?"
+
+    sessions:
+      index:
+        title: "Sessions"
+        search_placeholder: "Search by ID, email, last 4, IP…"
+        empty_message: "No sessions found."
+      show:
+        title: "Session #%{id}"
+        back_to: "Back to sessions"
+      columns:
+        user: "User"
+      columns:
+        user: "User"
+
+    users:
+      index:
+        title: "Users"
+        search_placeholder: "Search by ID, email…"
+        empty_message: "No users found."
+      show:
+        back_to: "Back to users"
+        verified_servers: "Verified servers"
+        sessions: "Sessions"
+        tokens: "Tokens"
+        codes: "Codes"
+        email_confirmation_sent: "Email confirmation sent"
+        change_email_pending: "Change email (pending)"
+        change_email_confirmed: "Change email confirmed"
+        failed_sign_in_attempts: "Failed sign-in attempts"
+        password_reset_sent: "Password reset sent"
+        sign_in_count: "Sign-in count"
+      edit:
+        title: "Edit %{email}"
+        back_to: "Back to user"
+        lock_status: "Lock status"
+        lock_reason_help: "Required when locking. Short reason for the lock (e.g. \"Abuse\", \"Terms violation\")."
+        lock_comment_help: "Optional internal note. Not shown to the user."
+        update_user: "Update user"
+      columns:
+        email: "Email"
+        email_confirmed: "Email confirmed"
+
+    admin_users:
+      index:
+        title: "Admin Users"
+        search_placeholder: "Search by ID, email…"
+        empty_message: "No Admin Users found."
+      show:
+        back_to: "Back to Admin Users"
+        admin_account: "Admin Account"
+        roles: "Roles"
+        super_admin: "Super admin"
+        sessions: "Sessions"
+        tokens: "Tokens"
+        codes: "Codes"
+      edit:
+        title: "Edit %{email}"
+        back_to: "Back to Admin User"
+        lock_status: "Lock status"
+        lock_reason_help: "Required when locking. Short reason for the lock (e.g. \"Abuse\", \"Terms violation\")."
+        lock_comment_help: "Optional internal note. Not shown to the Admin User."
+        update_admin_user: "Update Admin User"
+      columns:
+        email: "Email"
+        email_confirmed: "Email confirmed"
+
+    accounts:
+      account: "Account"
+      index:
+        title: "Accounts"
+        search_placeholder: "Search by ID, UUID, email…"
+        empty_message: "No accounts found."
+      show:
+        title: "Account #%{id}"
+        back_to: "Back to accounts"
+        verified_servers: "Verified servers"
+        stats: "Stats"
+        server_accounts: "Server Accounts"
+        server_votes: "Server Votes"
+        servers_all: "Servers (all)"
+      columns:
+        uuid: "UUID"
+        user: "User"
+        verified_servers: "Verified servers"
+
+    admin_accounts:
+      admin_account: "Admin Account"
+      index:
+        title: "Admin Accounts"
+        search_placeholder: "Search by ID, email…"
+        empty_message: "No Admin Accounts found."
+      show:
+        title: "Admin Account #%{id}"
+        back_to: "Back to Admin Accounts"
+        edit_roles: "Edit roles"
+        roles: "Roles"
+        permissions: "Permissions"
+      edit:
+        title: "Edit roles: %{email}"
+        back_to: "Back to Admin Account"
+      form:
+        roles: "Roles"
+        roles_help: "Select which roles to assign to this Admin Account. Roles grant permissions."
+        manage_roles: "Manage roles"
+        manage_roles_suffix: "to configure permissions."
+        super_admin_alert_html: "This account is a <strong>super admin</strong> (via SUPER_ADMIN_ACCOUNT_IDS). Super admins bypass role-based permissions and have full access."
+        no_roles: "No roles defined. Add roles via database seeds or migrations."
+        update_roles: "Update roles"
+      columns:
+        admin_user: "Admin User"
+        super_admin: "Super admin"
+        roles: "Roles"
+
+    codes:
+      index:
+        title: "Codes"
+        search_placeholder: "Search by ID, email…"
+        empty_message: "No codes found."
+      show:
+        title: "Code #%{id}"
+        back_to: "Back to codes"
+      columns:
+        user: "User"
+        purpose: "Purpose"
+        code_digest: "Code digest"
+      sections:
+        data: "Data"
+
+    admin_codes:
+      index:
+        title: "Admin Codes"
+        search_placeholder: "Search by ID, email…"
+        empty_message: "No Admin Codes found."
+      show:
+        title: "Admin Code #%{id}"
+        back_to: "Back to Admin Codes"
+      columns:
+        admin_user: "Admin User"
+
+    tokens:
+      index:
+        title: "Tokens"
+        search_placeholder: "Search by ID, email, last 4…"
+        empty_message: "No tokens found."
+      show:
+        title: "Token #%{id}"
+        back_to: "Back to tokens"
+      columns:
+        user: "User"
+        purpose: "Purpose"
+        token_last_4: "Token last 4"
+        token_digest: "Token digest"
+
+    admin_tokens:
+      index:
+        title: "Admin Tokens"
+        search_placeholder: "Search by ID, email, last 4…"
+        empty_message: "No Admin Tokens found."
+      show:
+        title: "Admin Token #%{id}"
+        back_to: "Back to Admin Tokens"
+      columns:
+        admin_user: "Admin User"
+
+    admin_roles:
+      index:
+        title: "Admin Roles"
+        search_placeholder: "Search by ID, key…"
+        empty_message: "No Admin Roles found."
+      show:
+        back_to: "Back to Admin Roles"
+        permissions: "Permissions"
+        admin_accounts_with_role: "Admin Accounts with this role"
+      edit:
+        title: "Edit role: %{key}"
+        back_to: "Back to role"
+      form:
+        permissions: "Permissions"
+        permissions_help: "Select which permissions this role grants to Admin Accounts."
+        no_permissions: "No permissions defined. Add permissions via database seeds or migrations."
+        update_role: "Update role"
+      columns:
+        key: "Key"
+        description: "Description"
+        permissions: "Permissions"
+        accounts: "Accounts"
+
+    admin_permissions:
+      index:
+        title: "Admin Permissions"
+        search_placeholder: "Search by ID, key…"
+        empty_message: "No Admin Permissions found."
+      show:
+        back_to: "Back to Admin Permissions"
+        roles_with_permission: "Roles with this permission"
+      columns:
+        roles: "Roles"
+
+    games:
+      index:
+        title: "Games"
+        search_placeholder: "Search by ID, name, slug…"
+        empty_message: "No games found."
+        new_game: "New game"
+      show:
+        back_to: "Back to games"
+        servers: "Servers"
+      new:
+        title: "New game"
+        back_to: "Back to games"
+        create_game: "Create game"
+      edit:
+        title: "Edit %{name}"
+        back_to: "Back to game"
+        update_game: "Update game"
+      form:
+        details: "Details"
+        name: "Name"
+        name_help: "Display name for the game. Minimum 3 characters."
+        slug: "Slug"
+        slug_help: "URL-friendly identifier. Leave blank when creating to auto-generate from name."
+        site_url: "Site URL"
+        site_url_help: "Official game website. Optional."
+        description: "Description"
+        description_help: "Short description. Max 1000 characters."
+        info: "Info"
+        info_help: "Additional info. Max 1000 characters."
+      columns:
+        name: "Name"
+        slug: "Slug"
+        site_url: "Site URL"
+        servers: "Servers"
+
+    servers:
+      index:
+        title: "Servers"
+        search_placeholder: "Search by ID, name, game…"
+        empty_message: "No servers found."
+      show:
+        back_to: "Back to servers"
+        verified_accounts: "Verified accounts"
+        stats: "Stats"
+        stats_records: "Stats records"
+        votes: "Votes"
+        banner_image: "Banner image"
+        approved: "Approved"
+        pending_approval: "Pending approval"
+      edit:
+        title: "Edit %{name}"
+        back_to: "Back to server"
+        details: "Details"
+        game: "Game"
+        country: "Country"
+        banner_image_section: "Banner image"
+        current_banner: "Current banner:"
+        replace_banner: "Replace banner image"
+        banner_help: "PNG or JPEG, max 512 KB. Leave blank to keep current."
+        approve_banner: "Approve banner image"
+        approve_banner_help: "Approved banners are shown on the public server page."
+        update_server: "Update server"
+      columns:
+        name: "Name"
+        game: "Game"
+        country: "Country"
+        site_url: "Site URL"
+      edit_actions:
+        public: "Public"
+
+    server_accounts:
+      index:
+        title: "Server Accounts"
+        search_placeholder: "Search by ID, server, email…"
+        for_server: "for %{name}"
+        for_account: "for %{email}"
+        all_server_accounts: "All Server Accounts"
+        empty_message: "No Server Accounts found."
+      show:
+        title: "Server Account #%{id}"
+        back_to: "Back to Server Accounts"
+      columns:
+        server: "Server"
+        account: "Account"
+        verified_at: "Verified at"
+
+    server_stats:
+      index:
+        title: "Server Stats"
+        search_placeholder: "Search by ID, server, game…"
+        for_server: "for %{name}"
+        for_game: "for %{name}"
+        all_server_stats: "All Server Stats"
+        empty_message: "No Server Stats found."
+      show:
+        title: "Server Stat #%{id}"
+        back_to: "Back to Server Stats"
+      columns:
+        server: "Server"
+        game: "Game"
+        period: "Period"
+        reference_date: "Reference date"
+        vote_count: "Vote count"
+        ranking: "Ranking"
+        ranking_number: "Ranking number"
+        vote_count_consolidated_at: "Vote count consolidated at"
+        ranking_consolidated_at: "Ranking consolidated at"
+
+    server_votes:
+      index:
+        title: "Server Votes"
+        search_placeholder: "Search by ID, server, game, email…"
+        for_server: "for %{name}"
+        for_game: "for %{name}"
+        for_account: "for %{email}"
+        all_server_votes: "All Server Votes"
+        empty_message: "No Server Votes found."
+      show:
+        title: "Server Vote #%{id}"
+        back_to: "Back to Server Votes"
+      columns:
+        server: "Server"
+        game: "Game"
+        account: "Account"
+        uuid: "UUID"
+        remote_ip: "Remote IP"
+        reference: "Reference"
+
+    webhook_configs:
+      index:
+        title: "Webhook Configs"
+        search_placeholder: "Search by ID, URL…"
+        new_webhook_config: "New Webhook Config"
+        empty_message: "No Webhook Configs found."
+      show:
+        title: "Webhook Config #%{id}"
+        back_to: "Back to Webhook Configs"
+        secret: "Secret"
+        stats: "Stats"
+        events: "Events"
+        batches: "Batches"
+      new:
+        title: "New Webhook Config"
+        back_to: "Back to Webhook Configs"
+        create_webhook_config: "Create Webhook Config"
+      edit:
+        title: "Edit Webhook Config #%{id}"
+        back_to: "Back to Webhook Config"
+        update_webhook_config: "Update Webhook Config"
+      form:
+        details: "Details"
+        source: "Source"
+        server: "Server"
+        select_server: "Select a server"
+        server_help: "The server this webhook is associated with."
+        url: "URL"
+        url_placeholder: "https://example.com/webhooks"
+        url_help: "Endpoint that will receive webhook payloads."
+        secret: "Secret"
+        secret_placeholder: "Leave blank to keep current"
+        secret_help_new: "Minimum 32 characters recommended."
+        secret_help_keep: "Leave blank to keep the current secret."
+        method: "Method"
+        event_types: "Event types"
+        event_types_placeholder: "*"
+        event_types_help: "Comma-separated patterns (e.g. * , server_vote.* ). Use * for all events."
+        disabled: "Disabled"
+        disabled_help: "Disabled webhooks will not receive events."
+      columns:
+        source: "Source"
+        url: "URL"
+        method: "Method"
+        status: "Status"
+        event_types: "Event types"
+        enabled: "Enabled"
+        disabled: "Disabled"
+
+    webhook_events:
+      index:
+        title: "Webhook Events"
+        search_placeholder: "Search by ID, type, UUID…"
+        for_config: "for config #%{id}"
+        all_events: "All events"
+        empty_message: "No Webhook Events found."
+      show:
+        title: "Webhook Event #%{id}"
+        back_to: "Back to events"
+      columns:
+        uuid: "UUID"
+        type: "Type"
+        config: "Config"
+        batch: "Batch"
+        unbatched: "Unbatched"
+      sections:
+        data: "Data"
+        metadata: "Metadata"
+
+    webhook_batches:
+      index:
+        title: "Webhook Batches"
+        search_placeholder: "Search by ID, status…"
+        for_config: "for config #%{id}"
+        all_webhook_batches: "All Webhook Batches"
+        empty_message: "No Webhook Batches found."
+      show:
+        title: "Webhook Batch #%{id}"
+        back_to: "Back to batches"
+      columns:
+        config: "Config"
+        status: "Status"
+        failed_attempts: "Failed attempts"
+        events: "Events"
+      sections:
+        metadata: "Metadata"
+        events: "Events"
+
+    feature_flags:
+      index:
+        title: "Feature Flags"
+        search_placeholder: "Search by ID, name, value…"
+        new_feature_flag: "New Feature Flag"
+        empty_message: "No Feature Flags found."
+      show:
+        back_to: "Back to Feature Flags"
+        name: "Name"
+        value: "Value"
+        enabled: "Enabled"
+        env_override: "Env override"
+        env_override_suffix: "(FF_%{var} takes precedence)"
+        comment: "Comment"
+      new:
+        title: "New Feature Flag"
+        back_to: "Back to Feature Flags"
+        create_feature_flag: "Create Feature Flag"
+      edit:
+        title: "Edit %{name}"
+        back_to: "Back to Feature Flag"
+        update_feature_flag: "Update Feature Flag"
+      form:
+        details: "Details"
+        name: "Name"
+        name_placeholder: "my_feature"
+        name_help: "Key-style name (lowercase, underscores). Normalized automatically."
+        value: "Value"
+        value_placeholder: "true"
+        value_help: "true or false for global. Optional: true:user_1,user_2 or false:user_1 for per-record overrides."
+        comment: "Comment"
+        comment_help: "Optional internal note. Not used for evaluation."
+      columns:
+        name: "Name"
+        value: "Value"
+        enabled: "Enabled"
+        env_override: "Env override"
+
+  time:
+    formats:
+      default: "%Y-%m-%dT%H:%M:%S%:z"
+
   shared:
     messages:
       please_try_again_later_too_many_requests: "Please try again later. Too many requests."
@@ -47,43 +651,60 @@ en:
       format_invalid: "format is invalid"
       domain_not_supported: "domain is not supported"
       json_schema_invalid: "JSON schema is invalid"
+      not_found: "not found"
       not_yet_validated: "not yet validated"
 
   activemodel:
     attributes:
-      users/email_confirmation:
+      admin/users/edit_form:
+        locked: "Lock user"
+        locked_reason: "Lock reason"
+        locked_comment: "Lock comment"
+      admin/admin_users/edit_form:
+        locked: "Lock Admin User"
+        locked_reason: "Lock reason"
+        locked_comment: "Lock comment"
+      users/email_confirmation_form:
         email: "Email address"
         code: "Code"
-      users/password_reset:
+      users/password_reset_form:
         email: "Email address"
         code: "Verification Code"
         password: "New Password"
-      users/session:
+      users/session_form:
         email: "Email address"
         password: "Password"
         remember_me: "Remember me"
-      users/change_email_confirmation:
+      users/change_email_confirmation_form:
         email: "Current Email"
         change_email: "New Email"
         password: "Current Password"
-      users/change_email_reversion:
+      users/change_email_reversion_form:
         code: "Verification Code"
 
-      admin_users/email_confirmation:
+      admin_users/email_confirmation_form:
         email: "Email address"
         code: "Code"
-      admin_users/password_reset:
+      admin_users/password_reset_form:
         email: "Email address"
         code: "Verification Code"
         password: "New Password"
-      admin_users/session:
+      admin_users/session_form:
         email: "Email address"
         password: "Password"
         remember_me: "Remember me"
 
     errors:
       models:
-        image_uploaded_file:
+        admin_account:
+          attributes:
+            role_ids:
+              invalid: "contains one or more invalid role IDs"
+        admin_role:
+          attributes:
+            permission_ids:
+              invalid: "contains one or more invalid permission IDs"
+        image_uploaded_file_form:
           format: "%{message}"
           attributes:
             byte_size:
@@ -96,7 +717,7 @@ en:
             user_not_found:
               invalid: "user not found"
             admin_user_not_found:
-              invalid: "admin user not found"
+              invalid: "Admin User not found"
             email_address_already_confirmed:
               invalid: "email address has already been confirmed"
             new_email_address_already_confirmed:
@@ -237,5 +858,10 @@ en:
         success: "Server has been marked to be deleted."
       unmark_for_deletion:
         success: "Server has been unmarked for deletion."
+      update:
+        success: "Server updated."
+      edit:
+        submit: "Update server"
+        current_banner: "Leave blank to keep the current banner."
       max_verified_servers_per_account: "You already have too many verified servers associated with your account."
       max_not_verified_servers_per_account: "You have many servers pending verification. Please verify them first before adding more servers."

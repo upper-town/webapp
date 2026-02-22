@@ -2,8 +2,8 @@
 
 require "test_helper"
 
-class Users::ChangeEmailConfirmationTest < ActiveSupport::TestCase
-  let(:described_class) { Users::ChangeEmailConfirmation }
+class Users::ChangeEmailConfirmationFormTest < ActiveSupport::TestCase
+  let(:described_class) { Users::ChangeEmailConfirmationForm }
 
   it "has default values" do
     instance = described_class.new

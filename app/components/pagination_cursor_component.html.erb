@@ -8,7 +8,7 @@
           </li>
         <% else %>
           <li class="page-item">
-            <%= link_to(first_icon, pagination_cursor.start_cursor_url, class: 'page-link') %>
+            <%= link_to(first_icon, pagination_cursor.start_cursor_url, class: "page-link") %>
           </li>
         <% end %>
       </ul>
@@ -19,7 +19,7 @@
     <ul class="pagination">
       <% if pagination_cursor.has_before_cursor? %>
         <li class="page-item">
-          <%= link_to(prev_icon, pagination_cursor.before_cursor_url, class: 'page-link') %>
+          <%= link_to(prev_icon, pagination_cursor.before_cursor_url, class: "page-link") %>
         </li>
       <% else %>
         <li class="page-item disabled">
@@ -31,7 +31,7 @@
 
       <% if pagination_cursor.has_after_cursor? %>
         <li class="page-item">
-          <%= link_to(next_icon, pagination_cursor.after_cursor_url, class: 'page-link') %>
+          <%= link_to(next_icon, pagination_cursor.after_cursor_url, class: "page-link") %>
         </li>
       <% else %>
         <li class="page-item disabled">
@@ -50,13 +50,13 @@
       <ul class="pagination">
         <li class="page-item pagination-cursor-goto">
           <%= form_with(method: :get, url: request.path) do |form| %>
-            <%= RequestHelper.new(request).hidden_fields_for_query({}, ['indicator', 'cursor', 'order']) %>
+            <%= RequestHelper.new(request).hidden_fields_for_query({}, ["indicator", "cursor", "order"]) %>
             <div class="input-group">
               <%= select_tag(
-                'indicator',
-                options_for_select([['After', 'after'], ['Before', 'before']], pagination_cursor.indicator),
+                "indicator",
+                options_for_select([["After", "after"], ["Before", "before"]], pagination_cursor.indicator),
                 id: nil,
-                class: 'form-select'
+                class: "form-select"
               ) %>
               <input
                 type="text"
@@ -67,10 +67,10 @@
                 data-action="focus->select-text#all"
               >
               <%= select_tag(
-                'order',
-                options_for_select([['Asc', 'asc'], ['Desc', 'desc']], pagination_cursor.order),
+                "order",
+                options_for_select([["Asc", "asc"], ["Desc", "desc"]], pagination_cursor.order),
                 id: nil,
-                class: 'form-select'
+                class: "form-select"
               ) %>
               <button type="submit" class="page-link" type="button"><%= go_icon %></button>
             </div>

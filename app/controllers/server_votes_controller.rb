@@ -23,13 +23,11 @@ class ServerVotesController < ApplicationController
   end
 
   def new
-    @reference = reference_from_params
-    @server_vote = ServerVote.new
+    @form = Servers::VoteForm.new(vote_form_params)
   end
 
   def create
-    @reference = server_vote_params[:reference]
-    @server_vote = ServerVote.new(server_vote_params)
+    @form = Servers::VoteForm.new(vote_form_params)
 
     result = check_captcha
 
@@ -40,7 +38,12 @@ class ServerVotesController < ApplicationController
       return
     end
 
-    result = Servers::CreateVote.new(@server, @server_vote, request.remote_ip, current_account).call
+    result = Servers::CreateVote.call(
+      @form,
+      server_id: @server.id,
+      remote_ip: request.remote_ip,
+      account_id: current_account&.id
+    )
 
     if result.success?
       redirect_to(
@@ -67,11 +70,14 @@ class ServerVotesController < ApplicationController
     ServerVote.find(params[:id])
   end
 
-  def reference_from_params
-    params[:reference].presence
-  end
-
-  def server_vote_params
-    params.expect(server_vote: [:reference])
+  def vote_form_params
+    attrs = if params.key?(:server_vote) || params.key?("server_vote")
+      filtered = params.expect(server_vote: [:reference])
+      (filtered[:server_vote] || filtered["server_vote"] || {}).to_h.symbolize_keys
+    else
+      {}
+    end
+    attrs[:reference] = params[:reference].presence || attrs[:reference]
+    attrs
   end
 end

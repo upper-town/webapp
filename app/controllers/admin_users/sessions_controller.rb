@@ -77,11 +77,11 @@ module AdminUsers
     end
 
     def set_session
-      @session = Session.new(permitted_params[:admin_users_session])
+      @session = SessionForm.new(permitted_params[:admin_users_session_form])
     end
 
     def permitted_params
-      params.permit(admin_users_session: [:email, :password, :remember_me])
+      params.permit(admin_users_session_form: [:email, :password, :remember_me])
     end
   end
 end

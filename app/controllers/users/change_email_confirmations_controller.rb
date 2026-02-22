@@ -89,8 +89,8 @@ module Users
     private
 
     def set_change_email_confirmation(action)
-      @change_email_confirmation = ChangeEmailConfirmation.new(
-        permitted_params[:users_change_email_confirmation]
+      @change_email_confirmation = ChangeEmailConfirmationForm.new(
+        permitted_params[:users_change_email_confirmation_form]
       )
       @change_email_confirmation.action = action
 
@@ -102,7 +102,7 @@ module Users
     def permitted_params
       params.permit(
         :token,
-        users_change_email_confirmation: [
+        users_change_email_confirmation_form: [
           :email,
           :change_email,
           :password,

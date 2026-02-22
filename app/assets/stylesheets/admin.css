@@ -1,1 +1,191 @@
 /* Custom Admin CSS */
+
+/* Admin layout with vertical sidebar */
+.admin-layout {
+  min-height: 100vh;
+}
+
+.admin-layout-wrapper {
+  display: flex;
+  min-height: 100vh;
+}
+
+.admin-sidebar {
+  width: 240px;
+  min-width: 240px;
+  background-color: var(--bs-dark);
+  color: var(--bs-light);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.admin-sidebar-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+}
+
+.admin-sidebar-brand {
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: var(--bs-light) !important;
+  text-decoration: none;
+}
+
+.admin-sidebar-brand:hover {
+  color: var(--bs-white) !important;
+}
+
+.admin-sidebar-nav {
+  flex: 1;
+  padding: 0.75rem 0;
+  overflow-y: auto;
+}
+
+.admin-sidebar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.85);
+  padding: 0.5rem 1.25rem;
+  border-radius: 0;
+}
+
+.admin-sidebar-nav .nav-link:hover {
+  color: var(--bs-white);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.admin-sidebar-nav .nav-link.active {
+  color: var(--bs-white);
+  background-color: rgba(255, 255, 255, 0.15);
+  font-weight: 500;
+}
+
+.admin-sidebar-section {
+  list-style: none;
+  margin-top: 1rem;
+  padding: 0.5rem 1.25rem 0.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.admin-sidebar-section-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.admin-sidebar-footer {
+  padding: 0.75rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+}
+
+.admin-sidebar-footer .nav-link {
+  color: rgba(255, 255, 255, 0.85);
+  padding: 0.5rem 1.25rem;
+}
+
+.admin-sidebar-footer .nav-link:hover {
+  color: var(--bs-white);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.admin-main {
+  flex: 1;
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+@media (max-width: 991.98px) {
+  .admin-layout-wrapper {
+    flex-direction: column;
+  }
+
+  .admin-sidebar {
+    width: 100%;
+    min-width: unset;
+    height: auto;
+    max-height: 40vh;
+    position: relative;
+  }
+}
+
+/* Lighter zebra stripes for admin tables */
+.table-striped {
+  --bs-table-striped-bg: rgba(0, 0, 0, 0.02);
+}
+
+.admin-details-table {
+  border-collapse: collapse;
+}
+
+.admin-details-table tbody tr {
+  border-bottom: 1px solid var(--bs-border-color);
+}
+
+.admin-details-table tbody tr.table-light {
+  border-bottom: 2px solid var(--bs-border-color);
+}
+
+/* Match index table header to details table section headers (darker than default table-light) */
+.admin-table thead.table-light th,
+.admin-details-table tbody tr.table-light th {
+  background-color: var(--bs-gray-200);
+  color: var(--bs-gray-800);
+}
+
+/* Admin search form input width (default for standalone search) */
+.admin-search-form .form-control {
+  width: 36rem;
+  flex-shrink: 0;
+}
+
+/* Admin pagination + search row: side-by-side when space allows, search wraps below when narrow */
+.admin-pagination-search-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admin-pagination-search-row .admin-pagination-search-row__pagination {
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.admin-pagination-search-row .admin-pagination-search-row__pagination .pagination {
+  margin-bottom: 0;
+}
+
+.admin-pagination-search-row .admin-search-form {
+  flex: 1 1 14rem;
+  min-width: 14rem;
+  max-width: 100%;
+}
+
+.admin-pagination-search-row .admin-search-form .form-control {
+  width: auto;
+  flex: 1;
+  min-width: 6rem;
+}
+
+/* Match heights for vertical alignment */
+.admin-pagination-search-row .page-link,
+.admin-pagination-search-row .form-control,
+.admin-pagination-search-row .btn {
+  height: 2.375rem;
+  box-sizing: border-box;
+}
+
+.admin-details-table tbody td,
+.admin-details-table tbody th {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  padding: 0.5rem 1rem;
+}

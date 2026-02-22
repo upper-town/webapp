@@ -1,0 +1,43 @@
+<div class="mb-4">
+  <h1 class="mb-0"><%= t("admin.webhook_batches.show.title", id: @webhook_batch.id) %></h1>
+  <%= render(Admin::ShowActionsComponent.new(
+    back_path: admin_webhook_batches_path(webhook_config_id: @webhook_batch.webhook_config_id),
+    actions: [{ path: admin_webhook_config_path(@webhook_batch.config), label: t("admin.webhook_batches.columns.config") }]
+  )) %>
+</div>
+
+<%= render(Admin::DetailsTableComponent.new(sections: [
+  {
+    title: t("admin.shared.details"),
+    rows: [
+      [t("admin.shared.id"), @webhook_batch.id],
+      [t("admin.webhook_batches.columns.config"), link_to("##{@webhook_batch.config.id}", admin_webhook_config_path(@webhook_batch.config))],
+      ["Status", -> {
+        badge_class = case @webhook_batch.status
+        when "delivered" then "bg-success"
+        when "failed" then "bg-danger"
+        when "queued" then "bg-primary"
+        else "bg-secondary"
+        end
+        content_tag(:span, @webhook_batch.status, class: "badge #{badge_class}")
+      }],
+      [t("admin.webhook_batches.columns.failed_attempts"), @webhook_batch.failed_attempts],
+      [t("admin.shared.created"), l(@webhook_batch.created_at), { copyable: true }],
+      [t("admin.shared.updated"), l(@webhook_batch.updated_at), { copyable: true }],
+    ],
+  },
+])) %>
+
+<%= render(Admin::DetailsTableComponent.new(sections: [
+  {
+    title: t("admin.webhook_batches.sections.metadata"),
+    rows: [[-> { content_tag(:pre, @webhook_batch.metadata.present? ? JSON.pretty_generate(@webhook_batch.metadata) : t("admin.shared.empty_placeholder"), class: "mb-0 bg-light p-3 rounded small") }]],
+  },
+])) %>
+
+<%= render(Admin::DetailsTableComponent.new(sections: [
+  {
+    title: t("admin.webhook_batches.sections.events"),
+    rows: @webhook_batch.events.any? ? @webhook_batch.events.map { |event| [link_to("#{event.type} (##{event.id})", admin_webhook_event_path(event))] } : [[-> { content_tag(:span, t("admin.shared.none"), class: "text-muted") }]],
+  },
+])) %>

@@ -1,0 +1,6 @@
+<div class="mb-4">
+  <h1 class="mb-0"><%= t("admin.feature_flags.new.title") %></h1>
+  <%= render(Admin::ShowActionsComponent.new(back_path: admin_feature_flags_path)) %>
+</div>
+
+<%= render("form", form: @form, form_url: admin_feature_flags_path, form_method: :post, submit_label: t("admin.feature_flags.new.create_feature_flag")) %>

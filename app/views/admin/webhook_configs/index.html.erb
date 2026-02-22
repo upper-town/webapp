@@ -1,0 +1,43 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="mb-0"><%= t("admin.webhook_configs.index.title") %></h1>
+  <%= link_to(t("admin.webhook_configs.index.new_webhook_config"), new_admin_webhook_config_path, class: "btn btn-primary") %>
+</div>
+
+<div class="admin-pagination-search-row mb-3">
+  <div class="admin-pagination-search-row__pagination">
+    <%= render(PaginationComponent.new(@pagination, align: :start)) %>
+  </div>
+  <%= render(Admin::SearchFormComponent.new(
+    url: admin_webhook_configs_path,
+    search_term: @search_term,
+    placeholder: t("admin.webhook_configs.index.search_placeholder")
+  )) %>
+</div>
+
+<%=
+  render(Admin::TableComponent.new(
+    collection: @webhook_configs,
+    empty_message: t("admin.webhook_configs.index.empty_message"),
+    columns: [
+      [t("admin.shared.id"), -> { link_to(it.id, admin_webhook_config_path(it), class: "fw-medium") }, { copyable: :id }],
+      [t("admin.webhook_configs.columns.source"), -> {
+        if it.source.is_a?(Server)
+          link_to("#{it.source.name} (##{it.source.id})", admin_server_path(it.source), class: "text-break")
+        elsif it.source
+          content_tag(:span, "#{it.source_type} ##{it.source_id}", class: "text-muted")
+        else
+          content_tag(:span, "#{it.source_type} ##{it.source_id}", class: "text-muted")
+        end
+      }],
+      [t("admin.webhook_configs.columns.url"), -> { link_to(truncate(it.url, length: 40), it.url, target: "_blank", rel: "noopener", class: "text-break") }, { copyable: :url }],
+      [t("admin.webhook_configs.columns.method"), -> { content_tag(:code, it.method, class: "small") }, { copyable: :method }],
+      [t("admin.webhook_configs.columns.status"), -> {
+        content_tag(:span, it.enabled? ? t("admin.webhook_configs.columns.enabled") : t("admin.webhook_configs.columns.disabled"), class: "badge #{it.enabled? ? "bg-success" : "bg-secondary"}")
+      }],
+      [t("admin.webhook_configs.columns.event_types"), -> { content_tag(:code, it.event_types.join(", "), class: "small") }],
+      [t("admin.shared.actions"), -> { render(Admin::IndexActionsComponent.new(view_path: admin_webhook_config_path(it), edit_path: edit_admin_webhook_config_path(it))) }],
+    ],
+  ))
+%>
+
+<%= render(PaginationComponent.new(@pagination, align: :start)) %>

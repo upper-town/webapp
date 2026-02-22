@@ -1,0 +1,31 @@
+<div class="mb-4">
+  <h1 class="mb-0"><%= @game.name %></h1>
+  <%= render(Admin::ShowActionsComponent.new(
+    back_path: admin_games_path,
+    actions: [{ path: edit_admin_game_path(@game), label: t("admin.shared.edit") }]
+  )) %>
+</div>
+
+<%= render(Admin::DetailsTableComponent.new(sections: [
+  {
+    title: t("admin.shared.details"),
+    rows: [
+      [t("admin.shared.id"), @game.id],
+      [t("admin.games.form.name"), @game.name],
+      [t("admin.games.form.slug"), @game.slug],
+      [t("admin.games.form.site_url"), @game.site_url.present? ? link_to(@game.site_url, @game.site_url, target: "_blank", rel: "noopener", class: "text-break") : nil],
+      [t("admin.games.form.description"), simple_format(@game.description.presence || t("admin.shared.empty_placeholder")), { align_top: true }],
+      [t("admin.games.form.info"), simple_format(@game.info.presence || t("admin.shared.empty_placeholder")), { align_top: true }],
+      [t("admin.shared.created"), l(@game.created_at), { copyable: true }],
+      [t("admin.shared.updated"), l(@game.updated_at), { copyable: true }],
+    ],
+  },
+])) %>
+
+<%= turbo_frame_tag("game_servers", src: servers_admin_game_path(@game), loading: :lazy) do %>
+  <div class="card mb-4">
+    <div class="card-body text-center text-muted py-5">
+      <p class="mb-0"><%= t("admin.shared.loading") %></p>
+    </div>
+  </div>
+<% end %>

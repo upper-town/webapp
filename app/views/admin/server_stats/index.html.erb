@@ -1,0 +1,45 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="mb-0">
+    <%= t("admin.server_stats.index.title") %>
+    <% if @server %>
+      <small class="text-muted"><%= t("admin.server_stats.index.for_server", name: @server.name) %></small>
+    <% elsif @game %>
+      <small class="text-muted"><%= t("admin.server_stats.index.for_game", name: @game.name) %></small>
+    <% end %>
+  </h1>
+  <% if @server || @game %>
+    <%= link_to(t("admin.server_stats.index.all_server_stats"), admin_server_stats_path, class: "btn btn-outline-secondary") %>
+  <% end %>
+</div>
+
+<div class="admin-pagination-search-row mb-3">
+  <div class="admin-pagination-search-row__pagination">
+    <%= render(PaginationComponent.new(@pagination, align: :start)) %>
+  </div>
+  <%= render(Admin::SearchFormComponent.new(
+    url: admin_server_stats_path,
+    search_term: @search_term,
+    placeholder: t("admin.server_stats.index.search_placeholder"),
+    hidden_params: params.permit(:server_id, :game_id).to_h
+  )) %>
+</div>
+
+<%=
+  render(Admin::TableComponent.new(
+    collection: @server_stats,
+    empty_message: t("admin.server_stats.index.empty_message"),
+    columns: [
+      [t("admin.shared.id"), -> { link_to(it.id, admin_server_stat_path(it), class: "fw-medium") }, { copyable: :id }],
+      [t("admin.server_stats.columns.server"), -> { link_to(it.server.name, admin_server_path(it.server)) }, { copyable: ->(it) { it.server&.name } }],
+      [t("admin.server_stats.columns.game"), -> { link_to(it.game.name, admin_game_path(it.game)) }, { copyable: ->(it) { it.game&.name } }],
+      [t("admin.server_stats.columns.period"), -> { content_tag(:code, it.period) }, { copyable: :period }],
+      [t("admin.server_stats.columns.reference_date"), -> { l(it.reference_date) }, { copyable: ->(it) { l(it.reference_date) } }],
+      [t("admin.server_stats.columns.vote_count"), -> { it.vote_count }, { copyable: ->(it) { it.vote_count.to_s } }],
+      [t("admin.server_stats.columns.ranking"), -> { it.ranking_number || content_tag(:span, t("admin.shared.empty_placeholder"), class: "text-muted") }, { copyable: ->(it) { it.ranking_number&.to_s } }],
+      [t("admin.shared.created"), -> { l(it.created_at) }, { copyable: ->(it) { l(it.created_at) } }],
+      [t("admin.shared.actions"), -> { render(Admin::IndexActionsComponent.new(view_path: admin_server_stat_path(it))) }],
+    ],
+  ))
+%>
+
+<%= render(PaginationComponent.new(@pagination, align: :start)) %>

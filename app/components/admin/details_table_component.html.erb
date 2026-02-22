@@ -1,0 +1,34 @@
+<div class="card mb-4">
+  <div class="table-responsive">
+    <table class="table table-hover table-striped align-middle mb-0 admin-details-table">
+      <tbody>
+        <% sections.each do |section| %>
+          <tr class="table-light">
+            <th colspan="2" class="text-uppercase small fw-semibold text-muted">
+              <%= section[:title] %>
+            </th>
+          </tr>
+          <% section[:rows].each do |row| %>
+            <% if key_value_row?(row) %>
+              <tr>
+                <% opts = row[2].is_a?(Hash) ? row[2] : {} %>
+                <td class="text-muted w-25 <%= "align-top" if opts[:align_top] %>"><%= row[0] %></td>
+                <td class="<%= "align-top" if opts[:align_top] %>">
+                  <% if show_copy_for_row?(row) && copy_value_for_row(row).present? %>
+                    <%= value_cell_with_copy(row) %>
+                  <% else %>
+                    <%= row_value(row[1]) %>
+                  <% end %>
+                </td>
+              </tr>
+            <% elsif full_width_row?(row) %>
+              <tr>
+                <td colspan="2"><%= row_value(row[0]) %></td>
+              </tr>
+            <% end %>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -63,9 +63,40 @@ Rails.application.routes.draw do
       root to: "dashboards#show"
 
       resource  :dashboard, only: [:show]
-      resources :users, only: [:index, :show, :edit]
-      resources :admin_users
-      resources :servers, only: [:index, :show, :new, :create, :edit, :update]
+      resources :users, only: [:index, :show, :edit, :update] do
+        get "sessions", on: :member, to: "user_sessions#index"
+        get "tokens", on: :member, to: "user_tokens#index"
+        get "codes", on: :member, to: "user_codes#index"
+      end
+      resources :accounts, only: [:index, :show]
+      resources :codes, only: [:index, :show]
+      resources :admin_codes, only: [:index, :show]
+      resources :tokens, only: [:index, :show]
+      resources :admin_tokens, only: [:index, :show]
+      resources :sessions, only: [:index, :show]
+      resources :admin_sessions, only: [:index, :show]
+      resources :admin_users do
+        get "sessions", on: :member, to: "admin_user_sessions#index"
+        get "tokens", on: :member, to: "admin_user_tokens#index"
+        get "codes", on: :member, to: "admin_user_codes#index"
+      end
+      resources :admin_accounts, only: [:index, :show, :edit, :update]
+      resources :admin_roles, only: [:index, :show, :edit, :update], path: "roles"
+      resources :admin_permissions, only: [:index, :show], path: "permissions"
+      resources :games, except: [:destroy] do
+        get "servers", on: :member, to: "game_servers#index"
+      end
+      resources :feature_flags, except: [:destroy]
+      resources :webhook_configs, except: [:destroy] do
+        get "batches", on: :member, to: "webhook_config_batches#index"
+        get "events", on: :member, to: "webhook_config_events#index"
+      end
+      resources :webhook_events, only: [:index, :show]
+      resources :servers, only: [:index, :show, :edit, :update]
+      resources :server_accounts, only: [:index, :show]
+      resources :server_stats, only: [:index, :show]
+      resources :server_votes, only: [:index, :show]
+      resources :webhook_batches, only: [:index, :show]
 
       constraints(Admin::JobsConstraint.new) do
         mount MissionControl::Jobs::Engine, at: "/jobs"

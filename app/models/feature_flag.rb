@@ -44,6 +44,9 @@ class FeatureFlag < ApplicationRecord
   normalizes :value,   with: ->(str) { str.gsub(/[[:space:]]/, "").downcase }
   normalizes :comment, with: NormalizeDescription
 
+  validates :name, presence: true, uniqueness: true
+  validates :value, presence: true
+
   def self.enabled?(name, record_or_ffid = nil)
     value = fetch_value(StringHelper.remove_whitespaces(name.to_s))
     return false unless value

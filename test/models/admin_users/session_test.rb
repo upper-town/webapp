@@ -2,8 +2,8 @@
 
 require "test_helper"
 
-class AdminUsers::SessionTest < ActiveSupport::TestCase
-  let(:described_class) { AdminUsers::Session }
+class AdminUsers::SessionFormTest < ActiveSupport::TestCase
+  let(:described_class) { AdminUsers::SessionForm }
 
   it "has default values" do
     instance = described_class.new

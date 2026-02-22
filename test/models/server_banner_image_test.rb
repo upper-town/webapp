@@ -5,7 +5,7 @@ require "test_helper"
 class ServerBannerImageTest < ActiveSupport::TestCase
   let(:described_class) { ServerBannerImage }
 
-  it "inherits from ImageUploadedFile" do
-    assert_equal(ImageUploadedFile, described_class.superclass)
+  it "inherits from ImageUploadedFileForm" do
+    assert_equal(ImageUploadedFileForm, described_class.superclass)
   end
 end

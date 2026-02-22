@@ -1,33 +1,43 @@
-<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-  <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-      <tr>
-        <% @columns.each do |column_name, _column_value| %>
-          <th scope="col" class="px-6 py-3">
-            <%= column_name %>
-          </th>
-        <% end %>
-      </tr>
-    </thead>
-    <tbody>
-      <% @collection.each do |item| %>
-        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-          <% @columns.each do |_column_name, column_value| %>
-            <td class="px-6 py-4">
-              <%=
-                case column_value
-                when String
-                  column_value
-                when Symbol
-                  item.public_send(column_value)
-                when Proc
-                  column_value.call(item)
-                end
-              %>
-            </td>
+<div class="card mb-4">
+  <% if empty? %>
+    <div class="card-body text-center text-muted py-5">
+      <p class="mb-0"><%= @empty_message %></p>
+    </div>
+  <% else %>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped align-middle mb-0 admin-table">
+        <thead class="table-light">
+          <tr>
+            <% @columns.each do |col| %>
+              <th scope="col" class="text-nowrap">
+                <%= column_name(col) %>
+              </th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <% @collection.each do |item| %>
+            <tr>
+              <% @columns.each do |col| %>
+                <td>
+                  <% cv = column_value(col) %>
+                  <% opts = column_opts(col) %>
+                  <% if show_copy?(col) %>
+                    <% copy_val = copyable_value(item, cv, opts) %>
+                    <% if copy_val.present? %>
+                      <%= cell_with_copy_button(item, cv, copy_val) %>
+                    <% else %>
+                      <%= cell_value(item, cv) %>
+                    <% end %>
+                  <% else %>
+                    <%= cell_value(item, cv) %>
+                  <% end %>
+                </td>
+              <% end %>
+            </tr>
           <% end %>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
 </div>

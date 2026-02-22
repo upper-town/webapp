@@ -1,0 +1,6 @@
+<div class="mb-4">
+  <h1 class="mb-0"><%= t("admin.admin_accounts.edit.title", email: @admin_account.admin_user.email) %></h1>
+  <%= render(Admin::ShowActionsComponent.new(back_path: admin_admin_account_path(@admin_account))) %>
+</div>
+
+<%= render("form", admin_account: @admin_account, admin_roles: @admin_roles) %>

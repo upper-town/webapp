@@ -1,0 +1,25 @@
+<div class="mb-4">
+  <h1 class="mb-0"><%= t("admin.sessions.show.title", id: @session.id) %></h1>
+  <%= render(Admin::ShowActionsComponent.new(
+    back_path: admin_sessions_path,
+    actions: [{ path: admin_user_path(@session.user), label: t("admin.sessions.columns.user") }]
+  )) %>
+</div>
+
+<%= render(Admin::DetailsTableComponent.new(sections: [
+  {
+    title: t("admin.shared.details"),
+    rows: [
+      [t("admin.shared.id"), @session.id, { copyable: true }],
+      [t("admin.sessions.columns.user"), link_to(@session.user.email, admin_user_path(@session.user)), { copy_value: @session.user.email }],
+      [t("admin.admin_sessions.columns.token_last_4"), content_tag(:code, @session.token_last_four), { copy_value: @session.token_last_four }],
+      [t("admin.admin_sessions.columns.token_digest"), content_tag(:code, truncate(@session.token_digest, length: 16), class: "small", title: @session.token_digest), { copy_value: @session.token_digest }],
+      [t("admin.admin_sessions.columns.remote_ip"), content_tag(:code, @session.remote_ip), { copy_value: @session.remote_ip }],
+      [t("admin.admin_sessions.columns.user_agent"), @session.user_agent.presence || content_tag(:span, t("admin.shared.empty_placeholder"), class: "text-muted"), { copy_value: @session.user_agent }],
+      [t("admin.admin_sessions.columns.expires_at"), l(@session.expires_at), { copyable: true }],
+      [t("admin.admin_sessions.columns.expired"), @session.expired? ? t("admin.shared.yes") : t("admin.shared.no")],
+      [t("admin.shared.created"), l(@session.created_at), { copyable: true }],
+      [t("admin.shared.updated"), l(@session.updated_at), { copyable: true }],
+    ],
+  },
+])) %>

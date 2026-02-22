@@ -1,0 +1,50 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="mb-0">
+    <%= t("admin.webhook_batches.index.title") %>
+    <% if @webhook_config %>
+      <small class="text-muted"><%= t("admin.webhook_batches.index.for_config", id: @webhook_config.id) %></small>
+    <% end %>
+  </h1>
+  <% if @webhook_config %>
+    <%= link_to(t("admin.webhook_batches.index.all_webhook_batches"), admin_webhook_batches_path, class: "btn btn-outline-secondary") %>
+    <%= link_to(t("admin.webhook_batches.columns.config"), admin_webhook_config_path(@webhook_config), class: "btn btn-outline-secondary") %>
+  <% end %>
+</div>
+
+<div class="admin-pagination-search-row mb-3">
+  <div class="admin-pagination-search-row__pagination">
+    <%= render(PaginationComponent.new(@pagination, align: :start)) %>
+  </div>
+  <%= render(Admin::SearchFormComponent.new(
+    url: admin_webhook_batches_path,
+    search_term: @search_term,
+    placeholder: t("admin.webhook_batches.index.search_placeholder"),
+    hidden_params: params.permit(:webhook_config_id).to_h
+  )) %>
+</div>
+
+<%=
+  render(Admin::TableComponent.new(
+    collection: @webhook_batches,
+    empty_message: t("admin.webhook_batches.index.empty_message"),
+    columns: [
+      [t("admin.shared.id"), -> { link_to(it.id, admin_webhook_batch_path(it), class: "fw-medium") }, { copyable: :id }],
+      [t("admin.webhook_batches.columns.config"), -> { link_to("##{it.config.id}", admin_webhook_config_path(it.config)) }],
+      [t("admin.webhook_batches.columns.status"), -> {
+        badge_class = case it.status
+        when "delivered" then "bg-success"
+        when "failed" then "bg-danger"
+        when "queued" then "bg-primary"
+        else "bg-secondary"
+        end
+        content_tag(:span, it.status, class: "badge #{badge_class}")
+      }],
+      [t("admin.webhook_batches.columns.failed_attempts"), -> { it.failed_attempts }],
+      [t("admin.webhook_batches.columns.events"), -> { it.events.size }],
+      [t("admin.shared.created"), -> { l(it.created_at) }, { copyable: ->(it) { l(it.created_at) } }],
+      [t("admin.shared.actions"), -> { render(Admin::IndexActionsComponent.new(view_path: admin_webhook_batch_path(it))) }],
+    ],
+  ))
+%>
+
+<%= render(PaginationComponent.new(@pagination, align: :start)) %>

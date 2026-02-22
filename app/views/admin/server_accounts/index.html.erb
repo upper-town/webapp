@@ -1,0 +1,49 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="mb-0">
+    <%= t("admin.server_accounts.index.title") %>
+    <% if @server %>
+      <small class="text-muted"><%= t("admin.server_accounts.index.for_server", name: @server.name) %></small>
+    <% elsif @account %>
+      <small class="text-muted"><%= t("admin.server_accounts.index.for_account", email: @account.user.email) %></small>
+    <% end %>
+  </h1>
+  <% if @server || @account %>
+    <%= link_to(t("admin.server_accounts.index.all_server_accounts"), admin_server_accounts_path, class: "btn btn-outline-secondary") %>
+  <% end %>
+</div>
+
+<div class="admin-pagination-search-row mb-3">
+  <div class="admin-pagination-search-row__pagination">
+    <%= render(PaginationComponent.new(@pagination, align: :start)) %>
+  </div>
+  <%= render(Admin::SearchFormComponent.new(
+    url: admin_server_accounts_path,
+    search_term: @search_term,
+    placeholder: t("admin.server_accounts.index.search_placeholder"),
+    hidden_params: params.permit(:server_id, :account_id).to_h
+  )) %>
+</div>
+
+<%=
+  render(Admin::TableComponent.new(
+    collection: @server_accounts,
+    empty_message: t("admin.server_accounts.index.empty_message"),
+    columns: [
+      [t("admin.shared.id"), -> { link_to(it.id, admin_server_account_path(it), class: "fw-medium") }, { copyable: :id }],
+      [t("admin.server_accounts.columns.server"), -> { link_to(it.server.name, admin_server_path(it.server)) }, { copyable: ->(it) { it.server&.name } }],
+      [t("admin.server_accounts.columns.account"), -> { link_to(it.account.user.email, admin_user_path(it.account.user)) }, { copyable: ->(it) { it.account&.user&.email } }],
+      [t("admin.shared.verified"), -> {
+        if it.verified?
+          content_tag(:span, t("admin.shared.verified"), class: "badge bg-success")
+        else
+          content_tag(:span, t("admin.shared.not_verified"), class: "badge bg-secondary")
+        end
+      }],
+      [t("admin.server_accounts.columns.verified_at"), -> { it.verified_at ? l(it.verified_at) : content_tag(:span, t("admin.shared.empty_placeholder"), class: "text-muted") }, { copyable: ->(it) { it.verified_at ? l(it.verified_at) : nil } }],
+      [t("admin.shared.created"), -> { l(it.created_at) }, { copyable: ->(it) { l(it.created_at) } }],
+      [t("admin.shared.actions"), -> { render(Admin::IndexActionsComponent.new(view_path: admin_server_account_path(it))) }],
+    ],
+  ))
+%>
+
+<%= render(PaginationComponent.new(@pagination, align: :start)) %>

@@ -1,0 +1,21 @@
+# frozen_string_literal: true
+
+module Admin
+  class ServerVotesQuery
+    include Callable
+
+    def initialize(server_id: nil, game_id: nil, account_id: nil)
+      @server_id = server_id
+      @game_id = game_id
+      @account_id = account_id
+    end
+
+    def call
+      scope = ServerVote.includes(:server, :game, account: :user)
+      scope = scope.where(server_id: @server_id) if @server_id.present?
+      scope = scope.where(game_id: @game_id) if @game_id.present?
+      scope = scope.where(account_id: @account_id) if @account_id.present?
+      scope.order(id: :desc)
+    end
+  end
+end

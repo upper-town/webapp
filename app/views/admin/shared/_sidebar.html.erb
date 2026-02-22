@@ -1,0 +1,122 @@
+<aside class="admin-sidebar">
+  <div class="admin-sidebar-header">
+    <%= link_to(t("admin.nav.brand"), admin_dashboard_path, class: "admin-sidebar-brand") %>
+  </div>
+
+  <nav class="admin-sidebar-nav">
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <%= link_to(
+          t("admin.nav.dashboard"),
+          admin_dashboard_path,
+          class: nav_link_class(admin_root_path, admin_dashboard_path)
+        ) %>
+      </li>
+
+      <li class="admin-sidebar-section">
+        <span class="admin-sidebar-section-label"><%= t("admin.nav.section_users") %></span>
+      </li>
+      <li class="nav-item">
+        <%= link_to(t("admin.nav.users"), admin_users_path, class: nav_link_class(admin_users_path)) %>
+      </li>
+      <li class="nav-item">
+        <%= link_to(t("admin.nav.accounts"), admin_accounts_path, class: nav_link_class(admin_accounts_path)) %>
+      </li>
+      <li class="nav-item">
+        <%= link_to(t("admin.nav.codes"), admin_codes_path, class: nav_link_class(admin_codes_path)) %>
+      </li>
+      <li class="nav-item">
+        <%= link_to(t("admin.nav.tokens"), admin_tokens_path, class: nav_link_class(admin_tokens_path)) %>
+      </li>
+      <li class="nav-item">
+        <%= link_to(t("admin.nav.sessions"), admin_sessions_path, class: nav_link_class(admin_sessions_path)) %>
+      </li>
+
+      <li class="admin-sidebar-section">
+        <span class="admin-sidebar-section-label"><%= t("admin.nav.section_admin") %></span>
+      </li>
+      <li class="nav-item">
+        <%= link_to(t("admin.nav.admin_users"), admin_admin_users_path, class: nav_link_class(admin_admin_users_path)) %>
+      </li>
+      <li class="nav-item">
+        <%= link_to(t("admin.nav.admin_accounts"), admin_admin_accounts_path, class: nav_link_class(admin_admin_accounts_path)) %>
+      </li>
+      <li class="nav-item">
+        <%= link_to(t("admin.nav.admin_codes"), admin_admin_codes_path, class: nav_link_class(admin_admin_codes_path)) %>
+      </li>
+      <li class="nav-item">
+        <%= link_to(t("admin.nav.admin_tokens"), admin_admin_tokens_path, class: nav_link_class(admin_admin_tokens_path)) %>
+      </li>
+      <li class="nav-item">
+        <%= link_to(t("admin.nav.admin_sessions"), admin_admin_sessions_path, class: nav_link_class(admin_admin_sessions_path)) %>
+      </li>
+      <li class="nav-item">
+        <%= link_to(t("admin.nav.roles"), admin_admin_roles_path, class: nav_link_class(admin_admin_roles_path)) %>
+      </li>
+      <li class="nav-item">
+        <%= link_to(t("admin.nav.permissions"), admin_admin_permissions_path, class: nav_link_class(admin_admin_permissions_path)) %>
+      </li>
+
+      <li class="admin-sidebar-section">
+        <span class="admin-sidebar-section-label"><%= t("admin.nav.section_platform") %></span>
+      </li>
+      <li class="nav-item">
+        <%= link_to(t("admin.nav.games"), admin_games_path, class: nav_link_class(admin_games_path)) %>
+      </li>
+      <li class="nav-item">
+        <%= link_to(t("admin.nav.servers"), admin_servers_path, class: nav_link_class(admin_servers_path)) %>
+      </li>
+      <li class="nav-item">
+        <%= link_to(t("admin.nav.server_accounts"), admin_server_accounts_path, class: nav_link_class(admin_server_accounts_path)) %>
+      </li>
+      <li class="nav-item">
+        <%= link_to(t("admin.nav.server_stats"), admin_server_stats_path, class: nav_link_class(admin_server_stats_path)) %>
+      </li>
+      <li class="nav-item">
+        <%= link_to(t("admin.nav.server_votes"), admin_server_votes_path, class: nav_link_class(admin_server_votes_path)) %>
+      </li>
+
+      <li class="admin-sidebar-section">
+        <span class="admin-sidebar-section-label"><%= t("admin.nav.section_webhook") %></span>
+      </li>
+      <li class="nav-item">
+        <%= link_to(t("admin.nav.webhook_configs"), admin_webhook_configs_path, class: nav_link_class(admin_webhook_configs_path)) %>
+      </li>
+      <li class="nav-item">
+        <%= link_to(t("admin.nav.webhook_events"), admin_webhook_events_path, class: nav_link_class(admin_webhook_events_path)) %>
+      </li>
+      <li class="nav-item">
+        <%= link_to(t("admin.nav.webhook_batches"), admin_webhook_batches_path, class: nav_link_class(admin_webhook_batches_path)) %>
+      </li>
+
+      <li class="admin-sidebar-section">
+        <span class="admin-sidebar-section-label"><%= t("admin.nav.section_system") %></span>
+      </li>
+      <li class="nav-item">
+        <%= link_to(t("admin.nav.feature_flags"), admin_feature_flags_path, class: nav_link_class(admin_feature_flags_path)) %>
+      </li>
+      <% if admin_jobs_access? %>
+        <li class="nav-item">
+          <%= link_to(t("admin.nav.jobs"), admin_mission_control_jobs_path, class: nav_link_class(admin_mission_control_jobs_path)) %>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
+
+  <div class="admin-sidebar-footer">
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <%= link_to(
+          t("admin.nav.site"),
+          root_path,
+          class: "nav-link",
+          target: "_blank",
+          rel: "noopener"
+        ) %>
+      </li>
+      <li class="nav-item">
+        <%= link_to(t("admin.nav.sign_out"), admin_users_sign_out_path, class: "nav-link") %>
+      </li>
+    </ul>
+  </div>
+</aside>

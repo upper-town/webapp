@@ -17,6 +17,8 @@ class WebhookConfig < ApplicationRecord
   normalizes :method, with: ->(str) { str.upcase.delete("^A-Z") }
 
   validates :method, inclusion: { in: METHODS }, presence: true
+  validates :url, presence: true
+  validates :secret, presence: true, on: :create
 
   def self.enabled
     where(disabled_at: nil)

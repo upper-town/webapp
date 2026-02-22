@@ -1,0 +1,65 @@
+<div class="mb-4">
+  <h1 class="mb-0"><%= @server.name %></h1>
+  <%= render(Admin::ShowActionsComponent.new(
+    back_path: admin_servers_path,
+    actions: [
+      { path: server_path(@server), label: t("admin.shared.view_public_page"), target: "_blank", rel: "noopener" },
+      { path: edit_admin_server_path(@server), label: t("admin.shared.edit") },
+    ]
+  )) %>
+</div>
+
+<%= render(Admin::DetailsTableComponent.new(sections: [
+  {
+    title: t("admin.shared.details"),
+    rows: [
+      [t("admin.shared.id"), @server.id, { copyable: true }],
+      [t("admin.servers.columns.name"), @server.name, { copyable: true }],
+      [t("admin.servers.columns.game"), @server.game&.name, { copyable: true }],
+      [t("admin.servers.columns.site_url"), link_to(@server.site_url, @server.site_url, target: "_blank", rel: "noopener", class: "text-break"), { copy_value: @server.site_url }],
+      [t("admin.servers.columns.country"), @server.country&.iso_short_name || @server.country_code, { copyable: true }],
+      [t("admin.games.form.description"), simple_format(@server.description.presence || t("admin.shared.empty_placeholder")), { align_top: true }],
+      [t("admin.games.form.info"), simple_format(@server.info.presence || t("admin.shared.empty_placeholder")), { align_top: true }],
+      [t("admin.shared.verified"), -> {
+        if @server.verified?
+          safe_join([content_tag(:span, t("admin.shared.verified"), class: "badge bg-success"), content_tag(:small, "(#{l(@server.verified_at)})", class: "text-muted ms-1")])
+        else
+          content_tag(:span, t("admin.shared.not_verified"), class: "badge bg-secondary")
+        end
+      }],
+      [t("admin.shared.archived"), -> {
+        @server.archived? ? "#{t('admin.shared.archived')} (#{l(@server.archived_at)})" : nil
+      }],
+      *(@server.marked_for_deletion? ? [["Deletion", -> {
+        safe_join([content_tag(:span, t("admin.shared.marked_for_deletion"), class: "badge bg-danger"), content_tag(:small, "(#{l(@server.marked_for_deletion_at)})", class: "text-muted ms-1")])
+      }]] : []),
+    ],
+  },
+])) %>
+
+<%= render(Admin::DetailsTableComponent.new(sections: [
+  {
+    title: t("admin.servers.show.verified_accounts"),
+    rows: @server.verified_accounts.any? ? @server.verified_accounts.map { |account| [link_to(account.user.email, admin_user_path(account.user))] } : [[-> { content_tag(:span, t("admin.shared.none"), class: "text-muted") }]],
+  },
+])) %>
+
+<%= render(Admin::DetailsTableComponent.new(sections: [
+  {
+    title: t("admin.accounts.show.stats"),
+    rows: [
+      [t("admin.accounts.show.server_accounts"), link_to(@server.server_accounts.count, admin_server_accounts_path(server_id: @server.id))],
+      [t("admin.servers.show.stats_records"), link_to(@server.stats.count, admin_server_stats_path(server_id: @server.id))],
+      [t("admin.servers.show.votes"), link_to(@server.votes.count, admin_server_votes_path(server_id: @server.id))],
+      [t("admin.servers.show.banner_image"), -> {
+        if @server.banner_image.attached?
+          @server.banner_image_approved? ? content_tag(:span, t("admin.servers.show.approved"), class: "badge bg-success") : content_tag(:span, t("admin.servers.show.pending_approval"), class: "badge bg-warning text-dark")
+        else
+          content_tag(:span, t("admin.shared.none"), class: "text-muted")
+        end
+      }],
+      [t("admin.shared.created"), l(@server.created_at), { copyable: true }],
+      [t("admin.shared.updated"), l(@server.updated_at), { copyable: true }],
+    ],
+  },
+])) %>

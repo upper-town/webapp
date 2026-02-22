@@ -1,18 +1,40 @@
-<%= render(PaginationComponent.new(@pagination)) %>
+<h1 class="mb-4"><%= t("admin.users.index.title") %></h1>
 
-<% if @users.empty? %>
-  No results
-<% else %>
-  <%=
-    render(Admin::TableComponent.new(
-      collection: @users,
-      columns: [
-        ['ID',      :id],
-        ['email',   :email],
-        ['Actions', ->(user) { render(partial: 'edit_actions_index', locals: { user: user }) }],
-      ],
-    ))
-  %>
-<% end %>
+<div class="admin-pagination-search-row mb-3">
+  <div class="admin-pagination-search-row__pagination">
+    <%= render(PaginationComponent.new(@pagination, align: :start)) %>
+  </div>
+  <%= render(Admin::SearchFormComponent.new(
+    url: admin_users_path,
+    search_term: @search_term,
+    placeholder: t("admin.users.index.search_placeholder")
+  )) %>
+</div>
 
-<%= render(PaginationComponent.new(@pagination)) %>
+<%=
+  render(Admin::TableComponent.new(
+    collection: @users,
+    empty_message: t("admin.users.index.empty_message"),
+    columns: [
+      [t("admin.shared.id"), -> { link_to(it.id, admin_user_path(it), class: "fw-medium") }, { copyable: :id }],
+      [t("admin.users.columns.email"), -> { it.email.presence || content_tag(:span, t("admin.shared.empty_placeholder"), class: "text-muted") }, { copyable: :email }],
+      [t("admin.users.columns.email_confirmed"), -> {
+        if it.email_confirmed_at
+          safe_join([content_tag(:span, t("admin.shared.yes"), class: "badge bg-success"), content_tag(:small, "(#{l(it.email_confirmed_at)})", class: "text-muted ms-1")])
+        else
+          content_tag(:span, t("admin.shared.no"), class: "badge bg-secondary")
+        end
+      }, { copyable: ->(it) { it.email_confirmed_at ? l(it.email_confirmed_at) : nil } }],
+      [t("admin.shared.locked"), -> {
+        if it.locked?
+          safe_join([content_tag(:span, t("admin.shared.locked"), class: "badge bg-danger"), content_tag(:small, "(#{l(it.locked_at)})", class: "text-muted ms-1")])
+        else
+          content_tag(:span, t("admin.shared.no"), class: "text-muted")
+        end
+      }, { copyable: ->(it) { it.locked_at ? l(it.locked_at) : nil } }],
+      [t("admin.shared.actions"), -> { render(Admin::IndexActionsComponent.new(view_path: admin_user_path(it), edit_path: edit_admin_user_path(it))) }],
+    ],
+  ))
+%>
+
+<%= render(PaginationComponent.new(@pagination, align: :start)) %>

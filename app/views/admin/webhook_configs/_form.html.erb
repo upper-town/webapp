@@ -1,0 +1,77 @@
+<%= form_with(
+  model: form,
+  url: form_url,
+  method: form_method,
+  data: { "controller" => "form-error-messages-handler" }
+) do |f| %>
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title mb-3"><%= t("admin.webhook_configs.form.details") %></h5>
+
+      <% if form.persisted? %>
+        <div class="mb-3">
+          <label class="form-label"><%= t("admin.webhook_configs.form.source") %></label>
+          <p class="form-control-plaintext">
+            <% if form.webhook_config.source.is_a?(Server) %>
+              <%= link_to("#{form.webhook_config.source.name} (##{form.webhook_config.source.id})", admin_server_path(form.webhook_config.source)) %>
+            <% else %>
+              <%= form.webhook_config.source_type %> #<%= form.webhook_config.source_id %>
+            <% end %>
+          </p>
+        </div>
+      <% else %>
+        <div class="mb-3">
+          <%= f.label(:server_id, t("admin.webhook_configs.form.server"), class: "form-label") %>
+          <%= f.select(
+            :server_id,
+            options_for_select(servers.map { |s| ["#{s.name} (##{s.id})", s.id] }, form.server_id),
+            { include_blank: t("admin.webhook_configs.form.select_server") },
+            class: "form-select",
+            required: true
+          ) %>
+          <div class="form-text"><%= t("admin.webhook_configs.form.server_help") %></div>
+        </div>
+      <% end %>
+
+      <div class="mb-3">
+        <%= f.label(:url, t("admin.webhook_configs.form.url"), class: "form-label") %>
+        <%= f.url_field(:url, class: "form-control", placeholder: t("admin.webhook_configs.form.url_placeholder")) %>
+        <div class="form-text"><%= t("admin.webhook_configs.form.url_help") %></div>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label(:secret, t("admin.webhook_configs.form.secret"), class: "form-label") %>
+        <%= f.password_field(:secret, class: "form-control", placeholder: form.persisted? ? t("admin.webhook_configs.form.secret_placeholder") : nil) %>
+        <div class="form-text"><%= t("admin.webhook_configs.form.secret_help_#{form.persisted? ? 'keep' : 'new'}") %></div>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label(:method, t("admin.webhook_configs.form.method"), class: "form-label") %>
+        <%= f.select(:method, WebhookConfig::METHODS, {}, class: "form-select") %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label(:event_types_string, t("admin.webhook_configs.form.event_types"), class: "form-label") %>
+        <%= f.text_field(:event_types_string, class: "form-control", placeholder: t("admin.webhook_configs.form.event_types_placeholder")) %>
+        <div class="form-text"><%= t("admin.webhook_configs.form.event_types_help") %></div>
+      </div>
+
+      <% if form.persisted? %>
+        <div class="mb-3 form-check">
+          <%= f.check_box(:disabled, { class: "form-check-input" }, "1", "0") %>
+          <%= f.label(:disabled, t("admin.webhook_configs.form.disabled"), class: "form-check-label") %>
+          <div class="form-text"><%= t("admin.webhook_configs.form.disabled_help") %></div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <%= f.submit(
+      submit_label,
+      class: "btn btn-primary",
+      data: { "turbo-submits-with" => t("shared.button.loading") }
+    ) %>
+    <%= link_to(t("admin.shared.cancel"), form.persisted? ? admin_webhook_config_path(form.webhook_config) : admin_webhook_configs_path, class: "btn btn-outline-secondary ms-2", data: { controller: "back-link", action: "click->back-link#click" }) %>
+  </div>
+<% end %>

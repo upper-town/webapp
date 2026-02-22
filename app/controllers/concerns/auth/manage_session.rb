@@ -69,7 +69,7 @@ module Auth
         token_digest:,
         token_last_four:,
         remote_ip:  request.remote_ip,
-        user_agent: request.user_agent,
+        user_agent: request.user_agent.presence || "",
         expires_at: remember_me ? SESSION_MAX_DURATION.from_now : SESSION_MIN_DURATION.from_now
       )
 

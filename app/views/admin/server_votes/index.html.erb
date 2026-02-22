@@ -1,0 +1,52 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="mb-0">
+    <%= t("admin.server_votes.index.title") %>
+    <% if @server %>
+      <small class="text-muted"><%= t("admin.server_votes.index.for_server", name: @server.name) %></small>
+    <% elsif @game %>
+      <small class="text-muted"><%= t("admin.server_votes.index.for_game", name: @game.name) %></small>
+    <% elsif @account %>
+      <small class="text-muted"><%= t("admin.server_votes.index.for_account", email: @account.user.email) %></small>
+    <% end %>
+  </h1>
+  <% if @server || @game || @account %>
+    <%= link_to(t("admin.server_votes.index.all_server_votes"), admin_server_votes_path, class: "btn btn-outline-secondary") %>
+  <% end %>
+</div>
+
+<div class="admin-pagination-search-row mb-3">
+  <div class="admin-pagination-search-row__pagination">
+    <%= render(PaginationComponent.new(@pagination, align: :start)) %>
+  </div>
+  <%= render(Admin::SearchFormComponent.new(
+    url: admin_server_votes_path,
+    search_term: @search_term,
+    placeholder: t("admin.server_votes.index.search_placeholder"),
+    hidden_params: params.permit(:server_id, :game_id, :account_id).to_h
+  )) %>
+</div>
+
+<%=
+  render(Admin::TableComponent.new(
+    collection: @server_votes,
+    empty_message: t("admin.server_votes.index.empty_message"),
+    columns: [
+      [t("admin.shared.id"), -> { link_to(it.id, admin_server_vote_path(it), class: "fw-medium") }, { copyable: :id }],
+      [t("admin.server_votes.columns.server"), -> { link_to(it.server.name, admin_server_path(it.server)) }, { copyable: ->(it) { it.server&.name } }],
+      [t("admin.server_votes.columns.game"), -> { link_to(it.game.name, admin_game_path(it.game)) }, { copyable: ->(it) { it.game&.name } }],
+      [t("admin.server_votes.columns.account"), -> {
+        if it.account
+          link_to(it.account.user.email, admin_user_path(it.account.user))
+        else
+          content_tag(:span, t("admin.shared.anonymous"), class: "text-muted")
+        end
+      }, { copyable: ->(it) { it.account&.user&.email } }],
+      [t("admin.server_votes.columns.uuid"), -> { content_tag(:code, truncate(it.uuid, length: 12), class: "small", title: it.uuid) }, { copyable: :uuid }],
+      [t("admin.admin_sessions.columns.remote_ip"), -> { content_tag(:code, it.remote_ip, class: "small") }, { copyable: :remote_ip }],
+      [t("admin.shared.created"), -> { l(it.created_at) }, { copyable: ->(it) { l(it.created_at) } }],
+      [t("admin.shared.actions"), -> { render(Admin::IndexActionsComponent.new(view_path: admin_server_vote_path(it))) }],
+    ],
+  ))
+%>
+
+<%= render(PaginationComponent.new(@pagination, align: :start)) %>

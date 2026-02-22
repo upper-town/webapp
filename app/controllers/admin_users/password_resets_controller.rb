@@ -85,7 +85,7 @@ module AdminUsers
     private
 
     def set_password_reset(action)
-      @password_reset = PasswordReset.new(permitted_params[:admin_users_password_reset])
+      @password_reset = PasswordResetForm.new(permitted_params[:admin_users_password_reset_form])
       @password_reset.action = action
       @password_reset.token = permitted_params[:token].presence if @password_reset.token.blank?
     end
@@ -93,7 +93,7 @@ module AdminUsers
     def permitted_params
       params.permit(
         :token,
-        admin_users_password_reset: [:email, :token, :code, :password]
+        admin_users_password_reset_form: [:email, :token, :code, :password]
       )
     end
   end

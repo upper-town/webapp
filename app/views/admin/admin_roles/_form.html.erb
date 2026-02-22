@@ -1,0 +1,56 @@
+<%= form_with(
+  scope: :admin_role,
+  url: admin_admin_role_path(admin_role),
+  method: :patch,
+  data: { "controller" => "form-error-messages-handler" }
+) do |form| %>
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title mb-3"><%= t("admin.admin_roles.form.permissions") %></h5>
+      <p class="text-muted small mb-3"><%= t("admin.admin_roles.form.permissions_help") %></p>
+
+      <% if admin_permissions.any? %>
+        <div class="row">
+          <% admin_permissions.each do |permission| %>
+            <div class="col-md-6 col-lg-4 mb-2">
+              <div class="form-check">
+                <%= form.check_box(
+                  :permission_ids,
+                  {
+                    multiple: true,
+                    checked: admin_role.permission_ids.include?(permission.id),
+                    class: "form-check-input",
+                    id: "admin_role_permission_#{permission.id}",
+                  },
+                  permission.id
+                ) %>
+                <%= form.label(
+                  "permission_ids_#{permission.id}",
+                  nil,
+                  class: "form-check-label",
+                  for: "admin_role_permission_#{permission.id}"
+                ) do %>
+                  <%= content_tag(:code, permission.key, class: "me-1") %>
+                  <% if permission.description.present? %>
+                    <span class="text-muted small">— <%= permission.description %></span>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-muted mb-0"><%= t("admin.admin_roles.form.no_permissions") %></p>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <%= form.submit(
+      t("admin.admin_roles.form.update_role"),
+      class: "btn btn-primary",
+      data: { "turbo-submits-with" => t("shared.button.loading") }
+    ) %>
+    <%= link_to(t("admin.shared.cancel"), admin_admin_role_path(admin_role), class: "btn btn-outline-secondary ms-2", data: { controller: "back-link", action: "click->back-link#click" }) %>
+  </div>
+<% end %>

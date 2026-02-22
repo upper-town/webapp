@@ -90,7 +90,7 @@ module AdminUsers
     private
 
     def set_email_confirmation(action)
-      @email_confirmation = EmailConfirmation.new(permitted_params[:admin_users_email_confirmation])
+      @email_confirmation = EmailConfirmationForm.new(permitted_params[:admin_users_email_confirmation_form])
       @email_confirmation.action = action
       @email_confirmation.token = permitted_params[:token].presence if @email_confirmation.token.blank?
     end
@@ -98,7 +98,7 @@ module AdminUsers
     def permitted_params
       params.permit(
         :token,
-        admin_users_email_confirmation: [:email, :token, :code]
+        admin_users_email_confirmation_form: [:email, :token, :code]
       )
     end
   end

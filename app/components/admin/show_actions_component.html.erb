@@ -1,0 +1,8 @@
+<div class="btn-group mt-2">
+  <%= link_to(back_label, back_path, class: "btn btn-secondary", data: { controller: "back-link", action: "click->back-link#click" }) %>
+  <% actions.each do |action| %>
+    <% options = action.except(:path, :label) %>
+    <% options[:class] ||= action[:label] == t("admin.shared.edit") ? "btn btn-outline-primary" : "btn btn-outline-secondary" %>
+    <%= link_to(action[:label], action[:path], **options) %>
+  <% end %>
+</div>

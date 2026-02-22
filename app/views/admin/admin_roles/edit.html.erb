@@ -1,0 +1,6 @@
+<div class="mb-4">
+  <h1 class="mb-0"><%= t("admin.admin_roles.edit.title", key: @admin_role.key) %></h1>
+  <%= render(Admin::ShowActionsComponent.new(back_path: admin_admin_role_path(@admin_role))) %>
+</div>
+
+<%= render("form", admin_role: @admin_role, admin_permissions: @admin_permissions) %>

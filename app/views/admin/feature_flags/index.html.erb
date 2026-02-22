@@ -1,0 +1,38 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="mb-0"><%= t("admin.feature_flags.index.title") %></h1>
+  <%= link_to(t("admin.feature_flags.index.new_feature_flag"), new_admin_feature_flag_path, class: "btn btn-primary") %>
+</div>
+
+<div class="admin-pagination-search-row mb-3">
+  <div class="admin-pagination-search-row__pagination">
+    <%= render(PaginationComponent.new(@pagination, align: :start)) %>
+  </div>
+  <%= render(Admin::SearchFormComponent.new(
+    url: admin_feature_flags_path,
+    search_term: @search_term,
+    placeholder: t("admin.feature_flags.index.search_placeholder")
+  )) %>
+</div>
+
+<%=
+  render(Admin::TableComponent.new(
+    collection: @feature_flags,
+    empty_message: t("admin.feature_flags.index.empty_message"),
+    columns: [
+      [t("admin.shared.id"), -> { link_to(it.id, admin_feature_flag_path(it), class: "fw-medium") }, { copyable: :id }],
+      [t("admin.feature_flags.columns.name"), -> { it.name.presence || content_tag(:span, t("admin.shared.empty_placeholder"), class: "text-muted") }, { copyable: :name }],
+      [t("admin.feature_flags.columns.value"), -> { content_tag(:code, it.value.presence || t("admin.shared.empty_placeholder"), class: "small") }, { copyable: :value }],
+      [t("admin.feature_flags.columns.enabled"), -> {
+        enabled = FeatureFlag.enabled?(it.name)
+        content_tag(:span, enabled ? t("admin.shared.yes") : t("admin.shared.no"), class: "badge #{enabled ? "bg-success" : "bg-secondary"})
+      }],
+      [t("admin.feature_flags.columns.env_override"), -> {
+        env_var = "FF_#{it.name.upcase}"
+        FeatureFlag.fetch_value_from_env_var(it.name).present? ? content_tag(:code, env_var, class: "small text-warning") : content_tag(:span, t("admin.shared.empty_placeholder"), class: "text-muted")
+      }, { copyable: ->(it) { FeatureFlag.fetch_value_from_env_var(it.name).present? ? "FF_#{it.name.upcase}" : nil } }],
+      [t("admin.shared.actions"), -> { render(Admin::IndexActionsComponent.new(view_path: admin_feature_flag_path(it), edit_path: edit_admin_feature_flag_path(it))) }],
+    ],
+  ))
+%>
+
+<%= render(PaginationComponent.new(@pagination, align: :start)) %>

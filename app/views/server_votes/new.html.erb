@@ -9,20 +9,20 @@
 </p>
 
 <%= form_with(
-  model: @server_vote,
+  model: @form,
   method: :post,
   url: server_votes_path(@server),
-  data: { 'controller' => 'form-error-messages-handler' }
+  data: { "controller" => "form-error-messages-handler" }
 ) do |form| %>
   <%= captcha_widget_tag %>
 
-  <%= form.hidden_field(:reference, value: @reference) %>
+  <%= form.hidden_field(:reference, value: @form.reference) %>
 
   <%=
     form.submit(
-      'Click to vote!',
-      class: 'btn btn-primary',
-      data: { 'turbo-submits-with' => 'Loading...' }
+      "Click to vote!",
+      class: "btn btn-primary",
+      data: { "turbo-submits-with" => "Loading..." }
     )
   %>
 <% end %>

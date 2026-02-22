@@ -11,63 +11,63 @@
       <li class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <%=
           link_to(
-            'Edit',
+            "Edit",
             edit_inside_server_path(server),
-            class: 'btn btn-secondary',
+            class: "btn btn-secondary",
           )
         %>
         <%=
           link_to(
-            'View Page',
+            "View Page",
             server_path(server),
-            class: 'btn btn-secondary',
+            class: "btn btn-secondary",
           )
         %>
 
         <% if server.marked_for_deletion? %>
           <%=
             link_to(
-              'Unmark for deletion',
+              "Unmark for deletion",
               unmark_for_deletion_inside_server_path(server),
-              class: 'btn btn-danger',
+              class: "btn btn-danger",
               data: {
-                'turbo-method' => :post,
-                'turbo-confirm' => "This will prevent this server from being deleted. Confirm?"
+                "turbo-method" => :post,
+                "turbo-confirm" => "This will prevent this server from being deleted. Confirm?"
               }
             )
           %>
         <% elsif server.archived? %>
           <%=
             link_to(
-              'Unarchive',
+              "Unarchive",
               unarchive_inside_server_path(server),
-              class: 'btn btn-secondary',
+              class: "btn btn-secondary",
               data: {
-                'turbo-method' => :post,
-                'turbo-confirm' => 'By unarchiving this server, users will be able to vote on it again. Confirm?'
+                "turbo-method" => :post,
+                "turbo-confirm" => "By unarchiving this server, users will be able to vote on it again. Confirm?"
               }
             )
           %>
           <%=
             link_to(
-              'Mark for deletion',
+              "Mark for deletion",
               mark_for_deletion_inside_server_path(server),
-              class: 'btn btn-danger',
+              class: "btn btn-danger",
               data: {
-                'turbo-method' => :post,
-                'turbo-confirm' => "This will delete your server and everything associated with it. Confirm?"
+                "turbo-method" => :post,
+                "turbo-confirm" => "This will delete your server and everything associated with it. Confirm?"
               }
             )
           %>
         <% else %>
           <%=
             link_to(
-              'Archive',
+              "Archive",
               archive_inside_server_path(server),
-              class: 'btn btn-secondary',
+              class: "btn btn-secondary",
               data: {
-                'turbo-method' => :post,
-                'turbo-confirm' => "By archiving this server, users won't be able to vote on it. Confirm?"
+                "turbo-method" => :post,
+                "turbo-confirm" => "By archiving this server, users won't be able to vote on it. Confirm?"
               }
             )
           %>

@@ -1,0 +1,6 @@
+<div class="mb-4">
+  <h1 class="mb-0"><%= t("admin.feature_flags.edit.title", name: @feature_flag.name) %></h1>
+  <%= render(Admin::ShowActionsComponent.new(back_path: admin_feature_flag_path(@feature_flag))) %>
+</div>
+
+<%= render("form", form: @form, form_url: admin_feature_flag_path(@feature_flag), form_method: :patch, submit_label: t("admin.feature_flags.edit.update_feature_flag")) %>

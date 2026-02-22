@@ -5,6 +5,8 @@ module Seeds
     include Callable
 
     def call
+      _ = CreateAdminRolesAndPermissions.call
+
       admin_user_ids = CreateAdminUsers.call
       _admin_account_ids = CreateAdminAccounts.call(admin_user_ids)
 

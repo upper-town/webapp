@@ -1,0 +1,43 @@
+<div class="mb-4">
+  <h1 class="mb-0"><%= t("admin.admin_users.edit.title", email: @admin_user.email) %></h1>
+  <%= render(Admin::ShowActionsComponent.new(back_path: admin_admin_user_path(@admin_user))) %>
+</div>
+
+<%= form_with(
+  model: @form,
+  url: admin_admin_user_path(@admin_user),
+  method: :patch,
+  data: { "controller" => "form-error-messages-handler" }
+) do |form| %>
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title mb-3"><%= t("admin.admin_users.edit.lock_status") %></h5>
+
+      <div class="mb-3 form-check">
+        <%= form.check_box(:locked, class: "form-check-input") %>
+        <%= form.label(:locked, t("activemodel.attributes.admin/admin_users/edit_form.locked"), class: "form-check-label") %>
+      </div>
+
+      <div class="mb-3">
+        <%= form.label(:locked_reason, t("activemodel.attributes.admin/admin_users/edit_form.locked_reason"), class: "form-label") %>
+        <%= form.text_field(:locked_reason, class: "form-control", maxlength: 255) %>
+        <div class="form-text"><%= t("admin.admin_users.edit.lock_reason_help") %></div>
+      </div>
+
+      <div class="mb-3">
+        <%= form.label(:locked_comment, t("activemodel.attributes.admin/admin_users/edit_form.locked_comment"), class: "form-label") %>
+        <%= form.text_area(:locked_comment, class: "form-control", rows: 3) %>
+        <div class="form-text"><%= t("admin.admin_users.edit.lock_comment_help") %></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <%= form.submit(
+      t("admin.admin_users.edit.update_admin_user"),
+      class: "btn btn-primary",
+      data: { "turbo-submits-with" => t("shared.button.loading") }
+    ) %>
+    <%= link_to(t("admin.shared.cancel"), admin_admin_user_path(@admin_user), class: "btn btn-outline-secondary ms-2", data: { controller: "back-link", action: "click->back-link#click" }) %>
+  </div>
+<% end %>

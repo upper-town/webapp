@@ -1,0 +1,11 @@
+<div class="btn-group btn-group-sm">
+  <%= link_to(t("admin.shared.view"), view_path, class: "btn btn-outline-primary", **link_options) %>
+  <% if edit? %>
+    <%= link_to(t("admin.shared.edit"), edit_path, class: "btn btn-outline-secondary", **link_options) %>
+  <% end %>
+  <% extra_actions.each do |action| %>
+    <% options = action.except(:path, :label) %>
+    <% options[:class] ||= "btn btn-outline-secondary" %>
+    <%= link_to(action[:label], action[:path], **options) %>
+  <% end %>
+</div>

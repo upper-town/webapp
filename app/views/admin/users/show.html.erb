@@ -1,38 +1,79 @@
-
-<%= link_to('Edit', edit_admin_user_path(@user)) %>
-<%= link_to('Delete', admin_user_path(@user), method: :delete) %>
-
-
-<h3>Details</h3>
-
-<div>
-
-  <div>
-    <div>Email</div>
-    <div><%= @user.email %></div>
-  </div>
-
-  <div>
-    <div>ID</div>
-    <div><%= @user.id %></div>
-  </div>
+<div class="mb-4">
+  <h1 class="mb-0"><%= @user.email %></h1>
+  <%= render(Admin::ShowActionsComponent.new(
+    back_path: admin_users_path,
+    actions: [
+      (@user.account ? { path: admin_account_path(@user.account), label: t("admin.accounts.account") } : nil),
+      (@user.account ? { path: account_path(@user.account), label: t("admin.shared.view_public_page"), target: "_blank", rel: "noopener" } : nil),
+      { path: edit_admin_user_path(@user), label: t("admin.shared.edit") },
+    ].compact
+  )) %>
 </div>
 
-<div>
-  <%= @user.email_confirmed_at %>
-  <%= @user.change_email %>
-  <%= @user.email_confirmation_sent_at %>
+<%= render(Admin::DetailsTableComponent.new(sections: [
+  {
+    title: t("admin.shared.details"),
+    rows: [
+      [t("admin.shared.id"), @user.id, { copyable: true }],
+      [t("admin.users.columns.email"), @user.email, { copyable: true }],
+      [t("admin.users.columns.email_confirmed"), -> {
+        if @user.email_confirmed_at
+          safe_join([content_tag(:span, t("admin.shared.yes"), class: "badge bg-success"), content_tag(:small, "(#{l(@user.email_confirmed_at)})", class: "text-muted ms-1")])
+        else
+          content_tag(:span, t("admin.shared.no"), class: "badge bg-secondary")
+        end
+      }, (@user.email_confirmed_at ? { copy_value: l(@user.email_confirmed_at) } : {})],
+      [t("admin.users.show.email_confirmation_sent"), @user.email_confirmation_sent_at ? l(@user.email_confirmation_sent_at) : nil, { copyable: true }],
+      [t("admin.users.show.change_email_pending"), @user.change_email.presence, { copyable: true }],
+      [t("admin.users.show.change_email_confirmed"), @user.change_email_confirmed_at ? l(@user.change_email_confirmed_at) : nil, { copyable: true }],
+      [t("admin.shared.locked"), -> {
+        if @user.locked?
+          safe_join([
+            content_tag(:span, t("admin.shared.locked"), class: "badge bg-danger"),
+            content_tag(:small, "(#{l(@user.locked_at)})", class: "text-muted ms-1"),
+            @user.locked_reason.presence && content_tag(:span, @user.locked_reason, class: "ms-1"),
+            @user.locked_comment.presence && content_tag(:div, simple_format(@user.locked_comment), class: "mt-1 text-muted small"),
+          ].compact, " ")
+        else
+          nil
+        end
+      }],
+      [t("admin.users.show.failed_sign_in_attempts"), @user.failed_attempts, { copyable: true }],
+      [t("admin.users.show.password_reset_sent"), @user.password_reset_sent_at ? l(@user.password_reset_sent_at) : nil, { copyable: true }],
+      [t("admin.users.show.sign_in_count"), @user.sign_in_count, { copyable: true }],
+      [t("admin.shared.created"), l(@user.created_at), { copyable: true }],
+      [t("admin.shared.updated"), l(@user.updated_at), { copyable: true }],
+    ],
+  },
+])) %>
 
-  <%= @user.failed_attempts %>
+<%= render(Admin::DetailsTableComponent.new(sections: [
+  {
+    title: t("admin.users.show.verified_servers"),
+    rows: @user.account&.verified_servers&.any? ? @user.account.verified_servers.map { |server| [link_to(server.name, admin_server_path(server))] } : [[-> { content_tag(:span, t("admin.shared.none"), class: "text-muted") }]],
+  },
+])) %>
 
-  <%= @user.locked_at %>
-  <%= @user.locked_reason %>
-  <%= @user.locked_comment %>
+<%= turbo_frame_tag("user_sessions", src: sessions_admin_user_path(@user), loading: :lazy) do %>
+  <div class="card mb-4">
+    <div class="card-body text-center text-muted py-5">
+      <p class="mb-0"><%= t("admin.shared.loading") %></p>
+    </div>
+  </div>
+<% end %>
 
-  <%= @user.password_reset_sent_at %>
+<%= turbo_frame_tag("user_tokens", src: tokens_admin_user_path(@user), loading: :lazy) do %>
+  <div class="card mb-4">
+    <div class="card-body text-center text-muted py-5">
+      <p class="mb-0"><%= t("admin.shared.loading") %></p>
+    </div>
+  </div>
+<% end %>
 
-  <%= @user.sign_in_count %>
-
-  <%= @user.created_at %>
-  <%= @user.updated_at %>
-</div>
+<%= turbo_frame_tag("user_codes", src: codes_admin_user_path(@user), loading: :lazy) do %>
+  <div class="card mb-4">
+    <div class="card-body text-center text-muted py-5">
+      <p class="mb-0"><%= t("admin.shared.loading") %></p>
+    </div>
+  </div>
+<% end %>

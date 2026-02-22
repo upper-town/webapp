@@ -1,0 +1,34 @@
+<h1 class="mb-4"><%= t("admin.admin_roles.index.title") %></h1>
+
+<div class="admin-pagination-search-row mb-3">
+  <div class="admin-pagination-search-row__pagination">
+    <%= render(PaginationComponent.new(@pagination, align: :start)) %>
+  </div>
+  <%= render(Admin::SearchFormComponent.new(
+    url: admin_admin_roles_path,
+    search_term: @search_term,
+    placeholder: t("admin.admin_roles.index.search_placeholder")
+  )) %>
+</div>
+
+<%=
+  render(Admin::TableComponent.new(
+    collection: @admin_roles,
+    empty_message: t("admin.admin_roles.index.empty_message"),
+    columns: [
+      [t("admin.shared.id"), -> { link_to(it.id, admin_admin_role_path(it), class: "fw-medium") }],
+      [t("admin.admin_roles.columns.key"), -> { content_tag(:code, it.key) }],
+      [t("admin.admin_roles.columns.description"), -> { it.description.presence || content_tag(:span, t("admin.shared.empty_placeholder"), class: "text-muted") }],
+      [t("admin.admin_roles.columns.permissions"), -> {
+        it.permissions.any? ? it.permissions.map { |p| content_tag(:code, p.key, class: "me-1") }.join(" ").html_safe : content_tag(:span, t("admin.shared.none"), class: "text-muted")
+      }],
+      [t("admin.admin_roles.columns.accounts"), -> {
+        count = it.accounts.count
+        count.positive? ? count : content_tag(:span, "0", class: "text-muted")
+      }],
+      [t("admin.shared.actions"), -> { render(Admin::IndexActionsComponent.new(view_path: admin_admin_role_path(it), edit_path: edit_admin_admin_role_path(it))) }],
+    ],
+  ))
+%>
+
+<%= render(PaginationComponent.new(@pagination, align: :start)) %>

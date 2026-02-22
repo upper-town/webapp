@@ -16,49 +16,53 @@ module Inside
     end
 
     def new
-      @server = Server.new
+      @form = Servers::CreateForm.new
     end
 
     def create
-      @server = Server.new(server_params)
-      server_banner_image = ServerBannerImage.new(
-        uploaded_file: params.require(:server)[:banner_image]
-      )
+      @form = Servers::CreateForm.new(server_form_params)
 
-      if @server.invalid?
-        @server.move_errors(:game, :game_id)
+      if @form.invalid?
         render(:new, status: :unprocessable_entity)
 
         return
       end
 
-      if server_banner_image.invalid?
-        server_banner_image.errors.each do |error|
-          @server.errors.add(:banner_image, error)
-        end
-        render(:new, status: :unprocessable_entity)
-
-        return
-      end
-
-      result = Servers::Create.new(
-        @server,
-        current_account,
-        server_banner_image
-      ).call
+      result = Servers::Create.call(@form, account: current_account)
 
       if result.success?
         redirect_to(inside_servers_path, success: "Your server has been added.")
       else
+        @form.errors.merge!(result.errors)
         flash.now[:alert] = result.errors
         render(:new, status: :unprocessable_entity)
       end
     end
 
     def edit
+      @server = server_from_params
+      @form = Servers::CreateForm.new(server_edit_form_params_from_server(@server))
     end
 
     def update
+      @server = server_from_params
+      @form = Servers::CreateForm.new(server_form_params)
+
+      if @form.invalid?
+        flash.now[:alert] = @form.errors
+        render(:edit, status: :unprocessable_entity)
+        return
+      end
+
+      result = Servers::Update.call(@server, @form)
+
+      if result.success?
+        redirect_to(inside_servers_path, success: t("inside.servers.update.success"))
+      else
+        @form.errors.merge!(result.errors)
+        flash.now[:alert] = result.errors
+        render(:edit, status: :unprocessable_entity)
+      end
     end
 
     def archive
@@ -117,18 +121,31 @@ module Inside
     private
 
     def server_from_params
-      Server.find(params[:id])
+      current_account.servers.find(params[:id])
     end
 
-    def server_params
-      params.expect(server: [
+    def server_form_params
+      filtered = params.expect(server: [
         :game_id,
         :country_code,
         :name,
         :site_url,
         :description,
-        :info
+        :info,
+        :banner_image
       ])
+      (filtered[:server] || filtered["server"] || {}).to_h.symbolize_keys
+    end
+
+    def server_edit_form_params_from_server(server)
+      {
+        game_id: server.game_id,
+        country_code: server.country_code,
+        name: server.name,
+        site_url: server.site_url,
+        description: server.description,
+        info: server.info
+      }.compact
     end
 
     def max_verified_servers_per_account

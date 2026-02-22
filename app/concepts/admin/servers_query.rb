@@ -5,7 +5,7 @@ module Admin
     include Callable
 
     def call
-      Server.order(id: :desc)
+      Server.includes(:game).order(id: :desc)
     end
   end
 end

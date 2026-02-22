@@ -40,7 +40,7 @@ module Users
     private
 
     def set_change_email_reversion
-      @change_email_reversion = ChangeEmailReversion.new(permitted_params[:users_change_email_reversion])
+      @change_email_reversion = ChangeEmailReversionForm.new(permitted_params[:users_change_email_reversion_form])
 
       if @change_email_reversion.token.blank?
         @change_email_reversion.token = permitted_params[:token].presence
@@ -50,7 +50,7 @@ module Users
     def permitted_params
       params.permit(
         :token,
-        users_change_email_reversion: [:token, :code]
+        users_change_email_reversion_form: [:token, :code]
       )
     end
   end

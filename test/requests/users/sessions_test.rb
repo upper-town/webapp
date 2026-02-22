@@ -20,7 +20,7 @@ class Users::SessionsRequestTest < ActionDispatch::IntegrationTest
       users_sessions_url,
       headers: request_headers,
       params: {
-        users_session: {
+        users_session_form: {
           email: "signed_in@upper.town",
           password: "testpass"
         }
@@ -46,7 +46,7 @@ class Users::SessionsRequestTest < ActionDispatch::IntegrationTest
       users_sessions_url,
       headers: request_headers,
       params: {
-        users_session: {
+        users_session_form: {
           email: "valid@upper.town",
           password: "testpass"
         }
@@ -61,7 +61,7 @@ class Users::SessionsRequestTest < ActionDispatch::IntegrationTest
     post(
       users_sessions_url,
       params: {
-        users_session: {
+        users_session_form: {
           email: "nonexistent@upper.town",
           password: "wrong"
         }
@@ -82,7 +82,7 @@ class Users::SessionsRequestTest < ActionDispatch::IntegrationTest
       users_sessions_url,
       headers: request_headers,
       params: {
-        users_session: {
+        users_session_form: {
           email: "signout@upper.town",
           password: "testpass"
         }

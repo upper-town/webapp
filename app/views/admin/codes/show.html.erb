@@ -1,0 +1,31 @@
+<div class="mb-4">
+  <h1 class="mb-0"><%= t("admin.codes.show.title", id: @code.id) %></h1>
+  <%= render(Admin::ShowActionsComponent.new(
+    back_path: admin_codes_path,
+    actions: [{ path: admin_user_path(@code.user), label: t("admin.codes.columns.user") }]
+  )) %>
+</div>
+
+<%= render(Admin::DetailsTableComponent.new(sections: [
+  {
+    title: t("admin.shared.details"),
+    rows: [
+      [t("admin.shared.id"), @code.id, { copyable: true }],
+      [t("admin.codes.columns.user"), link_to(@code.user.email, admin_user_path(@code.user)), { copy_value: @code.user.email }],
+      [t("admin.codes.columns.purpose"), content_tag(:code, @code.purpose), { copy_value: @code.purpose }],
+      [t("admin.admin_sessions.columns.expires_at"), l(@code.expires_at), { copyable: true }],
+      [t("admin.admin_sessions.columns.expired"), @code.expired? ? t("admin.shared.yes") : t("admin.shared.no")],
+      [t("admin.codes.columns.code_digest"), content_tag(:code, truncate(@code.code_digest, length: 16), class: "small", title: @code.code_digest), { copy_value: @code.code_digest }],
+      [t("admin.shared.created"), l(@code.created_at), { copyable: true }],
+      [t("admin.shared.updated"), l(@code.updated_at), { copyable: true }],
+    ],
+  },
+])) %>
+<% if @code.data.present? %>
+  <%= render(Admin::DetailsTableComponent.new(sections: [
+    {
+      title: t("admin.codes.sections.data"),
+      rows: [[-> { content_tag(:pre, JSON.pretty_generate(@code.data), class: "mb-0 bg-light p-3 rounded small") }]],
+    },
+  ])) %>
+<% end %>

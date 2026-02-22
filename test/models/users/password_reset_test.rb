@@ -2,8 +2,8 @@
 
 require "test_helper"
 
-class Users::PasswordResetTest < ActiveSupport::TestCase
-  let(:described_class) { Users::PasswordReset }
+class Users::PasswordResetFormTest < ActiveSupport::TestCase
+  let(:described_class) { Users::PasswordResetForm }
 
   it "has default values" do
     instance = described_class.new

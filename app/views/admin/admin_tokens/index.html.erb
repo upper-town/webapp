@@ -1,0 +1,37 @@
+<h1 class="mb-4"><%= t("admin.admin_tokens.index.title") %></h1>
+
+<div class="admin-pagination-search-row mb-3">
+  <div class="admin-pagination-search-row__pagination">
+    <%= render(PaginationComponent.new(@pagination, align: :start)) %>
+  </div>
+  <%= render(Admin::SearchFormComponent.new(
+    url: admin_admin_tokens_path,
+    search_term: @search_term,
+    placeholder: t("admin.admin_tokens.index.search_placeholder")
+  )) %>
+</div>
+
+<%=
+  render(Admin::TableComponent.new(
+    collection: @admin_tokens,
+    empty_message: t("admin.admin_tokens.index.empty_message"),
+    columns: [
+      [t("admin.shared.id"), -> { link_to(it.id, admin_admin_token_path(it), class: "fw-medium") }, { copyable: :id }],
+      [t("admin.admin_tokens.columns.admin_user"), -> { link_to(it.admin_user.email, admin_admin_user_path(it.admin_user)) }, { copyable: ->(it) { it.admin_user&.email } }],
+      [t("admin.tokens.columns.purpose"), -> { content_tag(:code, it.purpose, class: "small") }, { copyable: :purpose }],
+      [t("admin.admin_sessions.columns.last_4"), -> { content_tag(:code, it.token_last_four, class: "small") }, { copyable: :token_last_four }],
+      [t("admin.admin_sessions.columns.expires"), -> { l(it.expires_at) }, { copyable: ->(it) { l(it.expires_at) } }],
+      [t("admin.admin_sessions.columns.status"), -> {
+        if it.expired?
+          content_tag(:span, t("admin.shared.expired"), class: "badge bg-secondary")
+        else
+          content_tag(:span, t("admin.shared.active"), class: "badge bg-success")
+        end
+      }],
+      [t("admin.shared.created"), -> { l(it.created_at) }, { copyable: ->(it) { l(it.created_at) } }],
+      [t("admin.shared.actions"), -> { render(Admin::IndexActionsComponent.new(view_path: admin_admin_token_path(it))) }],
+    ],
+  ))
+%>
+
+<%= render(PaginationComponent.new(@pagination, align: :start)) %>

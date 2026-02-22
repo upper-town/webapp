@@ -15,7 +15,9 @@ class PaginationComponent < ApplicationComponent
     last_icon:  "Last",
     prev_icon:  "Prev",
     next_icon:  "Next",
-    go_icon:    "Go"
+    go_icon:    "Go",
+
+    align: :center # :center or :start
   }
 
   attr_reader :pagination, :options
@@ -77,5 +79,13 @@ class PaginationComponent < ApplicationComponent
 
   def go_icon
     options[:go_icon]
+  end
+
+  def align_start?
+    options[:align] == :start
+  end
+
+  def wrapper_justify_class
+    align_start? ? "justify-content-start" : "justify-content-center"
   end
 end

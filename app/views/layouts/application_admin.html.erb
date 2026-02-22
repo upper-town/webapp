@@ -13,17 +13,34 @@
 
   <%# Includes all stylesheet files in app/assets/stylesheets %>
   <%= stylesheet_link_tag "bootstrap.min" %>
+  <%= stylesheet_link_tag "bootstrap-icons.min" %>
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   <%= stylesheet_link_tag "admin", "data-turbo-track": "reload" %>
   <%= javascript_importmap_tags %>
 
   <meta name="turbo-prefetch" content="false">
 </head>
-<body data-controller="browser-time-zone">
-  <%= render('shared/noscript') %>
-  <%= render('admin/shared/header') %>
-  <%= render('admin/shared/nav') %>
-  <%= render('admin/shared/main') %>
-  <%= render('admin/shared/footer') %>
+<body data-controller="browser-time-zone" class="admin-layout">
+  <%= render("shared/noscript") %>
+  <% if signed_in_admin_user? %>
+    <div class="admin-layout-wrapper">
+      <%= render("admin/shared/sidebar") %>
+      <main class="admin-main">
+        <div class="container-fluid pt-3">
+          <%= render("shared/flash") %>
+          <%= yield %>
+        </div>
+      </main>
+    </div>
+  <% else %>
+    <%= render("admin/shared/header") %>
+    <main>
+      <div class="container pt-3">
+        <%= render("shared/flash") %>
+        <%= yield %>
+      </div>
+    </main>
+    <%= render("admin/shared/footer") %>
+  <% end %>
 </body>
 </html>

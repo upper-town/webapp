@@ -26,12 +26,12 @@
 </head>
 <body data-controller="browser-time-zone" data-turbo-prefetch="false">
   <% if Rails.env.development? && params.key?(:dev_info) %>
-    <%= render('shared/dev_info') %>
+    <%= render("shared/dev_info") %>
   <% end %>
-  <%= render('shared/noscript') %>
-  <%= render('shared/header') %>
-  <%= render('shared/nav') %>
-  <%= render('shared/main') %>
-  <%= render('shared/footer') %>
+  <%= render("shared/noscript") %>
+  <%= render("shared/header") %>
+  <%= render("shared/nav") %>
+  <%= render("shared/main") %>
+  <%= render("shared/footer") %>
 </body>
 </html>

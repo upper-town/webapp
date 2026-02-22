@@ -1,0 +1,40 @@
+<h1 class="mb-4"><%= t("admin.admin_users.index.title") %></h1>
+
+<div class="admin-pagination-search-row mb-3">
+  <div class="admin-pagination-search-row__pagination">
+    <%= render(PaginationComponent.new(@pagination, align: :start)) %>
+  </div>
+  <%= render(Admin::SearchFormComponent.new(
+    url: admin_admin_users_path,
+    search_term: @search_term,
+    placeholder: t("admin.admin_users.index.search_placeholder")
+  )) %>
+</div>
+
+<%=
+  render(Admin::TableComponent.new(
+    collection: @admin_users,
+    empty_message: t("admin.admin_users.index.empty_message"),
+    columns: [
+      [t("admin.shared.id"), -> { link_to(it.id, admin_admin_user_path(it), class: "fw-medium") }, { copyable: :id }],
+      [t("admin.admin_users.columns.email"), -> { it.email.presence || content_tag(:span, t("admin.shared.empty_placeholder"), class: "text-muted") }, { copyable: :email }],
+      [t("admin.admin_users.columns.email_confirmed"), -> {
+        if it.email_confirmed_at
+          safe_join([content_tag(:span, t("admin.shared.yes"), class: "badge bg-success"), content_tag(:small, "(#{l(it.email_confirmed_at)})", class: "text-muted ms-1")])
+        else
+          content_tag(:span, t("admin.shared.no"), class: "badge bg-secondary")
+        end
+      }],
+      [t("admin.shared.locked"), -> {
+        if it.locked?
+          safe_join([content_tag(:span, t("admin.shared.locked"), class: "badge bg-danger"), content_tag(:small, "(#{l(it.locked_at)})", class: "text-muted ms-1")])
+        else
+          content_tag(:span, t("admin.shared.no"), class: "text-muted")
+        end
+      }],
+      [t("admin.shared.actions"), -> { render(Admin::IndexActionsComponent.new(view_path: admin_admin_user_path(it), edit_path: edit_admin_admin_user_path(it))) }],
+    ],
+  ))
+%>
+
+<%= render(PaginationComponent.new(@pagination, align: :start)) %>

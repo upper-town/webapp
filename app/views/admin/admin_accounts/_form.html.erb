@@ -1,0 +1,62 @@
+<%= form_with(
+  scope: :admin_account,
+  url: admin_admin_account_path(admin_account),
+  method: :patch,
+  data: { "controller" => "form-error-messages-handler" }
+) do |form| %>
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title mb-3"><%= t("admin.admin_accounts.form.roles") %></h5>
+      <p class="text-muted small mb-3"><%= t("admin.admin_accounts.form.roles_help") %> <%= link_to(t("admin.admin_accounts.form.manage_roles"), admin_admin_roles_path) %> <%= t("admin.admin_accounts.form.manage_roles_suffix") %></p>
+
+      <% if admin_account.super_admin? %>
+        <div class="alert alert-warning mb-3">
+          <%= t("admin.admin_accounts.form.super_admin_alert_html") %>
+        </div>
+      <% end %>
+
+      <% if admin_roles.any? %>
+        <div class="row">
+          <% admin_roles.each do |role| %>
+            <div class="col-md-6 col-lg-4 mb-2">
+              <div class="form-check">
+                <%= form.check_box(
+                  :role_ids,
+                  {
+                    multiple: true,
+                    checked: admin_account.role_ids.include?(role.id),
+                    class: "form-check-input",
+                    id: "admin_account_role_#{role.id}",
+                  },
+                  role.id
+                ) %>
+                <%= form.label(
+                  "role_ids_#{role.id}",
+                  nil,
+                  class: "form-check-label",
+                  for: "admin_account_role_#{role.id}"
+                ) do %>
+                  <%= content_tag(:code, role.key, class: "me-1") %>
+                  <% if role.description.present? %>
+                    <span class="text-muted small">— <%= role.description %></span>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-muted mb-0"><%= t("admin.admin_accounts.form.no_roles") %></p>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <%= form.submit(
+      t("admin.admin_accounts.form.update_roles"),
+      class: "btn btn-primary",
+      data: { "turbo-submits-with" => t("shared.button.loading") }
+    ) %>
+    <%= link_to(t("admin.shared.cancel"), admin_admin_account_path(admin_account), class: "btn btn-outline-secondary ms-2", data: { controller: "back-link", action: "click->back-link#click" }) %>
+  </div>
+<% end %>

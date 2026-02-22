@@ -1,12 +1,178 @@
 <% if signed_in_admin_user? %>
-  <ul>
-    <li><%= link_to("Users", admin_users_path) %></li>
-    <li><%= link_to("Admin Users", admin_admin_users_path) %></li>
-    <li><%= link_to("Servers", admin_servers_path) %></li>
-  </ul>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
+    <div class="container-fluid">
+      <%= link_to(t("admin.nav.brand"), admin_dashboard_path, class: "navbar-brand") %>
 
-  <ul>
-    <li><%= link_to("Dashboard", admin_dashboard_path) %></li>
-    <li><%= link_to("Sign Out", admin_users_sign_out_path)  %></li>
-  </ul>
+      <button
+        type="button"
+        class="navbar-toggler"
+        data-bs-toggle="collapse"
+        data-bs-target="#admin-navbar-content"
+        aria-controls="admin-navbar-content"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="admin-navbar-content">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <%= link_to(
+              t("admin.nav.dashboard"),
+              admin_dashboard_path,
+              class: nav_link_class(admin_root_path, admin_dashboard_path)
+            ) %>
+          </li>
+          <li class="nav-item">
+            <%= link_to(
+              t("admin.nav.users"),
+              admin_users_path,
+              class: nav_link_class(admin_users_path)
+            ) %>
+          </li>
+          <li class="nav-item">
+            <%= link_to(
+              t("admin.nav.admin_users"),
+              admin_admin_users_path,
+              class: nav_link_class(admin_admin_users_path)
+            ) %>
+          </li>
+          <li class="nav-item">
+            <%= link_to(
+              t("admin.nav.accounts"),
+              admin_accounts_path,
+              class: nav_link_class(admin_accounts_path)
+            ) %>
+          </li>
+          <li class="nav-item">
+            <%= link_to(
+              t("admin.nav.admin_accounts"),
+              admin_admin_accounts_path,
+              class: nav_link_class(admin_admin_accounts_path)
+            ) %>
+          </li>
+          <li class="nav-item">
+            <%= link_to(
+              t("admin.nav.codes"),
+              admin_codes_path,
+              class: nav_link_class(admin_codes_path)
+            ) %>
+          </li>
+          <li class="nav-item">
+            <%= link_to(
+              t("admin.nav.admin_codes"),
+              admin_admin_codes_path,
+              class: nav_link_class(admin_admin_codes_path)
+            ) %>
+          </li>
+          <li class="nav-item">
+            <%= link_to(
+              t("admin.nav.tokens"),
+              admin_tokens_path,
+              class: nav_link_class(admin_tokens_path)
+            ) %>
+          </li>
+          <li class="nav-item">
+            <%= link_to(
+              t("admin.nav.admin_tokens"),
+              admin_admin_tokens_path,
+              class: nav_link_class(admin_admin_tokens_path)
+            ) %>
+          </li>
+          <li class="nav-item">
+            <%= link_to(
+              t("admin.nav.sessions"),
+              admin_sessions_path,
+              class: nav_link_class(admin_sessions_path)
+            ) %>
+          </li>
+          <li class="nav-item">
+            <%= link_to(
+              t("admin.nav.admin_sessions"),
+              admin_admin_sessions_path,
+              class: nav_link_class(admin_admin_sessions_path)
+            ) %>
+          </li>
+          <li class="nav-item">
+            <%= link_to(
+              t("admin.nav.roles"),
+              admin_admin_roles_path,
+              class: nav_link_class(admin_admin_roles_path)
+            ) %>
+          </li>
+          <li class="nav-item">
+            <%= link_to(
+              t("admin.nav.permissions"),
+              admin_admin_permissions_path,
+              class: nav_link_class(admin_admin_permissions_path)
+            ) %>
+          </li>
+          <li class="nav-item">
+            <%= link_to(
+              t("admin.nav.games"),
+              admin_games_path,
+              class: nav_link_class(admin_games_path)
+            ) %>
+          </li>
+          <li class="nav-item">
+            <%= link_to(
+              t("admin.nav.servers"),
+              admin_servers_path,
+              class: nav_link_class(admin_servers_path)
+            ) %>
+          </li>
+          <li class="nav-item">
+            <%= link_to(
+              t("admin.nav.feature_flags"),
+              admin_feature_flags_path,
+              class: nav_link_class(admin_feature_flags_path)
+            ) %>
+          </li>
+          <li class="nav-item">
+            <%= link_to(
+              t("admin.nav.webhook_configs"),
+              admin_webhook_configs_path,
+              class: nav_link_class(admin_webhook_configs_path)
+            ) %>
+          </li>
+          <li class="nav-item">
+            <%= link_to(
+              t("admin.nav.webhook_events"),
+              admin_webhook_events_path,
+              class: nav_link_class(admin_webhook_events_path)
+            ) %>
+          </li>
+          <% if admin_jobs_access? %>
+            <li class="nav-item">
+              <%= link_to(
+                t("admin.nav.jobs"),
+                admin_mission_control_jobs_path,
+                class: nav_link_class(admin_mission_control_jobs_path)
+              ) %>
+            </li>
+          <% end %>
+        </ul>
+
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <%= link_to(
+              t("admin.nav.site"),
+              root_path,
+              class: "nav-link",
+              target: "_blank",
+              rel: "noopener"
+            ) %>
+          </li>
+          <li class="nav-item">
+            <%= link_to(
+              t("admin.nav.sign_out"),
+              admin_users_sign_out_path,
+              class: "nav-link"
+            ) %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 <% end %>
