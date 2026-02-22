@@ -3,6 +3,7 @@
 require "test_helper"
 
 class GameSelectComponentTest < ViewComponent::TestCase
+  let(:described_class) { GameSelectComponent }
   let(:query_data) { [["Minecraft", 1], ["Rust", 2]] }
 
   def build_form
@@ -20,7 +21,7 @@ class GameSelectComponentTest < ViewComponent::TestCase
   describe "rendering" do
     it "renders a select element for game_id" do
       with_stubbed_query do
-        render_inline(GameSelectComponent.new(build_form))
+        render_inline(described_class.new(build_form))
       end
 
       assert_selector("select.form-select[name='filter[game_id]'][data-controller='game-select']")
@@ -28,7 +29,7 @@ class GameSelectComponentTest < ViewComponent::TestCase
 
     it "renders the default blank option" do
       with_stubbed_query do
-        render_inline(GameSelectComponent.new(build_form))
+        render_inline(described_class.new(build_form))
       end
 
       assert_selector("option[value='']", text: "All")
@@ -36,7 +37,7 @@ class GameSelectComponentTest < ViewComponent::TestCase
 
     it "renders a custom blank option name" do
       with_stubbed_query do
-        render_inline(GameSelectComponent.new(build_form, blank_name: "Any"))
+        render_inline(described_class.new(build_form, blank_name: "Any"))
       end
 
       assert_selector("option[value='']", text: "Any")
@@ -44,7 +45,7 @@ class GameSelectComponentTest < ViewComponent::TestCase
 
     it "renders game options from the query" do
       with_stubbed_query do
-        render_inline(GameSelectComponent.new(build_form))
+        render_inline(described_class.new(build_form))
       end
 
       assert_selector("option[value='1']", text: "Minecraft")
@@ -53,7 +54,7 @@ class GameSelectComponentTest < ViewComponent::TestCase
 
     it "marks the selected value on the game option" do
       with_stubbed_query do
-        render_inline(GameSelectComponent.new(build_form, selected_value: 2))
+        render_inline(described_class.new(build_form, selected_value: 2))
       end
 
       assert_selector("option[value='2'][selected]")
@@ -62,7 +63,7 @@ class GameSelectComponentTest < ViewComponent::TestCase
 
     it "does not mark any option as selected when selected_value is nil" do
       with_stubbed_query do
-        render_inline(GameSelectComponent.new(build_form, selected_value: nil))
+        render_inline(described_class.new(build_form, selected_value: nil))
       end
 
       assert_no_selector("option[selected]")
@@ -70,7 +71,7 @@ class GameSelectComponentTest < ViewComponent::TestCase
 
     it "exposes default_value as a readable attribute" do
       with_stubbed_query do
-        component = GameSelectComponent.new(build_form, default_value: 1)
+        component = described_class.new(build_form, default_value: 1)
 
         assert_equal(1, component.default_value)
       end
@@ -80,7 +81,7 @@ class GameSelectComponentTest < ViewComponent::TestCase
   describe "#blank_option" do
     it "returns the default blank option pair" do
       with_stubbed_query do
-        component = GameSelectComponent.new(nil)
+        component = described_class.new(nil)
 
         assert_equal(["All", nil], component.blank_option)
       end
@@ -88,7 +89,7 @@ class GameSelectComponentTest < ViewComponent::TestCase
 
     it "returns a custom blank option pair" do
       with_stubbed_query do
-        component = GameSelectComponent.new(nil, blank_name: "All games")
+        component = described_class.new(nil, blank_name: "All games")
 
         assert_equal(["All games", nil], component.blank_option)
       end
@@ -100,7 +101,7 @@ class GameSelectComponentTest < ViewComponent::TestCase
       query_data = [["Minecraft", 1], ["Terraria", 3]]
 
       with_stubbed_query(query_data) do
-        component = GameSelectComponent.new(nil)
+        component = described_class.new(nil)
 
         assert_equal(query_data, component.options)
       end
@@ -113,7 +114,7 @@ class GameSelectComponentTest < ViewComponent::TestCase
       GameSelectOptionsQuery.stub(:new, ->(**) do
         query
       end) do
-        component = GameSelectComponent.new(nil)
+        component = described_class.new(nil)
         2.times { component.options }
 
         assert_equal(1, call_count)
@@ -129,7 +130,7 @@ class GameSelectComponentTest < ViewComponent::TestCase
         received_kwargs = kwargs
         -> { query_data }
       end) do
-        GameSelectComponent.new(nil, only_in_use: true)
+        described_class.new(nil, only_in_use: true)
       end
 
       assert(received_kwargs[:only_in_use])
@@ -142,7 +143,7 @@ class GameSelectComponentTest < ViewComponent::TestCase
         received_kwargs = kwargs
         -> { query_data }
       end) do
-        GameSelectComponent.new(nil)
+        described_class.new(nil)
       end
 
       assert_not(received_kwargs[:only_in_use])

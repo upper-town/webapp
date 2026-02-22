@@ -32,13 +32,13 @@ Generate a commit message that summarizes everything the current branch changed 
 
 ## Commit Message Format
 
-```
-<Title: one-line imperative summary, max ~72 chars>
+The message has two parts — a title line followed by a blank line and a bullet list:
 
-- <change 1>
-- <change 2>
-- ...
-```
+    <Title: one-line imperative summary, max ~72 chars>
+
+    - <change 1>
+    - <change 2>
+    - ...
 
 ### Rules
 
@@ -47,33 +47,31 @@ Generate a commit message that summarizes everything the current branch changed 
 - **Every line** (title and each bullet) must be at most 72 characters. Reword to stay within the limit rather than wrapping mid-sentence.
 - Keep the total message short — aim for 3–8 bullets. Group related changes into a single bullet when possible.
 - Do **not** list every file; describe *what* changed at a meaningful level of abstraction.
+- **Output as plain text** — do NOT wrap the commit message in markdown code fences or any other markup. Present it directly as plain text so it can be copied as-is.
 
 ## Examples
 
-**Example 1 — feature branch:**
-```
-Add hCaptcha verification to user sign-up
+Example 1 — feature branch:
 
-- Integrate hCaptcha client and server-side validation
-- Add ManageCaptcha controller concern
-- Show captcha widget on registration and password reset forms
-- Add tests for captcha verification flow
-```
+    Add hCaptcha verification to user sign-up
 
-**Example 2 — fix branch:**
-```
-Fix server vote count not resetting at period boundary
+    - Integrate hCaptcha client and server-side validation
+    - Add ManageCaptcha controller concern
+    - Show captcha widget on registration and password reset forms
+    - Add tests for captcha verification flow
 
-- Correct period boundary calculation in Periods module
-- Update vote consolidation query to respect time zones
-- Add regression test for midnight UTC edge case
-```
+Example 2 — fix branch:
 
-**Example 3 — chore/refactor branch:**
-```
-Refactor admin permission checks into policy objects
+    Fix server vote count not resetting at period boundary
 
-- Extract AdminAccessPolicy from controller before_actions
-- Add AdminPermission lookup caching
-- Update admin controller tests to use policy helpers
-```
+    - Correct period boundary calculation in Periods module
+    - Update vote consolidation query to respect time zones
+    - Add regression test for midnight UTC edge case
+
+Example 3 — chore/refactor branch:
+
+    Refactor admin permission checks into policy objects
+
+    - Extract AdminAccessPolicy from controller before_actions
+    - Add AdminPermission lookup caching
+    - Update admin controller tests to use policy helpers

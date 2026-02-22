@@ -3,6 +3,7 @@
 require "test_helper"
 
 class CountrySelectComponentTest < ViewComponent::TestCase
+  let(:described_class) { CountrySelectComponent }
   let(:query_data) { [["🇺🇸 United States", "US"], ["🇧🇷 Brazil", "BR"]] }
 
   def build_form
@@ -20,7 +21,7 @@ class CountrySelectComponentTest < ViewComponent::TestCase
   describe "rendering" do
     it "renders a select element for country_code" do
       with_stubbed_query do
-        render_inline(CountrySelectComponent.new(build_form))
+        render_inline(described_class.new(build_form))
       end
 
       assert_selector("select.form-select[name='filter[country_code]'][data-controller='country-select']")
@@ -28,7 +29,7 @@ class CountrySelectComponentTest < ViewComponent::TestCase
 
     it "renders the default blank option" do
       with_stubbed_query do
-        render_inline(CountrySelectComponent.new(build_form))
+        render_inline(described_class.new(build_form))
       end
 
       assert_selector("option[value='']", text: "All")
@@ -36,7 +37,7 @@ class CountrySelectComponentTest < ViewComponent::TestCase
 
     it "renders a custom blank option name" do
       with_stubbed_query do
-        render_inline(CountrySelectComponent.new(build_form, blank_name: "Any"))
+        render_inline(described_class.new(build_form, blank_name: "Any"))
       end
 
       assert_selector("option[value='']", text: "Any")
@@ -44,7 +45,7 @@ class CountrySelectComponentTest < ViewComponent::TestCase
 
     it "renders country options from the query" do
       with_stubbed_query do
-        render_inline(CountrySelectComponent.new(build_form))
+        render_inline(described_class.new(build_form))
       end
 
       assert_selector("option[value='US']", exact_text: "🇺🇸 United States")
@@ -53,7 +54,7 @@ class CountrySelectComponentTest < ViewComponent::TestCase
 
     it "marks the selected value on the country option" do
       with_stubbed_query do
-        render_inline(CountrySelectComponent.new(build_form, selected_value: "BR"))
+        render_inline(described_class.new(build_form, selected_value: "BR"))
       end
 
       assert_selector("option[value='BR'][selected]")
@@ -62,7 +63,7 @@ class CountrySelectComponentTest < ViewComponent::TestCase
 
     it "does not mark any option as selected when selected_value is nil" do
       with_stubbed_query do
-        render_inline(CountrySelectComponent.new(build_form, selected_value: nil))
+        render_inline(described_class.new(build_form, selected_value: nil))
       end
 
       assert_no_selector("option[selected]")
@@ -72,7 +73,7 @@ class CountrySelectComponentTest < ViewComponent::TestCase
   describe "#blank_option" do
     it "returns the default blank option pair" do
       with_stubbed_query do
-        component = CountrySelectComponent.new(nil)
+        component = described_class.new(nil)
 
         assert_equal(["All", nil], component.blank_option)
       end
@@ -80,7 +81,7 @@ class CountrySelectComponentTest < ViewComponent::TestCase
 
     it "returns a custom blank option pair" do
       with_stubbed_query do
-        component = CountrySelectComponent.new(nil, blank_name: "All countries")
+        component = described_class.new(nil, blank_name: "All countries")
 
         assert_equal(["All countries", nil], component.blank_option)
       end
@@ -92,7 +93,7 @@ class CountrySelectComponentTest < ViewComponent::TestCase
       query_data = [["🇺🇸 United States", "US"], ["🇨🇦 Canada", "CA"]]
 
       with_stubbed_query(query_data) do
-        component = CountrySelectComponent.new(nil)
+        component = described_class.new(nil)
 
         assert_equal(query_data, component.options)
       end
@@ -105,7 +106,7 @@ class CountrySelectComponentTest < ViewComponent::TestCase
       CountrySelectOptionsQuery.stub(:new, ->(**) do
         query
       end) do
-        component = CountrySelectComponent.new(nil)
+        component = described_class.new(nil)
         2.times { component.options }
 
         assert_equal(1, call_count)
@@ -121,7 +122,7 @@ class CountrySelectComponentTest < ViewComponent::TestCase
         received_kwargs = kwargs
         -> { query_data }
       end) do
-        CountrySelectComponent.new(nil, only_in_use: true, with_continents: true)
+        described_class.new(nil, only_in_use: true, with_continents: true)
       end
 
       assert(received_kwargs[:only_in_use])
@@ -135,7 +136,7 @@ class CountrySelectComponentTest < ViewComponent::TestCase
         received_kwargs = kwargs
         -> { query_data }
       end) do
-        CountrySelectComponent.new(nil)
+        described_class.new(nil)
       end
 
       assert_not(received_kwargs[:only_in_use])

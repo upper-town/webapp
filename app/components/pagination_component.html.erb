@@ -15,7 +15,7 @@
         <% end %>
 
         <% if show_last? %>
-          <% if last_page? %>
+          <% if pagination.last_page? %>
             <li class="page-item disabled">
               <span class="page-link"><%= last_icon %></span>
             </li>

@@ -3,37 +3,39 @@
 require "test_helper"
 
 class FlashItemComponentTest < ViewComponent::TestCase
+  let(:described_class) { FlashItemComponent }
+
   describe "render?" do
     it "does not render when content is blank or nil" do
-      render_inline(FlashItemComponent.new(["notice", ""]))
+      render_inline(described_class.new(["notice", ""]))
       assert_no_selector("div")
 
-      render_inline(FlashItemComponent.new(["notice", nil]))
+      render_inline(described_class.new(["notice", nil]))
       assert_no_selector("div")
     end
   end
 
   describe "key mapping" do
     it "maps :alert to :warning variant" do
-      render_inline(FlashItemComponent.new(["alert", "Watch out"]))
+      render_inline(described_class.new(["alert", "Watch out"]))
 
       assert_selector("div.alert.alert-warning", text: "Watch out.")
     end
 
     it "maps :notice to :success variant" do
-      render_inline(FlashItemComponent.new(["notice", "All good"]))
+      render_inline(described_class.new(["notice", "All good"]))
 
       assert_selector("div.alert.alert-success", text: "All good.")
     end
 
     it "passes through other keys as-is" do
-      render_inline(FlashItemComponent.new(["danger", "Error occurred"]))
+      render_inline(described_class.new(["danger", "Error occurred"]))
 
       assert_selector("div.alert.alert-danger", text: "Error occurred.")
     end
 
     it "converts string keys to symbols" do
-      component = FlashItemComponent.new(["notice", "Done"])
+      component = described_class.new(["notice", "Done"])
 
       assert_equal(:success, component.key)
     end
@@ -41,14 +43,14 @@ class FlashItemComponentTest < ViewComponent::TestCase
 
   describe "string value" do
     it "renders a single string message" do
-      render_inline(FlashItemComponent.new(["notice", "Saved successfully"]))
+      render_inline(described_class.new(["notice", "Saved successfully"]))
 
       assert_selector("div.alert.alert-success", text: "Saved successfully.")
       assert_no_selector("ul")
     end
 
     it "renders with dismissible alert by default" do
-      render_inline(FlashItemComponent.new(["notice", "Hello"]))
+      render_inline(described_class.new(["notice", "Hello"]))
 
       assert_selector("div.alert.alert-dismissible")
       assert_selector("button.btn-close")
@@ -57,7 +59,7 @@ class FlashItemComponentTest < ViewComponent::TestCase
 
   describe "array value" do
     it "renders multiple messages as a list" do
-      render_inline(FlashItemComponent.new(["danger", ["First error", "Second error"]]))
+      render_inline(described_class.new(["danger", ["First error", "Second error"]]))
 
       assert_selector("ul li", count: 2)
       assert_selector("ul li", text: "First error.")
@@ -65,7 +67,7 @@ class FlashItemComponentTest < ViewComponent::TestCase
     end
 
     it "renders a single-element array without a list" do
-      render_inline(FlashItemComponent.new(["notice", ["Only one"]]))
+      render_inline(described_class.new(["notice", ["Only one"]]))
 
       assert_no_selector("ul")
       assert_selector("div.alert", text: "Only one.")
@@ -74,13 +76,13 @@ class FlashItemComponentTest < ViewComponent::TestCase
 
   describe "hash value" do
     it "renders content from hash" do
-      render_inline(FlashItemComponent.new(["warning", { content: "Heads up" }]))
+      render_inline(described_class.new(["warning", { content: "Heads up" }]))
 
       assert_selector("div.alert.alert-warning", text: "Heads up.")
     end
 
     it "renders multiple content items as a list" do
-      render_inline(FlashItemComponent.new(["danger", { content: ["Error one", "Error two"] }]))
+      render_inline(described_class.new(["danger", { content: ["Error one", "Error two"] }]))
 
       assert_selector("ul li", count: 2)
       assert_selector("ul li", text: "Error one.")
@@ -88,7 +90,7 @@ class FlashItemComponentTest < ViewComponent::TestCase
     end
 
     it "passes dismissible option to alert" do
-      render_inline(FlashItemComponent.new(["notice", { content: "Persistent", dismissible: false }]))
+      render_inline(described_class.new(["notice", { content: "Persistent", dismissible: false }]))
 
       assert_selector("div.alert.alert-success", text: "Persistent.")
       assert_no_selector("div.alert-dismissible")
@@ -96,19 +98,19 @@ class FlashItemComponentTest < ViewComponent::TestCase
     end
 
     it "does not render when hash content is blank" do
-      render_inline(FlashItemComponent.new(["notice", { content: "" }]))
+      render_inline(described_class.new(["notice", { content: "" }]))
 
       assert_no_selector("div")
     end
 
     it "supports html_safe option" do
-      render_inline(FlashItemComponent.new(["notice", { content: "<strong>Bold</strong>", html_safe: true }]))
+      render_inline(described_class.new(["notice", { content: "<strong>Bold</strong>", html_safe: true }]))
 
       assert_selector("div.alert strong", text: "Bold")
     end
 
     it "escapes HTML when html_safe is not set" do
-      render_inline(FlashItemComponent.new(["notice", { content: "<strong>Bold</strong>" }]))
+      render_inline(described_class.new(["notice", { content: "<strong>Bold</strong>" }]))
 
       assert_no_selector("strong")
       assert_text("<strong>Bold</strong>.")
@@ -120,7 +122,7 @@ class FlashItemComponentTest < ViewComponent::TestCase
       model = User.new
       model.errors.add(:email, :blank)
 
-      render_inline(FlashItemComponent.new(["danger", model.errors]))
+      render_inline(described_class.new(["danger", model.errors]))
 
       assert_selector("div.alert.alert-danger")
       assert_text(/email/i)

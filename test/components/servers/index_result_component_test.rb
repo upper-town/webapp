@@ -3,8 +3,10 @@
 require "test_helper"
 
 class Servers::IndexResultComponentTest < ViewComponent::TestCase
+  let(:described_class) { Servers::IndexResultComponent }
+
   def build_component(server: create_server, server_stats_hash: {}, period: Periods::MONTH)
-    Servers::IndexResultComponent.new(server:, server_stats_hash:, period:)
+    described_class.new(server:, server_stats_hash:, period:)
   end
 
   def build_stats_hash(year: {}, month: {}, week: {})
