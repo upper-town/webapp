@@ -27,7 +27,25 @@ class ImageUploadedFile < ApplicationModel
     Digest::SHA256.hexdigest(blob) if blob
   end
 
+  def filename
+    return unless uploaded_file.present?
+
+    name = uploaded_file.respond_to?(:original_filename) ? uploaded_file.original_filename : nil
+    name.presence || default_filename
+  end
+
   private
+
+  # rubocop:disable Lint/DuplicateBranch
+  def default_filename
+    case content_type
+    when "image/png" then "image.png"
+    when "image/jpeg" then "image.jpg"
+    else
+      "image.png"
+    end
+  end
+  # rubocop:enable Lint/DuplicateBranch
 
   def validate_byte_size
     if uploaded_file && uploaded_file.size > MAX_BYTE_SIZE

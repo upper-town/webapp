@@ -29,8 +29,10 @@ module Servers
         server.save!
 
         if server_banner_image.present?
+          io = server_banner_image.uploaded_file
+          io.rewind if io.respond_to?(:rewind)
           server.banner_image.attach(
-            io: server_banner_image.uploaded_file,
+            io:,
             filename: server_banner_image.filename
           )
           server.unapprove_banner_image!
