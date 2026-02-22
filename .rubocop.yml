@@ -55,6 +55,7 @@ Layout/LineLength:
   Exclude:
     - test/**/*_test.rb
     - test/**/*_test_factory.rb
+    - test/**/*_test_setup.rb
   Max: 110
 Layout/MultilineMethodCallBraceLayout:
   Enabled: false

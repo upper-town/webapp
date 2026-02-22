@@ -3,13 +3,15 @@
 ENV["APP_ENV"] ||= "test"
 ENV["RAILS_ENV"] ||= "test"
 
-require_relative "../config/environment"
+require_relative "../lib/app_util"
 
 if AppUtil.env_var_enabled?("COVERAGE")
   require "simplecov"
   require "simplecov-lcov"
   require_relative "../config/coverage"
 end
+
+require_relative "../config/environment"
 
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
@@ -55,5 +57,11 @@ module ActiveSupport
     include RequestTestHelper
 
     include Rails.application.routes.url_helpers
+  end
+end
+
+module ActionDispatch
+  class IntegrationTest
+    include RequestTestSetup
   end
 end

@@ -47,7 +47,7 @@ The message has two parts — a title line followed by a blank line and a bullet
 - **Every line** (title and each bullet) must be at most 72 characters. Reword to stay within the limit rather than wrapping mid-sentence.
 - Keep the total message short — aim for 3–8 bullets. Group related changes into a single bullet when possible.
 - Do **not** list every file; describe *what* changed at a meaningful level of abstraction.
-- **Output as plain text** — do NOT wrap the commit message in markdown code fences or any other markup. Present it directly as plain text so it can be copied as-is.
+- **Output in a markdown code block** — wrap the commit message in triple backticks (```) so the user can click the copy button in the IDE to copy it in one action.
 
 ## Examples
 

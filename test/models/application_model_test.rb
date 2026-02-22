@@ -52,6 +52,19 @@ class ApplicationModelTest < ActiveSupport::TestCase
     )
   end
 
+  it "supports as_json for serialization" do
+    model_class = Class.new(described_class) do
+      attribute :name, :string, default: ""
+      attribute :count, :integer, default: 0
+    end
+    instance = model_class.new(name: "Test", count: 42)
+
+    assert_equal(
+      { "name" => "Test", "count" => 42 },
+      instance.as_json
+    )
+  end
+
   it "has access to NumberHelper methods" do
     model_class = Class.new(described_class) do
       attribute :amount, :float, default: 0.00
@@ -79,6 +92,20 @@ class ApplicationModelTest < ActiveSupport::TestCase
     )
   end
 
+  it "equals by id" do
+    model_class = Class.new(described_class) do
+      attribute :id, :integer, default: nil
+      attribute :name, :string, default: ""
+    end
+    instance = model_class.new(id: 111, name: "John")
+
+    other_instance = model_class.new(id: 111, name: "Jane")
+    assert(instance == other_instance)
+
+    other_instance.id = 222
+    assert_not(instance == other_instance)
+  end
+
   it "equals by attributes" do
     model_class = Class.new(described_class) do
       attribute :name, :string, default: ""
@@ -91,20 +118,6 @@ class ApplicationModelTest < ActiveSupport::TestCase
     assert(instance == other_instance)
 
     other_instance.name = "Jane"
-    assert_not(instance == other_instance)
-  end
-
-  it "equals by id" do
-    model_class = Class.new(described_class) do
-      attribute :id, :integer, default: nil
-      attribute :name, :string, default: ""
-    end
-    instance = model_class.new(id: 111, name: "John")
-
-    other_instance = model_class.new(id: 111, name: "Jane")
-    assert(instance == other_instance)
-
-    other_instance.id = 222
     assert_not(instance == other_instance)
   end
 
@@ -122,5 +135,64 @@ class ApplicationModelTest < ActiveSupport::TestCase
     other_instance = other_model_class.new(id: 111, name: "John")
 
     assert_not(instance == other_instance)
+  end
+
+  it "equals self (identity)" do
+    model_class = Class.new(described_class) do
+      attribute :name, :string, default: ""
+    end
+    instance = model_class.new(name: "John")
+    same = instance
+
+    assert(instance == same)
+  end
+
+  it "does not equal nil" do
+    model_class = Class.new(described_class) do
+      attribute :name, :string, default: ""
+    end
+    instance = model_class.new(name: "John")
+
+    assert_not_equal(instance, nil)
+  end
+
+  it "does not equal object of different class" do
+    model_class = Class.new(described_class) do
+      attribute :name, :string, default: ""
+    end
+    instance = model_class.new(name: "John")
+
+    assert_not(instance == "John")
+    assert_not(instance == { name: "John" })
+  end
+
+  it "does not equal by id when one has nil id" do
+    model_class = Class.new(described_class) do
+      attribute :id, :integer, default: nil
+      attribute :name, :string, default: ""
+    end
+    instance_with_id = model_class.new(id: 111, name: "John")
+    instance_without_id = model_class.new(id: nil, name: "John")
+
+    assert_not(instance_with_id == instance_without_id)
+    assert_not(instance_without_id == instance_with_id)
+  end
+
+  it "supports validations via ActiveModel::Model" do
+    model_class = Class.new(described_class) do
+      attribute :email, :string, default: ""
+      validates :email, presence: true
+
+      def self.model_name
+        ActiveModel::Name.new(self, nil, "TestForm")
+      end
+    end
+
+    instance = model_class.new(email: "user@example.com")
+    assert(instance.valid?)
+
+    instance = model_class.new(email: "")
+    assert_not(instance.valid?)
+    assert(instance.errors.of_kind?(:email, :blank))
   end
 end
