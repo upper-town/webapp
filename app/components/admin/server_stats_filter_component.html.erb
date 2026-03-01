@@ -1,0 +1,17 @@
+<%= render(Admin::FilterComponent.new(
+  form: form,
+  has_active_filters: has_active_filters?,
+  params_to_remove: FILTER_PARAMS,
+  request: @request
+)) do %>
+  <%= form.select(
+    :period,
+    options_for_select(period_options, selected_value_period),
+    {},
+    {
+      id: "admin_server_stats_filter_period",
+      class: select_class,
+      "aria-label": t("admin.server_stats.index.filter.period")
+    }
+  ) %>
+<% end %>

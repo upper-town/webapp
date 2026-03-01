@@ -1,7 +1,11 @@
 <div class="btn-group btn-group-sm">
-  <%= link_to(t("admin.shared.view"), view_path, class: "btn btn-outline-primary", **link_options) %>
+  <%= link_to(view_path, class: "btn btn-outline-primary", **link_options) do %>
+    <i class="bi bi-eye me-1" aria-hidden="true"></i><%= t("admin.shared.view") %>
+  <% end %>
   <% if edit? %>
-    <%= link_to(t("admin.shared.edit"), edit_path, class: "btn btn-outline-secondary", **link_options) %>
+    <%= link_to(edit_path, class: "btn btn-outline-secondary", **link_options) do %>
+      <i class="bi bi-pencil me-1" aria-hidden="true"></i><%= t("admin.shared.edit") %>
+    <% end %>
   <% end %>
   <% extra_actions.each do |action| %>
     <% options = action.except(:path, :label) %>

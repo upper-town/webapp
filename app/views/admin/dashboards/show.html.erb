@@ -4,7 +4,7 @@
 
 <div class="row g-3 mb-4">
   <div class="col-md-6 col-lg-3">
-    <%= link_to admin_users_path, class: "card text-decoration-none text-dark h-100" do %>
+    <%= link_to admin_users_path, class: "card text-decoration-none text-dark h-100 border-0 shadow-sm admin-dashboard-card" do %>
       <div class="card-body">
         <h5 class="card-title text-body-secondary small text-uppercase mb-2"><%= t("admin.dashboard.users") %></h5>
         <p class="card-text mb-0 fs-3 fw-semibold"><%= @stats[:users_count] %></p>
@@ -16,7 +16,7 @@
   </div>
 
   <div class="col-md-6 col-lg-3">
-    <%= link_to admin_admin_users_path, class: "card text-decoration-none text-dark h-100" do %>
+    <%= link_to admin_admin_users_path, class: "card text-decoration-none text-dark h-100 border-0 shadow-sm admin-dashboard-card" do %>
       <div class="card-body">
         <h5 class="card-title text-body-secondary small text-uppercase mb-2"><%= t("admin.dashboard.admin_users") %></h5>
         <p class="card-text mb-0 fs-3 fw-semibold"><%= @stats[:admin_users_count] %></p>
@@ -28,7 +28,7 @@
   </div>
 
   <div class="col-md-6 col-lg-3">
-    <%= link_to admin_accounts_path, class: "card text-decoration-none text-dark h-100" do %>
+    <%= link_to admin_accounts_path, class: "card text-decoration-none text-dark h-100 border-0 shadow-sm admin-dashboard-card" do %>
       <div class="card-body">
         <h5 class="card-title text-body-secondary small text-uppercase mb-2"><%= t("admin.dashboard.accounts") %></h5>
         <p class="card-text mb-0 fs-3 fw-semibold"><%= @stats[:accounts_count] %></p>
@@ -37,7 +37,7 @@
   </div>
 
   <div class="col-md-6 col-lg-3">
-    <%= link_to admin_admin_accounts_path, class: "card text-decoration-none text-dark h-100" do %>
+    <%= link_to admin_admin_accounts_path, class: "card text-decoration-none text-dark h-100 border-0 shadow-sm admin-dashboard-card" do %>
       <div class="card-body">
         <h5 class="card-title text-body-secondary small text-uppercase mb-2"><%= t("admin.dashboard.admin_accounts") %></h5>
         <p class="card-text mb-0 fs-3 fw-semibold"><%= @stats[:admin_accounts_count] %></p>
@@ -46,7 +46,7 @@
   </div>
 
   <div class="col-md-6 col-lg-3">
-    <%= link_to admin_games_path, class: "card text-decoration-none text-dark h-100" do %>
+    <%= link_to admin_games_path, class: "card text-decoration-none text-dark h-100 border-0 shadow-sm admin-dashboard-card" do %>
       <div class="card-body">
         <h5 class="card-title text-body-secondary small text-uppercase mb-2"><%= t("admin.dashboard.games") %></h5>
         <p class="card-text mb-0 fs-3 fw-semibold"><%= @stats[:games_count] %></p>
@@ -55,7 +55,7 @@
   </div>
 
   <div class="col-md-6 col-lg-3">
-    <%= link_to admin_feature_flags_path, class: "card text-decoration-none text-dark h-100" do %>
+    <%= link_to admin_feature_flags_path, class: "card text-decoration-none text-dark h-100 border-0 shadow-sm admin-dashboard-card" do %>
       <div class="card-body">
         <h5 class="card-title text-body-secondary small text-uppercase mb-2"><%= t("admin.dashboard.feature_flags") %></h5>
         <p class="card-text mb-0 fs-3 fw-semibold"><%= @stats[:feature_flags_count] %></p>
@@ -64,7 +64,7 @@
   </div>
 
   <div class="col-md-6 col-lg-3">
-    <%= link_to admin_webhook_configs_path, class: "card text-decoration-none text-dark h-100" do %>
+    <%= link_to admin_webhook_configs_path, class: "card text-decoration-none text-dark h-100 border-0 shadow-sm admin-dashboard-card" do %>
       <div class="card-body">
         <h5 class="card-title text-body-secondary small text-uppercase mb-2"><%= t("admin.dashboard.webhook_configs") %></h5>
         <p class="card-text mb-0 fs-3 fw-semibold"><%= @stats[:webhook_configs_count] %></p>
@@ -74,7 +74,7 @@
   </div>
 
   <div class="col-md-6 col-lg-3">
-    <%= link_to admin_servers_path, class: "card text-decoration-none text-dark h-100" do %>
+    <%= link_to admin_servers_path, class: "card text-decoration-none text-dark h-100 border-0 shadow-sm admin-dashboard-card" do %>
       <div class="card-body">
         <h5 class="card-title text-body-secondary small text-uppercase mb-2"><%= t("admin.dashboard.servers") %></h5>
         <p class="card-text mb-0 fs-3 fw-semibold"><%= @stats[:servers_count] %></p>
@@ -93,11 +93,11 @@
 
   <% if admin_jobs_access? %>
     <div class="col-md-6 col-lg-3">
-      <%= link_to admin_mission_control_jobs_path, class: "card text-decoration-none text-dark h-100" do %>
+      <%= link_to admin_mission_control_jobs_path, class: "card text-decoration-none text-dark h-100 border-0 shadow-sm admin-dashboard-card" do %>
         <div class="card-body">
           <h5 class="card-title text-body-secondary small text-uppercase mb-2"><%= t("admin.dashboard.jobs") %></h5>
-        <p class="card-text mb-0 fs-3 fw-semibold"><%= t("admin.dashboard.jobs_solidqueue") %></p>
-        <p class="card-text text-body-secondary small mb-0 mt-1"><%= t("admin.dashboard.jobs_view_queue") %></p>
+          <p class="card-text mb-0 fs-3 fw-semibold"><%= t("admin.dashboard.jobs_solidqueue") %></p>
+          <p class="card-text text-body-secondary small mb-0 mt-1"><%= t("admin.dashboard.jobs_view_queue") %></p>
         </div>
       <% end %>
     </div>

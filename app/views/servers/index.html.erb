@@ -16,7 +16,24 @@
 <% end %>
 
 <% if @servers.empty? %>
-  No results
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-8 col-xl-7">
+      <div class="card border-0 shadow-sm bg-body-secondary bg-opacity-25">
+        <div class="card-body text-center py-5">
+          <i class="bi bi-hdd-stack display-4 text-body-secondary mb-3"></i>
+          <h5 class="card-title"><%= t("servers.index.empty_title") %></h5>
+          <p class="card-text text-body-secondary mb-3">
+            <%= t("servers.index.empty_message") %>
+            <%= t("servers.index.empty_help") %>
+          </p>
+          <%= link_to servers_path, class: "btn btn-outline-secondary" do %>
+            <i class="bi bi-funnel me-1"></i>
+            <%= t("servers.index.filter.clear") %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
 <% else %>
   <div class="row justify-content-center">
     <div class="col-12 col-lg-8 col-xl-7">

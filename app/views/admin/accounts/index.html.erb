@@ -1,5 +1,8 @@
 <h1 class="mb-4"><%= t("admin.accounts.index.title") %></h1>
 
+<% request_helper = RequestHelper.new(request) %>
+<% sort_url_builder = ->(key, dir) { request_helper.url_with_query({ sort: key, sort_dir: dir, page: 1 }, []) } %>
+
 <div class="admin-pagination-search-row mb-3">
   <div class="admin-pagination-search-row__pagination">
     <%= render(PaginationComponent.new(@pagination, align: :start)) %>
@@ -7,7 +10,8 @@
   <%= render(Admin::SearchFormComponent.new(
     url: admin_accounts_path,
     search_term: @search_term,
-    placeholder: t("admin.accounts.index.search_placeholder")
+    placeholder: t("admin.accounts.index.search_placeholder"),
+    hidden_params: params.permit(:sort, :sort_dir).to_h.compact
   )) %>
 </div>
 
@@ -15,12 +19,15 @@
   render(Admin::TableComponent.new(
     collection: @accounts,
     empty_message: t("admin.accounts.index.empty_message"),
+    sort_column: @sort_column,
+    sort_direction: @sort_direction,
+    sort_url_builder: sort_url_builder,
     columns: [
-      [t("admin.shared.id"), -> { link_to(it.id, admin_account_path(it), class: "fw-medium") }, { copyable: :id }],
+      [t("admin.shared.id"), -> { link_to(it.id, admin_account_path(it), class: "fw-medium") }, { copyable: :id, sortable: "id" }],
       [
         t("admin.accounts.columns.uuid"),
         -> { content_tag(:code, truncate(it.uuid, length: 12), class: "small", title: it.uuid) },
-        { copyable: :uuid },
+        { copyable: :uuid, sortable: "uuid" },
       ],
       [
         t("admin.accounts.columns.user"),
@@ -28,7 +35,7 @@
         { copyable: ->(it) { it.user&.email } },
       ],
       [t("admin.accounts.columns.verified_servers"), -> { it.verified_servers.count }],
-      [t("admin.shared.created"), -> { l(it.created_at) }, { copyable: ->(it) { l(it.created_at) } }],
+      [t("admin.shared.created"), -> { l(it.created_at) }, { copyable: ->(it) { l(it.created_at) }, sortable: "created_at" }],
       [t("admin.shared.actions"), -> { render(Admin::IndexActionsComponent.new(view_path: admin_account_path(it))) }],
     ],
   ))

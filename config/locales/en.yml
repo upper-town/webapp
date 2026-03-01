@@ -358,6 +358,7 @@ en:
         back_to: "Back to Admin Roles"
         permissions: "Permissions"
         admin_accounts_with_role: "Admin Accounts with this role"
+        admin_accounts_empty: "No Admin Accounts with this role."
       edit:
         title: "Edit role: %{key}"
         back_to: "Back to role"
@@ -413,6 +414,17 @@ en:
         title: "Servers"
         search_placeholder: "Search by ID, name, game…"
         empty_message: "No servers found."
+        filter:
+          title: "Filter servers"
+          status: "Status"
+          all_statuses: "All statuses"
+          verified: "Verified"
+          not_verified: "Not verified"
+          archived: "Archived"
+          not_archived: "Not archived"
+          marked_for_deletion: "Marked for deletion"
+          all_countries: "All countries"
+          clear: "Clear filters"
       show:
         back_to: "Back to servers"
         verified_accounts: "Verified accounts"
@@ -456,6 +468,10 @@ en:
         for_game: "for %{name}"
         all_server_stats: "All Server Stats"
         empty_message: "No Server Stats found."
+        filter:
+          title: "Filter server stats"
+          period: "Period"
+          all_periods: "All periods"
       show:
         title: "Server Stat #%{id}"
         back_to: "Back to Server Stats"
@@ -629,6 +645,7 @@ en:
       before: "Before"
       asc: "Asc"
       desc: "Desc"
+      sort_by: "Sort by %{column}"
     messages:
       please_try_again_later_too_many_requests: "Please try again later. Too many requests."
       too_many_votes_for_game: "You have already voted for this game! You can vote once every %{time} per game."
@@ -1032,6 +1049,18 @@ en:
       max_verified_servers_per_account: "You already have too many verified servers associated with your account."
       max_not_verified_servers_per_account: "You have many servers pending verification. Please verify them first before adding more servers."
 
+    server_votes:
+      index:
+        title: "My Server Votes"
+        back_to_dashboard: "Back to dashboard"
+        empty_title: "No votes yet"
+        empty_message: "You haven't voted for any servers."
+        empty_help: "Browse servers and cast your vote to support your favorites."
+        view_vote: "View vote"
+        view_server: "View server"
+        browse_servers: "Browse servers"
+        recorded_at: "Recorded at"
+
     webhook_configs:
       index:
         title: "Webhooks for %{name}"
@@ -1133,6 +1162,9 @@ en:
         clear: "Clear filters"
         all_games: "All games"
         all_countries: "All countries"
+      empty_title: "No servers found"
+      empty_message: "No servers match your current filters. Try adjusting the game, period, or country."
+      empty_help: "You can also add your own server to the rankings."
       world_ranking: "World Ranking"
       vote_count: "Vote Count"
       year: "Year"

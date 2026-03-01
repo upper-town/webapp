@@ -2,7 +2,16 @@ module Admin
   class ServersController < BaseController
     def index
       @search_term = params[:q]
-      relation = Admin::ServersQuery.call
+      @filter_status = params[:status]
+      @filter_country_code = params[:country_code]
+      @sort_column = params[:sort].presence
+      @sort_direction = params[:sort_dir].presence
+      relation = Admin::ServersQuery.call(
+        status: @filter_status,
+        country_code: @filter_country_code,
+        sort: @sort_column,
+        sort_dir: @sort_direction
+      )
       @pagination = Pagination.new(
         Admin::Queries::ServersQuery.call(Server, relation, @search_term),
         request,

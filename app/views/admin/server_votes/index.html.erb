@@ -14,6 +14,9 @@
   <% end %>
 </div>
 
+<% request_helper = RequestHelper.new(request) %>
+<% sort_url_builder = ->(key, dir) { request_helper.url_with_query({ sort: key, sort_dir: dir, page: 1 }, []) } %>
+
 <div class="admin-pagination-search-row mb-3">
   <div class="admin-pagination-search-row__pagination">
     <%= render(PaginationComponent.new(@pagination, align: :start)) %>
@@ -22,7 +25,7 @@
     url: admin_server_votes_path,
     search_term: @search_term,
     placeholder: t("admin.server_votes.index.search_placeholder"),
-    hidden_params: params.permit(:server_id, :game_id, :account_id).to_h
+    hidden_params: params.permit(:server_id, :game_id, :account_id, :sort, :sort_dir).to_h.compact
   )) %>
 </div>
 
@@ -30,8 +33,11 @@
   render(Admin::TableComponent.new(
     collection: @server_votes,
     empty_message: t("admin.server_votes.index.empty_message"),
+    sort_column: @sort_column,
+    sort_direction: @sort_direction,
+    sort_url_builder: sort_url_builder,
     columns: [
-      [t("admin.shared.id"), -> { link_to(it.id, admin_server_vote_path(it), class: "fw-medium") }, { copyable: :id }],
+      [t("admin.shared.id"), -> { link_to(it.id, admin_server_vote_path(it), class: "fw-medium") }, { copyable: :id, sortable: "id" }],
       [
         ServerVote.human_attribute_name(:server),
         -> { link_to(it.server.name, admin_server_path(it.server)) },
@@ -61,9 +67,9 @@
       [
         ServerVote.human_attribute_name(:remote_ip),
         -> { content_tag(:code, it.remote_ip, class: "small") },
-        { copyable: :remote_ip },
+        { copyable: :remote_ip, sortable: "remote_ip" },
       ],
-      [t("admin.shared.created"), -> { l(it.created_at) }, { copyable: ->(it) { l(it.created_at) } }],
+      [t("admin.shared.created"), -> { l(it.created_at) }, { copyable: ->(it) { l(it.created_at) }, sortable: "created_at" }],
       [t("admin.shared.actions"), -> { render(Admin::IndexActionsComponent.new(view_path: admin_server_vote_path(it))) }],
     ],
   ))

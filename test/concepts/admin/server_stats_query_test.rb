@@ -39,5 +39,26 @@ class Admin::ServerStatsQueryTest < ActiveSupport::TestCase
       assert_includes(result, ss1)
       assert_includes(result, ss3)
     end
+
+    it "filters by period when provided" do
+      ss_month = create_server_stat(period: "month")
+      create_server_stat(period: "year")
+      ss_week = create_server_stat(period: "week")
+
+      result = described_class.call(period: "month")
+
+      assert_equal(1, result.size)
+      assert_includes(result, ss_month)
+    end
+
+    it "sorts by sort and sort_dir when provided" do
+      ss1 = create_server_stat(vote_count: 10)
+      ss2 = create_server_stat(vote_count: 30)
+      ss3 = create_server_stat(vote_count: 20)
+
+      result = described_class.call(sort: "vote_count", sort_dir: "asc")
+
+      assert_equal([ss1, ss3, ss2], result.to_a)
+    end
   end
 end

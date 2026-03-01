@@ -58,5 +58,15 @@ class Admin::GamesRequestTest < ActionDispatch::IntegrationTest
 
       assert_response(:success)
     end
+
+    it "responds with success with filter params and preserves them with search" do
+      sign_in_as_admin
+      game = create_game
+      create_server(game: game, verified_at: Time.current, country_code: "US")
+
+      get(servers_admin_game_path(game), params: { status: "verified", country_code: "US", q: "test" })
+
+      assert_response(:success)
+    end
   end
 end

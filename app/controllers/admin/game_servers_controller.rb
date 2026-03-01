@@ -3,7 +3,17 @@ module Admin
     def index
       @game = game_from_params
       @search_term = params[:q]
-      relation = @game.servers.includes(:game).order(id: :desc)
+      @filter_status = params[:status]
+      @filter_country_code = params[:country_code]
+      @sort_column = params[:sort].presence
+      @sort_direction = params[:sort_dir].presence
+      relation = Admin::ServersQuery.call(
+        status: @filter_status,
+        country_code: @filter_country_code,
+        relation: @game.servers,
+        sort: @sort_column,
+        sort_dir: @sort_direction
+      )
       @pagination = Pagination.new(
         Admin::Queries::ServersQuery.call(Server, relation, @search_term),
         request,

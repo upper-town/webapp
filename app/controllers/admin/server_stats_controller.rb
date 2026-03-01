@@ -2,10 +2,16 @@ module Admin
   class ServerStatsController < BaseController
     def index
       @search_term = params[:q]
-      relation = Admin::ServerStatsQuery.new(
+      @filter_period = params[:period]
+      @sort_column = params[:sort].presence
+      @sort_direction = params[:sort_dir].presence
+      relation = Admin::ServerStatsQuery.call(
         server_id: params[:server_id],
-        game_id: params[:game_id]
-      ).call
+        game_id: params[:game_id],
+        period: @filter_period,
+        sort: @sort_column,
+        sort_dir: @sort_direction
+      )
       @pagination = Pagination.new(
         Admin::Queries::ServerStatsQuery.call(ServerStat, relation, @search_term),
         request,

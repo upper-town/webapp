@@ -2,7 +2,9 @@ module Admin
   class UsersController < BaseController
     def index
       @search_term = params[:q]
-      relation = Admin::UsersQuery.new.call
+      @sort_column = params[:sort].presence
+      @sort_direction = params[:sort_dir].presence
+      relation = Admin::UsersQuery.call(sort: @sort_column, sort_dir: @sort_direction)
       @pagination = Pagination.new(
         Admin::Queries::UsersQuery.call(User, relation, @search_term),
         request,

@@ -1,13 +1,34 @@
 <h1 class="mb-4"><%= t("admin.servers.index.title") %></h1>
 
+<% request_helper = RequestHelper.new(request) %>
+<% sort_url_builder = ->(key, dir) { request_helper.url_with_query({ sort: key, sort_dir: dir, page: 1 }, []) } %>
+
 <div class="admin-pagination-search-row mb-3">
   <div class="admin-pagination-search-row__pagination">
     <%= render(PaginationComponent.new(@pagination, align: :start)) %>
   </div>
+  <%= form_with(
+    method: :get,
+    url: admin_servers_path,
+    class: "d-flex align-items-center gap-2 flex-wrap admin-servers-filter-inline",
+    html: { "aria-label": t("admin.servers.index.filter.title") },
+    data: {
+      controller: "admin-filter",
+      action: "change->admin-filter#filter"
+    }
+  ) do |form| %>
+    <%= render(Admin::ServersFilterComponent.new(
+      form: form,
+      selected_value_status: @filter_status,
+      selected_value_country_code: @filter_country_code,
+      request: request
+    )) %>
+  <% end %>
   <%= render(Admin::SearchFormComponent.new(
     url: admin_servers_path,
     search_term: @search_term,
-    placeholder: t("admin.servers.index.search_placeholder")
+    placeholder: t("admin.servers.index.search_placeholder"),
+    hidden_params: params.permit(:status, :country_code, :sort, :sort_dir).to_h.compact
   )) %>
 </div>
 
@@ -15,31 +36,35 @@
   render(Admin::TableComponent.new(
     collection: @servers,
     empty_message: t("admin.servers.index.empty_message"),
+    sort_column: @sort_column,
+    sort_direction: @sort_direction,
+    sort_url_builder: sort_url_builder,
     columns: [
-      [t("admin.shared.id"), -> { link_to(it.id, admin_server_path(it), class: "fw-medium") }, { copyable: :id }],
+      [t("admin.shared.id"), -> { link_to(it.id, admin_server_path(it), class: "fw-medium") }, { copyable: :id, sortable: "id" }],
       [
         Server.human_attribute_name(:name),
         -> { it.name.presence },
-        { copyable: :name },
+        { copyable: :name, sortable: "name" },
       ],
       [
         Server.human_attribute_name(:game),
         -> { it.game&.name },
-        { copyable: ->(it) { it.game&.name } },
+        { copyable: ->(it) { it.game&.name }, sortable: "game" },
       ],
       [
         Server.human_attribute_name(:site_url),
         -> { link_to(truncate(it.site_url, length: 35), it.site_url, target: "_blank", rel: "noopener noreferrer", class: "text-break") },
-        { copyable: :site_url },
+        { copyable: :site_url, sortable: "site_url" },
       ],
       [
         Server.human_attribute_name(:country),
         -> { it.country&.iso_short_name || it.country_code },
-        { copyable: ->(it) { it.country&.iso_short_name || it.country_code } },
+        { copyable: ->(it) { it.country&.iso_short_name || it.country_code }, sortable: "country" },
       ],
       [
         t("admin.admin_sessions.columns.status"),
         -> { render(Admin::ServerStatusBadgesComponent.new(server: it)) },
+        { sortable: "status" },
       ],
       [
         t("admin.shared.actions"),

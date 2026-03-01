@@ -12,15 +12,34 @@
   <% end %>
 </div>
 
+<% request_helper = RequestHelper.new(request) %>
+<% sort_url_builder = ->(key, dir) { request_helper.url_with_query({ sort: key, sort_dir: dir, page: 1 }, []) } %>
+
 <div class="admin-pagination-search-row mb-3">
   <div class="admin-pagination-search-row__pagination">
     <%= render(PaginationComponent.new(@pagination, align: :start)) %>
   </div>
+  <%= form_with(
+    method: :get,
+    url: admin_server_stats_path,
+    class: "d-flex align-items-center gap-2 flex-wrap admin-servers-filter-inline",
+    html: { "aria-label": t("admin.server_stats.index.filter.title") },
+    data: {
+      controller: "admin-filter",
+      action: "change->admin-filter#filter"
+    }
+  ) do |form| %>
+    <%= render(Admin::ServerStatsFilterComponent.new(
+      form: form,
+      selected_value_period: @filter_period,
+      request: request
+    )) %>
+  <% end %>
   <%= render(Admin::SearchFormComponent.new(
     url: admin_server_stats_path,
     search_term: @search_term,
     placeholder: t("admin.server_stats.index.search_placeholder"),
-    hidden_params: params.permit(:server_id, :game_id).to_h
+    hidden_params: params.permit(:server_id, :game_id, :period, :sort, :sort_dir).to_h.compact
   )) %>
 </div>
 
@@ -28,31 +47,34 @@
   render(Admin::TableComponent.new(
     collection: @server_stats,
     empty_message: t("admin.server_stats.index.empty_message"),
+    sort_column: @sort_column,
+    sort_direction: @sort_direction,
+    sort_url_builder: sort_url_builder,
     columns: [
-      [t("admin.shared.id"), -> { link_to(it.id, admin_server_stat_path(it), class: "fw-medium") }, { copyable: :id }],
+      [t("admin.shared.id"), -> { link_to(it.id, admin_server_stat_path(it), class: "fw-medium") }, { copyable: :id, sortable: "id" }],
       [
         ServerStat.human_attribute_name(:server),
         -> { link_to(it.server.name, admin_server_path(it.server)) },
-        { copyable: ->(it) { it.server&.name } },
+        { copyable: ->(it) { it.server&.name }, sortable: "server" },
       ],
       [
         ServerStat.human_attribute_name(:game),
         -> { link_to(it.game.name, admin_game_path(it.game)) },
-        { copyable: ->(it) { it.game&.name } },
+        { copyable: ->(it) { it.game&.name }, sortable: "game" },
       ],
-      [ServerStat.human_attribute_name(:period), -> { content_tag(:code, it.period) }, { copyable: :period }],
+      [ServerStat.human_attribute_name(:period), -> { content_tag(:code, it.period) }, { copyable: :period, sortable: "period" }],
       [
         ServerStat.human_attribute_name(:reference_date),
         -> { l(it.reference_date) },
-        { copyable: ->(it) { l(it.reference_date) } },
+        { copyable: ->(it) { l(it.reference_date) }, sortable: "reference_date" },
       ],
-      [ServerStat.human_attribute_name(:vote_count), -> { it.vote_count }, { copyable: ->(it) { it.vote_count.to_s } }],
+      [ServerStat.human_attribute_name(:vote_count), -> { it.vote_count }, { copyable: ->(it) { it.vote_count.to_s }, sortable: "vote_count", align: :end }],
       [
         ServerStat.human_attribute_name(:ranking),
         -> { it.ranking_number },
-        { copyable: ->(it) { it.ranking_number&.to_s } },
+        { copyable: ->(it) { it.ranking_number&.to_s }, sortable: "ranking_number", align: :end },
       ],
-      [t("admin.shared.created"), -> { l(it.created_at) }, { copyable: ->(it) { l(it.created_at) } }],
+      [t("admin.shared.created"), -> { l(it.created_at) }, { copyable: ->(it) { l(it.created_at) }, sortable: "created_at" }],
       [t("admin.shared.actions"), -> { render(Admin::IndexActionsComponent.new(view_path: admin_server_stat_path(it))) }],
     ],
   ))

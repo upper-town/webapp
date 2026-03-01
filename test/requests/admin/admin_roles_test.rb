@@ -38,4 +38,15 @@ class Admin::AdminRolesRequestTest < ActionDispatch::IntegrationTest
       assert_response(:success)
     end
   end
+
+  describe "GET /admin/roles/:id/admin_accounts" do
+    it "responds with success when authenticated" do
+      sign_in_as_admin
+      admin_role = create_admin_role
+
+      get(admin_accounts_admin_admin_role_path(admin_role))
+
+      assert_response(:success)
+    end
+  end
 end

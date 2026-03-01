@@ -2,10 +2,10 @@ require "application_system_test_case"
 
 class ServersIndexTest < ApplicationSystemTestCase
   describe "#index" do
-    it "shows No results when no servers" do
+    it "shows empty state when no servers" do
       visit(servers_path)
 
-      assert_text("No results")
+      assert_text("No servers found")
     end
 
     it "shows servers ranked by vote count" do

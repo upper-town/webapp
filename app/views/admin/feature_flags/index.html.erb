@@ -1,7 +1,12 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
   <h1 class="mb-0"><%= t("admin.feature_flags.index.title") %></h1>
-  <%= link_to(t("admin.feature_flags.index.new_feature_flag"), new_admin_feature_flag_path, class: "btn btn-primary") %>
+  <%= link_to(new_admin_feature_flag_path, class: "btn btn-primary") do %>
+    <i class="bi bi-plus-lg me-1" aria-hidden="true"></i><%= t("admin.feature_flags.index.new_feature_flag") %>
+  <% end %>
 </div>
+
+<% request_helper = RequestHelper.new(request) %>
+<% sort_url_builder = ->(key, dir) { request_helper.url_with_query({ sort: key, sort_dir: dir, page: 1 }, []) } %>
 
 <div class="admin-pagination-search-row mb-3">
   <div class="admin-pagination-search-row__pagination">
@@ -10,7 +15,8 @@
   <%= render(Admin::SearchFormComponent.new(
     url: admin_feature_flags_path,
     search_term: @search_term,
-    placeholder: t("admin.feature_flags.index.search_placeholder")
+    placeholder: t("admin.feature_flags.index.search_placeholder"),
+    hidden_params: params.permit(:sort, :sort_dir).to_h.compact
   )) %>
 </div>
 
@@ -18,10 +24,13 @@
   render(Admin::TableComponent.new(
     collection: @feature_flags,
     empty_message: t("admin.feature_flags.index.empty_message"),
+    sort_column: @sort_column,
+    sort_direction: @sort_direction,
+    sort_url_builder: sort_url_builder,
     columns: [
-      [t("admin.shared.id"), ->(item) { link_to(item.id, admin_feature_flag_path(item), class: "fw-medium") }, { copyable: :id }],
-      [FeatureFlag.human_attribute_name(:name), ->(item) { item.name.presence }, { copyable: :name }],
-      [FeatureFlag.human_attribute_name(:value), ->(item) { item.value.presence ? content_tag(:code, item.value, class: "small") : nil }, { copyable: :value }],
+      [t("admin.shared.id"), ->(item) { link_to(item.id, admin_feature_flag_path(item), class: "fw-medium") }, { copyable: :id, sortable: "id" }],
+      [FeatureFlag.human_attribute_name(:name), ->(item) { item.name.presence }, { copyable: :name, sortable: "name" }],
+      [FeatureFlag.human_attribute_name(:value), ->(item) { item.value.presence ? content_tag(:code, item.value, class: "small") : nil }, { copyable: :value, sortable: "value" }],
       [FeatureFlag.human_attribute_name(:enabled), ->(item) { (e = FeatureFlag.enabled?(item.name)); content_tag(:span, e ? t("admin.shared.yes") : t("admin.shared.no"), class: "badge #{e ? "bg-success" : "bg-secondary"}") }],
       [FeatureFlag.human_attribute_name(:env_override), ->(item) { FeatureFlag.fetch_value_from_env_var(item.name).present? ? content_tag(:code, "FF_#{item.name.upcase}", class: "small text-warning") : nil }, { copyable: ->(item) { FeatureFlag.fetch_value_from_env_var(item.name).present? ? "FF_#{item.name.upcase}" : nil } }],
       [t("admin.shared.actions"), ->(item) { render(Admin::IndexActionsComponent.new(view_path: admin_feature_flag_path(item), edit_path: edit_admin_feature_flag_path(item))) }],

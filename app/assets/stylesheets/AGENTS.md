@@ -142,7 +142,8 @@ This file provides guidance for AI agents when working with Bootstrap, layouts, 
 
 ### Copy Buttons
 
-- Copyable cells use `visually-hidden` span for clipboard content (screen reader access)
+- Copyable cells use the `Admin::CopyableCell` module (included by `Admin::TableComponent` and `Admin::DetailsTableComponent`) with the `copy-to-clipboard` Stimulus controller
+- Use `visually-hidden` span for clipboard content (screen reader access)
 - Copy button needs `title` (tooltip) and `aria-label` or descriptive `title` for accessibility
 
 ## Buttons & Links

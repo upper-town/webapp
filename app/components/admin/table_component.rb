@@ -1,11 +1,52 @@
 module Admin
   class TableComponent < ApplicationComponent
-    def initialize(collection: [], columns: [], empty_message: "No results")
+    include CopyableCell
+
+    attr_reader :collection, :columns, :empty_message, :sort_column, :sort_direction, :sort_url_builder
+
+    def initialize(
+      collection: [],
+      columns: [],
+      empty_message: "No results",
+      sort_column: nil,
+      sort_direction: nil,
+      sort_url_builder: nil
+    )
       super()
 
       @collection = collection
       @columns = columns
       @empty_message = empty_message
+      @sort_column = sort_column.presence
+      @sort_direction = sort_direction.presence&.downcase
+      @sort_url_builder = sort_url_builder
+    end
+
+    def sortable?(col)
+      return false unless sort_url_builder
+      return false unless (key = column_opts(col)&.dig(:sortable))
+
+      key.present?
+    end
+
+    def sort_key(col)
+      column_opts(col)&.dig(:sortable)
+    end
+
+    def sort_link_url(col)
+      key = sort_key(col)
+      return nil unless key
+
+      next_direction = (sort_column == key) && sort_direction == "asc" ? "desc" : "asc"
+      sort_url_builder.call(key, next_direction)
+    end
+
+    def sort_icon(col)
+      key = sort_key(col)
+      return nil unless key
+      return nil unless sort_column == key
+
+      sort_direction == "asc" ? "bi-sort-down-alt" : "bi-sort-up-alt"
     end
 
     def empty?
@@ -69,34 +110,32 @@ module Admin
 
     def cell_with_copy_button(item, column_value, copy_val)
       content = cell_value(item, column_value)
-      data_attrs = { controller: "copy-to-clipboard", copied_title: I18n.t("admin.shared.copied") }
-      data_attrs[:copy_to_clipboard_value] = copy_val if copy_val.present?
-      # When we have an explicit copy value, put it in a hidden span as content target so fallback copies only the value
-      content_target_value = (copy_val.presence)
+      copy_cell_wrapper(content, copy_val)
+    end
 
-      content_tag(:span, class: "d-inline-flex align-items-center gap-1", data: data_attrs) do
-        parts = []
-        if content_target_value.present?
-          parts << content_tag(:span, content_target_value, data: { copy_to_clipboard_target: "content" },
-class: "visually-hidden")
-        end
-        parts << content_tag(:span, content,
-data: (content_target_value.present? ? {} : { copy_to_clipboard_target: "content" }))
-        safe_join(parts + [copy_button_html])
+    def column_th_class(col)
+      opts = column_opts(col)
+      return "text-nowrap" unless opts
+
+      align = opts[:align]
+      base = "text-nowrap"
+      case align
+      when :end then "#{base} text-end"
+      when :center then "#{base} text-center"
+      else base
       end
     end
 
-    def copy_button_html
-      content_tag(:button, type: "button", class: "btn btn-link btn-sm p-0 text-body-secondary border-0",
-        title: I18n.t("admin.shared.copy_to_clipboard"),
-        aria: { label: I18n.t("admin.shared.copy_to_clipboard") },
-        data: { copy_btn: true, action: "click->copy-to-clipboard#copy" }) do
-        clipboard_icon
-      end
-    end
+    def column_td_class(col)
+      opts = column_opts(col)
+      return "" unless opts
 
-    def clipboard_icon
-      tag.i(class: "bi bi-clipboard flex-shrink-0", style: "font-size: 0.875rem")
+      align = opts[:align]
+      case align
+      when :end then "text-end"
+      when :center then "text-center"
+      else ""
+      end
     end
   end
 end

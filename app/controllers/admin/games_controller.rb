@@ -2,7 +2,9 @@ module Admin
   class GamesController < BaseController
     def index
       @search_term = params[:q]
-      relation = Admin::GamesQuery.new.call
+      @sort_column = params[:sort].presence
+      @sort_direction = params[:sort_dir].presence
+      relation = Admin::GamesQuery.call(sort: @sort_column, sort_dir: @sort_direction)
       @pagination = Pagination.new(
         Admin::Queries::GamesQuery.call(Game, relation, @search_term),
         request,

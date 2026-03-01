@@ -34,11 +34,10 @@
   ],
 )) %>
 
-<%= render(Admin::DetailsTableComponent.new(
-  sections: [
-    {
-      title: t("admin.admin_roles.show.admin_accounts_with_role"),
-      rows: @admin_role.accounts.any? ? @admin_role.accounts.map { |a| [a.id, link_to(a.admin_user.email, admin_admin_account_path(a))] } : [[-> { content_tag(:span, t("admin.shared.none"), class: "text-body-secondary") }]],
-    },
-  ],
-)) %>
+<%= turbo_frame_tag("admin_role_accounts", src: admin_accounts_admin_admin_role_path(@admin_role), loading: :lazy) do %>
+  <div class="card mb-4">
+    <div class="card-body text-center text-body-secondary py-5">
+      <p class="mb-0"><%= t("admin.shared.loading") %></p>
+    </div>
+  </div>
+<% end %>

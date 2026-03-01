@@ -1,7 +1,12 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
   <h1 class="mb-0"><%= t("admin.games.index.title") %></h1>
-  <%= link_to(t("admin.games.index.new_game"), new_admin_game_path, class: "btn btn-primary") %>
+  <%= link_to(new_admin_game_path, class: "btn btn-primary") do %>
+    <i class="bi bi-plus-lg me-1" aria-hidden="true"></i><%= t("admin.games.index.new_game") %>
+  <% end %>
 </div>
+
+<% request_helper = RequestHelper.new(request) %>
+<% sort_url_builder = ->(key, dir) { request_helper.url_with_query({ sort: key, sort_dir: dir, page: 1 }, []) } %>
 
 <div class="admin-pagination-search-row mb-3">
   <div class="admin-pagination-search-row__pagination">
@@ -10,7 +15,8 @@
   <%= render(Admin::SearchFormComponent.new(
     url: admin_games_path,
     search_term: @search_term,
-    placeholder: t("admin.games.index.search_placeholder")
+    placeholder: t("admin.games.index.search_placeholder"),
+    hidden_params: params.permit(:sort, :sort_dir).to_h.compact
   )) %>
 </div>
 
@@ -18,24 +24,27 @@
   render(Admin::TableComponent.new(
     collection: @games,
     empty_message: t("admin.games.index.empty_message"),
+    sort_column: @sort_column,
+    sort_direction: @sort_direction,
+    sort_url_builder: sort_url_builder,
     columns: [
-      [t("admin.shared.id"), -> { link_to(it.id, admin_game_path(it), class: "fw-medium") }, { copyable: :id }],
+      [t("admin.shared.id"), -> { link_to(it.id, admin_game_path(it), class: "fw-medium") }, { copyable: :id, sortable: "id" }],
       [
         Game.human_attribute_name(:name),
         -> { it.name.presence },
-        { copyable: :name },
+        { copyable: :name, sortable: "name" },
       ],
       [
         Game.human_attribute_name(:slug),
         -> { it.slug.presence },
-        { copyable: :slug },
+        { copyable: :slug, sortable: "slug" },
       ],
       [
         Game.human_attribute_name(:site_url),
         -> {
           it.site_url.present? ? link_to(truncate(it.site_url, length: 35), it.site_url, target: "_blank", rel: "noopener noreferrer", class: "text-break") : nil
         },
-        { copyable: :site_url },
+        { copyable: :site_url, sortable: "site_url" },
       ],
       [Game.human_attribute_name(:servers), -> { it.servers.count }],
       [

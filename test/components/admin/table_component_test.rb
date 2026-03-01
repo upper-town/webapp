@@ -109,6 +109,61 @@ class Admin::TableComponentTest < ViewComponent::TestCase
       assert_text(users[0].email)
       assert_text(users[1].email)
     end
+
+    it "applies column alignment when align option is set" do
+      user = create_user
+      columns = [
+        ["Email", :email],
+        ["ID", :id, { align: :end }],
+        ["Status", :email_confirmed_at, { align: :center }]
+      ]
+      render_inline(described_class.new(collection: [user], columns:))
+
+      assert_selector("th.text-end", text: "ID")
+      assert_selector("th.text-center", text: "Status")
+      assert_selector("td.text-end", text: user.id.to_s)
+      assert_selector("td.text-center")
+    end
+
+    it "renders sortable column as link when sort_url_builder provided" do
+      user = create_user
+      sort_url_builder = ->(key, dir) { "/admin?sort=#{key}&sort_dir=#{dir}" }
+      columns = [["Email", :email, { sortable: "email" }]]
+      render_inline(described_class.new(
+        collection: [user],
+        columns:,
+        sort_url_builder:
+      ))
+
+      assert_selector("th a.admin-table-sort-link[href='/admin?sort=email&sort_dir=asc']", text: "Email")
+    end
+
+    it "renders non-sortable column as plain text" do
+      user = create_user
+      sort_url_builder = ->(key, dir) { "/admin?sort=#{key}&sort_dir=#{dir}" }
+      columns = [
+        ["Email", :email, { sortable: "email" }],
+        ["ID", :id]
+      ]
+      render_inline(described_class.new(
+        collection: [user],
+        columns:,
+        sort_url_builder:
+      ))
+
+      assert_selector("th a.admin-table-sort-link", count: 1)
+      assert_selector("th", text: "ID")
+      assert_no_selector("th a", text: "ID")
+    end
+
+    it "renders no sort links when sort_url_builder is nil" do
+      user = create_user
+      columns = [["Email", :email, { sortable: "email" }]]
+      render_inline(described_class.new(collection: [user], columns:))
+
+      assert_selector("th", text: "Email")
+      assert_no_selector("th a.admin-table-sort-link")
+    end
   end
 
   describe "#empty?" do

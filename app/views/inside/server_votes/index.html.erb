@@ -1,16 +1,78 @@
-<% pagination_cursor = PaginationCursorComponent.new(@pagination_cursor) %>
+<% content_for(:title) { t("inside.server_votes.index.title") } %>
 
-<%= render(pagination_cursor) %>
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+  <div>
+    <%= link_to inside_dashboard_path, class: "text-body-secondary text-decoration-none small mb-2 d-inline-block" do %>
+      <i class="bi bi-arrow-left me-1"></i>
+      <%= t("inside.server_votes.index.back_to_dashboard") %>
+    <% end %>
+    <h1 class="mb-1"><%= t("inside.server_votes.index.title") %></h1>
+    <p class="text-body-secondary mb-0">
+      <%= t("inside.dashboard.my_server_votes") %>
+    </p>
+  </div>
+</div>
 
 <% if @server_votes.empty? %>
-  No results
+  <div class="card border-0 shadow-sm bg-body-secondary bg-opacity-25">
+    <div class="card-body text-center py-5">
+      <i class="bi bi-hand-thumbs-up display-4 text-body-secondary mb-3"></i>
+      <h5 class="card-title"><%= t("inside.server_votes.index.empty_title") %></h5>
+      <p class="card-text text-body-secondary mb-3">
+        <%= t("inside.server_votes.index.empty_message") %>
+        <%= t("inside.server_votes.index.empty_help") %>
+      </p>
+      <%= link_to servers_path, class: "btn btn-primary" do %>
+        <i class="bi bi-list-ul me-1"></i>
+        <%= t("inside.server_votes.index.browse_servers") %>
+      <% end %>
+    </div>
+  </div>
 <% else %>
-  <% @server_votes.map do |server_vote| %>
-    <pre>
-      <%= JSON.pretty_generate(server_vote.attributes) %>
-    </pre>
-    <br />
-  <% end %>
+  <div class="mb-3">
+    <%= render(PaginationCursorComponent.new(@pagination_cursor, show_total_count: true)) %>
+  </div>
 
-  <%= render(pagination_cursor) %>
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="list-group list-group-flush">
+      <% @server_votes.each do |server_vote| %>
+        <div class="list-group-item d-flex justify-content-between align-items-center flex-wrap gap-2">
+          <div class="flex-grow-1 min-w-0">
+            <%= link_to(
+              server_vote.server.name,
+              server_path(server_vote.server),
+              class: "fw-semibold text-decoration-none"
+            ) %>
+            <div class="small text-body-secondary mt-1">
+              <span class="me-2"><%= server_vote.game.name %></span>
+              <span><%= l(server_vote.created_at) %></span>
+              <% if server_vote.reference.present? %>
+                <span class="ms-2">· <%= server_vote.reference %></span>
+              <% end %>
+            </div>
+          </div>
+          <div class="d-flex gap-2">
+            <%= link_to(
+              server_vote_path(server_vote),
+              class: "btn btn-outline-secondary btn-sm"
+            ) do %>
+              <i class="bi bi-box-arrow-up-right me-1"></i>
+              <%= t("inside.server_votes.index.view_vote") %>
+            <% end %>
+            <%= link_to(
+              server_path(server_vote.server),
+              class: "btn btn-primary btn-sm"
+            ) do %>
+              <i class="bi bi-hdd-stack me-1"></i>
+              <%= t("inside.server_votes.index.view_server") %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-center">
+    <%= render(PaginationCursorComponent.new(@pagination_cursor)) %>
+  </div>
 <% end %>

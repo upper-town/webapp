@@ -1,0 +1,63 @@
+<%= turbo_frame_tag "admin_role_accounts" do %>
+  <div class="card mb-4">
+    <div class="card-header">
+      <h5 class="card-title mb-0"><%= t("admin.admin_roles.show.admin_accounts_with_role") %></h5>
+    </div>
+    <div class="card-body">
+      <div class="admin-pagination-search-row mb-3">
+        <div class="admin-pagination-search-row__pagination">
+          <%= render(PaginationComponent.new(@pagination, align: :start)) %>
+        </div>
+        <%= render(Admin::SearchFormComponent.new(
+          url: admin_accounts_admin_admin_role_path(@admin_role),
+          search_term: @search_term,
+          placeholder: t("admin.admin_accounts.index.search_placeholder")
+        )) %>
+      </div>
+
+      <%=
+        render(Admin::TableComponent.new(
+          collection: @admin_accounts,
+          empty_message: t("admin.admin_roles.show.admin_accounts_empty"),
+          columns: [
+            [
+              t("admin.shared.id"),
+              -> { link_to(it.id, admin_admin_account_path(it), class: "fw-medium", data: { turbo_frame: "_top" }) },
+              { copyable: :id },
+            ],
+            [
+              t("admin.admin_accounts.columns.admin_user"),
+              -> { link_to(it.admin_user.email, admin_admin_user_path(it.admin_user), data: { turbo_frame: "_top" }) },
+              { copyable: ->(it) { it.admin_user&.email } },
+            ],
+            [
+              t("admin.admin_accounts.columns.super_admin"),
+              -> {
+                it.super_admin? ? content_tag(:span, t("admin.shared.yes"), class: "badge text-bg-warning") : content_tag(:span, t("admin.shared.no"), class: "text-body-secondary")
+              },
+            ],
+            [
+              t("admin.admin_accounts.columns.roles"),
+              -> {
+                it.roles.any? ? it.roles.map(&:key).join(", ") : content_tag(:span, t("admin.shared.none"), class: "text-body-secondary")
+              },
+              { copyable: ->(it) { it.roles.any? ? it.roles.map(&:key).join(", ") : nil } },
+            ],
+            [
+              t("admin.shared.actions"),
+              -> {
+                render(Admin::IndexActionsComponent.new(
+                  view_path: admin_admin_account_path(it),
+                  edit_path: edit_admin_admin_account_path(it),
+                  link_options: { data: { turbo_frame: "_top" } },
+                ))
+              },
+            ],
+          ],
+        ))
+      %>
+
+      <%= render(PaginationComponent.new(@pagination, align: :start)) %>
+    </div>
+  </div>
+<% end %>

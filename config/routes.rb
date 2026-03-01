@@ -79,7 +79,9 @@ Rails.application.routes.draw do
         get "codes", on: :member, to: "admin_user_codes#index"
       end
       resources :admin_accounts, only: [:index, :show, :edit, :update]
-      resources :admin_roles, only: [:index, :show, :edit, :update], path: "roles"
+      resources :admin_roles, only: [:index, :show, :edit, :update], path: "roles" do
+        get "admin_accounts", on: :member, to: "admin_role_accounts#index"
+      end
       resources :admin_permissions, only: [:index, :show], path: "permissions"
       resources :games, except: [:destroy] do
         get "servers", on: :member, to: "game_servers#index"

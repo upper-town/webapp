@@ -22,9 +22,13 @@ All components inherit from `ApplicationComponent < ViewComponent::Base`. Use Bo
 | `PaginationCursorComponent` | Cursor-based pagination |
 | `GameSelectComponent`, `CountrySelectComponent`, `PeriodSelectComponent` | Select dropdowns |
 | `Servers::IndexResultComponent` | Server listing result row/card |
-| `Admin::TableComponent` | Admin data tables |
-| `Admin::DetailsTableComponent` | Admin key-value detail views with optional copy |
+| `Servers::IndexFilterComponent` | Server index filter form (game, period, country) |
+| `Inside::ServerCardComponent` | Server card for Inside dashboard |
+| `Admin::TableComponent` | Admin data tables; includes `Admin::CopyableCell` for copyable columns |
+| `Admin::DetailsTableComponent` | Admin key-value detail views with optional copy; includes `Admin::CopyableCell` |
+| `Admin::CopyableCell` | Module (not a component) providing `copy_cell_wrapper` and `copy_button_html`; included by `Admin::TableComponent` and `Admin::DetailsTableComponent` |
 | `Admin::SearchFormComponent` | Admin search/filter forms |
+| `Admin::FilterComponent` | Reusable admin filter wrapper (fields via block, hidden params, clear button); used by `ServersFilterComponent`, `ServerStatsFilterComponent` |
 | `Admin::ServerStatusBadgesComponent` | Server status badges (verified, archived, etc.) |
 | `Admin::IndexActionsComponent`, `Admin::ShowActionsComponent` | Admin action buttons |
 

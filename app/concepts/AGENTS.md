@@ -38,7 +38,7 @@ Business logic lives here, organized by **domain concept** (not by technical lay
 
 - **Update/Create services** — `Admin::Servers::Update`, `Admin::Games::Create`, etc.
 - **Base queries** — `Admin::ServersQuery`, `Admin::UsersQuery`, etc. at top level (return base `ActiveRecord::Relation`)
-- **Search queries** — `Admin::Queries::ServersQuery`, `Admin::Queries::UsersQuery`, etc. in `admin/queries/` (filter base relation by search term)
+- **Search queries** — `Admin::Queries::ServersQuery`, `Admin::Queries::UsersQuery`, etc. in `admin/queries/` extend `Search::Base` from `app/queries/search/` and mix in search scopes (`Search::ById`, `Search::ByEmail`, `Search::ByName`, `Search::ByUuid`, `Search::ByLastFour`, `Search::ByRemoteIp`) to filter the base relation by search term
 - **Dashboard** — `Admin::DashboardStats`
 - **Constraints** — `Admin::Constraint`, `Admin::JobsConstraint`
 

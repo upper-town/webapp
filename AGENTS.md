@@ -72,6 +72,13 @@ bin/ci             # Full CI pipeline (see config/ci.rb)
 | Locales (i18n) | `config/locales/` |
 | Recurring job schedules | `config/recurring.yml` |
 | CI pipeline definition | `config/ci.rb` |
+| Concepts directory guide | `app/concepts/AGENTS.md` |
+| Components directory guide | `app/components/AGENTS.md` |
+| Test directory guide | `test/AGENTS.md` |
+| Database directory guide | `db/AGENTS.md` |
+| JavaScript & Stimulus guide | `app/javascript/AGENTS.md` |
+| Queries directory guide | `app/queries/AGENTS.md` |
+| Search module (admin search mixins) | `app/queries/search/` |
 
 ## Locales
 
@@ -186,7 +193,7 @@ result.failure?  # true if any errors
 result.add_error(:field, :type)  # add more errors
 ```
 
-**Queries** — `*Query` suffix classes in `app/concepts/` (domain-specific) or `app/queries/` (shared, e.g., `CountrySelectOptionsQuery`, `GameSelectOptionsQuery`). Include `Callable`. Return `ActiveRecord::Relation` or primitive values. Used for complex read operations.
+**Queries** — `*Query` suffix classes in `app/concepts/` (domain-specific) or `app/queries/` (shared, e.g., `CountrySelectOptionsQuery`, `GameSelectOptionsQuery`). Include `Callable`. Return `ActiveRecord::Relation` or primitive values. Used for complex read operations. Admin search queries in `app/concepts/admin/queries/` extend `Search::Base` and mix in `Search::ById`, `Search::ByEmail`, etc. from `app/queries/search/`.
 
 **Policies** — `*Policy` suffix with `allowed?` method. Live in `app/policies/` (e.g., `Admin::AccessPolicy`, `ServerBannerImagePolicy`). Check authorization rules:
 

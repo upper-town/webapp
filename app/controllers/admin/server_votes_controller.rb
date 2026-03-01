@@ -2,11 +2,15 @@ module Admin
   class ServerVotesController < BaseController
     def index
       @search_term = params[:q]
-      relation = Admin::ServerVotesQuery.new(
+      @sort_column = params[:sort].presence
+      @sort_direction = params[:sort_dir].presence
+      relation = Admin::ServerVotesQuery.call(
         server_id: params[:server_id],
         game_id: params[:game_id],
-        account_id: params[:account_id]
-      ).call
+        account_id: params[:account_id],
+        sort: @sort_column,
+        sort_dir: @sort_direction
+      )
       @pagination = Pagination.new(
         Admin::Queries::ServerVotesQuery.call(ServerVote, relation, @search_term),
         request,

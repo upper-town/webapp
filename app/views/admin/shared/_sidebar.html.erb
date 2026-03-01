@@ -6,98 +6,140 @@
   <nav class="admin-sidebar-nav" aria-label="<%= t('shared.aria.admin_navigation') %>">
     <ul class="nav flex-column">
       <li class="nav-item">
-        <%= link_to(
-          t("admin.nav.dashboard"),
-          admin_dashboard_path,
-          class: nav_link_class(admin_root_path, admin_dashboard_path)
-        ) %>
+        <%= link_to(admin_dashboard_path, class: nav_link_class(admin_root_path, admin_dashboard_path)) do %>
+          <i class="bi bi-speedometer2 me-2" aria-hidden="true"></i><%= t("admin.nav.dashboard") %>
+        <% end %>
       </li>
 
       <li class="admin-sidebar-section">
         <span class="admin-sidebar-section-label"><%= t("admin.nav.section_users") %></span>
       </li>
       <li class="nav-item">
-        <%= link_to(t("admin.nav.users"), admin_users_path, class: nav_link_class(admin_users_path)) %>
+        <%= link_to(admin_users_path, class: nav_link_class(admin_users_path)) do %>
+          <i class="bi bi-people me-2" aria-hidden="true"></i><%= t("admin.nav.users") %>
+        <% end %>
       </li>
       <li class="nav-item">
-        <%= link_to(t("admin.nav.accounts"), admin_accounts_path, class: nav_link_class(admin_accounts_path)) %>
+        <%= link_to(admin_accounts_path, class: nav_link_class(admin_accounts_path)) do %>
+          <i class="bi bi-person-badge me-2" aria-hidden="true"></i><%= t("admin.nav.accounts") %>
+        <% end %>
       </li>
       <li class="nav-item">
-        <%= link_to(t("admin.nav.codes"), admin_codes_path, class: nav_link_class(admin_codes_path)) %>
+        <%= link_to(admin_codes_path, class: nav_link_class(admin_codes_path)) do %>
+          <i class="bi bi-key me-2" aria-hidden="true"></i><%= t("admin.nav.codes") %>
+        <% end %>
       </li>
       <li class="nav-item">
-        <%= link_to(t("admin.nav.tokens"), admin_tokens_path, class: nav_link_class(admin_tokens_path)) %>
+        <%= link_to(admin_tokens_path, class: nav_link_class(admin_tokens_path)) do %>
+          <i class="bi bi-key-fill me-2" aria-hidden="true"></i><%= t("admin.nav.tokens") %>
+        <% end %>
       </li>
       <li class="nav-item">
-        <%= link_to(t("admin.nav.sessions"), admin_sessions_path, class: nav_link_class(admin_sessions_path)) %>
+        <%= link_to(admin_sessions_path, class: nav_link_class(admin_sessions_path)) do %>
+          <i class="bi bi-shield-check me-2" aria-hidden="true"></i><%= t("admin.nav.sessions") %>
+        <% end %>
       </li>
 
       <li class="admin-sidebar-section">
         <span class="admin-sidebar-section-label"><%= t("admin.nav.section_admin") %></span>
       </li>
       <li class="nav-item">
-        <%= link_to(t("admin.nav.admin_users"), admin_admin_users_path, class: nav_link_class(admin_admin_users_path)) %>
+        <%= link_to(admin_admin_users_path, class: nav_link_class(admin_admin_users_path)) do %>
+          <i class="bi bi-person-gear me-2" aria-hidden="true"></i><%= t("admin.nav.admin_users") %>
+        <% end %>
       </li>
       <li class="nav-item">
-        <%= link_to(t("admin.nav.admin_accounts"), admin_admin_accounts_path, class: nav_link_class(admin_admin_accounts_path)) %>
+        <%= link_to(admin_admin_accounts_path, class: nav_link_class(admin_admin_accounts_path)) do %>
+          <i class="bi bi-person-badge-fill me-2" aria-hidden="true"></i><%= t("admin.nav.admin_accounts") %>
+        <% end %>
       </li>
       <li class="nav-item">
-        <%= link_to(t("admin.nav.admin_codes"), admin_admin_codes_path, class: nav_link_class(admin_admin_codes_path)) %>
+        <%= link_to(admin_admin_codes_path, class: nav_link_class(admin_admin_codes_path)) do %>
+          <i class="bi bi-key me-2" aria-hidden="true"></i><%= t("admin.nav.admin_codes") %>
+        <% end %>
       </li>
       <li class="nav-item">
-        <%= link_to(t("admin.nav.admin_tokens"), admin_admin_tokens_path, class: nav_link_class(admin_admin_tokens_path)) %>
+        <%= link_to(admin_admin_tokens_path, class: nav_link_class(admin_admin_tokens_path)) do %>
+          <i class="bi bi-key-fill me-2" aria-hidden="true"></i><%= t("admin.nav.admin_tokens") %>
+        <% end %>
       </li>
       <li class="nav-item">
-        <%= link_to(t("admin.nav.admin_sessions"), admin_admin_sessions_path, class: nav_link_class(admin_admin_sessions_path)) %>
+        <%= link_to(admin_admin_sessions_path, class: nav_link_class(admin_admin_sessions_path)) do %>
+          <i class="bi bi-shield-check me-2" aria-hidden="true"></i><%= t("admin.nav.admin_sessions") %>
+        <% end %>
       </li>
       <li class="nav-item">
-        <%= link_to(t("admin.nav.roles"), admin_admin_roles_path, class: nav_link_class(admin_admin_roles_path)) %>
+        <%= link_to(admin_admin_roles_path, class: nav_link_class(admin_admin_roles_path)) do %>
+          <i class="bi bi-shield-lock me-2" aria-hidden="true"></i><%= t("admin.nav.roles") %>
+        <% end %>
       </li>
       <li class="nav-item">
-        <%= link_to(t("admin.nav.permissions"), admin_admin_permissions_path, class: nav_link_class(admin_admin_permissions_path)) %>
+        <%= link_to(admin_admin_permissions_path, class: nav_link_class(admin_admin_permissions_path)) do %>
+          <i class="bi bi-lock me-2" aria-hidden="true"></i><%= t("admin.nav.permissions") %>
+        <% end %>
       </li>
 
       <li class="admin-sidebar-section">
         <span class="admin-sidebar-section-label"><%= t("admin.nav.section_platform") %></span>
       </li>
       <li class="nav-item">
-        <%= link_to(t("admin.nav.games"), admin_games_path, class: nav_link_class(admin_games_path)) %>
+        <%= link_to(admin_games_path, class: nav_link_class(admin_games_path)) do %>
+          <i class="bi bi-controller me-2" aria-hidden="true"></i><%= t("admin.nav.games") %>
+        <% end %>
       </li>
       <li class="nav-item">
-        <%= link_to(t("admin.nav.servers"), admin_servers_path, class: nav_link_class(admin_servers_path)) %>
+        <%= link_to(admin_servers_path, class: nav_link_class(admin_servers_path)) do %>
+          <i class="bi bi-server me-2" aria-hidden="true"></i><%= t("admin.nav.servers") %>
+        <% end %>
       </li>
       <li class="nav-item">
-        <%= link_to(t("admin.nav.server_accounts"), admin_server_accounts_path, class: nav_link_class(admin_server_accounts_path)) %>
+        <%= link_to(admin_server_accounts_path, class: nav_link_class(admin_server_accounts_path)) do %>
+          <i class="bi bi-person-badge me-2" aria-hidden="true"></i><%= t("admin.nav.server_accounts") %>
+        <% end %>
       </li>
       <li class="nav-item">
-        <%= link_to(t("admin.nav.server_stats"), admin_server_stats_path, class: nav_link_class(admin_server_stats_path)) %>
+        <%= link_to(admin_server_stats_path, class: nav_link_class(admin_server_stats_path)) do %>
+          <i class="bi bi-graph-up me-2" aria-hidden="true"></i><%= t("admin.nav.server_stats") %>
+        <% end %>
       </li>
       <li class="nav-item">
-        <%= link_to(t("admin.nav.server_votes"), admin_server_votes_path, class: nav_link_class(admin_server_votes_path)) %>
+        <%= link_to(admin_server_votes_path, class: nav_link_class(admin_server_votes_path)) do %>
+          <i class="bi bi-hand-thumbs-up me-2" aria-hidden="true"></i><%= t("admin.nav.server_votes") %>
+        <% end %>
       </li>
 
       <li class="admin-sidebar-section">
         <span class="admin-sidebar-section-label"><%= t("admin.nav.section_webhook") %></span>
       </li>
       <li class="nav-item">
-        <%= link_to(t("admin.nav.webhook_configs"), admin_webhook_configs_path, class: nav_link_class(admin_webhook_configs_path)) %>
+        <%= link_to(admin_webhook_configs_path, class: nav_link_class(admin_webhook_configs_path)) do %>
+          <i class="bi bi-link-45deg me-2" aria-hidden="true"></i><%= t("admin.nav.webhook_configs") %>
+        <% end %>
       </li>
       <li class="nav-item">
-        <%= link_to(t("admin.nav.webhook_events"), admin_webhook_events_path, class: nav_link_class(admin_webhook_events_path)) %>
+        <%= link_to(admin_webhook_events_path, class: nav_link_class(admin_webhook_events_path)) do %>
+          <i class="bi bi-envelope me-2" aria-hidden="true"></i><%= t("admin.nav.webhook_events") %>
+        <% end %>
       </li>
       <li class="nav-item">
-        <%= link_to(t("admin.nav.webhook_batches"), admin_webhook_batches_path, class: nav_link_class(admin_webhook_batches_path)) %>
+        <%= link_to(admin_webhook_batches_path, class: nav_link_class(admin_webhook_batches_path)) do %>
+          <i class="bi bi-collection me-2" aria-hidden="true"></i><%= t("admin.nav.webhook_batches") %>
+        <% end %>
       </li>
 
       <li class="admin-sidebar-section">
         <span class="admin-sidebar-section-label"><%= t("admin.nav.section_system") %></span>
       </li>
       <li class="nav-item">
-        <%= link_to(t("admin.nav.feature_flags"), admin_feature_flags_path, class: nav_link_class(admin_feature_flags_path)) %>
+        <%= link_to(admin_feature_flags_path, class: nav_link_class(admin_feature_flags_path)) do %>
+          <i class="bi bi-flag me-2" aria-hidden="true"></i><%= t("admin.nav.feature_flags") %>
+        <% end %>
       </li>
       <% if admin_jobs_access? %>
         <li class="nav-item">
-          <%= link_to(t("admin.nav.jobs"), admin_mission_control_jobs_path, class: nav_link_class(admin_mission_control_jobs_path)) %>
+          <%= link_to(admin_mission_control_jobs_path, class: nav_link_class(admin_mission_control_jobs_path)) do %>
+            <i class="bi bi-list-check me-2" aria-hidden="true"></i><%= t("admin.nav.jobs") %>
+          <% end %>
         </li>
       <% end %>
     </ul>
@@ -106,16 +148,14 @@
   <div class="admin-sidebar-footer">
     <ul class="nav flex-column">
       <li class="nav-item">
-        <%= link_to(
-          t("admin.nav.site"),
-          root_path,
-          class: "nav-link",
-          target: "_blank",
-          rel: "noopener noreferrer"
-        ) %>
+        <%= link_to(root_path, class: "nav-link", target: "_blank", rel: "noopener noreferrer") do %>
+          <i class="bi bi-box-arrow-up-right me-2" aria-hidden="true"></i><%= t("admin.nav.site") %>
+        <% end %>
       </li>
       <li class="nav-item">
-        <%= link_to(t("admin.nav.sign_out"), admin_users_sign_out_path, class: "nav-link") %>
+        <%= link_to(admin_users_sign_out_path, class: "nav-link") do %>
+          <i class="bi bi-box-arrow-right me-2" aria-hidden="true"></i><%= t("admin.nav.sign_out") %>
+        <% end %>
       </li>
     </ul>
   </div>

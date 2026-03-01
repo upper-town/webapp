@@ -1,25 +1,43 @@
 <div class="card mb-4">
   <% if empty? %>
-    <div class="card-body text-center text-body-secondary py-5">
-      <p class="mb-0"><%= @empty_message %></p>
+    <div class="card-body text-center py-5">
+      <p class="text-body-secondary mb-2">
+        <i class="bi bi-inbox admin-empty-icon" aria-hidden="true"></i>
+      </p>
+      <p class="text-body-secondary mb-0"><%= empty_message %></p>
     </div>
   <% else %>
     <div class="table-responsive">
       <table class="table table-hover table-striped align-middle mb-0 admin-table">
         <thead class="table-light">
           <tr>
-            <% @columns.each do |col| %>
-              <th scope="col" class="text-nowrap">
-                <%= column_name(col) %>
+            <% columns.each do |col| %>
+              <th scope="col" class="<%= column_th_class(col) %>">
+                <% if sortable?(col) %>
+                  <%= link_to(
+                    sort_link_url(col),
+                    class: "admin-table-sort-link text-decoration-none text-body d-flex align-items-center gap-1",
+                    "aria-label": t("shared.pagination.sort_by", column: column_name(col))
+                  ) do %>
+                    <%= column_name(col) %>
+                    <% if (icon = sort_icon(col)) %>
+                      <i class="bi <%= icon %> admin-table-sort-icon" aria-hidden="true"></i>
+                    <% else %>
+                      <i class="bi bi-arrow-down-up admin-table-sort-icon admin-table-sort-icon--muted" aria-hidden="true"></i>
+                    <% end %>
+                  <% end %>
+                <% else %>
+                  <%= column_name(col) %>
+                <% end %>
               </th>
             <% end %>
           </tr>
         </thead>
         <tbody>
-          <% @collection.each do |item| %>
+          <% collection.each do |item| %>
             <tr>
-              <% @columns.each do |col| %>
-                <td>
+              <% columns.each do |col| %>
+                <td class="<%= column_td_class(col) %>">
                   <% cv = column_value(col) %>
                   <% opts = column_opts(col) %>
                   <% if show_copy?(col) %>

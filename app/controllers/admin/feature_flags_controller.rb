@@ -2,7 +2,9 @@ module Admin
   class FeatureFlagsController < BaseController
     def index
       @search_term = params[:q]
-      relation = Admin::FeatureFlagsQuery.new.call
+      @sort_column = params[:sort].presence
+      @sort_direction = params[:sort_dir].presence
+      relation = Admin::FeatureFlagsQuery.call(sort: @sort_column, sort_dir: @sort_direction)
       @pagination = Pagination.new(
         Admin::Queries::FeatureFlagsQuery.call(FeatureFlag, relation, @search_term),
         request,

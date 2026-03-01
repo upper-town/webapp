@@ -4,7 +4,9 @@ class CountrySelectComponent < ApplicationComponent
     :only_in_use,
     :with_continents,
     :blank_name,
-    :selected_value
+    :selected_value,
+    :select_class,
+    :aria_label
   )
 
   def initialize(
@@ -12,7 +14,9 @@ class CountrySelectComponent < ApplicationComponent
     only_in_use: false,
     with_continents: false,
     blank_name: "All",
-    selected_value: nil
+    selected_value: nil,
+    select_class: "form-select mb-2",
+    aria_label: nil
   )
     super()
 
@@ -21,6 +25,8 @@ class CountrySelectComponent < ApplicationComponent
     @with_continents = with_continents
     @blank_name = blank_name
     @selected_value = selected_value
+    @select_class = select_class
+    @aria_label = aria_label
 
     @query = CountrySelectOptionsQuery.new(only_in_use:, with_continents:)
   end

@@ -6,7 +6,7 @@
   ),
   {},
   {
-    class: "form-select mb-2",
+    class: select_class,
     data: { "controller" => "country-select" }
-  }
+  }.merge(aria_label ? { "aria-label" => aria_label } : {})
 ) %>

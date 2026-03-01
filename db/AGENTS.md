@@ -31,7 +31,7 @@ Add indexes for foreign keys and frequently queried columns. Use `add_index` exp
 
 - **Entry point**: `db/seeds.rb` loads `db/seeds/runner.rb`.
 - **Modular seeds**: `db/seeds/create_*.rb` — each module includes `Callable` (same pattern as concepts).
-- **Order**: `Runner` orchestrates: admin roles → admin users → users → games → servers → webhook configs.
+- **Order**: `Runner` orchestrates: admin roles and permissions → admin users → admin accounts → users → accounts → games → servers → webhook configs.
 
 ### Seed Module Pattern
 

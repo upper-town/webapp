@@ -1,5 +1,8 @@
 <h1 class="mb-4"><%= t("admin.users.index.title") %></h1>
 
+<% request_helper = RequestHelper.new(request) %>
+<% sort_url_builder = ->(key, dir) { request_helper.url_with_query({ sort: key, sort_dir: dir, page: 1 }, []) } %>
+
 <div class="admin-pagination-search-row mb-3">
   <div class="admin-pagination-search-row__pagination">
     <%= render(PaginationComponent.new(@pagination, align: :start)) %>
@@ -7,7 +10,8 @@
   <%= render(Admin::SearchFormComponent.new(
     url: admin_users_path,
     search_term: @search_term,
-    placeholder: t("admin.users.index.search_placeholder")
+    placeholder: t("admin.users.index.search_placeholder"),
+    hidden_params: params.permit(:sort, :sort_dir).to_h.compact
   )) %>
 </div>
 
@@ -15,12 +19,15 @@
   render(Admin::TableComponent.new(
     collection: @users,
     empty_message: t("admin.users.index.empty_message"),
+    sort_column: @sort_column,
+    sort_direction: @sort_direction,
+    sort_url_builder: sort_url_builder,
     columns: [
-      [t("admin.shared.id"), -> { link_to(it.id, admin_user_path(it), class: "fw-medium") }, { copyable: :id }],
+      [t("admin.shared.id"), -> { link_to(it.id, admin_user_path(it), class: "fw-medium") }, { copyable: :id, sortable: "id" }],
       [
         t("admin.users.columns.email"),
         -> { it.email.presence },
-        { copyable: :email },
+        { copyable: :email, sortable: "email" },
       ],
       [
         t("admin.users.columns.email_confirmed"),
@@ -31,7 +38,7 @@
             content_tag(:span, t("admin.shared.no"), class: "badge text-bg-secondary")
           end
         },
-        { copyable: ->(it) { it.email_confirmed_at ? l(it.email_confirmed_at) : nil } },
+        { copyable: ->(it) { it.email_confirmed_at ? l(it.email_confirmed_at) : nil }, sortable: "email_confirmed_at" },
       ],
       [
         t("admin.shared.locked"),
@@ -42,7 +49,7 @@
             content_tag(:span, t("admin.shared.no"), class: "text-body-secondary")
           end
         },
-        { copyable: ->(it) { it.locked_at ? l(it.locked_at) : nil } },
+        { copyable: ->(it) { it.locked_at ? l(it.locked_at) : nil }, sortable: "locked_at" },
       ],
       [
         t("admin.shared.actions"),

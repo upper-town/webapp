@@ -51,7 +51,7 @@
           t("admin.shared.archived"),
           -> { @server.archived? ? "#{t('admin.shared.archived')} (#{l(@server.archived_at)})" : nil },
         ],
-        *(@server.marked_for_deletion? ? [["Deletion", -> {
+        *(@server.marked_for_deletion? ? [[t("admin.shared.marked_for_deletion"), -> {
           safe_join([content_tag(:span, t("admin.shared.marked_for_deletion"), class: "badge text-bg-danger"), content_tag(:small, "(#{l(@server.marked_for_deletion_at)})", class: "text-body-secondary ms-1")])
         }]] : []),
       ],
