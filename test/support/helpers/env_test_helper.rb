@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module EnvTestHelper
   def env_with_values(hash)
     env_with_backup_and_restore do

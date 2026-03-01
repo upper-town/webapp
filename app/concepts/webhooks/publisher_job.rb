@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Webhooks
   class PublisherJob < ApplicationPollingJob
     limits_concurrency key: "0", on_conflict: :discard

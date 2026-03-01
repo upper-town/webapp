@@ -17,8 +17,16 @@
     empty_message: t("admin.accounts.index.empty_message"),
     columns: [
       [t("admin.shared.id"), -> { link_to(it.id, admin_account_path(it), class: "fw-medium") }, { copyable: :id }],
-      [t("admin.accounts.columns.uuid"), -> { content_tag(:code, truncate(it.uuid, length: 12), class: "small", title: it.uuid) }, { copyable: :uuid }],
-      [t("admin.accounts.columns.user"), -> { link_to(it.user.email, admin_user_path(it.user)) }, { copyable: ->(it) { it.user&.email } }],
+      [
+        t("admin.accounts.columns.uuid"),
+        -> { content_tag(:code, truncate(it.uuid, length: 12), class: "small", title: it.uuid) },
+        { copyable: :uuid },
+      ],
+      [
+        t("admin.accounts.columns.user"),
+        -> { link_to(it.user.email, admin_user_path(it.user)) },
+        { copyable: ->(it) { it.user&.email } },
+      ],
       [t("admin.accounts.columns.verified_servers"), -> { it.verified_servers.count }],
       [t("admin.shared.created"), -> { l(it.created_at) }, { copyable: ->(it) { l(it.created_at) } }],
       [t("admin.shared.actions"), -> { render(Admin::IndexActionsComponent.new(view_path: admin_account_path(it))) }],

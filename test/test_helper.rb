@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 ENV["APP_ENV"] ||= "test"
 ENV["RAILS_ENV"] ||= "test"
 
@@ -63,5 +61,6 @@ end
 module ActionDispatch
   class IntegrationTest
     include RequestTestSetup
+    include AdminRequestTestHelper
   end
 end

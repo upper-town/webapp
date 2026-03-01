@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require "test_helper"
 
 class Admin::DashboardStatsTest < ActiveSupport::TestCase
@@ -38,9 +36,9 @@ class Admin::DashboardStatsTest < ActiveSupport::TestCase
     end
 
     it "returns server status counts" do
-      server1 = create_server(verified_at: Time.current)
-      server2 = create_server(archived_at: Time.current)
-      server3 = create_server(marked_for_deletion_at: Time.current)
+      create_server(verified_at: Time.current)
+      create_server(archived_at: Time.current)
+      create_server(marked_for_deletion_at: Time.current)
 
       stats = described_class.call
 

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Servers
   class CreateForm < ApplicationModel
     attribute :game_id, :integer, default: nil

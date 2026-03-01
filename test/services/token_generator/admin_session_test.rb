@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require "test_helper"
 
 class TokenGenerator::AdminSessionTest < ActiveSupport::TestCase

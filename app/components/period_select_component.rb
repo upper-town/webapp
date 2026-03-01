@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class PeriodSelectComponent < ApplicationComponent
   attr_reader(:form, :default_value, :selected_value)
 

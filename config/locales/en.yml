@@ -153,7 +153,6 @@ en:
       edit_resource: "Edit %{resource}"
       update_resource: "Update %{resource}"
       create_resource: "Create %{resource}"
-      empty_placeholder: "--"
       loading: "Loading…"
 
     admin_sessions:
@@ -393,21 +392,11 @@ en:
         update_game: "Update game"
       form:
         details: "Details"
-        name: "Name"
         name_help: "Display name for the game. Minimum 3 characters."
-        slug: "Slug"
         slug_help: "URL-friendly identifier. Leave blank when creating to auto-generate from name."
-        site_url: "Site URL"
         site_url_help: "Official game website. Optional."
-        description: "Description"
         description_help: "Short description. Max 1000 characters."
-        info: "Info"
         info_help: "Additional info. Max 1000 characters."
-      columns:
-        name: "Name"
-        slug: "Slug"
-        site_url: "Site URL"
-        servers: "Servers"
 
     servers:
       index:
@@ -427,8 +416,6 @@ en:
         title: "Edit %{name}"
         back_to: "Back to server"
         details: "Details"
-        game: "Game"
-        country: "Country"
         banner_image_section: "Banner image"
         current_banner: "Current banner:"
         replace_banner: "Replace banner image"
@@ -436,11 +423,6 @@ en:
         approve_banner: "Approve banner image"
         approve_banner_help: "Approved banners are shown on the public server page."
         update_server: "Update server"
-      columns:
-        name: "Name"
-        game: "Game"
-        country: "Country"
-        site_url: "Site URL"
       edit_actions:
         public: "Public"
 
@@ -455,10 +437,6 @@ en:
       show:
         title: "Server Account #%{id}"
         back_to: "Back to Server Accounts"
-      columns:
-        server: "Server"
-        account: "Account"
-        verified_at: "Verified at"
 
     server_stats:
       index:
@@ -471,16 +449,6 @@ en:
       show:
         title: "Server Stat #%{id}"
         back_to: "Back to Server Stats"
-      columns:
-        server: "Server"
-        game: "Game"
-        period: "Period"
-        reference_date: "Reference date"
-        vote_count: "Vote count"
-        ranking: "Ranking"
-        ranking_number: "Ranking number"
-        vote_count_consolidated_at: "Vote count consolidated at"
-        ranking_consolidated_at: "Ranking consolidated at"
 
     server_votes:
       index:
@@ -494,13 +462,6 @@ en:
       show:
         title: "Server Vote #%{id}"
         back_to: "Back to Server Votes"
-      columns:
-        server: "Server"
-        game: "Game"
-        account: "Account"
-        uuid: "UUID"
-        remote_ip: "Remote IP"
-        reference: "Reference"
 
     webhook_configs:
       index:
@@ -598,12 +559,7 @@ en:
         empty_message: "No Feature Flags found."
       show:
         back_to: "Back to Feature Flags"
-        name: "Name"
-        value: "Value"
-        enabled: "Enabled"
-        env_override: "Env override"
         env_override_suffix: "(FF_%{var} takes precedence)"
-        comment: "Comment"
       new:
         title: "New Feature Flag"
         back_to: "Back to Feature Flags"
@@ -614,19 +570,11 @@ en:
         update_feature_flag: "Update Feature Flag"
       form:
         details: "Details"
-        name: "Name"
         name_placeholder: "my_feature"
         name_help: "Key-style name (lowercase, underscores). Normalized automatically."
-        value: "Value"
         value_placeholder: "true"
         value_help: "true or false for global. Optional: true:user_1,user_2 or false:user_1 for per-record overrides."
-        comment: "Comment"
         comment_help: "Optional internal note. Not used for evaluation."
-      columns:
-        name: "Name"
-        value: "Value"
-        enabled: "Enabled"
-        env_override: "Env override"
 
   time:
     formats:
@@ -734,6 +682,51 @@ en:
               invalid: "incorrect current email"
 
   activerecord:
+    attributes:
+      game:
+        name: "Name"
+        slug: "Slug"
+        site_url: "Site URL"
+        description: "Description"
+        info: "Info"
+        servers: "Servers"
+      server:
+        name: "Name"
+        game: "Game"
+        game_id: "Game"
+        country: "Country"
+        country_code: "Country"
+        site_url: "Site URL"
+        description: "Description"
+        info: "Info"
+        banner_image: "Banner image"
+      feature_flag:
+        name: "Name"
+        value: "Value"
+        comment: "Comment"
+        enabled: "Enabled"
+        env_override: "Env override"
+      server_vote:
+        server: "Server"
+        game: "Game"
+        account: "Account"
+        uuid: "UUID"
+        remote_ip: "Remote IP"
+        reference: "Reference"
+      server_stat:
+        server: "Server"
+        game: "Game"
+        period: "Period"
+        reference_date: "Reference date"
+        vote_count: "Vote count"
+        ranking: "Ranking"
+        ranking_number: "Ranking number"
+        vote_count_consolidated_at: "Vote count consolidated at"
+        ranking_consolidated_at: "Ranking consolidated at"
+      server_account:
+        server: "Server"
+        account: "Account"
+        verified_at: "Verified at"
     errors:
       models:
         server:

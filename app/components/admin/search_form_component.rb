@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Admin
   class SearchFormComponent < ApplicationComponent
     attr_reader :url, :search_term, :placeholder, :param, :hidden_params

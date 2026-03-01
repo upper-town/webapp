@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module HasTokens
   TOKEN_EXPIRATION = 1.hour
 

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module RailsEnvTestHelper
   def rails_with_env(env, assert_stub: true, &)
     env_with_values("RAILS_ENV" => env) do

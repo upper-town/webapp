@@ -17,17 +17,28 @@
     empty_message: t("admin.tokens.index.empty_message"),
     columns: [
       [t("admin.shared.id"), -> { link_to(it.id, admin_token_path(it), class: "fw-medium") }, { copyable: :id }],
-      [t("admin.tokens.columns.user"), -> { link_to(it.user.email, admin_user_path(it.user)) }, { copyable: ->(it) { it.user&.email } }],
+      [
+        t("admin.tokens.columns.user"),
+        -> { link_to(it.user.email, admin_user_path(it.user)) },
+        { copyable: ->(it) { it.user&.email } },
+      ],
       [t("admin.tokens.columns.purpose"), -> { content_tag(:code, it.purpose, class: "small") }, { copyable: :purpose }],
-      [t("admin.admin_sessions.columns.last_4"), -> { content_tag(:code, it.token_last_four, class: "small") }, { copyable: :token_last_four }],
+      [
+        t("admin.admin_sessions.columns.last_4"),
+        -> { content_tag(:code, it.token_last_four, class: "small") },
+        { copyable: :token_last_four },
+      ],
       [t("admin.admin_sessions.columns.expires"), -> { l(it.expires_at) }, { copyable: ->(it) { l(it.expires_at) } }],
-      [t("admin.admin_sessions.columns.status"), -> {
-        if it.expired?
-          content_tag(:span, t("admin.shared.expired"), class: "badge text-bg-secondary")
-        else
-          content_tag(:span, t("admin.shared.active"), class: "badge text-bg-success")
-        end
-      }],
+      [
+        t("admin.admin_sessions.columns.status"),
+        -> {
+          if it.expired?
+            content_tag(:span, t("admin.shared.expired"), class: "badge text-bg-secondary")
+          else
+            content_tag(:span, t("admin.shared.active"), class: "badge text-bg-success")
+          end
+        },
+      ],
       [t("admin.shared.created"), -> { l(it.created_at) }, { copyable: ->(it) { l(it.created_at) } }],
       [t("admin.shared.actions"), -> { render(Admin::IndexActionsComponent.new(view_path: admin_token_path(it))) }],
     ],

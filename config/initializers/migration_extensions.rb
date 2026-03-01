@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module MigrationExtensions
   def create_table(table_name, id: :primary_key, primary_key: nil, **, &)
     super.tap do

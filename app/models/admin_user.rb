@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class AdminUser < ApplicationRecord
   include FeatureFlagId
   include HasAdminTokens

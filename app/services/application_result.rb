@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class ApplicationResult < ApplicationModel
   DEFAULT_ERROR_KEY  = :base
   DEFAULT_ERROR_TYPE = :invalid

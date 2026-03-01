@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module CodeGenerator
   ALPHABET = %w[
     A B C D E F G H   J K L M N   P Q R S T U   W X Y Z

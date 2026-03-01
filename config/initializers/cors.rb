@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class CorsHeadersMiddleware
   OPTIONS_PATHS = ["*", "/"]
   ALLOW_METHODS = "HEAD, OPTIONS, GET, POST, PUT, PATCH, DELETE"

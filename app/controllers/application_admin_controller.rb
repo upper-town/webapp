@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class ApplicationAdminController < ActionController::Base
   before_action :ensure_rails_session
   before_action :authenticate_admin_user!

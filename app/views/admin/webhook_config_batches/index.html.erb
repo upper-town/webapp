@@ -20,25 +20,35 @@
           collection: @webhook_batches,
           empty_message: t("admin.webhook_batches.index.empty_message"),
           columns: [
-            [t("admin.shared.id"), -> { link_to(it.id, admin_webhook_batch_path(it), class: "fw-medium", data: { turbo_frame: "_top" }) }, { copyable: :id }],
-            [t("admin.webhook_batches.columns.status"), -> {
-              badge_class = case it.status
-              when "delivered" then "bg-success"
-              when "failed" then "bg-danger"
-              when "queued" then "bg-primary"
-              else "bg-secondary"
-              end
-              content_tag(:span, it.status, class: "badge #{badge_class}")
-            }],
+            [
+              t("admin.shared.id"),
+              -> { link_to(it.id, admin_webhook_batch_path(it), class: "fw-medium", data: { turbo_frame: "_top" }) },
+              { copyable: :id },
+            ],
+            [
+              t("admin.webhook_batches.columns.status"),
+              -> {
+                badge_class = case it.status
+                when "delivered" then "bg-success"
+                when "failed" then "bg-danger"
+                when "queued" then "bg-primary"
+                else "bg-secondary"
+                end
+                content_tag(:span, it.status, class: "badge #{badge_class}")
+              },
+            ],
             [t("admin.webhook_batches.columns.failed_attempts"), -> { it.failed_attempts }],
             [t("admin.webhook_batches.columns.events"), -> { it.events.size }],
             [t("admin.shared.created"), -> { l(it.created_at) }, { copyable: ->(it) { l(it.created_at) } }],
-            [t("admin.shared.actions"), -> {
-              render(Admin::IndexActionsComponent.new(
-                view_path: admin_webhook_batch_path(it),
-                link_options: { data: { turbo_frame: "_top" } }
-              ))
-            }],
+            [
+              t("admin.shared.actions"),
+              -> {
+                render(Admin::IndexActionsComponent.new(
+                  view_path: admin_webhook_batch_path(it),
+                  link_options: { data: { turbo_frame: "_top" } },
+                ))
+              },
+            ],
           ],
         ))
       %>

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # https://github.com/codeodor/minitest-stub_any_instance/blob/master/lib/minitest/stub_any_instance.rb
 class BasicObject
   def self.stub_any_instance(name, val_or_callable = nil)

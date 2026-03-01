@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Seeds
   class CreateAdminRolesAndPermissions
     include Callable

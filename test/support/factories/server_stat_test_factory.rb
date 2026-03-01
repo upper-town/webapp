@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 ApplicationRecordTestFactoryHelper.define(:server_stat, ServerStat,
   server: -> { build_server },
   game: -> { build_game },

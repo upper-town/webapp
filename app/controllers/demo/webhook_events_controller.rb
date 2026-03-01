@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Demo
   class WebhookEventsController < ApplicationApiController
     def create

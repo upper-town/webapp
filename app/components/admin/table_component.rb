@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Admin
   class TableComponent < ApplicationComponent
     def initialize(collection: [], columns: [], empty_message: "No results")
@@ -63,7 +61,7 @@ module Admin
         column_value
       when Symbol
         value = item.public_send(column_value)
-        value.presence || content_tag(:span, "--", class: "text-body-secondary")
+        value.presence
       when Proc
         column_value.call(item)
       end
@@ -74,12 +72,16 @@ module Admin
       data_attrs = { controller: "copy-to-clipboard", copied_title: I18n.t("admin.shared.copied") }
       data_attrs[:copy_to_clipboard_value] = copy_val if copy_val.present?
       # When we have an explicit copy value, put it in a hidden span as content target so fallback copies only the value
-      content_target_value = copy_val.present? ? copy_val : nil
+      content_target_value = (copy_val.presence)
 
       content_tag(:span, class: "d-inline-flex align-items-center gap-1", data: data_attrs) do
         parts = []
-        parts << content_tag(:span, content_target_value, data: { copy_to_clipboard_target: "content" }, class: "visually-hidden") if content_target_value.present?
-        parts << content_tag(:span, content, data: (content_target_value.present? ? {} : { copy_to_clipboard_target: "content" }))
+        if content_target_value.present?
+          parts << content_tag(:span, content_target_value, data: { copy_to_clipboard_target: "content" },
+class: "visually-hidden")
+        end
+        parts << content_tag(:span, content,
+data: (content_target_value.present? ? {} : { copy_to_clipboard_target: "content" }))
         safe_join(parts + [copy_button_html])
       end
     end

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 ApplicationRecordTestFactoryHelper.define(:admin_session, AdminSession,
   admin_user: -> { build_admin_user },
   token_last_four: -> { "abcd" },

@@ -32,17 +32,37 @@
     empty_message: t("admin.server_votes.index.empty_message"),
     columns: [
       [t("admin.shared.id"), -> { link_to(it.id, admin_server_vote_path(it), class: "fw-medium") }, { copyable: :id }],
-      [t("admin.server_votes.columns.server"), -> { link_to(it.server.name, admin_server_path(it.server)) }, { copyable: ->(it) { it.server&.name } }],
-      [t("admin.server_votes.columns.game"), -> { link_to(it.game.name, admin_game_path(it.game)) }, { copyable: ->(it) { it.game&.name } }],
-      [t("admin.server_votes.columns.account"), -> {
-        if it.account
-          link_to(it.account.user.email, admin_user_path(it.account.user))
-        else
-          content_tag(:span, t("admin.shared.anonymous"), class: "text-body-secondary")
-        end
-      }, { copyable: ->(it) { it.account&.user&.email } }],
-      [t("admin.server_votes.columns.uuid"), -> { content_tag(:code, truncate(it.uuid, length: 12), class: "small", title: it.uuid) }, { copyable: :uuid }],
-      [t("admin.admin_sessions.columns.remote_ip"), -> { content_tag(:code, it.remote_ip, class: "small") }, { copyable: :remote_ip }],
+      [
+        ServerVote.human_attribute_name(:server),
+        -> { link_to(it.server.name, admin_server_path(it.server)) },
+        { copyable: ->(it) { it.server&.name } },
+      ],
+      [
+        ServerVote.human_attribute_name(:game),
+        -> { link_to(it.game.name, admin_game_path(it.game)) },
+        { copyable: ->(it) { it.game&.name } },
+      ],
+      [
+        ServerVote.human_attribute_name(:account),
+        -> {
+          if it.account
+            link_to(it.account.user.email, admin_user_path(it.account.user))
+          else
+            content_tag(:span, t("admin.shared.anonymous"), class: "text-body-secondary")
+          end
+        },
+        { copyable: ->(it) { it.account&.user&.email } },
+      ],
+      [
+        ServerVote.human_attribute_name(:uuid),
+        -> { content_tag(:code, truncate(it.uuid, length: 12), class: "small", title: it.uuid) },
+        { copyable: :uuid },
+      ],
+      [
+        ServerVote.human_attribute_name(:remote_ip),
+        -> { content_tag(:code, it.remote_ip, class: "small") },
+        { copyable: :remote_ip },
+      ],
       [t("admin.shared.created"), -> { l(it.created_at) }, { copyable: ->(it) { l(it.created_at) } }],
       [t("admin.shared.actions"), -> { render(Admin::IndexActionsComponent.new(view_path: admin_server_vote_path(it))) }],
     ],

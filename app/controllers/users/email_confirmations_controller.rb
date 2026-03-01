@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Users
   class EmailConfirmationsController < ApplicationController
     before_action -> { set_email_confirmation(:create) }, only: [:new,  :create]

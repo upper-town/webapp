@@ -9,50 +9,72 @@
   )) %>
 </div>
 
-<%= render(Admin::DetailsTableComponent.new(sections: [
-  {
-    title: t("admin.shared.details"),
-    rows: [
-      [t("admin.shared.id"), @admin_user.id, { copyable: true }],
-      [t("admin.admin_users.columns.email"), @admin_user.email, { copyable: true }],
-      [t("admin.admin_users.columns.email_confirmed"), -> {
-        if @admin_user.email_confirmed_at
-          safe_join([content_tag(:span, t("admin.shared.yes"), class: "badge text-bg-success"), content_tag(:small, "(#{l(@admin_user.email_confirmed_at)})", class: "text-body-secondary ms-1")])
-        else
-          content_tag(:span, t("admin.shared.no"), class: "badge text-bg-secondary")
-        end
-      }, (@admin_user.email_confirmed_at ? { copyable: l(@admin_user.email_confirmed_at) } : {})],
-      [t("admin.users.show.email_confirmation_sent"), @admin_user.email_confirmation_sent_at ? l(@admin_user.email_confirmation_sent_at) : nil, { copyable: true }],
-      [t("admin.shared.locked"), -> {
-        if @admin_user.locked?
-          safe_join([
-            content_tag(:span, t("admin.shared.locked"), class: "badge text-bg-danger"),
-            content_tag(:small, "(#{l(@admin_user.locked_at)})", class: "text-body-secondary ms-1"),
-            @admin_user.locked_reason.presence && content_tag(:span, @admin_user.locked_reason, class: "ms-1"),
-            @admin_user.locked_comment.presence && content_tag(:div, simple_format(@admin_user.locked_comment), class: "mt-1 text-body-secondary small"),
-          ].compact, " ")
-        else
-          nil
-        end
-      }],
-      [t("admin.users.show.failed_sign_in_attempts"), @admin_user.failed_attempts, { copyable: true }],
-      [t("admin.users.show.password_reset_sent"), @admin_user.password_reset_sent_at ? l(@admin_user.password_reset_sent_at) : nil, { copyable: true }],
-      [t("admin.users.show.sign_in_count"), @admin_user.sign_in_count, { copyable: true }],
-      [t("admin.shared.created"), l(@admin_user.created_at), { copyable: true }],
-      [t("admin.shared.updated"), l(@admin_user.updated_at), { copyable: true }],
-    ],
-  },
-])) %>
+<%= render(Admin::DetailsTableComponent.new(
+  sections: [
+    {
+      title: t("admin.shared.details"),
+      rows: [
+        [t("admin.shared.id"), @admin_user.id, { copyable: true }],
+        [t("admin.admin_users.columns.email"), @admin_user.email, { copyable: true }],
+        [
+          t("admin.admin_users.columns.email_confirmed"),
+          -> {
+            if @admin_user.email_confirmed_at
+              safe_join([content_tag(:span, t("admin.shared.yes"), class: "badge text-bg-success"), content_tag(:small, "(#{l(@admin_user.email_confirmed_at)})", class: "text-body-secondary ms-1")])
+            else
+              content_tag(:span, t("admin.shared.no"), class: "badge text-bg-secondary")
+            end
+          },
+          (@admin_user.email_confirmed_at ? { copyable: l(@admin_user.email_confirmed_at) } : {}),
+        ],
+        [
+          t("admin.users.show.email_confirmation_sent"),
+          @admin_user.email_confirmation_sent_at ? l(@admin_user.email_confirmation_sent_at) : nil,
+          { copyable: true },
+        ],
+        [
+          t("admin.shared.locked"),
+          -> {
+            if @admin_user.locked?
+              safe_join([
+                content_tag(:span, t("admin.shared.locked"), class: "badge text-bg-danger"),
+                content_tag(:small, "(#{l(@admin_user.locked_at)})", class: "text-body-secondary ms-1"),
+                @admin_user.locked_reason.presence && content_tag(:span, @admin_user.locked_reason, class: "ms-1"),
+                @admin_user.locked_comment.presence && content_tag(:div, simple_format(@admin_user.locked_comment), class: "mt-1 text-body-secondary small"),
+              ].compact, " ")
+            else
+              nil
+            end
+          },
+        ],
+        [t("admin.users.show.failed_sign_in_attempts"), @admin_user.failed_attempts, { copyable: true }],
+        [
+          t("admin.users.show.password_reset_sent"),
+          @admin_user.password_reset_sent_at ? l(@admin_user.password_reset_sent_at) : nil,
+          { copyable: true },
+        ],
+        [t("admin.users.show.sign_in_count"), @admin_user.sign_in_count, { copyable: true }],
+        [t("admin.shared.created"), l(@admin_user.created_at), { copyable: true }],
+        [t("admin.shared.updated"), l(@admin_user.updated_at), { copyable: true }],
+      ],
+    },
+  ],
+)) %>
 
-<%= render(Admin::DetailsTableComponent.new(sections: [
-  {
-    title: t("admin.admin_users.show.roles"),
-    rows: [
-      [t("admin.admin_accounts.columns.super_admin"), @admin_user.account&.super_admin? ? content_tag(:span, t("admin.shared.yes"), class: "badge text-bg-warning") : t("admin.shared.no")],
-      *(@admin_user.account&.roles&.any? ? @admin_user.account.roles.map { |role| [role.key, role.description] } : [[-> { content_tag(:span, t("admin.shared.none"), class: "text-body-secondary") }]]),
-    ],
-  },
-])) %>
+<%= render(Admin::DetailsTableComponent.new(
+  sections: [
+    {
+      title: t("admin.admin_users.show.roles"),
+      rows: [
+        [
+          t("admin.admin_accounts.columns.super_admin"),
+          @admin_user.account&.super_admin? ? content_tag(:span, t("admin.shared.yes"), class: "badge text-bg-warning") : t("admin.shared.no"),
+        ],
+        *(@admin_user.account&.roles&.any? ? @admin_user.account.roles.map { |role| [role.key, role.description] } : [[-> { content_tag(:span, t("admin.shared.none"), class: "text-body-secondary") }]]),
+      ],
+    },
+  ],
+)) %>
 
 <%= turbo_frame_tag("admin_user_sessions", src: sessions_admin_admin_user_path(@admin_user), loading: :lazy) do %>
   <div class="card mb-4">

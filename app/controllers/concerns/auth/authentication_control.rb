@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Auth
   module AuthenticationControl
     class NotAuthenticatedError < StandardError; end

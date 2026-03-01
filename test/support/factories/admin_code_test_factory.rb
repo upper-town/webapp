@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 ApplicationRecordTestFactoryHelper.define(:admin_code, AdminCode,
   admin_user: -> { build_admin_user },
   purpose: -> { "email_confirmation" },

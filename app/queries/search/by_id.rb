@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Search
   module ById
     ID_PATTERN = /\A[0-9]+\z/

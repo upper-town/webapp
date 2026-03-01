@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module HasCodes
   CODE_EXPIRATION = 30.minutes
 

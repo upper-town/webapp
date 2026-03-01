@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require "test_helper"
 
 class Admin::ServerAccountsQueryTest < ActiveSupport::TestCase
@@ -19,9 +17,9 @@ class Admin::ServerAccountsQueryTest < ActiveSupport::TestCase
 
     it "filters by server_id when provided" do
       server = create_server
-      sa1 = create_server_account(server: server)
-      sa2 = create_server_account
-      sa3 = create_server_account(server: server)
+      sa1 = create_server_account(server:)
+      create_server_account
+      sa3 = create_server_account(server:)
 
       result = described_class.new(server_id: server.id).call
 
@@ -30,9 +28,9 @@ class Admin::ServerAccountsQueryTest < ActiveSupport::TestCase
 
     it "filters by account_id when provided" do
       account = create_account
-      sa1 = create_server_account(account: account)
-      sa2 = create_server_account
-      sa3 = create_server_account(account: account)
+      sa1 = create_server_account(account:)
+      create_server_account
+      sa3 = create_server_account(account:)
 
       result = described_class.new(account_id: account.id).call
 

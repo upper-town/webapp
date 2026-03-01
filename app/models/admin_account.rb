@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class AdminAccount < ApplicationRecord
   belongs_to :admin_user
 

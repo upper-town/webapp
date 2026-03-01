@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # rubocop:disable Rails/I18nLocaleTexts
 module Demo
   class HomeController < BaseController

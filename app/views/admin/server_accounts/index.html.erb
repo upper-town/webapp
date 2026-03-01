@@ -30,16 +30,31 @@
     empty_message: t("admin.server_accounts.index.empty_message"),
     columns: [
       [t("admin.shared.id"), -> { link_to(it.id, admin_server_account_path(it), class: "fw-medium") }, { copyable: :id }],
-      [t("admin.server_accounts.columns.server"), -> { link_to(it.server.name, admin_server_path(it.server)) }, { copyable: ->(it) { it.server&.name } }],
-      [t("admin.server_accounts.columns.account"), -> { link_to(it.account.user.email, admin_user_path(it.account.user)) }, { copyable: ->(it) { it.account&.user&.email } }],
-      [t("admin.shared.verified"), -> {
-        if it.verified?
-          content_tag(:span, t("admin.shared.verified"), class: "badge text-bg-success")
-        else
-          content_tag(:span, t("admin.shared.not_verified"), class: "badge text-bg-secondary")
-        end
-      }],
-      [t("admin.server_accounts.columns.verified_at"), -> { it.verified_at ? l(it.verified_at) : content_tag(:span, t("admin.shared.empty_placeholder"), class: "text-body-secondary") }, { copyable: ->(it) { it.verified_at ? l(it.verified_at) : nil } }],
+      [
+        ServerAccount.human_attribute_name(:server),
+        -> { link_to(it.server.name, admin_server_path(it.server)) },
+        { copyable: ->(it) { it.server&.name } },
+      ],
+      [
+        ServerAccount.human_attribute_name(:account),
+        -> { link_to(it.account.user.email, admin_user_path(it.account.user)) },
+        { copyable: ->(it) { it.account&.user&.email } },
+      ],
+      [
+        t("admin.shared.verified"),
+        -> {
+          if it.verified?
+            content_tag(:span, t("admin.shared.verified"), class: "badge text-bg-success")
+          else
+            content_tag(:span, t("admin.shared.not_verified"), class: "badge text-bg-secondary")
+          end
+        },
+      ],
+      [
+        ServerAccount.human_attribute_name(:verified_at),
+        -> { it.verified_at ? l(it.verified_at) : nil },
+        { copyable: ->(it) { it.verified_at ? l(it.verified_at) : nil } },
+      ],
       [t("admin.shared.created"), -> { l(it.created_at) }, { copyable: ->(it) { l(it.created_at) } }],
       [t("admin.shared.actions"), -> { render(Admin::IndexActionsComponent.new(view_path: admin_server_account_path(it))) }],
     ],

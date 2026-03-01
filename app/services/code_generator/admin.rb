@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module CodeGenerator
   module Admin
     SECRET = Rails.application.key_generator.generate_key(ENV.fetch("CODE_ADMIN_SALT"))

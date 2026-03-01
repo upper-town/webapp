@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Servers
   class IndexResultComponent < ApplicationComponent
     attr_reader :server, :server_stats_hash, :period

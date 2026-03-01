@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class Server < ApplicationRecord
   COUNTRY_CODES = ISO3166::Country.codes
 

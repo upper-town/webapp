@@ -3,23 +3,37 @@
   <%= render(Admin::ShowActionsComponent.new(
     back_path: admin_server_accounts_path,
     actions: [
-      { path: admin_server_path(@server_account.server), label: t("admin.server_accounts.columns.server") },
+      { path: admin_server_path(@server_account.server), label: ServerAccount.human_attribute_name(:server) },
       { path: admin_user_path(@server_account.account.user), label: t("admin.sessions.columns.user") },
     ]
   )) %>
 </div>
 
-<%= render(Admin::DetailsTableComponent.new(sections: [
-  {
-    title: t("admin.shared.details"),
-    rows: [
-      [t("admin.shared.id"), @server_account.id, { copyable: true }],
-      [t("admin.server_accounts.columns.server"), link_to(@server_account.server.name, admin_server_path(@server_account.server)), { copyable: @server_account.server.name }],
-      [t("admin.server_accounts.columns.account"), link_to(@server_account.account.user.email, admin_user_path(@server_account.account.user)), { copyable: @server_account.account.user.email }],
-      [t("admin.shared.verified"), @server_account.verified? ? t("admin.shared.yes") : t("admin.shared.no")],
-      [t("admin.server_accounts.columns.verified_at"), @server_account.verified_at ? l(@server_account.verified_at) : nil, { copyable: true }],
-      [t("admin.shared.created"), l(@server_account.created_at), { copyable: true }],
-      [t("admin.shared.updated"), l(@server_account.updated_at), { copyable: true }],
-    ],
-  },
-])) %>
+<%= render(Admin::DetailsTableComponent.new(
+  sections: [
+    {
+      title: t("admin.shared.details"),
+      rows: [
+        [t("admin.shared.id"), @server_account.id, { copyable: true }],
+        [
+          ServerAccount.human_attribute_name(:server),
+          link_to(@server_account.server.name, admin_server_path(@server_account.server)),
+          { copyable: @server_account.server.name },
+        ],
+        [
+          ServerAccount.human_attribute_name(:account),
+          link_to(@server_account.account.user.email, admin_user_path(@server_account.account.user)),
+          { copyable: @server_account.account.user.email },
+        ],
+        [t("admin.shared.verified"), @server_account.verified? ? t("admin.shared.yes") : t("admin.shared.no")],
+        [
+          ServerAccount.human_attribute_name(:verified_at),
+          @server_account.verified_at ? l(@server_account.verified_at) : nil,
+          { copyable: true },
+        ],
+        [t("admin.shared.created"), l(@server_account.created_at), { copyable: true }],
+        [t("admin.shared.updated"), l(@server_account.updated_at), { copyable: true }],
+      ],
+    },
+  ],
+)) %>

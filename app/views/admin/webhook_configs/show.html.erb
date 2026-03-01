@@ -6,30 +6,41 @@
   )) %>
 </div>
 
-<%= render(Admin::DetailsTableComponent.new(sections: [
-  {
-    title: t("admin.shared.details"),
-    rows: [
-      [t("admin.shared.id"), @webhook_config.id],
-      [t("admin.webhook_configs.columns.source"), -> {
-        if @webhook_config.source.is_a?(Server)
-          link_to("#{@webhook_config.source.name} (##{@webhook_config.source.id})", admin_server_path(@webhook_config.source))
-        else
-          "#{@webhook_config.source_type} ##{@webhook_config.source_id}"
-        end
-      }],
-      [t("admin.webhook_configs.columns.url"), link_to(@webhook_config.url, @webhook_config.url, target: "_blank", rel: "noopener", class: "text-break")],
-      [t("admin.webhook_configs.columns.method"), content_tag(:code, @webhook_config.method)],
-      [t("admin.webhook_configs.columns.status"), -> {
-        content_tag(:span, @webhook_config.enabled? ? t("admin.webhook_configs.columns.enabled") : t("admin.webhook_configs.columns.disabled"), class: "badge #{@webhook_config.enabled? ? "bg-success" : "bg-secondary"}")
-      }],
-      [t("admin.webhook_configs.columns.event_types"), content_tag(:code, @webhook_config.event_types.join(", "))],
-      [t("admin.webhook_configs.show.secret"), -> { content_tag(:span, "••••••••", class: "text-body-secondary") }],
-      [t("admin.shared.created"), l(@webhook_config.created_at), { copyable: true }],
-      [t("admin.shared.updated"), l(@webhook_config.updated_at), { copyable: true }],
-    ],
-  },
-])) %>
+<%= render(Admin::DetailsTableComponent.new(
+  sections: [
+    {
+      title: t("admin.shared.details"),
+      rows: [
+        [t("admin.shared.id"), @webhook_config.id],
+        [
+          t("admin.webhook_configs.columns.source"),
+          -> {
+            if @webhook_config.source.is_a?(Server)
+              link_to("#{@webhook_config.source.name} (##{@webhook_config.source.id})", admin_server_path(@webhook_config.source))
+            else
+              "#{@webhook_config.source_type} ##{@webhook_config.source_id}"
+            end
+          },
+        ],
+        [
+          t("admin.webhook_configs.columns.url"),
+          link_to(@webhook_config.url, @webhook_config.url, target: "_blank", rel: "noopener", class: "text-break"),
+        ],
+        [t("admin.webhook_configs.columns.method"), content_tag(:code, @webhook_config.method)],
+        [
+          t("admin.webhook_configs.columns.status"),
+          -> {
+            content_tag(:span, @webhook_config.enabled? ? t("admin.webhook_configs.columns.enabled") : t("admin.webhook_configs.columns.disabled"), class: "badge #{@webhook_config.enabled? ? "bg-success" : "bg-secondary"}")
+          },
+        ],
+        [t("admin.webhook_configs.columns.event_types"), content_tag(:code, @webhook_config.event_types.join(", "))],
+        [t("admin.webhook_configs.show.secret"), -> { content_tag(:span, "••••••••", class: "text-body-secondary") }],
+        [t("admin.shared.created"), l(@webhook_config.created_at), { copyable: true }],
+        [t("admin.shared.updated"), l(@webhook_config.updated_at), { copyable: true }],
+      ],
+    },
+  ],
+)) %>
 
 <%= turbo_frame_tag("webhook_config_batches", src: batches_admin_webhook_config_path(@webhook_config), loading: :lazy) do %>
   <div class="card mb-4">

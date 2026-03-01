@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Webhooks
   class PublishBatchJob < ApplicationJob
     def perform(webhook_batch)

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module AdminUsers
   class EmailConfirmationsController < ApplicationAdminController
     skip_before_action :authenticate_admin_user!, only: [:edit, :update]

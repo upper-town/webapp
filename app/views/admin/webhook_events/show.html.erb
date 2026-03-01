@@ -6,31 +6,43 @@
   )) %>
 </div>
 
-<%= render(Admin::DetailsTableComponent.new(sections: [
-  {
-    title: t("admin.shared.details"),
-    rows: [
-      [t("admin.shared.id"), @webhook_event.id],
-      [t("admin.webhook_events.columns.uuid"), content_tag(:code, @webhook_event.uuid)],
-      [t("admin.webhook_events.columns.type"), content_tag(:code, @webhook_event.type)],
-      [t("admin.webhook_events.columns.config"), link_to("##{@webhook_event.config.id}", admin_webhook_config_path(@webhook_event.config))],
-      [t("admin.webhook_events.columns.batch"), @webhook_event.batch ? link_to("##{@webhook_event.batch.id}", admin_webhook_batch_path(@webhook_event.batch)) : t("admin.webhook_events.columns.unbatched")],
-      [t("admin.shared.created"), l(@webhook_event.created_at), { copyable: true }],
-      [t("admin.shared.updated"), l(@webhook_event.updated_at), { copyable: true }],
-    ],
-  },
-])) %>
+<%= render(Admin::DetailsTableComponent.new(
+  sections: [
+    {
+      title: t("admin.shared.details"),
+      rows: [
+        [t("admin.shared.id"), @webhook_event.id],
+        [t("admin.webhook_events.columns.uuid"), content_tag(:code, @webhook_event.uuid)],
+        [t("admin.webhook_events.columns.type"), content_tag(:code, @webhook_event.type)],
+        [
+          t("admin.webhook_events.columns.config"),
+          link_to("##{@webhook_event.config.id}", admin_webhook_config_path(@webhook_event.config)),
+        ],
+        [
+          t("admin.webhook_events.columns.batch"),
+          @webhook_event.batch ? link_to("##{@webhook_event.batch.id}", admin_webhook_batch_path(@webhook_event.batch)) : t("admin.webhook_events.columns.unbatched"),
+        ],
+        [t("admin.shared.created"), l(@webhook_event.created_at), { copyable: true }],
+        [t("admin.shared.updated"), l(@webhook_event.updated_at), { copyable: true }],
+      ],
+    },
+  ],
+)) %>
 
-<%= render(Admin::DetailsTableComponent.new(sections: [
-  {
-    title: t("admin.webhook_events.sections.data"),
-    rows: [[-> { content_tag(:pre, JSON.pretty_generate(@webhook_event.data), class: "mb-0 bg-light p-3 rounded small") }]],
-  },
-])) %>
+<%= render(Admin::DetailsTableComponent.new(
+  sections: [
+    {
+      title: t("admin.webhook_events.sections.data"),
+      rows: [[-> { content_tag(:pre, JSON.pretty_generate(@webhook_event.data), class: "mb-0 bg-light p-3 rounded small") }]],
+    },
+  ],
+)) %>
 
-<%= render(Admin::DetailsTableComponent.new(sections: [
-  {
-    title: t("admin.webhook_events.sections.metadata"),
-    rows: [[-> { content_tag(:pre, @webhook_event.metadata.present? ? JSON.pretty_generate(@webhook_event.metadata) : t("admin.shared.empty_placeholder"), class: "mb-0 bg-light p-3 rounded small") }]],
-  },
-])) %>
+<%= render(Admin::DetailsTableComponent.new(
+  sections: [
+    {
+      title: t("admin.webhook_events.sections.metadata"),
+      rows: [[-> { @webhook_event.metadata.present? ? content_tag(:pre, JSON.pretty_generate(@webhook_event.metadata), class: "mb-0 bg-light p-3 rounded small") : nil }]],
+    },
+  ],
+)) %>

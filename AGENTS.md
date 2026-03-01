@@ -1,6 +1,6 @@
 # Intro
 
-This file provides guidance to AI agents when working with code in this repository. When adding new features, follow existing patterns: place business logic in `app/concepts/` under the appropriate domain, use `Callable` for services/queries, return `ApplicationResult` from services, use form objects for user input and pass them (not splatted attributes) to services, and add tests in `test/concepts/` mirroring the concept structure.
+This file provides guidance to AI agents when working with code in this repository. When adding new features, follow existing patterns: place business logic in `app/concepts/` under the appropriate domain, use `Callable` for services/queries, return `ApplicationResult` from services, use form objects for user input and pass them (not splatted attributes) to services, use model attribute locales (`activerecord.attributes`) for attribute labels instead of custom per-page keys, and add tests in `test/concepts/` mirroring the concept structure.
 
 ## Project Overview
 
@@ -75,6 +75,13 @@ bin/ci             # Full CI pipeline (see config/ci.rb)
 ## Locales
 
 The app uses Rails i18n with locale files in `config/locales/`. Use `t("key")` in views and `I18n.t("key")` elsewhere for user-facing strings instead of hardcoding text.
+
+**Model attribute labels** — Prefer centralized model attribute locales over custom per-page keys. Define attribute labels under `activerecord.attributes.<model>` in `config/locales/en.yml`. Use them via:
+
+- `Model.human_attribute_name(:attr)` in tables, details views, and when a custom label is needed
+- `form.label(:attr)` without a second argument in forms — Rails resolves labels from the form’s `model_name` (which points to the underlying model when forms use `ActiveModel::Name.new(Model, nil, "Model")`)
+
+Avoid duplicating attribute labels in `admin.<resource>.columns` or `admin.<resource>.form` when they map to model attributes. Keep custom keys for help text (`*_help`), placeholders (`*_placeholder`), section titles, and context-specific labels (e.g. "Replace banner image" vs "Banner image").
 
 ## Architecture
 
@@ -161,7 +168,7 @@ class Result < ApplicationResult
 end
 
 # Success:
-Result.success(user: user)
+Result.success(user:)
 
 # Failure from model errors:
 Result.failure(user.errors)

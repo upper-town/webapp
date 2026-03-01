@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Users
   class ChangeEmailConfirmationsController < ApplicationController
     before_action :authenticate_user!, only: [:new, :create]

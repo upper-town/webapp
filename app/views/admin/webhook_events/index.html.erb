@@ -31,16 +31,30 @@
     empty_message: t("admin.webhook_events.index.empty_message"),
     columns: [
       [t("admin.shared.id"), -> { link_to(it.id, admin_webhook_event_path(it), class: "fw-medium") }, { copyable: :id }],
-      [t("admin.webhook_events.columns.uuid"), -> { content_tag(:code, truncate(it.uuid, length: 12), class: "small", title: it.uuid) }, { copyable: :uuid }],
-      [t("admin.webhook_events.columns.type"), -> { content_tag(:code, it.type, class: "small") }, { copyable: :type }],
-      [t("admin.webhook_events.columns.config"), -> { link_to("##{it.config.id}", admin_webhook_config_path(it.config)) }],
-      [t("admin.webhook_events.columns.batch"), -> {
-        if it.batch
-          "##{it.batch.id}"
-        else
-          content_tag(:span, t("admin.webhook_events.columns.unbatched"), class: "badge text-bg-secondary")
-        end
-      }],
+      [
+        t("admin.webhook_events.columns.uuid"),
+        -> { content_tag(:code, truncate(it.uuid, length: 12), class: "small", title: it.uuid) },
+        { copyable: :uuid },
+      ],
+      [
+        t("admin.webhook_events.columns.type"),
+        -> { content_tag(:code, it.type, class: "small") },
+        { copyable: :type },
+      ],
+      [
+        t("admin.webhook_events.columns.config"),
+        -> { link_to("##{it.config.id}", admin_webhook_config_path(it.config)) },
+      ],
+      [
+        t("admin.webhook_events.columns.batch"),
+        -> {
+          if it.batch
+            "##{it.batch.id}"
+          else
+            content_tag(:span, t("admin.webhook_events.columns.unbatched"), class: "badge text-bg-secondary")
+          end
+        },
+      ],
       [t("admin.shared.created"), -> { l(it.created_at) }, { copyable: ->(it) { l(it.created_at) } }],
       [t("admin.shared.actions"), -> { render(Admin::IndexActionsComponent.new(view_path: admin_webhook_event_path(it))) }],
     ],

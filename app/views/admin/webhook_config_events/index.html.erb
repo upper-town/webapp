@@ -20,23 +20,41 @@
           collection: @webhook_events,
           empty_message: t("admin.webhook_events.index.empty_message"),
           columns: [
-            [t("admin.shared.id"), -> { link_to(it.id, admin_webhook_event_path(it), class: "fw-medium", data: { turbo_frame: "_top" }) }, { copyable: :id }],
-            [t("admin.webhook_events.columns.uuid"), -> { content_tag(:code, truncate(it.uuid, length: 12), class: "small", title: it.uuid) }, { copyable: :uuid }],
-            [t("admin.webhook_events.columns.type"), -> { content_tag(:code, it.type, class: "small") }, { copyable: :type }],
-            [t("admin.webhook_events.columns.batch"), -> {
-              if it.batch
-                link_to("##{it.batch.id}", admin_webhook_batch_path(it.batch), data: { turbo_frame: "_top" })
-              else
-                content_tag(:span, t("admin.webhook_events.columns.unbatched"), class: "badge text-bg-secondary")
-              end
-            }],
+            [
+              t("admin.shared.id"),
+              -> { link_to(it.id, admin_webhook_event_path(it), class: "fw-medium", data: { turbo_frame: "_top" }) },
+              { copyable: :id },
+            ],
+            [
+              t("admin.webhook_events.columns.uuid"),
+              -> { content_tag(:code, truncate(it.uuid, length: 12), class: "small", title: it.uuid) },
+              { copyable: :uuid },
+            ],
+            [
+              t("admin.webhook_events.columns.type"),
+              -> { content_tag(:code, it.type, class: "small") },
+              { copyable: :type },
+            ],
+            [
+              t("admin.webhook_events.columns.batch"),
+              -> {
+                if it.batch
+                  link_to("##{it.batch.id}", admin_webhook_batch_path(it.batch), data: { turbo_frame: "_top" })
+                else
+                  content_tag(:span, t("admin.webhook_events.columns.unbatched"), class: "badge text-bg-secondary")
+                end
+              },
+            ],
             [t("admin.shared.created"), -> { l(it.created_at) }, { copyable: ->(it) { l(it.created_at) } }],
-            [t("admin.shared.actions"), -> {
-              render(Admin::IndexActionsComponent.new(
-                view_path: admin_webhook_event_path(it),
-                link_options: { data: { turbo_frame: "_top" } }
-              ))
-            }],
+            [
+              t("admin.shared.actions"),
+              -> {
+                render(Admin::IndexActionsComponent.new(
+                  view_path: admin_webhook_event_path(it),
+                  link_options: { data: { turbo_frame: "_top" } },
+                ))
+              },
+            ],
           ],
         ))
       %>

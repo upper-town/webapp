@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require "test_helper"
 
 class Admin::ServerStatsQueryTest < ActiveSupport::TestCase
@@ -18,9 +16,9 @@ class Admin::ServerStatsQueryTest < ActiveSupport::TestCase
 
     it "filters by server_id when provided" do
       server = create_server
-      ss1 = create_server_stat(server: server)
-      ss2 = create_server_stat
-      ss3 = create_server_stat(server: server)
+      ss1 = create_server_stat(server:)
+      create_server_stat
+      ss3 = create_server_stat(server:)
 
       result = described_class.new(server_id: server.id).call
 
@@ -31,9 +29,9 @@ class Admin::ServerStatsQueryTest < ActiveSupport::TestCase
 
     it "filters by game_id when provided" do
       game = create_game
-      ss1 = create_server_stat(game: game)
-      ss2 = create_server_stat
-      ss3 = create_server_stat(game: game)
+      ss1 = create_server_stat(game:)
+      create_server_stat
+      ss3 = create_server_stat(game:)
 
       result = described_class.new(game_id: game.id).call
 

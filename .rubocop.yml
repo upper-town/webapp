@@ -20,6 +20,8 @@ AllCops:
     - db/*schema.rb
     - db/migrate/*.rb
     - vendor/**/*
+    - AGENTS.md
+    - test/AGENTS.md
   NewCops: enable
   TargetRubyVersion: 3.4.4
 
@@ -56,7 +58,7 @@ Layout/LineLength:
     - test/**/*_test.rb
     - test/**/*_test_factory.rb
     - test/**/*_test_setup.rb
-  Max: 110
+  Max: 120
 Layout/MultilineMethodCallBraceLayout:
   Enabled: false
 Layout/MultilineMethodCallIndentation:
@@ -161,12 +163,13 @@ Style/Documentation:
   Enabled: false
 Style/EmptyMethod:
   EnforcedStyle: expanded
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: never
 Style/GuardClause:
   Enabled: false
 Style/HashEachMethods:
   Enabled: false
 Style/HashSyntax:
-  # Enabled: false
   EnforcedShorthandSyntax: always
 Style/HashTransformValues:
   Enabled: false
@@ -189,6 +192,8 @@ Style/NegatedIf:
 Style/NegatedIfElseCondition:
   Enabled: false
 Style/NumericLiterals:
+  Enabled: false
+Style/OneClassPerFile:
   Enabled: false
 Style/OptionalBooleanParameter:
   Enabled: false

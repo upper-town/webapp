@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class ImageUploadedFileForm < ApplicationModel
   CONTENT_TYPES = ["image/png", "image/jpeg"]
   MAX_BYTE_SIZE = 512 * 1024

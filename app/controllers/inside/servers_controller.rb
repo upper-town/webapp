@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Inside
   class ServersController < BaseController
     MAX_VERIFIED_SERVERS_PER_ACCOUNT = 10

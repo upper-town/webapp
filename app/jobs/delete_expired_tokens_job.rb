@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class DeleteExpiredTokensJob < ApplicationJob
   def perform
     Token.expired.delete_all

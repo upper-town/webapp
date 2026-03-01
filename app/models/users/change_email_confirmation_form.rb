@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Users
   class ChangeEmailConfirmationForm < ApplicationModel
     attr_accessor :action

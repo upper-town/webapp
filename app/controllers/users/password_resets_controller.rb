@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Users
   class PasswordResetsController < ApplicationController
     before_action -> { set_password_reset(:create) }, only: [:new,  :create]

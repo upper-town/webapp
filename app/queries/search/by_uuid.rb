@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Search
   module ByUuid
     UUID_PATTERN = /\A[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\z/i

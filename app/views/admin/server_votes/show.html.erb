@@ -3,26 +3,40 @@
   <%= render(Admin::ShowActionsComponent.new(
     back_path: admin_server_votes_path,
     actions: [
-      { path: admin_server_path(@server_vote.server), label: t("admin.server_votes.columns.server") },
-      { path: admin_game_path(@server_vote.game), label: t("admin.server_votes.columns.game") },
+      { path: admin_server_path(@server_vote.server), label: ServerVote.human_attribute_name(:server) },
+      { path: admin_game_path(@server_vote.game), label: ServerVote.human_attribute_name(:game) },
       (@server_vote.account ? { path: admin_user_path(@server_vote.account.user), label: t("admin.sessions.columns.user") } : nil),
     ].compact
   )) %>
 </div>
 
-<%= render(Admin::DetailsTableComponent.new(sections: [
-  {
-    title: t("admin.shared.details"),
-    rows: [
-      [t("admin.shared.id"), @server_vote.id],
-      [t("admin.server_votes.columns.uuid"), content_tag(:code, @server_vote.uuid)],
-      [t("admin.server_votes.columns.server"), link_to(@server_vote.server.name, admin_server_path(@server_vote.server))],
-      [t("admin.server_votes.columns.game"), link_to(@server_vote.game.name, admin_game_path(@server_vote.game))],
-      [t("admin.server_votes.columns.account"), @server_vote.account ? link_to(@server_vote.account.user.email, admin_user_path(@server_vote.account.user)) : t("admin.shared.anonymous")],
-      [t("admin.server_votes.columns.reference"), @server_vote.reference.presence || t("admin.shared.empty_placeholder")],
-      [t("admin.admin_sessions.columns.remote_ip"), content_tag(:code, @server_vote.remote_ip)],
-      [t("admin.shared.created"), l(@server_vote.created_at), { copyable: true }],
-      [t("admin.shared.updated"), l(@server_vote.updated_at), { copyable: true }],
-    ],
-  },
-])) %>
+<%= render(Admin::DetailsTableComponent.new(
+  sections: [
+    {
+      title: t("admin.shared.details"),
+      rows: [
+        [t("admin.shared.id"), @server_vote.id],
+        [ServerVote.human_attribute_name(:uuid), content_tag(:code, @server_vote.uuid)],
+        [
+          ServerVote.human_attribute_name(:server),
+          link_to(@server_vote.server.name, admin_server_path(@server_vote.server)),
+        ],
+        [
+          ServerVote.human_attribute_name(:game),
+          link_to(@server_vote.game.name, admin_game_path(@server_vote.game)),
+        ],
+        [
+          ServerVote.human_attribute_name(:account),
+          @server_vote.account ? link_to(@server_vote.account.user.email, admin_user_path(@server_vote.account.user)) : t("admin.shared.anonymous"),
+        ],
+        [
+          ServerVote.human_attribute_name(:reference),
+          @server_vote.reference.presence,
+        ],
+        [ServerVote.human_attribute_name(:remote_ip), content_tag(:code, @server_vote.remote_ip)],
+        [t("admin.shared.created"), l(@server_vote.created_at), { copyable: true }],
+        [t("admin.shared.updated"), l(@server_vote.updated_at), { copyable: true }],
+      ],
+    },
+  ],
+)) %>

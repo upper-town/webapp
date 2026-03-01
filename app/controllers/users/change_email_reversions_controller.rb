@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Users
   class ChangeEmailReversionsController < ApplicationController
     before_action :set_change_email_reversion, only: [:edit, :update]

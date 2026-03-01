@@ -17,22 +17,37 @@
     empty_message: t("admin.users.index.empty_message"),
     columns: [
       [t("admin.shared.id"), -> { link_to(it.id, admin_user_path(it), class: "fw-medium") }, { copyable: :id }],
-      [t("admin.users.columns.email"), -> { it.email.presence || content_tag(:span, t("admin.shared.empty_placeholder"), class: "text-body-secondary") }, { copyable: :email }],
-      [t("admin.users.columns.email_confirmed"), -> {
-        if it.email_confirmed_at
-          safe_join([content_tag(:span, t("admin.shared.yes"), class: "badge text-bg-success"), content_tag(:small, "(#{l(it.email_confirmed_at)})", class: "text-body-secondary ms-1")])
-        else
-          content_tag(:span, t("admin.shared.no"), class: "badge text-bg-secondary")
-        end
-      }, { copyable: ->(it) { it.email_confirmed_at ? l(it.email_confirmed_at) : nil } }],
-      [t("admin.shared.locked"), -> {
-        if it.locked?
-          safe_join([content_tag(:span, t("admin.shared.locked"), class: "badge text-bg-danger"), content_tag(:small, "(#{l(it.locked_at)})", class: "text-body-secondary ms-1")])
-        else
-          content_tag(:span, t("admin.shared.no"), class: "text-body-secondary")
-        end
-      }, { copyable: ->(it) { it.locked_at ? l(it.locked_at) : nil } }],
-      [t("admin.shared.actions"), -> { render(Admin::IndexActionsComponent.new(view_path: admin_user_path(it), edit_path: edit_admin_user_path(it))) }],
+      [
+        t("admin.users.columns.email"),
+        -> { it.email.presence },
+        { copyable: :email },
+      ],
+      [
+        t("admin.users.columns.email_confirmed"),
+        -> {
+          if it.email_confirmed_at
+            safe_join([content_tag(:span, t("admin.shared.yes"), class: "badge text-bg-success"), content_tag(:small, "(#{l(it.email_confirmed_at)})", class: "text-body-secondary ms-1")])
+          else
+            content_tag(:span, t("admin.shared.no"), class: "badge text-bg-secondary")
+          end
+        },
+        { copyable: ->(it) { it.email_confirmed_at ? l(it.email_confirmed_at) : nil } },
+      ],
+      [
+        t("admin.shared.locked"),
+        -> {
+          if it.locked?
+            safe_join([content_tag(:span, t("admin.shared.locked"), class: "badge text-bg-danger"), content_tag(:small, "(#{l(it.locked_at)})", class: "text-body-secondary ms-1")])
+          else
+            content_tag(:span, t("admin.shared.no"), class: "text-body-secondary")
+          end
+        },
+        { copyable: ->(it) { it.locked_at ? l(it.locked_at) : nil } },
+      ],
+      [
+        t("admin.shared.actions"),
+        -> { render(Admin::IndexActionsComponent.new(view_path: admin_user_path(it), edit_path: edit_admin_user_path(it))) },
+      ],
     ],
   ))
 %>

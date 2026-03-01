@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module RequestTestHelper
   def build_request(
     method: "GET",

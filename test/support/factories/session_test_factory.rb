@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 ApplicationRecordTestFactoryHelper.define(:session, Session,
   user: -> { build_user },
   remote_ip: -> { "255.255.255.255" },

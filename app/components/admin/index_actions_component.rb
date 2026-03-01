@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Admin
   class IndexActionsComponent < ApplicationComponent
     attr_reader :view_path, :edit_path, :extra_actions, :link_options

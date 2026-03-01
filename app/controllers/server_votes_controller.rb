@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class ServerVotesController < ApplicationController
   RATE_LIMIT_DURATION = -> { Rails.env.development? ? 1.minute : 6.hours }
 

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module ApplicationRecordTestFactoryHelper
   def self.define(name, model, **basic_attributes)
     define_method("build_#{name}") do |**attributes|

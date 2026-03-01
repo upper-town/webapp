@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Webhooks
   class PublishJob < ApplicationPollingJob
     def perform(webhook_config)

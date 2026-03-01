@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class AdminPermission < ApplicationRecord
   JOBS_ACCESS = "jobs_access"
 

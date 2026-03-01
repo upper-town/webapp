@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class CountrySelectComponent < ApplicationComponent
   attr_reader(
     :form,

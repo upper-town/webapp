@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require "active_support/core_ext/integer/time"
 
 BCrypt::Engine.cost = BCrypt::Engine::DEFAULT_COST

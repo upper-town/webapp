@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Servers
   class VoteForm < ApplicationModel
     attribute :reference, :string, default: nil

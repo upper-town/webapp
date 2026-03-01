@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Periods
   YEAR  = "year"
   MONTH = "month"

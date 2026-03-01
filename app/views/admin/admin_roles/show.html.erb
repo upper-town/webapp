@@ -6,29 +6,39 @@
   )) %>
 </div>
 
-<%= render(Admin::DetailsTableComponent.new(sections: [
-  {
-    title: t("admin.shared.details"),
-    rows: [
-      [t("admin.shared.id"), @admin_role.id],
-      [t("admin.admin_roles.columns.key"), content_tag(:code, @admin_role.key)],
-      [t("admin.admin_roles.columns.description"), simple_format(@admin_role.description.presence || t("admin.shared.empty_placeholder")), { align_top: true }],
-      [t("admin.shared.created"), l(@admin_role.created_at), { copyable: true }],
-      [t("admin.shared.updated"), l(@admin_role.updated_at), { copyable: true }],
-    ],
-  },
-])) %>
+<%= render(Admin::DetailsTableComponent.new(
+  sections: [
+    {
+      title: t("admin.shared.details"),
+      rows: [
+        [t("admin.shared.id"), @admin_role.id],
+        [t("admin.admin_roles.columns.key"), content_tag(:code, @admin_role.key)],
+        [
+          t("admin.admin_roles.columns.description"),
+          @admin_role.description.presence ? simple_format(@admin_role.description) : nil,
+          { align_top: true },
+        ],
+        [t("admin.shared.created"), l(@admin_role.created_at), { copyable: true }],
+        [t("admin.shared.updated"), l(@admin_role.updated_at), { copyable: true }],
+      ],
+    },
+  ],
+)) %>
 
-<%= render(Admin::DetailsTableComponent.new(sections: [
-  {
-    title: t("admin.admin_roles.show.permissions"),
-    rows: @admin_role.permissions.any? ? @admin_role.permissions.map { |p| [content_tag(:code, p.key), link_to(p.description.presence || p.key, admin_admin_permission_path(p))] } : [[-> { content_tag(:span, t("admin.shared.none"), class: "text-body-secondary") }]],
-  },
-])) %>
+<%= render(Admin::DetailsTableComponent.new(
+  sections: [
+    {
+      title: t("admin.admin_roles.show.permissions"),
+      rows: @admin_role.permissions.any? ? @admin_role.permissions.map { |p| [content_tag(:code, p.key), link_to(p.description.presence || p.key, admin_admin_permission_path(p))] } : [[-> { content_tag(:span, t("admin.shared.none"), class: "text-body-secondary") }]],
+    },
+  ],
+)) %>
 
-<%= render(Admin::DetailsTableComponent.new(sections: [
-  {
-    title: t("admin.admin_roles.show.admin_accounts_with_role"),
-    rows: @admin_role.accounts.any? ? @admin_role.accounts.map { |a| [a.id, link_to(a.admin_user.email, admin_admin_account_path(a))] } : [[-> { content_tag(:span, t("admin.shared.none"), class: "text-body-secondary") }]],
-  },
-])) %>
+<%= render(Admin::DetailsTableComponent.new(
+  sections: [
+    {
+      title: t("admin.admin_roles.show.admin_accounts_with_role"),
+      rows: @admin_role.accounts.any? ? @admin_role.accounts.map { |a| [a.id, link_to(a.admin_user.email, admin_admin_account_path(a))] } : [[-> { content_tag(:span, t("admin.shared.none"), class: "text-body-secondary") }]],
+    },
+  ],
+)) %>

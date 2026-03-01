@@ -19,18 +19,12 @@
     collection: @feature_flags,
     empty_message: t("admin.feature_flags.index.empty_message"),
     columns: [
-      [t("admin.shared.id"), -> { link_to(it.id, admin_feature_flag_path(it), class: "fw-medium") }, { copyable: :id }],
-      [t("admin.feature_flags.columns.name"), -> { it.name.presence || content_tag(:span, t("admin.shared.empty_placeholder"), class: "text-body-secondary") }, { copyable: :name }],
-      [t("admin.feature_flags.columns.value"), -> { content_tag(:code, it.value.presence || t("admin.shared.empty_placeholder"), class: "small") }, { copyable: :value }],
-      [t("admin.feature_flags.columns.enabled"), -> {
-        enabled = FeatureFlag.enabled?(it.name)
-        content_tag(:span, enabled ? t("admin.shared.yes") : t("admin.shared.no"), class: "badge #{enabled ? "bg-success" : "bg-secondary"})
-      }],
-      [t("admin.feature_flags.columns.env_override"), -> {
-        env_var = "FF_#{it.name.upcase}"
-        FeatureFlag.fetch_value_from_env_var(it.name).present? ? content_tag(:code, env_var, class: "small text-warning") : content_tag(:span, t("admin.shared.empty_placeholder"), class: "text-body-secondary")
-      }, { copyable: ->(it) { FeatureFlag.fetch_value_from_env_var(it.name).present? ? "FF_#{it.name.upcase}" : nil } }],
-      [t("admin.shared.actions"), -> { render(Admin::IndexActionsComponent.new(view_path: admin_feature_flag_path(it), edit_path: edit_admin_feature_flag_path(it))) }],
+      [t("admin.shared.id"), ->(item) { link_to(item.id, admin_feature_flag_path(item), class: "fw-medium") }, { copyable: :id }],
+      [FeatureFlag.human_attribute_name(:name), ->(item) { item.name.presence }, { copyable: :name }],
+      [FeatureFlag.human_attribute_name(:value), ->(item) { item.value.presence ? content_tag(:code, item.value, class: "small") : nil }, { copyable: :value }],
+      [FeatureFlag.human_attribute_name(:enabled), ->(item) { (e = FeatureFlag.enabled?(item.name)); content_tag(:span, e ? t("admin.shared.yes") : t("admin.shared.no"), class: "badge #{e ? "bg-success" : "bg-secondary"}") }],
+      [FeatureFlag.human_attribute_name(:env_override), ->(item) { FeatureFlag.fetch_value_from_env_var(item.name).present? ? content_tag(:code, "FF_#{item.name.upcase}", class: "small text-warning") : nil }, { copyable: ->(item) { FeatureFlag.fetch_value_from_env_var(item.name).present? ? "FF_#{item.name.upcase}" : nil } }],
+      [t("admin.shared.actions"), ->(item) { render(Admin::IndexActionsComponent.new(view_path: admin_feature_flag_path(item), edit_path: edit_admin_feature_flag_path(item))) }],
     ],
   ))
 %>

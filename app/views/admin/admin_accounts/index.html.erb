@@ -17,15 +17,29 @@
     empty_message: t("admin.admin_accounts.index.empty_message"),
     columns: [
       [t("admin.shared.id"), -> { link_to(it.id, admin_admin_account_path(it), class: "fw-medium") }, { copyable: :id }],
-      [t("admin.admin_accounts.columns.admin_user"), -> { link_to(it.admin_user.email, admin_admin_user_path(it.admin_user)) }, { copyable: ->(it) { it.admin_user&.email } }],
-      [t("admin.admin_accounts.columns.super_admin"), -> {
-        it.super_admin? ? content_tag(:span, t("admin.shared.yes"), class: "badge text-bg-warning") : content_tag(:span, t("admin.shared.no"), class: "text-body-secondary")
-      }],
-      [t("admin.admin_accounts.columns.roles"), -> {
-        it.roles.any? ? it.roles.map(&:key).join(", ") : content_tag(:span, t("admin.shared.none"), class: "text-body-secondary")
-      }, { copyable: ->(it) { it.roles.any? ? it.roles.map(&:key).join(", ") : nil } }],
+      [
+        t("admin.admin_accounts.columns.admin_user"),
+        -> { link_to(it.admin_user.email, admin_admin_user_path(it.admin_user)) },
+        { copyable: ->(it) { it.admin_user&.email } },
+      ],
+      [
+        t("admin.admin_accounts.columns.super_admin"),
+        -> {
+          it.super_admin? ? content_tag(:span, t("admin.shared.yes"), class: "badge text-bg-warning") : content_tag(:span, t("admin.shared.no"), class: "text-body-secondary")
+        },
+      ],
+      [
+        t("admin.admin_accounts.columns.roles"),
+        -> {
+          it.roles.any? ? it.roles.map(&:key).join(", ") : content_tag(:span, t("admin.shared.none"), class: "text-body-secondary")
+        },
+        { copyable: ->(it) { it.roles.any? ? it.roles.map(&:key).join(", ") : nil } },
+      ],
       [t("admin.shared.created"), -> { l(it.created_at) }, { copyable: ->(it) { l(it.created_at) } }],
-      [t("admin.shared.actions"), -> { render(Admin::IndexActionsComponent.new(view_path: admin_admin_account_path(it), edit_path: edit_admin_admin_account_path(it))) }],
+      [
+        t("admin.shared.actions"),
+        -> { render(Admin::IndexActionsComponent.new(view_path: admin_admin_account_path(it), edit_path: edit_admin_admin_account_path(it))) },
+      ],
     ],
   ))
 %>

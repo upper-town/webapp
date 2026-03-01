@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require "test_helper"
 
 class Admin::ServerVotesQueryTest < ActiveSupport::TestCase
@@ -19,9 +17,9 @@ class Admin::ServerVotesQueryTest < ActiveSupport::TestCase
 
     it "filters by server_id when provided" do
       server = create_server
-      sv1 = create_server_vote(server: server)
-      sv2 = create_server_vote
-      sv3 = create_server_vote(server: server)
+      sv1 = create_server_vote(server:)
+      create_server_vote
+      sv3 = create_server_vote(server:)
 
       result = described_class.new(server_id: server.id).call
 
@@ -30,9 +28,9 @@ class Admin::ServerVotesQueryTest < ActiveSupport::TestCase
 
     it "filters by game_id when provided" do
       game = create_game
-      sv1 = create_server_vote(game: game)
-      sv2 = create_server_vote
-      sv3 = create_server_vote(game: game)
+      sv1 = create_server_vote(game:)
+      create_server_vote
+      sv3 = create_server_vote(game:)
 
       result = described_class.new(game_id: game.id).call
 
@@ -41,9 +39,9 @@ class Admin::ServerVotesQueryTest < ActiveSupport::TestCase
 
     it "filters by account_id when provided" do
       account = create_account
-      sv1 = create_server_vote(account: account)
-      sv2 = create_server_vote
-      sv3 = create_server_vote(account: account)
+      sv1 = create_server_vote(account:)
+      create_server_vote
+      sv3 = create_server_vote(account:)
 
       result = described_class.new(account_id: account.id).call
 

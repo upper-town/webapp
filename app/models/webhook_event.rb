@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class WebhookEvent < ApplicationRecord
   SERVER_VOTE_CREATED = "server_vote.created"
 

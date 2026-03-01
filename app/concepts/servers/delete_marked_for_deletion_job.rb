@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Servers
   class DeleteMarkedForDeletionJob < ApplicationJob
     queue_as "low"

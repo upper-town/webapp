@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Webhooks
   class DeleteOldEventsJob < ApplicationJob
     queue_as "low"

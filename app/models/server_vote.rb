@@ -1,11 +1,9 @@
-# frozen_string_literal: true
-
 class ServerVote < ApplicationRecord
   belongs_to :server
   belongs_to :game
   belongs_to :account, optional: true
 
-  normalizes :reference, with: ->(str) { str.blank? ? nil : str.strip }
+  normalizes :reference, with: ->(str) { (str.presence&.strip) }
 
   validate :server_available
 

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Search
   module ByLastFour
     LAST_FOUR_PATTERN = /\A[a-z0-9]{4}\z/i

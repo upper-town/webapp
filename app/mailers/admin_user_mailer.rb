@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class AdminUserMailer < ApplicationMailer
   def email_confirmation(email, email_confirmation_token, email_confirmation_code)
     @email = email
