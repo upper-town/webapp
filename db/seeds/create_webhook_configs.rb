@@ -17,11 +17,19 @@ module Seeds
           source_id:   100,
           event_types: ["*"],
           method:      "POST",
-          url:         "#{ENV.fetch('DEMO_SITE_URL')}/webhook_events",
-          secret:      ENV.fetch("DEMO_WEBHOOK_SECRET"),
-          disabled_at: false
-        },
+          url:         "#{demo_site_url}/webhook_events",
+          secret:      demo_webhook_secret,
+          disabled_at: nil
+        }
       ]
+    end
+
+    def demo_site_url
+      ENV.fetch("DEMO_SITE_URL", "http://uppertown.test:3000/demo")
+    end
+
+    def demo_webhook_secret
+      ENV.fetch("DEMO_WEBHOOK_SECRET", "a" * 64)
     end
   end
 end

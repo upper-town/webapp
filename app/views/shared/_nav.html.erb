@@ -1,6 +1,6 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-body">
   <div class="container-fluid">
-    <%= link_to("Upper Town", root_path, class: "navbar-brand") %>
+    <%= link_to(t("shared.nav.brand"), root_path, class: "navbar-brand fw-semibold") %>
 
     <button
       type="button"
@@ -9,7 +9,7 @@
       data-bs-target="#navbar-supported-content"
       aria-controls="navbar-supported-content"
       aria-expanded="false"
-      aria-label="Toggle navigation"
+      aria-label="<%= t('shared.aria.toggle_navigation') %>"
     >
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -17,31 +17,65 @@
     <div class="collapse navbar-collapse" id="navbar-supported-content">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <%= link_to("Top Servers", servers_path, class: "nav-link") %>
+          <%= link_to(servers_path, class: "nav-link d-flex align-items-center gap-1") do %>
+            <i class="bi bi-trophy" aria-hidden="true"></i>
+            <%= t("shared.nav.top_servers") %>
+          <% end %>
         </li>
+      </ul>
+
+      <ul class="navbar-nav align-items-center gap-1">
         <li class="nav-item">
-          <%= link_to("Add server", new_inside_server_path, class: "nav-link") %>
+          <%= link_to(new_inside_server_path, class: "btn btn-primary btn-sm d-flex align-items-center gap-1") do %>
+            <i class="bi bi-plus-lg" aria-hidden="true"></i>
+            <%= t("shared.nav.add_server") %>
+          <% end %>
         </li>
 
         <% if signed_in_user? %>
-          <li class="nav-item">
-            <%= link_to("Dashboard", inside_dashboard_path, class: "nav-link") %>
-          </li>
-          <li class="nav-item">
-            <%=
-              link_to(
-                "Sign Out",
-                users_sign_out_path,
-                class: "nav-link"
-              )
-            %>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle d-flex align-items-center gap-1"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="bi bi-person-circle" aria-hidden="true"></i>
+              <span class="d-none d-lg-inline"><%= t("shared.nav.account") %></span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <%= link_to(inside_dashboard_path, class: "dropdown-item d-flex align-items-center gap-2") do %>
+                  <i class="bi bi-grid-1x2" aria-hidden="true"></i>
+                  <%= t("shared.nav.dashboard") %>
+                <% end %>
+              </li>
+              <li>
+                <%= link_to(inside_account_path, class: "dropdown-item d-flex align-items-center gap-2") do %>
+                  <i class="bi bi-gear" aria-hidden="true"></i>
+                  <%= t("inside.dashboard.manage_account") %>
+                <% end %>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <%= link_to(users_sign_out_path, class: "dropdown-item d-flex align-items-center gap-2 text-danger") do %>
+                  <i class="bi bi-box-arrow-right" aria-hidden="true"></i>
+                  <%= t("shared.nav.sign_out") %>
+                <% end %>
+              </li>
+            </ul>
           </li>
         <% else %>
           <li class="nav-item">
-            <%= link_to(t("shared.nav.sign_in"), users_sign_in_path, class: "nav-link") %>
+            <%= link_to(users_sign_in_path, class: "nav-link") do %>
+              <%= t("shared.nav.sign_in") %>
+            <% end %>
           </li>
           <li class="nav-item">
-            <%= link_to(t("shared.nav.sign_up"), users_sign_up_path, class: "nav-link") %>
+            <%= link_to(users_sign_up_path, class: "btn btn-outline-light btn-sm") do %>
+              <%= t("shared.nav.sign_up") %>
+            <% end %>
           </li>
         <% end %>
       </ul>

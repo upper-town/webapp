@@ -1,1 +1,69 @@
-Total server votes: <%= @account_server_votes_total %>
+<% content_for(:title) { t("accounts.show.title") } %>
+
+<div class="row justify-content-center">
+  <div class="col-12 col-lg-8 col-xl-7">
+    <header class="mb-4 text-center">
+      <div class="d-flex justify-content-center mb-2">
+        <span class="rounded-circle bg-primary bg-opacity-10 p-3">
+          <i class="bi bi-person-circle display-4 text-primary"></i>
+        </span>
+      </div>
+      <h1 class="h2 mb-2"><%= t("accounts.show.title") %></h1>
+      <p class="text-body-secondary mb-0">
+        <%= t("accounts.show.member_since", date: l(@account.created_at, format: :month_year)) %>
+      </p>
+    </header>
+
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-body">
+        <div class="d-flex align-items-center gap-3">
+          <span class="rounded-2 bg-success bg-opacity-10 p-2">
+            <i class="bi bi-hand-thumbs-up text-success fs-4"></i>
+          </span>
+          <div>
+            <h2 class="h6 text-body-secondary text-uppercase mb-0"><%= t("accounts.show.total_votes") %></h2>
+            <p class="mb-0 fs-3 fw-semibold"><%= number_with_delimiter(@account_server_votes_total) %></p>
+            <small class="text-body-secondary"><%= t("accounts.show.total_votes_description") %></small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="mb-4">
+      <h2 class="h6 text-body-secondary text-uppercase mb-3"><%= t("accounts.show.servers") %></h2>
+      <p class="text-body-secondary small mb-3"><%= t("accounts.show.servers_description") %></p>
+
+      <% if @servers.any? %>
+        <div class="d-flex flex-column gap-3">
+          <% @servers.each do |server| %>
+            <div>
+              <%= render(Servers::IndexResultComponent.new(
+                server: server,
+                server_stats_hash: @server_stats_hash[server.id] || {},
+                period: @period
+              )) %>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="card border-0 shadow-sm bg-body-secondary bg-opacity-25">
+          <div class="card-body text-center py-5">
+            <i class="bi bi-hdd-stack display-4 text-body-secondary mb-3"></i>
+            <h5 class="card-title"><%= t("accounts.show.empty_servers") %></h5>
+            <%= link_to servers_path, class: "btn btn-outline-secondary mt-2" do %>
+              <i class="bi bi-list-ul me-1"></i>
+              <%= t("accounts.show.browse_servers") %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </section>
+
+    <div class="d-flex justify-content-center">
+      <%= link_to servers_path, class: "btn btn-outline-secondary" do %>
+        <i class="bi bi-list-ul me-1"></i>
+        <%= t("servers.show.browse_servers") %>
+      <% end %>
+    </div>
+  </div>
+</div>

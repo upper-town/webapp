@@ -1,18 +1,16 @@
-<footer>
-  <ul>
-    <li>
-      <a
-        href="https://x.com/uppertown_hq"
-        target="_blank"
-        rel="noopener noreferrer"
-        title="X @uppertown_hq"
-      >
-        <span>
-          X
-        </span>
-      </a>
-    </li>
-  </ul>
-
-  <%= yield(:footer) %>
+<footer class="py-3 mt-auto text-body-secondary small">
+  <div class="container">
+    <ul class="list-inline mb-0">
+      <li class="list-inline-item">
+        <%= link_to(
+          t("shared.footer.x_link"),
+          "https://x.com/uppertown_hq",
+          target: "_blank",
+          rel: "noopener noreferrer",
+          class: "text-body-secondary text-decoration-none"
+        ) %>
+      </li>
+    </ul>
+    <%= yield(:footer) %>
+  </div>
 </footer>

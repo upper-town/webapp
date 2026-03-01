@@ -10,7 +10,7 @@ module Seeds
 
     def call
       result = Server.insert_all(demo_server_hashes)
-      ActiveJob.perform_all_later(result.rows.flatten.map { Servers::VerifyJob.new(Server.new(id: it)) })
+      result.rows.flatten.each { |id| Servers::VerifyJob.perform_later(Server.new(id:)) }
 
       server_ids = []
 

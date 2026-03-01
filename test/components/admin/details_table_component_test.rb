@@ -25,9 +25,9 @@ class Admin::DetailsTableComponentTest < ViewComponent::TestCase
       render_inline(described_class.new(sections:))
 
       assert_selector("th", text: "Basic Info")
-      assert_selector("td", text: "Name")
+      assert_selector("th", text: "Name")
       assert_selector("td", text: "Test Server")
-      assert_selector("td", text: "ID")
+      assert_selector("th", text: "ID")
       assert_selector("td", text: "123")
     end
 
@@ -122,8 +122,8 @@ class Admin::DetailsTableComponentTest < ViewComponent::TestCase
 
       render_inline(described_class.new(sections:))
 
-      assert_selector("td", text: "Nil")
-      assert_selector("td", text: "Empty")
+      assert_selector("th", text: "Nil")
+      assert_selector("th", text: "Empty")
     end
   end
 

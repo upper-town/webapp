@@ -29,7 +29,7 @@
       ],
       [
         Server.human_attribute_name(:site_url),
-        -> { link_to(truncate(it.site_url, length: 35), it.site_url, target: "_blank", rel: "noopener", class: "text-break") },
+        -> { link_to(truncate(it.site_url, length: 35), it.site_url, target: "_blank", rel: "noopener noreferrer", class: "text-break") },
         { copyable: :site_url },
       ],
       [
@@ -47,7 +47,7 @@
           render(Admin::IndexActionsComponent.new(
             view_path: admin_server_path(it),
             edit_path: edit_admin_server_path(it),
-            extra_actions: [{ path: server_path(it), label: t("admin.servers.edit_actions.public"), target: "_blank", rel: "noopener" }],
+            extra_actions: [{ path: server_path(it), label: t("admin.servers.edit_actions.public"), target: "_blank", rel: "noopener noreferrer" }],
           ))
         },
       ],

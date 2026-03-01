@@ -28,11 +28,11 @@ module Servers
           result
         end
       rescue Faraday::ClientError, Faraday::ServerError => e
-        Result.failure("Request failed: #{e}")
+        Result.failure(I18n.t("servers.verify_accounts.errors.request_failed", error: e))
       rescue Faraday::ParsingError, JSON::ParserError, TypeError => e
-        Result.failure("Invalid JSON file: #{e}")
+        Result.failure(I18n.t("servers.verify_accounts.errors.invalid_json", error: e))
       rescue Faraday::Error => e
-        Result.failure("Connection failed: #{e}")
+        Result.failure(I18n.t("servers.verify_accounts.errors.connection_failed", error: e))
       end
 
       private

@@ -6,7 +6,7 @@ module Seeds
       User.insert_all(demo_user_hashes)
 
       result = User.insert_all(user_hashes)
-      result.rows.flatten # user_idss
+      result.rows.flatten # user_ids
     end
 
     private

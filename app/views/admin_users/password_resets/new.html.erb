@@ -2,40 +2,74 @@
   <%= captcha_script_tag %>
 <% end %>
 
-<h2>
-  <%= t("admin_users.password_resets.new.title") %>
-</h2>
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8 col-lg-5">
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-4 p-md-5">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <span class="rounded-circle bg-primary bg-opacity-10 p-2" aria-hidden="true">
+            <i class="bi bi-key text-primary" style="font-size: 1.5rem;"></i>
+          </span>
+          <h1 class="card-title h4 mb-0"><%= t("admin_users.password_resets.new.title") %></h1>
+        </div>
+        <p class="text-body-secondary small mb-4">
+          <%= t("admin_users.password_resets.new.description") %>
+        </p>
 
-<%= form_with(
-  model: @password_reset,
-  method: :post,
-  url: admin_users_password_reset_path,
-  data: { "controller" => "form-error-messages-handler" }
-) do |form| %>
-  <div class="mb-3">
-    <%= form.label(:email, class: "form-label") %>
-    <%= form.email_field(
-      :email,
-      autofocus: true,
-      autocomplete: "email",
-      class: "form-control",
-      aria: { describedby: "email-help" },
-      required: true
-    ) %>
-    <div id="email-help" class="form-text">
-      <%= t("admin_users.password_resets.new.email_help_html") %>
+        <%= form_with(
+          model: @password_reset,
+          method: :post,
+          url: admin_users_password_reset_path,
+          data: { "controller" => "form-error-messages-handler" }
+        ) do |form| %>
+          <div class="mb-3">
+            <%= form.label(:email, class: "form-label") %>
+            <%= form.email_field(
+              :email,
+              autofocus: true,
+              autocomplete: "email",
+              class: "form-control",
+              aria: { describedby: "email-help" },
+              required: true
+            ) %>
+            <div id="email-help" class="form-text">
+              <%= t("admin_users.password_resets.new.email_help_html") %>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <%= captcha_widget_tag %>
+          </div>
+
+          <div class="mb-4">
+            <%= form.submit(
+              t("admin_users.password_resets.new.submit"),
+              class: "btn btn-primary w-100",
+              data: { "turbo-submits-with" => t("shared.button.loading") }
+            ) %>
+          </div>
+        <% end %>
+
+        <ul class="list-unstyled mb-0 small text-body-secondary">
+          <li class="mb-2">
+            <%= t("admin_users.password_resets.new.remember_password") %>
+            <%= link_to(
+              t("admin_users.password_resets.new.back_to_sign_in"),
+              admin_users_sign_in_path,
+              class: "text-decoration-none"
+            ) %>
+          </li>
+          <li>
+            <%= link_to(
+              root_path,
+              class: "text-decoration-none d-inline-flex align-items-center gap-1"
+            ) do %>
+              <i class="bi bi-arrow-left" aria-hidden="true"></i>
+              <%= t("admin_users.password_resets.new.back_to_site") %>
+            <% end %>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
-
-  <div class="mb-3">
-    <%= captcha_widget_tag %>
-  </div>
-
-  <div class="mb-3">
-    <%= form.submit(
-      t("admin_users.password_resets.new.submit"),
-      class: "btn btn-primary",
-      data: { "turbo-submits-with" => t("shared.button.loading") }
-    ) %>
-  </div>
-<% end %>
+</div>

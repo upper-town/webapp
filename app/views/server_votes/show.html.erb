@@ -1,4 +1,57 @@
-Server Vote show page
-<br>
-<%= @server_vote.id %>
-and more details
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8 col-lg-6">
+    <div class="card shadow-sm border-success">
+      <div class="card-body p-4">
+        <div class="text-center mb-4">
+          <div class="mb-2">
+            <i class="bi bi-check-circle-fill text-success" style="font-size: 3rem;"></i>
+          </div>
+          <h2 class="card-title h4 mb-2">
+            <%= t("server_votes.show.title") %>
+          </h2>
+          <p class="text-body-secondary mb-0">
+            <%= t("server_votes.show.subtitle") %>
+          </p>
+        </div>
+
+        <div class="list-group list-group-flush mb-4">
+          <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+            <span class="text-body-secondary"><%= t("server_votes.show.server_label") %></span>
+            <%= link_to(@server_vote.server.name, server_path(@server_vote.server), class: "fw-semibold text-decoration-none") %>
+          </div>
+          <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+            <span class="text-body-secondary"><%= t("server_votes.show.game_label") %></span>
+            <span><%= @server_vote.game.name %></span>
+          </div>
+          <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+            <span class="text-body-secondary"><%= t("server_votes.show.uuid_label") %></span>
+            <code class="small"><%= @server_vote.uuid %></code>
+          </div>
+          <% if @server_vote.reference.present? %>
+            <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+              <span class="text-body-secondary"><%= t("server_votes.show.reference_label") %></span>
+              <span><%= @server_vote.reference %></span>
+            </div>
+          <% end %>
+          <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+            <span class="text-body-secondary"><%= t("server_votes.show.created_at_label") %></span>
+            <span><%= l(@server_vote.created_at) %></span>
+          </div>
+        </div>
+
+        <div class="d-grid gap-2 d-md-flex">
+          <%= link_to(
+            t("server_votes.show.view_server"),
+            server_path(@server_vote.server),
+            class: "btn btn-primary flex-grow-1 flex-md-grow-0"
+          ) %>
+          <%= link_to(
+            t("server_votes.show.browse_servers"),
+            servers_path,
+            class: "btn btn-outline-secondary"
+          ) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,28 +1,28 @@
 <p>
-  Hi <%= @email %>!
+  <%= t("users_mailer.change_email_reversion.greeting", email: @email) %>
 </p>
 
 <p>
-  You requested to change your email address from <%= @email %> to <%= @change_email %>.
+  <%= t("users_mailer.change_email_reversion.requested_change", email: @email, change_email: @change_email) %>
 </p>
 
 <p>
-  An email confirmation link has been sent to the new <%= @change_email %> address.
+  <%= t("users_mailer.change_email_reversion.confirmation_sent", change_email: @change_email) %>
 </p>
 
 <p>
-  You can revert this action in the next 30 days with the link below:
+  <%= t("users_mailer.change_email_reversion.revert_info") %>
 </p>
 
 <p>
   <%= link_to(
-    "Change email reversion link",
+    t("users_mailer.change_email_reversion.link_text"),
     edit_users_change_email_reversion_url(token: @change_email_reversion_token)
   ) %>
 </p>
 
 <p>
-  And this verification code:
+  <%= t("users_mailer.change_email_reversion.verification_code_label") %>
 </p>
 
 <p>

@@ -2,7 +2,7 @@ module Admin
   class ServersController < BaseController
     def index
       @search_term = params[:q]
-      relation = Admin::ServersQuery.new.call
+      relation = Admin::ServersQuery.call
       @pagination = Pagination.new(
         Admin::Queries::ServersQuery.call(Server, relation, @search_term),
         request,

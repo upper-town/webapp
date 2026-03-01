@@ -6,7 +6,6 @@ module AddFlashTypes
       :success,
       :primary,
       :secondary,
-      :success,
       :danger,
       :warning,
       :info,

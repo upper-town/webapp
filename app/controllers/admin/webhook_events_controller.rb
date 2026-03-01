@@ -2,7 +2,7 @@ module Admin
   class WebhookEventsController < BaseController
     def index
       @search_term = params[:q]
-      relation = Admin::WebhookEventsQuery.new(webhook_config_id: params[:webhook_config_id]).call
+      relation = Admin::WebhookEventsQuery.call(webhook_config_id: params[:webhook_config_id])
       @pagination = Pagination.new(
         Admin::Queries::WebhookEventsQuery.call(WebhookEvent, relation, @search_term),
         request,

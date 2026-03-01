@@ -10,7 +10,12 @@ module Inside
     )
 
     def index
-      @servers = current_account.servers
+      @servers = current_account.servers.includes(:game).to_a
+      @server_stats_hash = Servers::IndexStatsQuery.call(
+        @servers.map(&:id),
+        Time.current
+      )
+      @period = Periods::MONTH
     end
 
     def new
@@ -29,7 +34,7 @@ module Inside
       result = Servers::Create.call(@form, account: current_account)
 
       if result.success?
-        redirect_to(inside_servers_path, success: "Your server has been added.")
+        redirect_to(inside_servers_path, success: t("inside.servers.create.success"))
       else
         @form.errors.merge!(result.errors)
         flash.now[:alert] = result.errors
@@ -65,11 +70,10 @@ module Inside
 
     def archive
       server = server_from_params
-      result = Servers::Archive.new(server).call
+      result = Servers::Archive.call(server)
 
       if result.success?
-        flash[:success] = "Server has been archived. " \
-          "Servers that are archived and without votes will be deleted soon automatically."
+        flash[:success] = t("inside.servers.archive.success")
       else
         flash[:alert] = result.errors
       end
@@ -79,7 +83,7 @@ module Inside
 
     def unarchive
       server = server_from_params
-      result = Servers::Unarchive.new(server).call
+      result = Servers::Unarchive.call(server)
 
       if result.success?
         flash[:success] = t("inside.servers.unarchive.success")
@@ -92,7 +96,7 @@ module Inside
 
     def mark_for_deletion
       server = server_from_params
-      result = Servers::MarkForDeletion.new(server).call
+      result = Servers::MarkForDeletion.call(server)
 
       if result.success?
         flash[:success] = t("inside.servers.mark_for_deletion.success")
@@ -105,7 +109,7 @@ module Inside
 
     def unmark_for_deletion
       server = server_from_params
-      result = Servers::UnmarkForDeletion.new(server).call
+      result = Servers::UnmarkForDeletion.call(server)
 
       if result.success?
         flash[:success] = t("inside.servers.unmark_for_deletion.success")

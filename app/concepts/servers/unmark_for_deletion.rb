@@ -10,9 +10,9 @@ module Servers
 
     def call
       if server.not_archived?
-        Result.failure("Server must be archived and then it can be marked/unmarked for deletion")
+        Result.failure(I18n.t("servers.errors.must_be_archived"))
       elsif server.not_marked_for_deletion?
-        Result.failure("Server is already not marked for deletion")
+        Result.failure(I18n.t("servers.errors.already_not_marked_for_deletion"))
       else
         server.update!(marked_for_deletion_at: nil)
 

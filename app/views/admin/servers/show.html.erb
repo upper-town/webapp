@@ -3,7 +3,7 @@
   <%= render(Admin::ShowActionsComponent.new(
     back_path: admin_servers_path,
     actions: [
-      { path: server_path(@server), label: t("admin.shared.view_public_page"), target: "_blank", rel: "noopener" },
+      { path: server_path(@server), label: t("admin.shared.view_public_page"), target: "_blank", rel: "noopener noreferrer" },
       { path: edit_admin_server_path(@server), label: t("admin.shared.edit") },
     ]
   )) %>
@@ -19,7 +19,7 @@
         [Server.human_attribute_name(:game), @server.game&.name, { copyable: true }],
         [
           Server.human_attribute_name(:site_url),
-          link_to(@server.site_url, @server.site_url, target: "_blank", rel: "noopener", class: "text-break"),
+          link_to(@server.site_url, @server.site_url, target: "_blank", rel: "noopener noreferrer", class: "text-break"),
           { copyable: @server.site_url },
         ],
         [

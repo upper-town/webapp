@@ -33,7 +33,7 @@
       [
         Game.human_attribute_name(:site_url),
         -> {
-          it.site_url.present? ? link_to(truncate(it.site_url, length: 35), it.site_url, target: "_blank", rel: "noopener", class: "text-break") : nil
+          it.site_url.present? ? link_to(truncate(it.site_url, length: 35), it.site_url, target: "_blank", rel: "noopener noreferrer", class: "text-break") : nil
         },
         { copyable: :site_url },
       ],

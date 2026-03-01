@@ -1,49 +1,40 @@
 <%= form_with(
   method: :get,
+  url: servers_path,
+  html: { "aria-label": t("servers.index.filter.title") },
   data: {
-    "controller" => "servers",
-    "action" => "change->servers#filter"
-  },
-  class: "mb-2"
+    controller: "servers",
+    action: "change->servers#filter"
+  }
 ) do |form| %>
-  <%= render(GameSelectComponent.new(
-    form,
-    only_in_use: true,
-    blank_name: "All",
-    selected_value: @selected_value_game_id
+  <%= render(Servers::IndexFilterComponent.new(
+    form: form,
+    selected_value_game_id: @selected_value_game_id,
+    selected_value_period: @selected_value_period,
+    selected_value_country_code: @selected_value_country_code
   )) %>
-  <div class="d-flex gap-2">
-    <%= render(PeriodSelectComponent.new(
-      form,
-      selected_value: @selected_value_period
-    )) %>
-    <%= render(CountrySelectComponent.new(
-      form,
-      only_in_use: true,
-      with_continents: true,
-      selected_value: @selected_value_country_code
-    )) %>
-  </div>
 <% end %>
 
 <% if @servers.empty? %>
   No results
 <% else %>
-  <%= render(PaginationComponent.new(@pagination, first_icon: "1st")) %>
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-8 col-xl-7">
+      <%= render(PaginationComponent.new(@pagination, first_icon: "1st")) %>
 
-  <ul class="list-group list-group-flush mb-3">
-    <% @servers.each do |server| %>
-      <li class="list-group-item">
-        <%=
-          render(Servers::IndexResultComponent.new(
-            server: server,
-            server_stats_hash: @server_stats_hash[server.id] || {},
-            period: @period
-          ))
-        %>
-      </li>
-    <% end %>
-  </ul>
+      <div class="d-flex flex-column gap-3 mb-3">
+        <% @servers.each do |server| %>
+          <div>
+            <%= render(Servers::IndexResultComponent.new(
+              server: server,
+              server_stats_hash: @server_stats_hash[server.id] || {},
+              period: @period
+            )) %>
+          </div>
+        <% end %>
+      </div>
 
-  <%= render(PaginationComponent.new(@pagination, first_icon: "1st")) %>
+      <%= render(PaginationComponent.new(@pagination, first_icon: "1st")) %>
+    </div>
+  </div>
 <% end %>

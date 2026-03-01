@@ -34,7 +34,7 @@
       ],
       [
         t("admin.webhook_configs.columns.url"),
-        -> { link_to(truncate(it.url, length: 40), it.url, target: "_blank", rel: "noopener", class: "text-break") },
+        -> { link_to(truncate(it.url, length: 40), it.url, target: "_blank", rel: "noopener noreferrer", class: "text-break") },
         { copyable: :url },
       ],
       [

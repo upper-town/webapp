@@ -2,7 +2,7 @@ module Admin
   class WebhookBatchesController < BaseController
     def index
       @search_term = params[:q]
-      relation = Admin::WebhookBatchesQuery.new(webhook_config_id: params[:webhook_config_id]).call
+      relation = Admin::WebhookBatchesQuery.call(webhook_config_id: params[:webhook_config_id])
       @pagination = Pagination.new(
         Admin::Queries::WebhookBatchesQuery.call(WebhookBatch, relation, @search_term),
         request,

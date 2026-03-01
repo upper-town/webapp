@@ -4,7 +4,7 @@
     back_path: admin_accounts_path,
     actions: [
       { path: admin_user_path(@account.user), label: t("admin.accounts.columns.user") },
-      { path: account_path(@account), label: t("admin.shared.view_public_page"), target: "_blank", rel: "noopener" },
+      { path: account_path(@account), label: t("admin.shared.view_public_page"), target: "_blank", rel: "noopener noreferrer" },
     ]
   )) %>
 </div>

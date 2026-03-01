@@ -37,7 +37,8 @@ Business logic lives here, organized by **domain concept** (not by technical lay
 `admin/` contains:
 
 - **Update/Create services** — `Admin::Servers::Update`, `Admin::Games::Create`, etc.
-- **Queries** — `Admin::ServersQuery`, `Admin::UsersQuery`, etc. in `admin/queries/`
+- **Base queries** — `Admin::ServersQuery`, `Admin::UsersQuery`, etc. at top level (return base `ActiveRecord::Relation`)
+- **Search queries** — `Admin::Queries::ServersQuery`, `Admin::Queries::UsersQuery`, etc. in `admin/queries/` (filter base relation by search term)
 - **Dashboard** — `Admin::DashboardStats`
 - **Constraints** — `Admin::Constraint`, `Admin::JobsConstraint`
 

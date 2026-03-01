@@ -1,6 +1,6 @@
 <div class="d-flex flex-row gap-2 <%= wrapper_justify_class %>" data-turbo-prefetch="true">
   <% if show_first? || show_last? %>
-    <nav role="navigation">
+    <nav role="navigation" aria-label="<%= t('shared.aria.pagination') %>">
       <ul class="pagination">
         <% if show_first? %>
           <% if pagination.first_page? %>
@@ -29,7 +29,7 @@
     </nav>
   <% end %>
 
-  <nav role="navigation" class="pagination-prev-next">
+  <nav role="navigation" aria-label="<%= t('shared.aria.pagination') %>" class="pagination-prev-next">
     <ul class="pagination">
       <% if pagination.has_prev_page? %>
         <li class="page-item">
@@ -58,7 +58,7 @@
   </nav>
 
   <% if show_goto? %>
-    <nav role="navigation">
+    <nav role="navigation" aria-label="<%= t('shared.aria.pagination') %>">
       <ul class="pagination">
         <li class="page-item pagination-goto">
           <%= form_with(method: :get, url: request.path) do |form| %>
@@ -85,25 +85,25 @@
   <div class="d-flex flex-row gap-1 <%= wrapper_justify_class %> mb-2">
     <% if show_page? %>
       <span class="badge text-bg-secondary">
-        page <%= pagination.page %>
+        <%= t("shared.pagination.page") %> <%= pagination.page %>
       </span>
     <% end %>
 
     <% if show_total_pages? %>
       <span class="badge text-bg-secondary">
-        total_pages <%= pagination.total_pages %>
+        <%= t("shared.pagination.total_pages") %> <%= pagination.total_pages %>
       </span>
     <% end %>
 
     <% if show_per_page? %>
       <span class="badge text-bg-secondary">
-        per_page <%= pagination.per_page %>
+        <%= t("shared.pagination.per_page") %> <%= pagination.per_page %>
       </span>
     <% end %>
 
     <% if show_total_count? %>
       <span class="badge text-bg-secondary">
-        total_count <%= pagination.total_count %>
+        <%= t("shared.pagination.total_count") %> <%= pagination.total_count %>
       </span>
     <% end %>
   </div>

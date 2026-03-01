@@ -1,17 +1,17 @@
 <p>
-  Welcome <%= @email %>!
+  <%= t("admin_users_mailer.email_confirmation.greeting", email: @email) %>
 </p>
 
 <p>
   <%= link_to(
-    "Confirmation link",
+    t("admin_users_mailer.email_confirmation.link_text"),
     edit_admin_users_email_confirmation_url(token: @email_confirmation_token)
   ) %>
 </p>
 
 
 <p>
-  Here is your verification code:
+  <%= t("admin_users_mailer.email_confirmation.verification_code_intro") %>
 </p>
 
 <p>

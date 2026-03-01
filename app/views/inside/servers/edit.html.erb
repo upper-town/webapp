@@ -1,56 +1,89 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+  <div>
+    <h1 class="mb-1"><%= t("inside.servers.edit.title", name: @server.name) %></h1>
+    <div class="d-flex flex-wrap gap-2 mt-2">
+      <%= link_to inside_servers_path, class: "btn btn-outline-secondary btn-sm" do %>
+        <i class="bi bi-arrow-left me-1"></i>
+        <%= t("inside.servers.edit.back_to") %>
+      <% end %>
+      <%= link_to server_path(@server), class: "btn btn-outline-secondary btn-sm", target: "_blank", rel: "noopener noreferrer" do %>
+        <i class="bi bi-box-arrow-up-right me-1"></i>
+        <%= t("inside.servers.edit.view_public_page") %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
 <%= form_with(
   model: @form,
   url: inside_server_path(@server),
   method: :patch,
   data: { "controller" => "form-error-messages-handler" }
 ) do |form| %>
-  <div class="mb-3">
-    <%= form.label(:game_id, class: "form-label") %>
-    <%= render(GameSelectComponent.new(
-      form,
-      only_in_use: false,
-      blank_name: nil,
-      selected_value: @form.game_id
-    )) %>
+  <div class="card mb-4 border-0 shadow-sm">
+    <div class="card-body">
+      <h5 class="card-title mb-3"><%= t("inside.servers.edit.details") %></h5>
+
+      <div class="mb-3">
+        <%= form.label(:game_id, class: "form-label") %>
+        <%= render(GameSelectComponent.new(
+          form,
+          only_in_use: false,
+          blank_name: nil,
+          selected_value: @form.game_id
+        )) %>
+      </div>
+
+      <div class="mb-3">
+        <%= form.label(:country_code, class: "form-label") %>
+        <%= render(CountrySelectComponent.new(
+          form,
+          only_in_use: false,
+          with_continents: false,
+          blank_name: nil,
+          selected_value: @form.country_code
+        )) %>
+      </div>
+
+      <div class="mb-3">
+        <%= form.label(:name, class: "form-label") %>
+        <%= form.text_field(:name, class: "form-control") %>
+      </div>
+
+      <div class="mb-3">
+        <%= form.label(:site_url, class: "form-label") %>
+        <%= form.text_field(:site_url, class: "form-control") %>
+      </div>
+
+      <div class="mb-3">
+        <%= form.label(:description, class: "form-label") %>
+        <%= form.text_area(:description, class: "form-control", rows: 3) %>
+      </div>
+
+      <div class="mb-3">
+        <%= form.label(:info, class: "form-label") %>
+        <%= form.text_area(:info, class: "form-control", rows: 4) %>
+      </div>
+    </div>
   </div>
 
-  <div class="mb-3">
-    <%= form.label(:country_code, class: "form-label") %>
-    <%= render(CountrySelectComponent.new(
-      form,
-      only_in_use: false,
-      with_continents: false,
-      blank_name: nil,
-      selected_value: @form.country_code
-    )) %>
-  </div>
+  <div class="card mb-4 border-0 shadow-sm">
+    <div class="card-body">
+      <h5 class="card-title mb-3"><%= t("inside.servers.edit.banner_image_section") %></h5>
 
-  <div class="mb-3">
-    <%= form.label(:name, class: "form-label") %>
-    <%= form.text_field(:name, class: "form-control") %>
-  </div>
+      <% if @server.banner_image.attached? %>
+        <div class="mb-3">
+          <p class="text-body-secondary small mb-2"><%= t("inside.servers.edit.current_banner") %></p>
+          <%= image_tag(@server.banner_image, class: "img-fluid rounded", style: "max-height: 120px;") %>
+        </div>
+      <% end %>
 
-  <div class="mb-3">
-    <%= form.label(:site_url, class: "form-label") %>
-    <%= form.text_field(:site_url, class: "form-control") %>
-  </div>
-
-  <div class="mb-3">
-    <%= form.label(:banner_image, class: "form-label") %>
-    <%= form.file_field(:banner_image, class: "form-control") %>
-    <% if @server.banner_image.attached? %>
-      <div class="form-text"><%= t("inside.servers.edit.current_banner") %></div>
-    <% end %>
-  </div>
-
-  <div class="mb-3">
-    <%= form.label(:description, class: "form-label") %>
-    <%= form.text_area(:description, class: "form-control", rows: 3) %>
-  </div>
-
-  <div class="mb-3">
-    <%= form.label(:info, class: "form-label") %>
-    <%= form.text_area(:info, class: "form-control", rows: 4) %>
+      <div class="mb-3">
+        <%= form.label(:banner_image, t("inside.servers.edit.replace_banner"), class: "form-label") %>
+        <%= form.file_field(:banner_image, class: "form-control", accept: "image/png,image/jpeg") %>
+        <div class="form-text"><%= t("inside.servers.edit.banner_help") %></div>
+      </div>
+    </div>
   </div>
 
   <div class="mb-3">
@@ -59,6 +92,6 @@
       class: "btn btn-primary",
       data: { "turbo-submits-with" => t("shared.button.loading") }
     ) %>
-    <%= link_to(t("admin.shared.cancel"), inside_servers_path, class: "btn btn-outline-secondary ms-2") %>
+    <%= link_to(t("inside.servers.edit.cancel"), inside_servers_path, class: "btn btn-outline-secondary ms-2") %>
   </div>
 <% end %>

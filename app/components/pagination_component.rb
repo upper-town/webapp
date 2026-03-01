@@ -9,11 +9,11 @@ class PaginationComponent < ApplicationComponent
     show_per_page:    false,
     show_total_count: false, # This calls pagination's total_count
 
-    first_icon: "First",
-    last_icon:  "Last",
-    prev_icon:  "Prev",
-    next_icon:  "Next",
-    go_icon:    "Go",
+    first_icon: nil,
+    last_icon:  nil,
+    prev_icon:  nil,
+    next_icon:  nil,
+    go_icon:    nil,
 
     align: :center # :center or :start
   }
@@ -60,23 +60,23 @@ class PaginationComponent < ApplicationComponent
   end
 
   def first_icon
-    options[:first_icon]
+    options[:first_icon] || I18n.t("shared.pagination.first")
   end
 
   def last_icon
-    options[:last_icon]
+    options[:last_icon] || I18n.t("shared.pagination.last")
   end
 
   def prev_icon
-    options[:prev_icon]
+    options[:prev_icon] || I18n.t("shared.pagination.prev")
   end
 
   def next_icon
-    options[:next_icon]
+    options[:next_icon] || I18n.t("shared.pagination.next")
   end
 
   def go_icon
-    options[:go_icon]
+    options[:go_icon] || I18n.t("shared.pagination.go")
   end
 
   def align_start?

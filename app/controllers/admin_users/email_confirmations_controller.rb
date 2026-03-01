@@ -41,7 +41,7 @@ module AdminUsers
         return
       end
 
-      result = Create.new(@email_confirmation.email).call
+      result = AdminUsers::EmailConfirmations::Create.call(@email_confirmation.email)
 
       if result.success?
         flash[:info] = t("admin_users.email_confirmations.verification_code_sent")

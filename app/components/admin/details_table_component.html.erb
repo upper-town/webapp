@@ -12,7 +12,7 @@
             <% if key_value_row?(row) %>
               <tr>
                 <% opts = row[2].is_a?(Hash) ? row[2] : {} %>
-                <td class="text-body-secondary w-25 <%= "align-top" if opts[:align_top] %>"><%= row[0] %></td>
+                <th scope="row" class="text-body-secondary w-25 <%= "align-top" if opts[:align_top] %>"><%= row[0] %></th>
                 <td class="<%= "align-top" if opts[:align_top] %>">
                   <% if show_copy_for_row?(row) && copy_value_for_row(row).present? %>
                     <%= value_cell_with_copy(row) %>

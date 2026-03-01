@@ -26,6 +26,7 @@
   <meta name="turbo-prefetch" content="true">
 </head>
 <body data-controller="browser-time-zone" data-turbo-prefetch="false">
+  <a class="visually-hidden-focusable" href="#main">Skip to main content</a>
   <% if Rails.env.development? && params.key?(:dev_info) %>
     <%= render("shared/dev_info") %>
   <% end %>

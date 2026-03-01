@@ -3,7 +3,7 @@ module Admin
     def index
       @user = User.find(params[:id])
       @search_term = params[:q]
-      relation = Admin::CodesQuery.new(user_id: @user.id).call
+      relation = Admin::CodesQuery.call(user_id: @user.id)
       @pagination = Pagination.new(
         Admin::Queries::CodesQuery.call(Code, relation, @search_term),
         request,

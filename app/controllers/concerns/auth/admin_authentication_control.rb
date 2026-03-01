@@ -60,7 +60,7 @@ module Auth
 
       redirect_to(
         admin_users_sign_in_path,
-        info: "You need to sign in to access this page."
+        info: t("auth.admin_authentication_control.not_authenticated")
       )
     end
 
@@ -69,21 +69,21 @@ module Auth
 
       redirect_to(
         admin_users_sign_in_path,
-        info: "Your session has expired. Please sign in again."
+        info: t("auth.admin_authentication_control.expired_session")
       )
     end
 
     def handle_admin_user_unconfirmed_email
       redirect_to(
         admin_users_sign_up_path(email: current_admin_user.email),
-        info: "You need to confirm your email address."
+        info: t("auth.admin_authentication_control.unconfirmed_email")
       )
     end
 
     def handle_admin_user_locked
       redirect_to(
         admin_root_path,
-        info: "Your account has been locked."
+        info: t("auth.admin_authentication_control.locked")
       )
     end
 

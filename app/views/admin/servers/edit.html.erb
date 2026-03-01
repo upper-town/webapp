@@ -2,7 +2,7 @@
   <h1 class="mb-0"><%= t("admin.servers.edit.title", name: @server.name) %></h1>
   <%= render(Admin::ShowActionsComponent.new(
     back_path: admin_server_path(@server),
-    actions: [{ path: server_path(@server), label: t("admin.shared.view_public_page"), target: "_blank", rel: "noopener" }]
+    actions: [{ path: server_path(@server), label: t("admin.shared.view_public_page"), target: "_blank", rel: "noopener noreferrer" }]
   )) %>
 </div>
 

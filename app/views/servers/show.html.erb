@@ -1,3 +1,91 @@
-Show Server Page
-<br>
-<%= @server.id %>
+<% stats = @server_stats_hash[@server.id] || {} %>
+
+<div class="row justify-content-center">
+  <div class="col-12 col-lg-8 col-xl-7">
+    <% if ServerBannerImagePolicy.new(@server, request).allowed? && @server.banner_image.attached? %>
+      <div class="mb-4">
+        <%= image_tag(@server.banner_image, class: "img-fluid rounded shadow-sm w-100", style: "max-height: 280px; object-fit: cover;") %>
+      </div>
+    <% end %>
+
+    <header class="mb-4 text-center">
+      <div class="d-flex flex-wrap justify-content-center align-items-center gap-2 mb-2">
+        <h1 class="h2 mb-0"><%= @server.name %></h1>
+        <% if @server.verified? %>
+          <span class="badge bg-success"><%= t("servers.show.verified_badge") %></span>
+        <% end %>
+      </div>
+      <div class="text-body-secondary">
+        <%= @server.game.name %>
+        <span title="<%= @server.country.common_name %>" class="ms-1"><%= @server.country.emoji_flag %> <%= @server.country_code %></span>
+      </div>
+    </header>
+
+    <% if @server.description.present? %>
+      <section class="mb-4">
+        <h2 class="h6 text-body-secondary text-uppercase mb-2"><%= t("servers.show.description") %></h2>
+        <p class="mb-0"><%= @server.description %></p>
+      </section>
+    <% end %>
+
+    <% if @server.info.present? %>
+      <section class="mb-4">
+        <h2 class="h6 text-body-secondary text-uppercase mb-2"><%= t("servers.show.info") %></h2>
+        <p class="mb-0"><%= @server.info %></p>
+      </section>
+    <% end %>
+
+    <section class="mb-4">
+      <h2 class="h6 text-body-secondary text-uppercase mb-2"><%= t("servers.show.site_url") %></h2>
+      <%= link_to(
+        @server.site_url,
+        @server.site_url,
+        class: "text-break",
+        target: "_blank",
+        rel: "noopener noreferrer"
+      ) %>
+    </section>
+
+    <div class="card mb-4">
+      <div class="card-body">
+        <h2 class="h6 text-body-secondary text-uppercase mb-3"><%= t("servers.index.world_ranking") %></h2>
+        <table class="table table-sm mb-0">
+          <thead>
+            <tr>
+              <th></th>
+              <th class="text-center"><%= t("servers.show.period_year") %></th>
+              <th class="text-center"><%= t("servers.show.period_month") %></th>
+              <th class="text-center"><%= t("servers.show.period_week") %></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><%= t("servers.show.ranking") %></td>
+              <td class="text-center"><%= format_server_ranking(stats.dig(Periods::YEAR, :ranking_number)) %></td>
+              <td class="text-center"><%= format_server_ranking(stats.dig(Periods::MONTH, :ranking_number)) %></td>
+              <td class="text-center"><%= format_server_ranking(stats.dig(Periods::WEEK, :ranking_number)) %></td>
+            </tr>
+            <tr>
+              <td><%= t("servers.show.votes") %></td>
+              <td class="text-center"><%= format_server_vote_count(stats.dig(Periods::YEAR, :vote_count)) %></td>
+              <td class="text-center"><%= format_server_vote_count(stats.dig(Periods::MONTH, :vote_count)) %></td>
+              <td class="text-center"><%= format_server_vote_count(stats.dig(Periods::WEEK, :vote_count)) %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="d-grid gap-2">
+      <%= link_to(t("servers.show.vote_up"), new_server_vote_path(@server), class: "btn btn-primary btn-lg") %>
+      <%= link_to(
+        t("servers.show.visit_site"),
+        @server.site_url,
+        class: "btn btn-outline-primary",
+        target: "_blank",
+        rel: "noopener noreferrer"
+      ) %>
+      <%= link_to(t("servers.show.browse_servers"), servers_path, class: "btn btn-outline-secondary") %>
+    </div>
+  </div>
+</div>

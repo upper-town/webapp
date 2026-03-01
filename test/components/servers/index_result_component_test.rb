@@ -3,8 +3,8 @@ require "test_helper"
 class Servers::IndexResultComponentTest < ViewComponent::TestCase
   let(:described_class) { Servers::IndexResultComponent }
 
-  def build_component(server: create_server, server_stats_hash: {}, period: Periods::MONTH)
-    described_class.new(server:, server_stats_hash:, period:)
+  def build_component(server: create_server, server_stats_hash: {}, period: Periods::MONTH, show_more_info: true)
+    described_class.new(server:, server_stats_hash:, period:, show_more_info:)
   end
 
   def build_stats_hash(year: {}, month: {}, week: {})
@@ -141,6 +141,15 @@ class Servers::IndexResultComponentTest < ViewComponent::TestCase
 
       assert_link("Vote Up", href: new_server_vote_path(server))
       assert_link("More Info", href: server_path(server))
+    end
+
+    it "hides more info link when show_more_info is false" do
+      server = create_server
+
+      render_inline(build_component(server:, show_more_info: false))
+
+      assert_link("Vote Up", href: new_server_vote_path(server))
+      assert_no_link("More Info")
     end
   end
 end

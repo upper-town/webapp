@@ -13,7 +13,7 @@ class Servers::VerifyAccounts::PerformTest < ActiveSupport::TestCase
           response_timeout: true
         )
 
-        result = described_class.new(server).call
+        result = described_class.call(server)
 
         assert(result.failure?)
         assert(result.errors.of_kind?(:base, "Connection failed: execution expired"))
@@ -31,7 +31,7 @@ class Servers::VerifyAccounts::PerformTest < ActiveSupport::TestCase
           response_status: 500
         )
 
-        result = described_class.new(server).call
+        result = described_class.call(server)
 
         assert(result.failure?)
         assert(result.errors[:base].any? { it.include?("Request failed: the server responded with status 500") })
@@ -49,7 +49,7 @@ class Servers::VerifyAccounts::PerformTest < ActiveSupport::TestCase
           response_status: 400
         )
 
-        result = described_class.new(server).call
+        result = described_class.call(server)
 
         assert(result.failure?)
         assert(result.errors[:base].any? { it.include?("Request failed: the server responded with status 400") })
@@ -68,7 +68,7 @@ class Servers::VerifyAccounts::PerformTest < ActiveSupport::TestCase
           response_headers: { "Content-Length" => "513" }
         )
 
-        result = described_class.new(server).call
+        result = described_class.call(server)
 
         assert(result.failure?)
         assert(result.errors[:base].any? { it.include?("JSON file size must not be greater than 512 bytes") })
@@ -87,7 +87,7 @@ class Servers::VerifyAccounts::PerformTest < ActiveSupport::TestCase
           response_headers: { "Content-Length" => "512", "Content-Type" => "text/plain" }
         )
 
-        result = described_class.new(server).call
+        result = described_class.call(server)
 
         assert(result.failure?)
         assert(result.errors[:base].any? { it.include?("JSON file Content-Type must be application/json") })
@@ -111,7 +111,7 @@ class Servers::VerifyAccounts::PerformTest < ActiveSupport::TestCase
           response_timeout: true
         )
 
-        result = described_class.new(server).call
+        result = described_class.call(server)
 
         assert(result.failure?)
         assert(result.errors[:base].any? { it.include?("Connection failed: execution expired") })
@@ -136,7 +136,7 @@ class Servers::VerifyAccounts::PerformTest < ActiveSupport::TestCase
           response_status: 500
         )
 
-        result = described_class.new(server).call
+        result = described_class.call(server)
 
         assert(result.failure?)
         assert(result.errors[:base].any? { it.include?("Request failed: the server responded with status 500") })
@@ -161,7 +161,7 @@ class Servers::VerifyAccounts::PerformTest < ActiveSupport::TestCase
           response_status: 400
         )
 
-        result = described_class.new(server).call
+        result = described_class.call(server)
 
         assert(result.failure?)
         assert(result.errors[:base].any? { it.include?("Request failed: the server responded with status 400") })
@@ -188,7 +188,7 @@ class Servers::VerifyAccounts::PerformTest < ActiveSupport::TestCase
           response_body: '{""}'
         )
 
-        result = described_class.new(server).call
+        result = described_class.call(server)
 
         assert(result.failure?)
         assert(result.errors[:base].any? { it.include?("Invalid JSON file") })
@@ -215,7 +215,7 @@ class Servers::VerifyAccounts::PerformTest < ActiveSupport::TestCase
           response_body: { "something" => "else" }.to_json
         )
 
-        result = described_class.new(server).call
+        result = described_class.call(server)
 
         assert(result.failure?)
         assert(result.errors.of_kind?(:json_schema_invalid))
@@ -249,7 +249,7 @@ class Servers::VerifyAccounts::PerformTest < ActiveSupport::TestCase
           }.to_json
         )
 
-        result = described_class.new(server).call
+        result = described_class.call(server)
 
         assert(result.failure?)
         assert_not(result.errors.of_kind?(:base, "Account #{account1.uuid} does not exist"))
@@ -282,7 +282,7 @@ class Servers::VerifyAccounts::PerformTest < ActiveSupport::TestCase
           }.to_json
         )
 
-        result = described_class.new(server).call
+        result = described_class.call(server)
 
         assert(result.failure?)
         assert(result.errors[:base].any? { it.include?('Empty "accounts" array in uppertown_28c62f1f.json') })
@@ -326,7 +326,7 @@ class Servers::VerifyAccounts::PerformTest < ActiveSupport::TestCase
 
           result = nil
           assert_difference(-> { ServerAccount.count }, 1) do
-            result = described_class.new(server).call
+            result = described_class.call(server)
           end
 
           assert(result.success?)

@@ -1,6 +1,6 @@
 # Components Directory Guide
 
-This file provides guidance for AI agents working with ViewComponents in `app/components/`. See the project root `AGENTS.md` for full architecture.
+This file provides guidance for AI agents working with ViewComponents in `app/components/`. See the project root `AGENTS.md` for full architecture. For Bootstrap usage, accessibility, and UI patterns, see `app/assets/stylesheets/AGENTS.md`.
 
 ## Overview
 

@@ -2,27 +2,63 @@
   <%= captcha_script_tag %>
 <% end %>
 
-<h2>Vote for you server!</h2>
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8 col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <h2 class="card-title h4 mb-3">
+          <i class="bi bi-hand-thumbs-up me-2"></i>
+          <%= t("server_votes.new.title") %>
+        </h2>
 
-<p>
-  <%= @server.name %>
-</p>
+        <div class="mb-3">
+          <span class="badge bg-secondary text-bg-secondary mb-2">
+            <%= t("server_votes.new.server_label") %>
+          </span>
+          <p class="mb-0 fs-5 fw-semibold">
+            <%= @server.name %>
+          </p>
+          <p class="text-body-secondary small mb-0">
+            <%= @server.game.name %>
+            <span title="<%= @server.country.common_name %>">
+              <%= @server.country.emoji_flag %> <%= @server.country_code %>
+            </span>
+          </p>
+        </div>
 
-<%= form_with(
-  model: @form,
-  method: :post,
-  url: server_votes_path(@server),
-  data: { "controller" => "form-error-messages-handler" }
-) do |form| %>
-  <%= captcha_widget_tag %>
+        <%= form_with(
+          model: @form,
+          method: :post,
+          url: server_votes_path(@server),
+          data: { "controller" => "form-error-messages-handler" }
+        ) do |form| %>
+          <div class="mb-3">
+            <%= form.label(:reference, ServerVote.human_attribute_name(:reference), class: "form-label") %>
+            <%= form.text_field(
+              :reference,
+              class: "form-control",
+              placeholder: t("server_votes.new.reference_placeholder"),
+              autocomplete: "off"
+            ) %>
+            <div class="form-text">
+              <%= t("server_votes.new.reference_help") %>
+            </div>
+          </div>
 
-  <%= form.hidden_field(:reference, value: @form.reference) %>
+          <div class="mb-4">
+            <%= captcha_widget_tag %>
+          </div>
 
-  <%=
-    form.submit(
-      "Click to vote!",
-      class: "btn btn-primary",
-      data: { "turbo-submits-with" => "Loading..." }
-    )
-  %>
-<% end %>
+          <div class="d-grid gap-2 d-md-flex">
+            <%= form.submit(
+              t("server_votes.new.submit"),
+              class: "btn btn-primary flex-grow-1 flex-md-grow-0",
+              data: { "turbo-submits-with" => t("shared.button.loading") }
+            ) %>
+            <%= link_to(t("server_votes.new.back_to_server"), server_path(@server), class: "btn btn-outline-secondary") %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -19,5 +19,14 @@ class ServerVotesRequestTest < ActionDispatch::IntegrationTest
 
       assert_response(:success)
     end
+
+    it "prefills reference from URL params" do
+      server = create_server
+
+      get(new_server_vote_path(server, reference: "campaign-123"))
+
+      assert_response(:success)
+      assert_select "input[name='server_vote[reference]'][value='campaign-123']", 1
+    end
   end
 end

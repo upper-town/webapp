@@ -28,6 +28,18 @@
 #       enabled: "ON"
 
 en:
+  auth:
+    authentication_control:
+      not_authenticated: "You need to sign in to access this page."
+      expired_session: "Your session has expired. Please sign in again."
+      unconfirmed_email: "You need to confirm your email address."
+      locked: "Your account has been locked."
+    admin_authentication_control:
+      not_authenticated: "You need to sign in to access this page."
+      expired_session: "Your session has expired. Please sign in again."
+      unconfirmed_email: "You need to confirm your email address."
+      locked: "Your account has been locked."
+
   admin:
     dashboard:
       title: "Dashboard"
@@ -184,8 +196,6 @@ en:
       show:
         title: "Session #%{id}"
         back_to: "Back to sessions"
-      columns:
-        user: "User"
       columns:
         user: "User"
 
@@ -576,11 +586,49 @@ en:
         value_help: "true or false for global. Optional: true:user_1,user_2 or false:user_1 for per-record overrides."
         comment_help: "Optional internal note. Not used for evaluation."
 
+  mission_control:
+    back_to_main_app: "Back to main app"
+
+  captcha:
+    errors:
+      please_pass: "Please pass the captcha"
+      verification_failed: "Captcha verification failed"
+      could_not_verify: "Could not verify captcha. Please try again later"
+      connection_failed: "Connection failed"
+
+  home:
+    index:
+      tagline: "Web app with features for the gaming community."
+      browse_servers: "Browse servers"
+      add_server: "Add server"
+
   time:
     formats:
       default: "%Y-%m-%dT%H:%M:%S%:z"
+      month_year: "%B %Y"
 
   shared:
+    aria:
+      toggle_navigation: "Toggle navigation"
+      admin_navigation: "Admin navigation"
+      main_navigation: "Main navigation"
+      pagination: "Pagination"
+    footer:
+      x_link: "X @uppertown_hq"
+    pagination:
+      page: "page"
+      total_pages: "total_pages"
+      per_page: "per_page"
+      total_count: "total_count"
+      first: "First"
+      last: "Last"
+      prev: "Prev"
+      next: "Next"
+      go: "Go"
+      after: "After"
+      before: "Before"
+      asc: "Asc"
+      desc: "Desc"
     messages:
       please_try_again_later_too_many_requests: "Please try again later. Too many requests."
       too_many_votes_for_game: "You have already voted for this game! You can vote once every %{time} per game."
@@ -591,8 +639,14 @@ en:
       confirming: "Confirming..."
 
     nav:
+      brand: "Upper Town"
+      top_servers: "Top Servers"
+      add_server: "Add server"
+      dashboard: "Dashboard"
+      account: "Account"
       sign_in: "Sign In"
       sign_up: "Sign Up"
+      sign_out: "Sign Out"
 
   errors:
     messages:
@@ -735,18 +789,37 @@ en:
   users_mailer:
     email_confirmation:
       subject: "Email Confirmation: verification code"
+      greeting: "Welcome %{email}!"
+      verification_code_intro: "Here is your verification code:"
     password_reset:
       subject: "Password Reset: verification code"
+      greeting: "Hi %{email}!"
+      verification_code_intro: "Here is your verification code to reset password:"
     change_email_reversion:
       subject: "Change Email: reversion link"
+      greeting: "Hi %{email}!"
+      requested_change: "You requested to change your email address from %{email} to %{change_email}."
+      confirmation_sent: "An email confirmation link has been sent to the new %{change_email} address."
+      revert_info: "You can revert this action in the next 30 days with the link below:"
+      link_text: "Change email reversion link"
+      verification_code_label: "And this verification code:"
+    change_email_confirmation:
+      greeting: "Hi %{change_email}!"
+      requested_change: "You requested to change your email address from %{email} to %{change_email}."
+      verification_code_intro: "Here is your verification code:"
     change_email:
       subject: "Change Email: verification code"
 
   admin_users_mailer:
     email_confirmation:
       subject: "Email Confirmation: verification code"
+      greeting: "Welcome %{email}!"
+      link_text: "Confirmation link"
+      verification_code_intro: "Here is your verification code:"
     password_reset:
       subject: "Password Reset: verification code"
+      greeting: "Hi %{email}!"
+      verification_code_intro: "Here is your verification code to reset password:"
 
   users:
     email_confirmations:
@@ -755,8 +828,11 @@ en:
       set_password_for_your_account: "Set a password for your account."
       new:
         email_confirmation: "Email Confirmation"
+        description: "Create an account to add servers, vote, and manage your profile."
         email_help_html: "We'll send you a message with a <strong>verification code</strong> to confirm your email address."
         submit: "Send verification code"
+        already_have_account: "Already have an account?"
+        click_here_to_sign_in: "Sign in"
       edit:
         title: "Verification Code"
         code_help: "Enter the verification code we have sent to your email"
@@ -767,8 +843,12 @@ en:
       password_set: "Your password has been set."
       new:
         title: "Reset Password"
-        email_help_html: We'll send you a message with a <strong>verification code</strong> to set or reset your password.
+        description: "Enter your email and we'll send you a verification code to set or reset your password."
+        back_to_sign_in: "Back to sign in"
+        email_help_html: "We'll send you a message with a <strong>verification code</strong> to set or reset your password."
         submit: "Send verification code"
+        remember_password: "Remember your password?"
+        click_here_to_sign_in: "Sign in"
       edit:
         title: "Set your password"
         code_help: "Enter the verification code we have sent to your email."
@@ -792,6 +872,7 @@ en:
       email_address_changed: "Email address has been changed."
       new:
         title: "Change Email"
+        back_to_account: "Back to account"
         email_help: "We'll send you a message with a link you can use to revert this change, valid for 30 days."
         change_email_help: "We'll send you a message with the link to confirm this new email address."
         submit: "Change email"
@@ -826,8 +907,12 @@ en:
       password_set: "Your password has been set."
       new:
         title: "Reset Password"
-        email_help_html: We'll send you a message with a <strong>verification code</strong> to set or reset your password.
+        description: "Enter your admin email and we'll send you a verification code to set or reset your password."
+        email_help_html: "We'll send you a message with a <strong>verification code</strong> to set or reset your password."
         submit: "Send verification code"
+        remember_password: "Remember your password?"
+        back_to_sign_in: "Sign in"
+        back_to_site: "Back to site"
       edit:
         title: "Set your password"
         code_help: "Enter the verification code we have sent to your email."
@@ -840,11 +925,84 @@ en:
       logged_out_all: "Your have been logged out from all sessions."
       logged_in_already: "You are logged in already."
       new:
+        title: "Admin sign in"
         forgot_your_password: "Forgot your password?"
         click_here_to_reset_password: "Click here to Reset Password"
+        back_to_site: "Back to site"
 
   inside:
+    dashboard:
+      title: "Dashboard"
+      welcome: "Welcome back"
+      my_servers: "My Servers"
+      my_votes: "My Votes"
+      verified_servers: "Verified"
+      pending_verification: "Pending"
+      quick_actions: "Quick actions"
+      add_server: "Add server"
+      view_profile: "View my page"
+      manage_account: "Manage account"
+      recent_servers: "Recent servers"
+      view_all_servers: "View all servers"
+      my_server_votes: "My server votes"
+      no_servers_yet: "You haven't added any servers yet."
+      add_first_server: "Add your first server"
+      add_first_server_help: "to get started and appear in the rankings."
+      browse_servers: "Browse top servers"
+    account:
+      title: "Account settings"
+      subtitle: "Manage your profile and security"
+      back_to_dashboard: "Back to dashboard"
+      profile:
+        title: "Profile"
+        description: "Your public profile page shows your vote count and is visible to others."
+        view_profile: "View my page"
+      security:
+        title: "Security"
+        description: "Keep your account secure by updating your password and email."
+        reset_password: "Reset password"
+        reset_password_help: "Request a link to set a new password. You'll receive an email with instructions."
+        change_email: "Change email"
+        change_email_help: "Update the email address associated with your account."
+      sessions:
+        title: "Sessions"
+        description: "Sign out from this device or from all devices where you're logged in."
+        sign_out: "Sign out"
+        sign_out_all: "Sign out from all devices"
+        sign_out_all_confirm: "This will sign you out from every device. You'll need to sign in again. Continue?"
     servers:
+      index:
+        title: "My Servers"
+        add_server: "Add server"
+        edit: "Edit"
+        view_page: "View page"
+        archive: "Archive"
+        unarchive: "Unarchive"
+        mark_for_deletion: "Mark for deletion"
+        unmark_for_deletion: "Unmark for deletion"
+        archive_confirm: "By archiving this server, users won't be able to vote on it. Continue?"
+        unarchive_confirm: "By unarchiving this server, users will be able to vote on it again. Continue?"
+        mark_for_deletion_confirm: "This will permanently delete your server and everything associated with it. Continue?"
+        unmark_for_deletion_confirm: "This will prevent this server from being deleted. Continue?"
+        archived_notice: "This server is archived and hidden from rankings."
+        marked_for_deletion_notice: "This server is marked for deletion and will be removed soon."
+        empty_title: "No servers yet"
+        empty_message: "Your account is not associated with any servers."
+        empty_help: "Add a server to get started, or ask to be associated with an existing server."
+        verification_help: "Verification is required for your server to appear in the public rankings."
+      create:
+        success: "Your server has been added."
+      archive:
+        success: "Server has been archived. Servers that are archived and without votes will be deleted soon automatically."
+      new:
+        title: "Add server"
+        back_to: "Back to My Servers"
+        details: "Details"
+        banner_image_section: "Banner image"
+        banner_image_label: "Banner image"
+        banner_help: "PNG or JPEG, max 512 KB. Optional."
+        submit: "Add server"
+        cancel: "Cancel"
       unarchive:
         success: "Server has been unarchived."
       mark_for_deletion:
@@ -854,7 +1012,95 @@ en:
       update:
         success: "Server updated."
       edit:
+        title: "Edit %{name}"
+        back_to: "Back to My Servers"
+        view_public_page: "View public page"
+        details: "Details"
+        banner_image_section: "Banner image"
+        current_banner: "Current banner:"
+        replace_banner: "Replace banner image"
+        banner_help: "PNG or JPEG, max 512 KB. Leave blank to keep current."
         submit: "Update server"
-        current_banner: "Leave blank to keep the current banner."
+        cancel: "Cancel"
       max_verified_servers_per_account: "You already have too many verified servers associated with your account."
       max_not_verified_servers_per_account: "You have many servers pending verification. Please verify them first before adding more servers."
+
+  server_votes:
+    create:
+      success: "Your vote has been saved! It will be consolidated in one minute."
+    new:
+      title: "Vote for your server"
+      server_label: "Server"
+      reference_label: "Reference"
+      reference_placeholder: "Optional reference (e.g. campaign ID)"
+      reference_help: "Optional. You can also pass it via URL: ?reference=your_value"
+      submit: "Vote"
+      back_to_server: "Back to server"
+    show:
+      title: "Vote recorded"
+      subtitle: "Your vote has been saved and will be consolidated shortly."
+      server_label: "Server"
+      game_label: "Game"
+      uuid_label: "Vote ID"
+      reference_label: "Reference"
+      created_at_label: "Recorded at"
+      view_server: "View server"
+      browse_servers: "Browse servers"
+
+  accounts:
+    show:
+      title: "Profile"
+      member_since: "Member since %{date}"
+      total_votes: "Total votes"
+      total_votes_description: "Total server votes cast by this account"
+      servers: "Servers"
+      servers_description: "Servers associated with this account"
+      empty_servers: "No servers yet"
+      browse_servers: "Browse servers"
+
+  servers:
+    errors:
+      already_archived: "Server is already archived"
+      marked_for_deletion_unmark_first: "Server is marked for deletion. Unmark it first and then you can unarchive it"
+      not_archived: "Server is not archived already"
+      must_be_archived: "Server must be archived and then it can be marked/unmarked for deletion"
+      already_marked_for_deletion: "Server is already marked for deletion"
+      already_not_marked_for_deletion: "Server is already not marked for deletion"
+    verify_accounts:
+      errors:
+        json_file_size_exceeded: "JSON file size must not be greater than %{max_size} bytes"
+        json_content_type_invalid: "JSON file Content-Type must be application/json"
+        request_failed: "Request failed: %{error}"
+        connection_failed: "Connection failed: %{error}"
+        invalid_json: "Invalid JSON file: %{error}"
+        empty_accounts_array: "Empty \"accounts\" array in %{path}"
+        account_does_not_exist: "Account %{uuid} does not exist"
+    index:
+      filter:
+        title: "Filter servers"
+        clear: "Clear filters"
+        all_games: "All games"
+        all_countries: "All countries"
+      world_ranking: "World Ranking"
+      vote_count: "Vote Count"
+      year: "Year"
+      month: "Month"
+      week: "Week"
+      vote_up: "Vote Up"
+      more_info: "More Info"
+      verified: "Verified"
+    show:
+      description: "Description"
+      game: "Game"
+      country: "Country"
+      site_url: "Website"
+      info: "Additional info"
+      ranking: "Ranking"
+      votes: "Votes"
+      vote_up: "Vote Up"
+      visit_site: "Visit site"
+      browse_servers: "Browse servers"
+      period_year: "Year"
+      period_month: "Month"
+      period_week: "Week"
+      verified_badge: "Verified"

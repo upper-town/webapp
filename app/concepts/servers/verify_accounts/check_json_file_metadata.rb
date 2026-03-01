@@ -1,6 +1,8 @@
 module Servers
   module VerifyAccounts
     class CheckJsonFileMetadata
+      include Callable
+
       JSON_FILE_MAX_SIZE = 512
       JSON_FILE_CONTENT_TYPE_PATTERN = %r{\bapplication/json\b}i
 
@@ -17,16 +19,16 @@ module Servers
         response = connection.head(json_file_path)
 
         if response.headers["Content-Length"].to_i > JSON_FILE_MAX_SIZE
-          Result.failure("JSON file size must not be greater than #{JSON_FILE_MAX_SIZE} bytes")
+          Result.failure(I18n.t("servers.verify_accounts.errors.json_file_size_exceeded", max_size: JSON_FILE_MAX_SIZE))
         elsif !response.headers["Content-Type"].match?(JSON_FILE_CONTENT_TYPE_PATTERN)
-          Result.failure("JSON file Content-Type must be application/json")
+          Result.failure(I18n.t("servers.verify_accounts.errors.json_content_type_invalid"))
         else
           Result.success
         end
       rescue Faraday::ClientError, Faraday::ServerError => e
-        Result.failure("Request failed: #{e}")
+        Result.failure(I18n.t("servers.verify_accounts.errors.request_failed", error: e))
       rescue Faraday::Error => e
-        Result.failure("Connection failed: #{e}")
+        Result.failure(I18n.t("servers.verify_accounts.errors.connection_failed", error: e))
       end
 
       private

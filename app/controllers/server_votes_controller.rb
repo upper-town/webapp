@@ -46,7 +46,7 @@ class ServerVotesController < ApplicationController
     if result.success?
       redirect_to(
         server_vote_path(result.server_vote),
-        success: "Your vote has been saved! It will be consolidated in one minute."
+        success: t("server_votes.create.success")
       )
     else
       flash.now[:alert] = result.errors

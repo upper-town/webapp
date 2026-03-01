@@ -32,8 +32,10 @@ module Seeds
       ]
     end
 
+    DEMO_USER_IDS = [101, 202].freeze
+
     def account_hashes
-      user_ids.map do |user_id|
+      (user_ids - DEMO_USER_IDS).map do |user_id|
         { user_id: }
       end
     end

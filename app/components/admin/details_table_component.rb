@@ -71,6 +71,7 @@ data: (content_target_value.present? ? {} : { copy_to_clipboard_target: "content
     def copy_button_html
       content_tag(:button, type: "button", class: "btn btn-link btn-sm p-0 text-body-secondary border-0",
         title: I18n.t("admin.shared.copy_to_clipboard"),
+        aria: { label: I18n.t("admin.shared.copy_to_clipboard") },
         data: { copy_btn: true, action: "click->copy-to-clipboard#copy" }) do
         clipboard_icon
       end

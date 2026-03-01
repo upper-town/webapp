@@ -1,0 +1,124 @@
+<div class="card h-100 shadow-sm overflow-hidden">
+  <% if ServerBannerImagePolicy.new(server, request).allowed? && server.banner_image.attached? %>
+    <%= link_to(server_path(server), class: "text-decoration-none") do %>
+      <%= image_tag(
+        server.banner_image,
+        class: "card-img-top",
+        style: "height: 140px; object-fit: cover;"
+      ) %>
+    <% end %>
+  <% end %>
+
+  <div class="card-body d-flex flex-column">
+    <div class="d-flex align-items-start gap-2 mb-2">
+      <% if server.not_archived? && server.not_marked_for_deletion? %>
+        <div class="flex-shrink-0 rounded-2 bg-primary text-white text-center px-2 py-1" style="min-width: 3rem;">
+          <span class="fw-bold small"><%= format_ranking_number(stats.dig(period, :ranking_number)) %></span>
+        </div>
+      <% end %>
+      <div class="flex-grow-1 min-w-0">
+        <%= link_to(server.name, server_path(server), class: "fw-semibold text-decoration-none text-body") %>
+        <div class="small text-body-secondary mt-1">
+          <%= server.game.name %>
+          <span title="<%= server.country.common_name %>"><%= server.country.emoji_flag %> <%= server.country_code %></span>
+          <% if server.verified? %>
+            <span class="badge bg-success ms-1"><%= t("servers.index.verified") %></span>
+          <% end %>
+          <% if server.archived? %>
+            <span class="badge bg-secondary ms-1"><%= t("admin.shared.archived") %></span>
+          <% end %>
+          <% if server.marked_for_deletion? %>
+            <span class="badge bg-danger ms-1"><%= t("admin.shared.marked_for_deletion") %></span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <% if server.description.present? %>
+      <p class="card-text small text-body-secondary mb-3">
+        <%= truncate(server.description, length: 120) %>
+      </p>
+    <% end %>
+
+    <% if server.not_archived? && server.not_marked_for_deletion? %>
+      <div class="row g-2 mb-3">
+        <div class="col-12">
+          <div class="small text-body-secondary text-uppercase mb-1"><%= t("servers.index.world_ranking") %></div>
+          <div class="d-flex gap-1">
+            <% [Periods::YEAR, Periods::MONTH, Periods::WEEK].each do |p| %>
+              <div class="flex-grow-1 rounded text-center py-1 <%= period == p ? "bg-primary bg-opacity-25 border border-primary" : "bg-body-secondary bg-opacity-25" %>">
+                <div class="small text-body-secondary"><%= t("servers.index.#{p}") %></div>
+                <div class="fw-semibold small"><%= format_ranking_number(stats.dig(p, :ranking_number)) %></div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="small text-body-secondary text-uppercase mb-1"><%= t("servers.index.vote_count") %></div>
+          <div class="d-flex gap-1">
+            <% [Periods::YEAR, Periods::MONTH, Periods::WEEK].each do |p| %>
+              <div class="flex-grow-1 rounded text-center py-1 <%= period == p ? "bg-primary bg-opacity-25 border border-primary" : "bg-body-secondary bg-opacity-25" %>">
+                <div class="small text-body-secondary"><%= t("servers.index.#{p}") %></div>
+                <div class="fw-semibold small"><%= format_vote_count(stats.dig(p, :vote_count)) %></div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% elsif server.marked_for_deletion? %>
+      <div class="alert alert-danger py-2 mb-3 small">
+        <%= t("inside.servers.index.marked_for_deletion_notice") %>
+      </div>
+    <% elsif server.archived? %>
+      <div class="alert alert-secondary py-2 mb-3 small">
+        <%= t("inside.servers.index.archived_notice") %>
+      </div>
+    <% end %>
+
+    <div class="mt-auto d-flex flex-wrap gap-2">
+      <%= link_to(t("inside.servers.index.edit"), edit_inside_server_path(server), class: "btn btn-primary btn-sm") %>
+      <%= link_to(t("inside.servers.index.view_page"), server_path(server), class: "btn btn-outline-secondary btn-sm") %>
+
+      <% if server.marked_for_deletion? %>
+        <%= link_to(
+          t("inside.servers.index.unmark_for_deletion"),
+          unmark_for_deletion_inside_server_path(server),
+          class: "btn btn-outline-danger btn-sm",
+          data: {
+            "turbo-method" => :post,
+            "turbo-confirm" => t("inside.servers.index.unmark_for_deletion_confirm")
+          }
+        ) %>
+      <% elsif server.archived? %>
+        <%= link_to(
+          t("inside.servers.index.unarchive"),
+          unarchive_inside_server_path(server),
+          class: "btn btn-outline-secondary btn-sm",
+          data: {
+            "turbo-method" => :post,
+            "turbo-confirm" => t("inside.servers.index.unarchive_confirm")
+          }
+        ) %>
+        <%= link_to(
+          t("inside.servers.index.mark_for_deletion"),
+          mark_for_deletion_inside_server_path(server),
+          class: "btn btn-outline-danger btn-sm",
+          data: {
+            "turbo-method" => :post,
+            "turbo-confirm" => t("inside.servers.index.mark_for_deletion_confirm")
+          }
+        ) %>
+      <% else %>
+        <%= link_to(
+          t("inside.servers.index.archive"),
+          archive_inside_server_path(server),
+          class: "btn btn-outline-secondary btn-sm",
+          data: {
+            "turbo-method" => :post,
+            "turbo-confirm" => t("inside.servers.index.archive_confirm")
+          }
+        ) %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -4,7 +4,7 @@
     back_path: admin_users_path,
     actions: [
       (@user.account ? { path: admin_account_path(@user.account), label: t("admin.accounts.account") } : nil),
-      (@user.account ? { path: account_path(@user.account), label: t("admin.shared.view_public_page"), target: "_blank", rel: "noopener" } : nil),
+      (@user.account ? { path: account_path(@user.account), label: t("admin.shared.view_public_page"), target: "_blank", rel: "noopener noreferrer" } : nil),
       { path: edit_admin_user_path(@user), label: t("admin.shared.edit") },
     ].compact
   )) %>

@@ -1,6 +1,6 @@
 <div class="d-flex flex-row gap-2 justify-content-center" data-turbo-prefetch="true">
   <% if show_first? %>
-    <nav role="navigation">
+    <nav role="navigation" aria-label="<%= t('shared.aria.pagination') %>">
       <ul class="pagination">
         <% if pagination_cursor.start_cursor? %>
           <li class="page-item disabled">
@@ -15,7 +15,7 @@
     </nav>
   <% end %>
 
-  <nav role="navigation" class="pagination-cursor-prev-next">
+  <nav role="navigation" aria-label="<%= t('shared.aria.pagination') %>" class="pagination-cursor-prev-next">
     <ul class="pagination">
       <% if pagination_cursor.has_before_cursor? %>
         <li class="page-item">
@@ -46,7 +46,7 @@
 
 <% if show_goto? %>
   <div class="d-flex flex-row gap-1 justify-content-center mb-2">
-    <nav role="navigation">
+    <nav role="navigation" aria-label="<%= t('shared.aria.pagination') %>">
       <ul class="pagination">
         <li class="page-item pagination-cursor-goto">
           <%= form_with(method: :get, url: request.path) do |form| %>
@@ -54,7 +54,7 @@
             <div class="input-group">
               <%= select_tag(
                 "indicator",
-                options_for_select([["After", "after"], ["Before", "before"]], pagination_cursor.indicator),
+                options_for_select([[t("shared.pagination.after"), "after"], [t("shared.pagination.before"), "before"]], pagination_cursor.indicator),
                 id: nil,
                 class: "form-select"
               ) %>
@@ -68,7 +68,7 @@
               >
               <%= select_tag(
                 "order",
-                options_for_select([["Asc", "asc"], ["Desc", "desc"]], pagination_cursor.order),
+                options_for_select([[t("shared.pagination.asc"), "asc"], [t("shared.pagination.desc"), "desc"]], pagination_cursor.order),
                 id: nil,
                 class: "form-select"
               ) %>
@@ -85,19 +85,19 @@
   <div class="d-flex flex-row gap-1 justify-content-center mb-2">
     <% if show_total_pages? %>
       <span class="badge text-bg-secondary">
-        total_pages <%= pagination_cursor.total_pages %>
+        <%= t("shared.pagination.total_pages") %> <%= pagination_cursor.total_pages %>
       </span>
     <% end %>
 
     <% if show_per_page? %>
       <span class="badge text-bg-secondary">
-        per_page <%= pagination_cursor.per_page %>
+        <%= t("shared.pagination.per_page") %> <%= pagination_cursor.per_page %>
       </span>
     <% end %>
 
     <% if show_total_count? %>
       <span class="badge text-bg-secondary">
-        total_count <%= pagination_cursor.total_count %>
+        <%= t("shared.pagination.total_count") %> <%= pagination_cursor.total_count %>
       </span>
     <% end %>
   </div>

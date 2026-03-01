@@ -1,111 +1,43 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+  <h1 class="mb-0"><%= t("inside.servers.index.title") %></h1>
+  <%= link_to new_inside_server_path, class: "btn btn-primary" do %>
+    <i class="bi bi-plus-lg me-1"></i>
+    <%= t("inside.servers.index.add_server") %>
+  <% end %>
+</div>
+
 <% if @servers.any? %>
-  [Link to article about how to validate your server]
-  <ul>
-    <% @servers.map do |server| %>
-      <% if server.marked_for_deletion? %>
-        [This server is marked for deletion and will be deleted soon in xxx hours]
-      <% elsif server.archived? %>
-        [This server is archived]
-      <% end %>
+  <% unless @servers.all?(&:verified?) %>
+    <div class="alert alert-info py-2 mb-4 small d-flex align-items-center gap-2">
+      <i class="bi bi-info-circle"></i>
+      <%= t("inside.servers.index.verification_help") %>
+    </div>
+  <% end %>
 
-      <li class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <%=
-          link_to(
-            "Edit",
-            edit_inside_server_path(server),
-            class: "btn btn-secondary",
-          )
-        %>
-        <%=
-          link_to(
-            "View Page",
-            server_path(server),
-            class: "btn btn-secondary",
-          )
-        %>
-
-        <% if server.marked_for_deletion? %>
-          <%=
-            link_to(
-              "Unmark for deletion",
-              unmark_for_deletion_inside_server_path(server),
-              class: "btn btn-danger",
-              data: {
-                "turbo-method" => :post,
-                "turbo-confirm" => "This will prevent this server from being deleted. Confirm?"
-              }
-            )
-          %>
-        <% elsif server.archived? %>
-          <%=
-            link_to(
-              "Unarchive",
-              unarchive_inside_server_path(server),
-              class: "btn btn-secondary",
-              data: {
-                "turbo-method" => :post,
-                "turbo-confirm" => "By unarchiving this server, users will be able to vote on it again. Confirm?"
-              }
-            )
-          %>
-          <%=
-            link_to(
-              "Mark for deletion",
-              mark_for_deletion_inside_server_path(server),
-              class: "btn btn-danger",
-              data: {
-                "turbo-method" => :post,
-                "turbo-confirm" => "This will delete your server and everything associated with it. Confirm?"
-              }
-            )
-          %>
-        <% else %>
-          <%=
-            link_to(
-              "Archive",
-              archive_inside_server_path(server),
-              class: "btn btn-secondary",
-              data: {
-                "turbo-method" => :post,
-                "turbo-confirm" => "By archiving this server, users won't be able to vote on it. Confirm?"
-              }
-            )
-          %>
-        <% end %>
-
-        <table>
-          <tr>
-            <th colspan="2" class="uppercase text-center">Info</th>
-          </tr>
-          <tr>
-            <th>ID</th>
-            <td><%= server.id %></td>
-          </tr>
-          <tr>
-            <th>Name</th>
-            <td><%= server.name %></td>
-          </tr>
-          <tr>
-            <th>Site URL</th>
-            <td><%= server.site_url %></td>
-          </tr>
-
-          <tr>
-            <th colspan="2" class="uppercase text-center">Verified</th>
-          </tr>
-          <tr>
-            <th>Status</th>
-            <td><%= server.verified_at %></td>
-          </tr>
-          <tr>
-            <th>Metadata</th>
-            <td><%= server.metadata %></td>
-          </tr>
-        </table>
-      </li>
+  <div class="row g-3">
+    <% @servers.each do |server| %>
+      <div class="col-12 col-md-6 col-lg-4">
+        <%= render Inside::ServerCardComponent.new(
+          server: server,
+          server_stats_hash: @server_stats_hash,
+          period: @period
+        ) %>
+      </div>
     <% end %>
-  </ul>
+  </div>
 <% else %>
-Your account is not associated with any servers.
-Click "Add server" or ask associate an existing server to your account.
+  <div class="card border-0 shadow-sm bg-body-secondary bg-opacity-25">
+    <div class="card-body text-center py-5">
+      <i class="bi bi-hdd-stack display-4 text-body-secondary mb-3"></i>
+      <h5 class="card-title"><%= t("inside.servers.index.empty_title") %></h5>
+      <p class="card-text text-body-secondary mb-3">
+        <%= t("inside.servers.index.empty_message") %>
+        <%= t("inside.servers.index.empty_help") %>
+      </p>
+      <%= link_to new_inside_server_path, class: "btn btn-primary" do %>
+        <i class="bi bi-plus-lg me-1"></i>
+        <%= t("inside.servers.index.add_server") %>
+      <% end %>
+    </div>
+  </div>
 <% end %>

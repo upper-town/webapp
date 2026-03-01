@@ -1,16 +1,140 @@
-Welcome to your dashboard!
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+  <div>
+    <h1 class="mb-1"><%= t("inside.dashboard.title") %></h1>
+    <p class="text-body-secondary mb-0">
+      <%= t("inside.dashboard.welcome") %>, <%= current_user.email %>
+    </p>
+  </div>
+</div>
 
-<ul>
-  <li>
-    <%= link_to("My Servers", inside_servers_path) %>
-  </li>
-  <li>
-    <%= link_to("My Server Votes", inside_server_votes_path) %>
-  </li>
-  <li>
-    <%= link_to("Manage my Account", inside_account_path) %>
-  </li>
-  <li>
-    <%= link_to("View my Page", account_path(current_account)) %>
-  </li>
-</ul>
+<div class="row g-3 mb-4">
+  <div class="col-md-6 col-lg-4">
+    <%= link_to inside_servers_path, class: "card text-decoration-none text-dark h-100 border-0 shadow-sm" do %>
+      <div class="card-body">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="rounded-2 bg-primary bg-opacity-10 p-2">
+            <i class="bi bi-hdd-stack text-primary"></i>
+          </span>
+          <h5 class="card-title text-body-secondary small text-uppercase mb-0">
+            <%= t("inside.dashboard.my_servers") %>
+          </h5>
+        </div>
+        <p class="card-text mb-0 fs-3 fw-semibold"><%= @stats[:servers_count] %></p>
+        <% if @stats[:servers_verified_count] > 0 || @stats[:servers_pending_count] > 0 %>
+          <p class="card-text text-body-secondary small mb-0 mt-1">
+            <%= t("inside.dashboard.verified_servers") %>: <%= @stats[:servers_verified_count] %>
+            <% if @stats[:servers_pending_count] > 0 %>
+              | <%= t("inside.dashboard.pending_verification") %>: <%= @stats[:servers_pending_count] %>
+            <% end %>
+          </p>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="col-md-6 col-lg-4">
+    <%= link_to inside_server_votes_path, class: "card text-decoration-none text-dark h-100 border-0 shadow-sm" do %>
+      <div class="card-body">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="rounded-2 bg-success bg-opacity-10 p-2">
+            <i class="bi bi-hand-thumbs-up text-success"></i>
+          </span>
+          <h5 class="card-title text-body-secondary small text-uppercase mb-0">
+            <%= t("inside.dashboard.my_votes") %>
+          </h5>
+        </div>
+        <p class="card-text mb-0 fs-3 fw-semibold"><%= @stats[:server_votes_count] %></p>
+        <p class="card-text text-body-secondary small mb-0 mt-1">
+          <%= t("inside.dashboard.my_server_votes") %>
+        </p>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="col-md-6 col-lg-4">
+    <%= link_to inside_account_path, class: "card text-decoration-none text-dark h-100 border-0 shadow-sm" do %>
+      <div class="card-body">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="rounded-2 bg-info bg-opacity-10 p-2">
+            <i class="bi bi-person-gear text-info"></i>
+          </span>
+          <h5 class="card-title text-body-secondary small text-uppercase mb-0">
+            <%= t("inside.dashboard.manage_account") %>
+          </h5>
+        </div>
+        <p class="card-text mb-0 small">
+          <%= link_to t("inside.dashboard.view_profile"), account_path(current_account), class: "text-decoration-none" %>
+        </p>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-12">
+    <h5 class="text-body-secondary small text-uppercase mb-2"><%= t("inside.dashboard.quick_actions") %></h5>
+    <div class="d-flex flex-wrap gap-2">
+      <%= link_to new_inside_server_path, class: "btn btn-primary" do %>
+        <i class="bi bi-plus-lg me-1"></i>
+        <%= t("inside.dashboard.add_server") %>
+      <% end %>
+      <%= link_to account_path(current_account), class: "btn btn-outline-secondary" do %>
+        <i class="bi bi-person me-1"></i>
+        <%= t("inside.dashboard.view_profile") %>
+      <% end %>
+      <%= link_to inside_account_path, class: "btn btn-outline-secondary" do %>
+        <i class="bi bi-gear me-1"></i>
+        <%= t("inside.dashboard.manage_account") %>
+      <% end %>
+      <%= link_to servers_path, class: "btn btn-outline-secondary" do %>
+        <i class="bi bi-list-ul me-1"></i>
+        <%= t("inside.dashboard.browse_servers") %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<% if @recent_servers.any? %>
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="text-body-secondary small text-uppercase mb-0"><%= t("inside.dashboard.recent_servers") %></h5>
+        <%= link_to inside_servers_path, class: "btn btn-sm btn-outline-secondary" do %>
+          <%= t("inside.dashboard.view_all_servers") %>
+          <i class="bi bi-arrow-right ms-1"></i>
+        <% end %>
+      </div>
+      <div class="row g-3">
+        <% @recent_servers.each do |server| %>
+          <div class="col-12 col-md-6 col-lg-4">
+            <%= render Servers::IndexResultComponent.new(
+              server: server,
+              server_stats_hash: @recent_server_stats_hash[server.id] || {},
+              period: @period,
+              show_more_info: true
+            ) %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <div class="card border-0 shadow-sm bg-body-secondary bg-opacity-25">
+    <div class="card-body text-center py-5">
+      <i class="bi bi-hdd-stack display-4 text-body-secondary mb-3"></i>
+      <h5 class="card-title"><%= t("inside.dashboard.no_servers_yet") %></h5>
+      <p class="card-text text-body-secondary mb-3">
+        <%= t("inside.dashboard.add_first_server") %> <%= t("inside.dashboard.add_first_server_help") %>
+      </p>
+      <div class="d-flex gap-2 justify-content-center flex-wrap">
+        <%= link_to new_inside_server_path, class: "btn btn-primary" do %>
+          <i class="bi bi-plus-lg me-1"></i>
+          <%= t("inside.dashboard.add_server") %>
+        <% end %>
+        <%= link_to servers_path, class: "btn btn-outline-secondary" do %>
+          <%= t("inside.dashboard.browse_servers") %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

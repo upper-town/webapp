@@ -11,12 +11,12 @@ class ServersController < ApplicationController
     @selected_value_country_code = @country_codes ? @country_codes.join(",") : nil
 
     @pagination = Pagination.new(
-      Servers::IndexQuery.new(@game, @period, @country_codes, current_time).call,
+      Servers::IndexQuery.call(@game, @period, @country_codes, current_time),
       request
     )
 
     @servers = @pagination.results
-    @server_stats_hash = Servers::IndexStatsQuery.new(@servers.pluck(:id), current_time).call
+    @server_stats_hash = Servers::IndexStatsQuery.call(@servers.pluck(:id), current_time)
 
     render(status: :ok)
   rescue InvalidQueryParamError
@@ -28,6 +28,7 @@ class ServersController < ApplicationController
 
   def show
     @server = server_from_params
+    @server_stats_hash = Servers::IndexStatsQuery.call([@server.id], Time.current)
   end
 
   private

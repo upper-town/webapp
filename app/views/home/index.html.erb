@@ -1,7 +1,10 @@
-<p>
-  <b>Under construction...</b>
-</p>
-
-<p>
-  Web app with features for the gaming community.
-</p>
+<div class="hero-section text-center py-5">
+  <h1 class="display-5 fw-bold mb-3">Upper Town</h1>
+  <p class="lead text-body-secondary mb-4">
+    <%= t("home.index.tagline") %>
+  </p>
+  <div class="d-flex flex-wrap gap-2 justify-content-center">
+    <%= link_to(t("home.index.browse_servers"), servers_path, class: "btn btn-primary btn-lg") %>
+    <%= link_to(t("home.index.add_server"), new_inside_server_path, class: "btn btn-outline-secondary btn-lg") %>
+  </div>
+</div>

@@ -105,11 +105,11 @@ class SignUpEtcTest < ApplicationSystemTestCase
       assert_equal("user@upper.town", session.user.email)
       assert_in_delta(1.day.from_now, session.expires_at, 10.minutes)
 
-      click_on("Manage my Account")
+      click_on("Manage account", match: :first)
 
-      assert_text("Manage your account")
+      assert_text("Account settings")
 
-      click_on("Change Email address")
+      click_on("Change email")
 
       fill_in("Current Email", with: "xxx@xxx")
       fill_in("New Email", with: "yyy@yyy")

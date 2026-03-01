@@ -37,21 +37,21 @@ module Captcha
     captcha_response, remote_ip = extract_values(request)
 
     if captcha_response.blank?
-      return Result.failure("Please pass the captcha")
+      return Result.failure(I18n.t("captcha.errors.please_pass"))
     end
 
     begin
       response = send_verify_request(captcha_response, remote_ip)
 
       if response.body["success"].blank? || !response.body["success"]
-        Result.failure("Captcha verification failed")
+        Result.failure(I18n.t("captcha.errors.verification_failed"))
       else
         Result.success
       end
     rescue Faraday::ClientError, Faraday::ServerError
-      Result.failure("Could not verify captcha. Please try again later")
+      Result.failure(I18n.t("captcha.errors.could_not_verify"))
     rescue Faraday::Error
-      Result.failure("Connection failed")
+      Result.failure(I18n.t("captcha.errors.connection_failed"))
     end
   end
 

@@ -3,7 +3,7 @@
     <%= link_to(t("admin.nav.brand"), admin_dashboard_path, class: "admin-sidebar-brand") %>
   </div>
 
-  <nav class="admin-sidebar-nav">
+  <nav class="admin-sidebar-nav" aria-label="<%= t('shared.aria.admin_navigation') %>">
     <ul class="nav flex-column">
       <li class="nav-item">
         <%= link_to(
@@ -111,7 +111,7 @@
           root_path,
           class: "nav-link",
           target: "_blank",
-          rel: "noopener"
+          rel: "noopener noreferrer"
         ) %>
       </li>
       <li class="nav-item">

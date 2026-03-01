@@ -1,13 +1,13 @@
 <p>
-  Hi <%= @change_email %>!
+  <%= t("users_mailer.change_email_confirmation.greeting", change_email: @change_email) %>
 </p>
 
 <p>
-  You requested to change your email address from <%= @email %> to <%= @change_email %>.
+  <%= t("users_mailer.change_email_confirmation.requested_change", email: @email, change_email: @change_email) %>
 </p>
 
 <p>
-  Here is your verification code:
+  <%= t("users_mailer.change_email_confirmation.verification_code_intro") %>
 </p>
 
 <p>

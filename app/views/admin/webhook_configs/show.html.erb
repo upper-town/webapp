@@ -24,7 +24,7 @@
         ],
         [
           t("admin.webhook_configs.columns.url"),
-          link_to(@webhook_config.url, @webhook_config.url, target: "_blank", rel: "noopener", class: "text-break"),
+          link_to(@webhook_config.url, @webhook_config.url, target: "_blank", rel: "noopener noreferrer", class: "text-break"),
         ],
         [t("admin.webhook_configs.columns.method"), content_tag(:code, @webhook_config.method)],
         [

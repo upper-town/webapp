@@ -1,13 +1,14 @@
 module Servers
   class IndexResultComponent < ApplicationComponent
-    attr_reader :server, :server_stats_hash, :period
+    attr_reader :server, :server_stats_hash, :period, :show_more_info
 
-    def initialize(server:, server_stats_hash:, period:)
+    def initialize(server:, server_stats_hash:, period:, show_more_info: true)
       super()
 
       @server = server
       @server_stats_hash = server_stats_hash
       @period = period
+      @show_more_info = show_more_info
     end
 
     def render?

@@ -39,7 +39,7 @@ module Users
         return
       end
 
-      result = Create.new(@email_confirmation.email).call
+      result = Users::EmailConfirmations::Create.call(@email_confirmation.email)
 
       if result.success?
         email_confirmation_token = result.user.generate_token!(:email_confirmation)

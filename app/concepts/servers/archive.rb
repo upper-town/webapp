@@ -10,7 +10,7 @@ module Servers
 
     def call
       if server.archived?
-        Result.failure("Server is already archived")
+        Result.failure(I18n.t("servers.errors.already_archived"))
       else
         server.update!(archived_at: Time.current)
 

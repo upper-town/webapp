@@ -8,19 +8,16 @@ class Servers::VerifyTest < ActiveSupport::TestCase
       it "updates server as verified" do
         freeze_time do
           server = create_server(verified_at: nil, metadata: { notice: "something" })
-          verify_accounts_perform = Servers::VerifyAccounts::Perform.new(server)
 
           called = 0
-          Servers::VerifyAccounts::Perform.stub(:new, ->(arg) do
+          Servers::VerifyAccounts::Perform.stub(:call, ->(srv, _current_time = nil) {
             called += 1
-            assert_equal(arg, server)
-            verify_accounts_perform
-          end) do
-            verify_accounts_perform.stub(:call, ->(_current_time) { called += 1 ; Result.success }) do
-              described_class.new(server).call
-            end
+            assert_equal(srv, server)
+            Result.success
+          }) do
+            described_class.call(server)
           end
-          assert_equal(2, called)
+          assert_equal(1, called)
 
           server.reload
           assert_equal(Time.current, server.verified_at)
@@ -32,24 +29,20 @@ class Servers::VerifyTest < ActiveSupport::TestCase
     describe "when VerifyAccounts::Perform fails" do
       it "updates server as not verified" do
         server = create_server(verified_at: Time.current, metadata: {})
-        verify_accounts_perform = Servers::VerifyAccounts::Perform.new(server)
+
+        failure_result = Result.new
+        failure_result.add_error("an error")
+        failure_result.add_error("another error")
 
         called = 0
-        Servers::VerifyAccounts::Perform.stub(:new, ->(arg) do
+        Servers::VerifyAccounts::Perform.stub(:call, ->(srv, _current_time = nil) {
           called += 1
-          assert_equal(arg, server)
-          verify_accounts_perform
-        end) do
-          verify_accounts_perform.stub(:call, ->(_current_time) do
-            called += 1
-            result = Result.new
-            result.add_error("an error") ; result.add_error("another error")
-            result
-          end) do
-            described_class.new(server).call
-          end
+          assert_equal(srv, server)
+          failure_result
+        }) do
+          described_class.call(server)
         end
-        assert_equal(2, called)
+        assert_equal(1, called)
 
         server.reload
         assert_nil(server.verified_at)

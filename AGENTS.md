@@ -64,6 +64,7 @@ bin/ci             # Full CI pipeline (see config/ci.rb)
 
 | Purpose | Path |
 |---------|------|
+| Bootstrap & UI guidelines | `app/assets/stylesheets/AGENTS.md` |
 | Callable module | `app/services/callable.rb` |
 | ApplicationResult | `app/services/application_result.rb` |
 | AppUtil (env helpers, webapp_host) | `app/lib/app_util.rb` |

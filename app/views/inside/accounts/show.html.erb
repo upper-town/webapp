@@ -1,10 +1,103 @@
-Manage your account
+<% content_for(:title) { t("inside.account.title") } %>
 
-<ul>
-  <li>
-    <%= link_to("Reset Password", new_users_password_reset_path) %>
-  </li>
-  <li>
-    <%= link_to("Change Email address", new_users_change_email_confirmation_path) %>
-  </li>
-</ul>
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+  <div>
+    <%= link_to inside_dashboard_path, class: "text-body-secondary text-decoration-none small mb-2 d-inline-block" do %>
+      <i class="bi bi-arrow-left me-1"></i>
+      <%= t("inside.account.back_to_dashboard") %>
+    <% end %>
+    <h1 class="mb-1"><%= t("inside.account.title") %></h1>
+    <p class="text-body-secondary mb-0">
+      <%= t("inside.account.subtitle") %>
+    </p>
+  </div>
+</div>
+
+<div class="row g-3">
+  <div class="col-12 col-lg-6">
+    <div class="card h-100 border-0 shadow-sm">
+      <div class="card-body">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <span class="rounded-2 bg-primary bg-opacity-10 p-2">
+            <i class="bi bi-person-circle text-primary"></i>
+          </span>
+          <h5 class="card-title mb-0"><%= t("inside.account.profile.title") %></h5>
+        </div>
+        <p class="card-text text-body-secondary small mb-3">
+          <%= t("inside.account.profile.description") %>
+        </p>
+        <%= link_to account_path(current_account), class: "btn btn-outline-primary" do %>
+          <i class="bi bi-box-arrow-up-right me-1"></i>
+          <%= t("inside.account.profile.view_profile") %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-lg-6">
+    <div class="card h-100 border-0 shadow-sm">
+      <div class="card-body">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <span class="rounded-2 bg-warning bg-opacity-10 p-2">
+            <i class="bi bi-shield-lock text-warning"></i>
+          </span>
+          <h5 class="card-title mb-0"><%= t("inside.account.security.title") %></h5>
+        </div>
+        <p class="card-text text-body-secondary small mb-3">
+          <%= t("inside.account.security.description") %>
+        </p>
+        <div class="d-flex flex-column gap-2">
+          <%= link_to new_users_password_reset_path, class: "d-flex align-items-center gap-2 p-3 rounded bg-body-secondary bg-opacity-25 text-decoration-none text-body" do %>
+            <i class="bi bi-key fs-4 text-body-secondary"></i>
+            <div class="flex-grow-1">
+              <div class="fw-medium"><%= t("inside.account.security.reset_password") %></div>
+              <small class="text-body-secondary"><%= t("inside.account.security.reset_password_help") %></small>
+            </div>
+            <i class="bi bi-chevron-right text-body-secondary"></i>
+          <% end %>
+          <%= link_to new_users_change_email_confirmation_path, class: "d-flex align-items-center gap-2 p-3 rounded bg-body-secondary bg-opacity-25 text-decoration-none text-body" do %>
+            <i class="bi bi-envelope fs-4 text-body-secondary"></i>
+            <div class="flex-grow-1">
+              <div class="fw-medium"><%= t("inside.account.security.change_email") %></div>
+              <small class="text-body-secondary"><%= t("inside.account.security.change_email_help") %></small>
+            </div>
+            <i class="bi bi-chevron-right text-body-secondary"></i>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-lg-6">
+    <div class="card h-100 border-0 shadow-sm">
+      <div class="card-body">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <span class="rounded-2 bg-secondary bg-opacity-10 p-2">
+            <i class="bi bi-box-arrow-right text-secondary"></i>
+          </span>
+          <h5 class="card-title mb-0"><%= t("inside.account.sessions.title") %></h5>
+        </div>
+        <p class="card-text text-body-secondary small mb-3">
+          <%= t("inside.account.sessions.description") %>
+        </p>
+        <div class="d-flex flex-wrap gap-2">
+          <%= link_to users_sign_out_path, class: "btn btn-outline-secondary" do %>
+            <i class="bi bi-box-arrow-right me-1"></i>
+            <%= t("inside.account.sessions.sign_out") %>
+          <% end %>
+          <%= link_to(
+            destroy_all_users_sessions_path,
+            class: "btn btn-outline-danger",
+            data: {
+              "turbo-method" => :delete,
+              "turbo-confirm" => t("inside.account.sessions.sign_out_all_confirm")
+            }
+          ) do %>
+            <i class="bi bi-box-arrow-right me-1"></i>
+            <%= t("inside.account.sessions.sign_out_all") %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

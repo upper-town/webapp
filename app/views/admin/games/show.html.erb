@@ -16,7 +16,7 @@
         [Game.human_attribute_name(:slug), @game.slug],
         [
           Game.human_attribute_name(:site_url),
-          @game.site_url.present? ? link_to(@game.site_url, @game.site_url, target: "_blank", rel: "noopener", class: "text-break") : nil,
+          @game.site_url.present? ? link_to(@game.site_url, @game.site_url, target: "_blank", rel: "noopener noreferrer", class: "text-break") : nil,
         ],
         [
           Game.human_attribute_name(:description),

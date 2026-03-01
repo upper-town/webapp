@@ -1,43 +1,47 @@
 module Servers
   module VerifyAccounts
     class Perform
+      include Callable
+
       attr_reader :server, :json_file_path
 
-      def initialize(server)
+      def initialize(server, current_time = Time.current)
         @server = server
+        @current_time = current_time
         @json_file_path = "uppertown_#{server.site_url_checksum}.json"
       end
 
-      def call(current_time = Time.current)
-        result = CheckJsonFileMetadata.new(server, json_file_path).call
+      def call
+        result = VerifyAccounts::CheckJsonFileMetadata.call(server, json_file_path)
         return result if result.failure?
 
-        result = DownloadAndParseJsonFile.new(server, json_file_path).call
+        result = VerifyAccounts::DownloadAndParseJsonFile.call(server, json_file_path)
         return result if result.failure?
 
         parsed_body = result.parsed_body
+        account_uuids = Array(parsed_body["accounts"] || [])
 
-        result = check_accounts_exist(parsed_body["accounts"])
+        result = check_accounts_exist(account_uuids)
         return result if result.failure?
 
-        upsert_server_accounts(parsed_body["accounts"], current_time)
+        upsert_server_accounts(account_uuids, @current_time)
       end
 
       private
 
       def check_accounts_exist(account_uuids)
         result = Result.new
+        existing_uuids = Account.where(uuid: account_uuids).pluck(:uuid)
+        missing = account_uuids - existing_uuids
 
-        account_uuids.each do |uuid|
-          if !Account.exists?(uuid:)
-            result.add_error("Account #{uuid} does not exist")
-          end
+        missing.each do |uuid|
+          result.add_error(I18n.t("servers.verify_accounts.errors.account_does_not_exist", uuid:))
         end
 
         result
       end
 
-      def upsert_server_accounts(account_uuids, current_time)
+      def upsert_server_accounts(account_uuids, time)
         account_ids = Account.where(uuid: account_uuids).pluck(:id)
 
         if account_ids.empty?
@@ -45,7 +49,7 @@ module Servers
             .where(server:)
             .update_all(verified_at: nil)
 
-          Result.failure("Empty \"accounts\" array in #{json_file_path}")
+          Result.failure(I18n.t("servers.verify_accounts.errors.empty_accounts_array", path: json_file_path))
         else
           ApplicationRecord.transaction do
             ServerAccount
@@ -58,7 +62,7 @@ module Servers
                 {
                   account_id:,
                   server_id: server.id,
-                  verified_at: current_time
+                  verified_at: time
                 }
               end,
               unique_by: [:account_id, :server_id]

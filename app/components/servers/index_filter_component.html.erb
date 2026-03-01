@@ -1,0 +1,48 @@
+<div class="card mb-4 servers-index-filter">
+  <div class="card-body">
+    <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-3">
+      <h2 class="h6 mb-0 text-body-secondary">
+        <i class="bi bi-funnel me-1"></i>
+        <%= t("servers.index.filter.title") %>
+      </h2>
+      <% if has_active_filters? %>
+        <%= link_to(
+          clear_url,
+          class: "btn btn-sm btn-outline-secondary"
+        ) do %>
+          <i class="bi bi-x-lg me-1"></i>
+          <%= t("servers.index.filter.clear") %>
+        <% end %>
+      <% end %>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-12 col-md-4">
+        <%= form.label(:game_id, Server.human_attribute_name(:game_id), class: "form-label small text-body-secondary") %>
+        <%= render(GameSelectComponent.new(
+          form,
+          only_in_use: true,
+          blank_name: t("servers.index.filter.all_games"),
+          selected_value: selected_value_game_id
+        )) %>
+      </div>
+      <div class="col-12 col-sm-6 col-md-4">
+        <%= form.label(:period, ServerStat.human_attribute_name(:period), class: "form-label small text-body-secondary") %>
+        <%= render(PeriodSelectComponent.new(
+          form,
+          selected_value: selected_value_period
+        )) %>
+      </div>
+      <div class="col-12 col-sm-6 col-md-4">
+        <%= form.label(:country_code, Server.human_attribute_name(:country_code), class: "form-label small text-body-secondary") %>
+        <%= render(CountrySelectComponent.new(
+          form,
+          only_in_use: true,
+          with_continents: true,
+          blank_name: t("servers.index.filter.all_countries"),
+          selected_value: selected_value_country_code
+        )) %>
+      </div>
+    </div>
+  </div>
+</div>

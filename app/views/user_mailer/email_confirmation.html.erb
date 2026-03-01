@@ -1,9 +1,9 @@
 <p>
-  Welcome <%= @email %>!
+  <%= t("users_mailer.email_confirmation.greeting", email: @email) %>
 </p>
 
 <p>
-  Here is your verification code:
+  <%= t("users_mailer.email_confirmation.verification_code_intro") %>
 </p>
 
 <p>

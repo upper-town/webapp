@@ -1,7 +1,7 @@
 module Servers
   class VerifyJob < ApplicationJob
     def perform(server)
-      Verify.new(server).call
+      Verify.call(server)
     end
   end
 end
