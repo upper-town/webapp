@@ -41,6 +41,8 @@ module Admin
       when TrueClass
         raw = cell_raw_value(item, column_value)
         raw.to_s.presence if raw
+      else
+        column_opts[:copyable].to_s.presence
       end
     end
 

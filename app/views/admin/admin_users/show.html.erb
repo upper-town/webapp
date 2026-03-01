@@ -21,7 +21,7 @@
         else
           content_tag(:span, t("admin.shared.no"), class: "badge text-bg-secondary")
         end
-      }, (@admin_user.email_confirmed_at ? { copy_value: l(@admin_user.email_confirmed_at) } : {})],
+      }, (@admin_user.email_confirmed_at ? { copyable: l(@admin_user.email_confirmed_at) } : {})],
       [t("admin.users.show.email_confirmation_sent"), @admin_user.email_confirmation_sent_at ? l(@admin_user.email_confirmation_sent_at) : nil, { copyable: true }],
       [t("admin.shared.locked"), -> {
         if @admin_user.locked?

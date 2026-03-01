@@ -31,20 +31,22 @@ module Admin
 
     def show_copy_for_row?(row)
       opts = row[2].is_a?(Hash) ? row[2] : {}
-      opts.key?(:copy_value) || opts.key?(:copyable)
+      opts.key?(:copyable)
     end
 
     def copy_value_for_row(row)
       opts = row[2].is_a?(Hash) ? row[2] : {}
-      return opts[:copy_value].to_s if opts.key?(:copy_value)
-      return unless opts[:copyable]
+      copyable = opts[:copyable]
+      return nil unless copyable
 
-      val = row[1]
-      case val
-      when Proc, nil, ""
-        nil
+      case copyable
+      when TrueClass
+        val = row[1]
+        (val.is_a?(Proc) || val.nil? || val == "") ? nil : val.to_s
+      when Proc
+        copyable.call.to_s.presence
       else
-        val.to_s
+        copyable.to_s.presence
       end
     end
 

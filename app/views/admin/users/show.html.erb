@@ -22,7 +22,7 @@
         else
           content_tag(:span, t("admin.shared.no"), class: "badge text-bg-secondary")
         end
-      }, (@user.email_confirmed_at ? { copy_value: l(@user.email_confirmed_at) } : {})],
+      }, (@user.email_confirmed_at ? { copyable: l(@user.email_confirmed_at) } : {})],
       [t("admin.users.show.email_confirmation_sent"), @user.email_confirmation_sent_at ? l(@user.email_confirmation_sent_at) : nil, { copyable: true }],
       [t("admin.users.show.change_email_pending"), @user.change_email.presence, { copyable: true }],
       [t("admin.users.show.change_email_confirmed"), @user.change_email_confirmed_at ? l(@user.change_email_confirmed_at) : nil, { copyable: true }],

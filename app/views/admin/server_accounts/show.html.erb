@@ -14,8 +14,8 @@
     title: t("admin.shared.details"),
     rows: [
       [t("admin.shared.id"), @server_account.id, { copyable: true }],
-      [t("admin.server_accounts.columns.server"), link_to(@server_account.server.name, admin_server_path(@server_account.server)), { copy_value: @server_account.server.name }],
-      [t("admin.server_accounts.columns.account"), link_to(@server_account.account.user.email, admin_user_path(@server_account.account.user)), { copy_value: @server_account.account.user.email }],
+      [t("admin.server_accounts.columns.server"), link_to(@server_account.server.name, admin_server_path(@server_account.server)), { copyable: @server_account.server.name }],
+      [t("admin.server_accounts.columns.account"), link_to(@server_account.account.user.email, admin_user_path(@server_account.account.user)), { copyable: @server_account.account.user.email }],
       [t("admin.shared.verified"), @server_account.verified? ? t("admin.shared.yes") : t("admin.shared.no")],
       [t("admin.server_accounts.columns.verified_at"), @server_account.verified_at ? l(@server_account.verified_at) : nil, { copyable: true }],
       [t("admin.shared.created"), l(@server_account.created_at), { copyable: true }],

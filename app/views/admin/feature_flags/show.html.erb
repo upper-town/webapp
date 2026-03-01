@@ -11,8 +11,8 @@
     title: t("admin.shared.details"),
     rows: [
       [t("admin.shared.id"), @feature_flag.id, { copyable: true }],
-      [t("admin.feature_flags.show.name"), content_tag(:code, @feature_flag.name), { copy_value: @feature_flag.name }],
-      [t("admin.feature_flags.show.value"), content_tag(:code, @feature_flag.value), { copy_value: @feature_flag.value }],
+      [t("admin.feature_flags.show.name"), content_tag(:code, @feature_flag.name), { copyable: @feature_flag.name }],
+      [t("admin.feature_flags.show.value"), content_tag(:code, @feature_flag.value), { copyable: @feature_flag.value }],
       [t("admin.feature_flags.show.enabled"), -> {
         enabled = FeatureFlag.enabled?(@feature_flag.name)
         content_tag(:span, enabled ? t("admin.shared.yes") : t("admin.shared.no"), class: "badge #{enabled ? "bg-success" : "bg-secondary"}")

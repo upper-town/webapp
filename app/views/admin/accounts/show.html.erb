@@ -14,8 +14,8 @@
     title: t("admin.shared.details"),
     rows: [
       [t("admin.shared.id"), @account.id, { copyable: true }],
-      [t("admin.accounts.columns.uuid"), content_tag(:code, @account.uuid), { copy_value: @account.uuid }],
-      [t("admin.accounts.columns.user"), link_to(@account.user.email, admin_user_path(@account.user)), { copy_value: @account.user.email }],
+      [t("admin.accounts.columns.uuid"), content_tag(:code, @account.uuid), { copyable: @account.uuid }],
+      [t("admin.accounts.columns.user"), link_to(@account.user.email, admin_user_path(@account.user)), { copyable: @account.user.email }],
       [t("admin.shared.created"), l(@account.created_at), { copyable: true }],
       [t("admin.shared.updated"), l(@account.updated_at), { copyable: true }],
     ],

@@ -14,7 +14,7 @@
     title: t("admin.shared.details"),
     rows: [
       [t("admin.shared.id"), @admin_account.id, { copyable: true }],
-      [t("admin.admin_accounts.columns.admin_user"), link_to(@admin_account.admin_user.email, admin_admin_user_path(@admin_account.admin_user)), { copy_value: @admin_account.admin_user.email }],
+      [t("admin.admin_accounts.columns.admin_user"), link_to(@admin_account.admin_user.email, admin_admin_user_path(@admin_account.admin_user)), { copyable: @admin_account.admin_user.email }],
       [t("admin.admin_accounts.columns.super_admin"), @admin_account.super_admin? ? content_tag(:span, t("admin.shared.yes"), class: "badge text-bg-warning") : t("admin.shared.no")],
       [t("admin.shared.created"), l(@admin_account.created_at), { copyable: true }],
       [t("admin.shared.updated"), l(@admin_account.updated_at), { copyable: true }],
