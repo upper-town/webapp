@@ -11,7 +11,7 @@ class Admin::ServerStatusBadgesComponentTest < ViewComponent::TestCase
 
       render_inline(described_class.new(server:))
 
-      assert_selector("span.badge.bg-light.text-dark", text: "Not verified")
+      assert_selector("span.badge.text-bg-light", text: "Not verified")
     end
 
     it "renders verified badge when server is verified" do
@@ -20,7 +20,7 @@ class Admin::ServerStatusBadgesComponentTest < ViewComponent::TestCase
 
       render_inline(described_class.new(server:))
 
-      assert_selector("span.badge.bg-success", text: "Verified")
+      assert_selector("span.badge.text-bg-success", text: "Verified")
     end
 
     it "renders multiple badges when server has multiple statuses" do
@@ -29,8 +29,8 @@ class Admin::ServerStatusBadgesComponentTest < ViewComponent::TestCase
 
       render_inline(described_class.new(server:))
 
-      assert_selector("span.badge.bg-success", text: "Verified")
-      assert_selector("span.badge.bg-secondary", text: "Archived")
+      assert_selector("span.badge.text-bg-success", text: "Verified")
+      assert_selector("span.badge.text-bg-secondary", text: "Archived")
     end
   end
 end

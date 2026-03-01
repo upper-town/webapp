@@ -2,7 +2,7 @@
   <h1 class="mb-0">
     <%= t("admin.webhook_events.index.title") %>
     <% if @webhook_config %>
-      <small class="text-muted"><%= t("admin.webhook_events.index.for_config", id: @webhook_config.id) %></small>
+      <small class="text-body-secondary"><%= t("admin.webhook_events.index.for_config", id: @webhook_config.id) %></small>
     <% end %>
   </h1>
   <div class="btn-group">
@@ -38,7 +38,7 @@
         if it.batch
           "##{it.batch.id}"
         else
-          content_tag(:span, t("admin.webhook_events.columns.unbatched"), class: "badge bg-secondary")
+          content_tag(:span, t("admin.webhook_events.columns.unbatched"), class: "badge text-bg-secondary")
         end
       }],
       [t("admin.shared.created"), -> { l(it.created_at) }, { copyable: ->(it) { l(it.created_at) } }],

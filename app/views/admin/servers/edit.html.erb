@@ -65,7 +65,7 @@
 
       <% if @server.banner_image.attached? %>
         <div class="mb-3">
-          <p class="text-muted small mb-2"><%= t("admin.servers.edit.current_banner") %></p>
+          <p class="text-body-secondary small mb-2"><%= t("admin.servers.edit.current_banner") %></p>
           <%= image_tag(@server.banner_image, class: "img-fluid rounded", style: "max-height: 120px;") %>
         </div>
       <% end %>

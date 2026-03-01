@@ -24,9 +24,9 @@
         if it.source.is_a?(Server)
           link_to("#{it.source.name} (##{it.source.id})", admin_server_path(it.source), class: "text-break")
         elsif it.source
-          content_tag(:span, "#{it.source_type} ##{it.source_id}", class: "text-muted")
+          content_tag(:span, "#{it.source_type} ##{it.source_id}", class: "text-body-secondary")
         else
-          content_tag(:span, "#{it.source_type} ##{it.source_id}", class: "text-muted")
+          content_tag(:span, "#{it.source_type} ##{it.source_id}", class: "text-body-secondary")
         end
       }],
       [t("admin.webhook_configs.columns.url"), -> { link_to(truncate(it.url, length: 40), it.url, target: "_blank", rel: "noopener", class: "text-break") }, { copyable: :url }],

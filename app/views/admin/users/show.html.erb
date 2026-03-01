@@ -18,9 +18,9 @@
       [t("admin.users.columns.email"), @user.email, { copyable: true }],
       [t("admin.users.columns.email_confirmed"), -> {
         if @user.email_confirmed_at
-          safe_join([content_tag(:span, t("admin.shared.yes"), class: "badge bg-success"), content_tag(:small, "(#{l(@user.email_confirmed_at)})", class: "text-muted ms-1")])
+          safe_join([content_tag(:span, t("admin.shared.yes"), class: "badge text-bg-success"), content_tag(:small, "(#{l(@user.email_confirmed_at)})", class: "text-body-secondary ms-1")])
         else
-          content_tag(:span, t("admin.shared.no"), class: "badge bg-secondary")
+          content_tag(:span, t("admin.shared.no"), class: "badge text-bg-secondary")
         end
       }, (@user.email_confirmed_at ? { copy_value: l(@user.email_confirmed_at) } : {})],
       [t("admin.users.show.email_confirmation_sent"), @user.email_confirmation_sent_at ? l(@user.email_confirmation_sent_at) : nil, { copyable: true }],
@@ -29,10 +29,10 @@
       [t("admin.shared.locked"), -> {
         if @user.locked?
           safe_join([
-            content_tag(:span, t("admin.shared.locked"), class: "badge bg-danger"),
-            content_tag(:small, "(#{l(@user.locked_at)})", class: "text-muted ms-1"),
+            content_tag(:span, t("admin.shared.locked"), class: "badge text-bg-danger"),
+            content_tag(:small, "(#{l(@user.locked_at)})", class: "text-body-secondary ms-1"),
             @user.locked_reason.presence && content_tag(:span, @user.locked_reason, class: "ms-1"),
-            @user.locked_comment.presence && content_tag(:div, simple_format(@user.locked_comment), class: "mt-1 text-muted small"),
+            @user.locked_comment.presence && content_tag(:div, simple_format(@user.locked_comment), class: "mt-1 text-body-secondary small"),
           ].compact, " ")
         else
           nil
@@ -50,13 +50,13 @@
 <%= render(Admin::DetailsTableComponent.new(sections: [
   {
     title: t("admin.users.show.verified_servers"),
-    rows: @user.account&.verified_servers&.any? ? @user.account.verified_servers.map { |server| [link_to(server.name, admin_server_path(server))] } : [[-> { content_tag(:span, t("admin.shared.none"), class: "text-muted") }]],
+    rows: @user.account&.verified_servers&.any? ? @user.account.verified_servers.map { |server| [link_to(server.name, admin_server_path(server))] } : [[-> { content_tag(:span, t("admin.shared.none"), class: "text-body-secondary") }]],
   },
 ])) %>
 
 <%= turbo_frame_tag("user_sessions", src: sessions_admin_user_path(@user), loading: :lazy) do %>
   <div class="card mb-4">
-    <div class="card-body text-center text-muted py-5">
+    <div class="card-body text-center text-body-secondary py-5">
       <p class="mb-0"><%= t("admin.shared.loading") %></p>
     </div>
   </div>
@@ -64,7 +64,7 @@
 
 <%= turbo_frame_tag("user_tokens", src: tokens_admin_user_path(@user), loading: :lazy) do %>
   <div class="card mb-4">
-    <div class="card-body text-center text-muted py-5">
+    <div class="card-body text-center text-body-secondary py-5">
       <p class="mb-0"><%= t("admin.shared.loading") %></p>
     </div>
   </div>
@@ -72,7 +72,7 @@
 
 <%= turbo_frame_tag("user_codes", src: codes_admin_user_path(@user), loading: :lazy) do %>
   <div class="card mb-4">
-    <div class="card-body text-center text-muted py-5">
+    <div class="card-body text-center text-body-secondary py-5">
       <p class="mb-0"><%= t("admin.shared.loading") %></p>
     </div>
   </div>

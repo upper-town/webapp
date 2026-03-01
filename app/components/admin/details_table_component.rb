@@ -13,7 +13,7 @@ module Admin
     def row_value(value)
       case value
       when nil, ""
-        content_tag(:span, "--", class: "text-muted")
+        content_tag(:span, "--", class: "text-body-secondary")
       when Proc
         value.call
       else
@@ -65,7 +65,7 @@ module Admin
     end
 
     def copy_button_html
-      content_tag(:button, type: "button", class: "btn btn-link btn-sm p-0 text-muted border-0",
+      content_tag(:button, type: "button", class: "btn btn-link btn-sm p-0 text-body-secondary border-0",
         title: I18n.t("admin.shared.copy_to_clipboard"),
         data: { copy_btn: true, action: "click->copy-to-clipboard#copy" }) do
         clipboard_icon

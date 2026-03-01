@@ -2,11 +2,11 @@
   <h1 class="mb-0">
     <%= t("admin.server_votes.index.title") %>
     <% if @server %>
-      <small class="text-muted"><%= t("admin.server_votes.index.for_server", name: @server.name) %></small>
+      <small class="text-body-secondary"><%= t("admin.server_votes.index.for_server", name: @server.name) %></small>
     <% elsif @game %>
-      <small class="text-muted"><%= t("admin.server_votes.index.for_game", name: @game.name) %></small>
+      <small class="text-body-secondary"><%= t("admin.server_votes.index.for_game", name: @game.name) %></small>
     <% elsif @account %>
-      <small class="text-muted"><%= t("admin.server_votes.index.for_account", email: @account.user.email) %></small>
+      <small class="text-body-secondary"><%= t("admin.server_votes.index.for_account", email: @account.user.email) %></small>
     <% end %>
   </h1>
   <% if @server || @game || @account %>
@@ -38,7 +38,7 @@
         if it.account
           link_to(it.account.user.email, admin_user_path(it.account.user))
         else
-          content_tag(:span, t("admin.shared.anonymous"), class: "text-muted")
+          content_tag(:span, t("admin.shared.anonymous"), class: "text-body-secondary")
         end
       }, { copyable: ->(it) { it.account&.user&.email } }],
       [t("admin.server_votes.columns.uuid"), -> { content_tag(:code, truncate(it.uuid, length: 12), class: "small", title: it.uuid) }, { copyable: :uuid }],

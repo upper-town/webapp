@@ -20,11 +20,11 @@
       [t("admin.feature_flags.show.env_override"), -> {
         if FeatureFlag.fetch_value_from_env_var(@feature_flag.name).present?
           safe_join([
-            content_tag(:span, t("admin.shared.yes"), class: "badge bg-warning text-dark"),
-            content_tag(:small, " #{t("admin.feature_flags.show.env_override_suffix", var: @feature_flag.name.upcase)}", class: "text-muted ms-1")
+            content_tag(:span, t("admin.shared.yes"), class: "badge text-bg-warning"),
+            content_tag(:small, " #{t("admin.feature_flags.show.env_override_suffix", var: @feature_flag.name.upcase)}", class: "text-body-secondary ms-1")
           ])
         else
-          content_tag(:span, t("admin.shared.no"), class: "text-muted")
+          content_tag(:span, t("admin.shared.no"), class: "text-body-secondary")
         end
       }],
       [t("admin.feature_flags.show.comment"), simple_format(@feature_flag.comment.presence || t("admin.shared.empty_placeholder")), { align_top: true }],

@@ -25,7 +25,7 @@
 <%= render(Admin::DetailsTableComponent.new(sections: [
   {
     title: t("admin.accounts.show.verified_servers"),
-    rows: @account.verified_servers.any? ? @account.verified_servers.map { |server| [link_to(server.name, admin_server_path(server))] } : [[-> { content_tag(:span, t("admin.shared.none"), class: "text-muted") }]],
+    rows: @account.verified_servers.any? ? @account.verified_servers.map { |server| [link_to(server.name, admin_server_path(server))] } : [[-> { content_tag(:span, t("admin.shared.none"), class: "text-body-secondary") }]],
   },
 ])) %>
 

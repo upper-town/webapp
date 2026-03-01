@@ -18,7 +18,7 @@
       [t("admin.admin_sessions.columns.token_last_4"), content_tag(:code, @admin_session.token_last_four), { copy_value: @admin_session.token_last_four }],
       [t("admin.admin_sessions.columns.token_digest"), content_tag(:code, truncate(@admin_session.token_digest, length: 16), class: "small", title: @admin_session.token_digest), { copy_value: @admin_session.token_digest }],
       [t("admin.admin_sessions.columns.remote_ip"), content_tag(:code, @admin_session.remote_ip), { copy_value: @admin_session.remote_ip }],
-      [t("admin.admin_sessions.columns.user_agent"), @admin_session.user_agent.presence || content_tag(:span, t("admin.shared.empty_placeholder"), class: "text-muted"), { copy_value: @admin_session.user_agent }],
+      [t("admin.admin_sessions.columns.user_agent"), @admin_session.user_agent.presence || content_tag(:span, t("admin.shared.empty_placeholder"), class: "text-body-secondary"), { copy_value: @admin_session.user_agent }],
       [t("admin.admin_sessions.columns.expires_at"), l(@admin_session.expires_at), { copyable: true }],
       [t("admin.admin_sessions.columns.expired"), @admin_session.expired? ? t("admin.shared.yes") : t("admin.shared.no")],
       [t("admin.shared.created"), l(@admin_session.created_at), { copyable: true }],

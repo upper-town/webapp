@@ -19,6 +19,6 @@
 <%= render(Admin::DetailsTableComponent.new(sections: [
   {
     title: t("admin.admin_permissions.show.roles_with_permission"),
-    rows: @admin_permission.roles.any? ? @admin_permission.roles.map { |r| [content_tag(:code, r.key), link_to(r.description.presence || r.key, admin_admin_role_path(r))] } : [[-> { content_tag(:span, t("admin.shared.none"), class: "text-muted") }]],
+    rows: @admin_permission.roles.any? ? @admin_permission.roles.map { |r| [content_tag(:code, r.key), link_to(r.description.presence || r.key, admin_admin_role_path(r))] } : [[-> { content_tag(:span, t("admin.shared.none"), class: "text-body-secondary") }]],
   },
 ])) %>

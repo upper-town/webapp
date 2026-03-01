@@ -15,7 +15,7 @@
     rows: [
       [t("admin.shared.id"), @admin_account.id, { copyable: true }],
       [t("admin.admin_accounts.columns.admin_user"), link_to(@admin_account.admin_user.email, admin_admin_user_path(@admin_account.admin_user)), { copy_value: @admin_account.admin_user.email }],
-      [t("admin.admin_accounts.columns.super_admin"), @admin_account.super_admin? ? content_tag(:span, t("admin.shared.yes"), class: "badge bg-warning") : t("admin.shared.no")],
+      [t("admin.admin_accounts.columns.super_admin"), @admin_account.super_admin? ? content_tag(:span, t("admin.shared.yes"), class: "badge text-bg-warning") : t("admin.shared.no")],
       [t("admin.shared.created"), l(@admin_account.created_at), { copyable: true }],
       [t("admin.shared.updated"), l(@admin_account.updated_at), { copyable: true }],
     ],
@@ -25,13 +25,13 @@
 <%= render(Admin::DetailsTableComponent.new(sections: [
   {
     title: t("admin.admin_accounts.show.roles"),
-    rows: @admin_account.roles.any? ? @admin_account.roles.map { |role| [content_tag(:code, role.key), link_to(role.description.presence || role.key, admin_admin_role_path(role))] } : [[-> { content_tag(:span, t("admin.shared.none"), class: "text-muted") }]],
+    rows: @admin_account.roles.any? ? @admin_account.roles.map { |role| [content_tag(:code, role.key), link_to(role.description.presence || role.key, admin_admin_role_path(role))] } : [[-> { content_tag(:span, t("admin.shared.none"), class: "text-body-secondary") }]],
   },
 ])) %>
 
 <%= render(Admin::DetailsTableComponent.new(sections: [
   {
     title: t("admin.admin_accounts.show.permissions"),
-    rows: @admin_account.permissions.any? ? @admin_account.permissions.map { |p| [content_tag(:code, p.key), link_to(p.description.presence || p.key, admin_admin_permission_path(p))] } : [[-> { content_tag(:span, t("admin.shared.none"), class: "text-muted") }]],
+    rows: @admin_account.permissions.any? ? @admin_account.permissions.map { |p| [content_tag(:code, p.key), link_to(p.description.presence || p.key, admin_admin_permission_path(p))] } : [[-> { content_tag(:span, t("admin.shared.none"), class: "text-body-secondary") }]],
   },
 ])) %>

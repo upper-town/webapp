@@ -7,7 +7,7 @@
   <div class="card mb-4">
     <div class="card-body">
       <h5 class="card-title mb-3"><%= t("admin.admin_roles.form.permissions") %></h5>
-      <p class="text-muted small mb-3"><%= t("admin.admin_roles.form.permissions_help") %></p>
+      <p class="text-body-secondary small mb-3"><%= t("admin.admin_roles.form.permissions_help") %></p>
 
       <% if admin_permissions.any? %>
         <div class="row">
@@ -32,7 +32,7 @@
                 ) do %>
                   <%= content_tag(:code, permission.key, class: "me-1") %>
                   <% if permission.description.present? %>
-                    <span class="text-muted small">— <%= permission.description %></span>
+                    <span class="text-body-secondary small">— <%= permission.description %></span>
                   <% end %>
                 <% end %>
               </div>
@@ -40,7 +40,7 @@
           <% end %>
         </div>
       <% else %>
-        <p class="text-muted mb-0"><%= t("admin.admin_roles.form.no_permissions") %></p>
+        <p class="text-body-secondary mb-0"><%= t("admin.admin_roles.form.no_permissions") %></p>
       <% end %>
     </div>
   </div>

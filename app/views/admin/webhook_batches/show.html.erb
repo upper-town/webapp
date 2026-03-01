@@ -38,6 +38,6 @@
 <%= render(Admin::DetailsTableComponent.new(sections: [
   {
     title: t("admin.webhook_batches.sections.events"),
-    rows: @webhook_batch.events.any? ? @webhook_batch.events.map { |event| [link_to("#{event.type} (##{event.id})", admin_webhook_event_path(event))] } : [[-> { content_tag(:span, t("admin.shared.none"), class: "text-muted") }]],
+    rows: @webhook_batch.events.any? ? @webhook_batch.events.map { |event| [link_to("#{event.type} (##{event.id})", admin_webhook_event_path(event))] } : [[-> { content_tag(:span, t("admin.shared.none"), class: "text-body-secondary") }]],
   },
 ])) %>

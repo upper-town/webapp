@@ -22,16 +22,16 @@
       [t("admin.games.form.info"), simple_format(@server.info.presence || t("admin.shared.empty_placeholder")), { align_top: true }],
       [t("admin.shared.verified"), -> {
         if @server.verified?
-          safe_join([content_tag(:span, t("admin.shared.verified"), class: "badge bg-success"), content_tag(:small, "(#{l(@server.verified_at)})", class: "text-muted ms-1")])
+          safe_join([content_tag(:span, t("admin.shared.verified"), class: "badge text-bg-success"), content_tag(:small, "(#{l(@server.verified_at)})", class: "text-body-secondary ms-1")])
         else
-          content_tag(:span, t("admin.shared.not_verified"), class: "badge bg-secondary")
+          content_tag(:span, t("admin.shared.not_verified"), class: "badge text-bg-secondary")
         end
       }],
       [t("admin.shared.archived"), -> {
         @server.archived? ? "#{t('admin.shared.archived')} (#{l(@server.archived_at)})" : nil
       }],
       *(@server.marked_for_deletion? ? [["Deletion", -> {
-        safe_join([content_tag(:span, t("admin.shared.marked_for_deletion"), class: "badge bg-danger"), content_tag(:small, "(#{l(@server.marked_for_deletion_at)})", class: "text-muted ms-1")])
+        safe_join([content_tag(:span, t("admin.shared.marked_for_deletion"), class: "badge text-bg-danger"), content_tag(:small, "(#{l(@server.marked_for_deletion_at)})", class: "text-body-secondary ms-1")])
       }]] : []),
     ],
   },
@@ -40,7 +40,7 @@
 <%= render(Admin::DetailsTableComponent.new(sections: [
   {
     title: t("admin.servers.show.verified_accounts"),
-    rows: @server.verified_accounts.any? ? @server.verified_accounts.map { |account| [link_to(account.user.email, admin_user_path(account.user))] } : [[-> { content_tag(:span, t("admin.shared.none"), class: "text-muted") }]],
+    rows: @server.verified_accounts.any? ? @server.verified_accounts.map { |account| [link_to(account.user.email, admin_user_path(account.user))] } : [[-> { content_tag(:span, t("admin.shared.none"), class: "text-body-secondary") }]],
   },
 ])) %>
 
@@ -53,9 +53,9 @@
       [t("admin.servers.show.votes"), link_to(@server.votes.count, admin_server_votes_path(server_id: @server.id))],
       [t("admin.servers.show.banner_image"), -> {
         if @server.banner_image.attached?
-          @server.banner_image_approved? ? content_tag(:span, t("admin.servers.show.approved"), class: "badge bg-success") : content_tag(:span, t("admin.servers.show.pending_approval"), class: "badge bg-warning text-dark")
+          @server.banner_image_approved? ? content_tag(:span, t("admin.servers.show.approved"), class: "badge text-bg-success") : content_tag(:span, t("admin.servers.show.pending_approval"), class: "badge text-bg-warning")
         else
-          content_tag(:span, t("admin.shared.none"), class: "text-muted")
+          content_tag(:span, t("admin.shared.none"), class: "text-body-secondary")
         end
       }],
       [t("admin.shared.created"), l(@server.created_at), { copyable: true }],

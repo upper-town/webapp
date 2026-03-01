@@ -2,9 +2,9 @@
   <h1 class="mb-0">
     <%= t("admin.server_accounts.index.title") %>
     <% if @server %>
-      <small class="text-muted"><%= t("admin.server_accounts.index.for_server", name: @server.name) %></small>
+      <small class="text-body-secondary"><%= t("admin.server_accounts.index.for_server", name: @server.name) %></small>
     <% elsif @account %>
-      <small class="text-muted"><%= t("admin.server_accounts.index.for_account", email: @account.user.email) %></small>
+      <small class="text-body-secondary"><%= t("admin.server_accounts.index.for_account", email: @account.user.email) %></small>
     <% end %>
   </h1>
   <% if @server || @account %>
@@ -34,12 +34,12 @@
       [t("admin.server_accounts.columns.account"), -> { link_to(it.account.user.email, admin_user_path(it.account.user)) }, { copyable: ->(it) { it.account&.user&.email } }],
       [t("admin.shared.verified"), -> {
         if it.verified?
-          content_tag(:span, t("admin.shared.verified"), class: "badge bg-success")
+          content_tag(:span, t("admin.shared.verified"), class: "badge text-bg-success")
         else
-          content_tag(:span, t("admin.shared.not_verified"), class: "badge bg-secondary")
+          content_tag(:span, t("admin.shared.not_verified"), class: "badge text-bg-secondary")
         end
       }],
-      [t("admin.server_accounts.columns.verified_at"), -> { it.verified_at ? l(it.verified_at) : content_tag(:span, t("admin.shared.empty_placeholder"), class: "text-muted") }, { copyable: ->(it) { it.verified_at ? l(it.verified_at) : nil } }],
+      [t("admin.server_accounts.columns.verified_at"), -> { it.verified_at ? l(it.verified_at) : content_tag(:span, t("admin.shared.empty_placeholder"), class: "text-body-secondary") }, { copyable: ->(it) { it.verified_at ? l(it.verified_at) : nil } }],
       [t("admin.shared.created"), -> { l(it.created_at) }, { copyable: ->(it) { l(it.created_at) } }],
       [t("admin.shared.actions"), -> { render(Admin::IndexActionsComponent.new(view_path: admin_server_account_path(it))) }],
     ],

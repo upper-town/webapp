@@ -4,7 +4,7 @@
       <tbody>
         <% sections.each do |section| %>
           <tr class="table-light">
-            <th colspan="2" class="text-uppercase small fw-semibold text-muted">
+            <th colspan="2" class="text-uppercase small fw-semibold text-body-secondary">
               <%= section[:title] %>
             </th>
           </tr>
@@ -12,7 +12,7 @@
             <% if key_value_row?(row) %>
               <tr>
                 <% opts = row[2].is_a?(Hash) ? row[2] : {} %>
-                <td class="text-muted w-25 <%= "align-top" if opts[:align_top] %>"><%= row[0] %></td>
+                <td class="text-body-secondary w-25 <%= "align-top" if opts[:align_top] %>"><%= row[0] %></td>
                 <td class="<%= "align-top" if opts[:align_top] %>">
                   <% if show_copy_for_row?(row) && copy_value_for_row(row).present? %>
                     <%= value_cell_with_copy(row) %>

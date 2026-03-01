@@ -27,7 +27,7 @@
               if it.batch
                 link_to("##{it.batch.id}", admin_webhook_batch_path(it.batch), data: { turbo_frame: "_top" })
               else
-                content_tag(:span, t("admin.webhook_events.columns.unbatched"), class: "badge bg-secondary")
+                content_tag(:span, t("admin.webhook_events.columns.unbatched"), class: "badge text-bg-secondary")
               end
             }],
             [t("admin.shared.created"), -> { l(it.created_at) }, { copyable: ->(it) { l(it.created_at) } }],

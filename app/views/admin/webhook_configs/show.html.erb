@@ -24,7 +24,7 @@
         content_tag(:span, @webhook_config.enabled? ? t("admin.webhook_configs.columns.enabled") : t("admin.webhook_configs.columns.disabled"), class: "badge #{@webhook_config.enabled? ? "bg-success" : "bg-secondary"}")
       }],
       [t("admin.webhook_configs.columns.event_types"), content_tag(:code, @webhook_config.event_types.join(", "))],
-      [t("admin.webhook_configs.show.secret"), -> { content_tag(:span, "••••••••", class: "text-muted") }],
+      [t("admin.webhook_configs.show.secret"), -> { content_tag(:span, "••••••••", class: "text-body-secondary") }],
       [t("admin.shared.created"), l(@webhook_config.created_at), { copyable: true }],
       [t("admin.shared.updated"), l(@webhook_config.updated_at), { copyable: true }],
     ],
@@ -33,7 +33,7 @@
 
 <%= turbo_frame_tag("webhook_config_batches", src: batches_admin_webhook_config_path(@webhook_config), loading: :lazy) do %>
   <div class="card mb-4">
-    <div class="card-body text-center text-muted py-5">
+    <div class="card-body text-center text-body-secondary py-5">
       <p class="mb-0"><%= t("admin.shared.loading") %></p>
     </div>
   </div>
@@ -41,7 +41,7 @@
 
 <%= turbo_frame_tag("webhook_config_events", src: events_admin_webhook_config_path(@webhook_config), loading: :lazy) do %>
   <div class="card mb-4">
-    <div class="card-body text-center text-muted py-5">
+    <div class="card-body text-center text-body-secondary py-5">
       <p class="mb-0"><%= t("admin.shared.loading") %></p>
     </div>
   </div>

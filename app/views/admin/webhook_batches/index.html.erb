@@ -2,7 +2,7 @@
   <h1 class="mb-0">
     <%= t("admin.webhook_batches.index.title") %>
     <% if @webhook_config %>
-      <small class="text-muted"><%= t("admin.webhook_batches.index.for_config", id: @webhook_config.id) %></small>
+      <small class="text-body-secondary"><%= t("admin.webhook_batches.index.for_config", id: @webhook_config.id) %></small>
     <% end %>
   </h1>
   <% if @webhook_config %>

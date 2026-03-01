@@ -22,9 +22,9 @@
       [t("admin.admin_sessions.columns.expires"), -> { l(it.expires_at) }, { copyable: ->(it) { l(it.expires_at) } }],
       [t("admin.admin_sessions.columns.status"), -> {
         if it.expired?
-          content_tag(:span, t("admin.shared.expired"), class: "badge bg-secondary")
+          content_tag(:span, t("admin.shared.expired"), class: "badge text-bg-secondary")
         else
-          content_tag(:span, t("admin.shared.active"), class: "badge bg-success")
+          content_tag(:span, t("admin.shared.active"), class: "badge text-bg-success")
         end
       }],
       [t("admin.shared.created"), -> { l(it.created_at) }, { copyable: ->(it) { l(it.created_at) } }],
