@@ -33,6 +33,8 @@ Controllers are loaded via importmap (`config/importmap.rb`). No external npm pa
 | `admin_filter` | Admin filter form auto-submit on change |
 | `captcha` | hCaptcha widget integration |
 | `game_select`, `country_select`, `period_select` | Select component behavior |
+| `admin-multi-select-filter` | Multi-select with client-side filtering; static options only |
+| `admin-fetchable-multi-select-filter` | Multi-select with backend fetch; options built dynamically as user searches; used only for account filter on admin server votes |
 | `navigate` | Turbo navigation helpers |
 | `browser_time_zone` | Sends time zone to server |
 

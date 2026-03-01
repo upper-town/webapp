@@ -66,7 +66,9 @@ Rails.application.routes.draw do
         get "tokens", on: :member, to: "user_tokens#index"
         get "codes", on: :member, to: "user_codes#index"
       end
-      resources :accounts, only: [:index, :show]
+      resources :accounts, only: [:index, :show] do
+        get "verified_servers", on: :member, to: "account_verified_servers#index"
+      end
       resources :codes, only: [:index, :show]
       resources :admin_codes, only: [:index, :show]
       resources :tokens, only: [:index, :show]
@@ -77,12 +79,16 @@ Rails.application.routes.draw do
         get "sessions", on: :member, to: "admin_user_sessions#index"
         get "tokens", on: :member, to: "admin_user_tokens#index"
         get "codes", on: :member, to: "admin_user_codes#index"
+        get "roles", on: :member, to: "admin_user_roles#index"
       end
       resources :admin_accounts, only: [:index, :show, :edit, :update]
       resources :admin_roles, only: [:index, :show, :edit, :update], path: "roles" do
         get "admin_accounts", on: :member, to: "admin_role_accounts#index"
+        get "permissions", on: :member, to: "admin_role_permissions#index"
       end
-      resources :admin_permissions, only: [:index, :show], path: "permissions"
+      resources :admin_permissions, only: [:index, :show], path: "permissions" do
+        get "roles", on: :member, to: "admin_permission_roles#index"
+      end
       resources :games, except: [:destroy] do
         get "servers", on: :member, to: "game_servers#index"
       end
@@ -92,11 +98,15 @@ Rails.application.routes.draw do
         get "events", on: :member, to: "webhook_config_events#index"
       end
       resources :webhook_events, only: [:index, :show]
-      resources :servers, only: [:index, :show, :edit, :update]
+      resources :servers, only: [:index, :show, :edit, :update] do
+        get "verified_accounts", on: :member, to: "server_verified_accounts#index"
+      end
       resources :server_accounts, only: [:index, :show]
       resources :server_stats, only: [:index, :show]
       resources :server_votes, only: [:index, :show]
       resources :webhook_batches, only: [:index, :show]
+
+      get "account_select_options", to: "account_select_options#index", as: :account_select_options
 
       constraints(Admin::JobsConstraint.new) do
         mount MissionControl::Jobs::Engine, at: "/jobs"

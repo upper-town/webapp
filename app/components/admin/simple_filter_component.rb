@@ -1,5 +1,5 @@
 module Admin
-  class FilterComponent < ApplicationComponent
+  class SimpleFilterComponent < ApplicationComponent
     attr_reader :form, :clear_url, :has_active_filters, :params_to_remove
 
     def initialize(form:, has_active_filters: false, params_to_remove: [], request: nil)

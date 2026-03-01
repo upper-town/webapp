@@ -21,9 +21,10 @@ module Admin
 
     DEFAULT_SORT = { column: "id", direction: :desc }.freeze
 
-    def initialize(status: nil, country_code: nil, relation: nil, sort: nil, sort_dir: nil)
+    def initialize(status: nil, country_code: nil, game_ids: nil, relation: nil, sort: nil, sort_dir: nil)
       @status = status.presence
       @country_code = country_code.presence
+      @game_ids = Array(game_ids).flatten.map(&:to_s).compact_blank.presence
       @relation = relation
       @sort = sort.presence
       @sort_dir = sort_dir.presence
@@ -33,6 +34,7 @@ module Admin
       relation = (@relation || Server).includes(:game).left_joins(:game)
       relation = apply_status_filter(relation)
       relation = apply_country_filter(relation)
+      relation = apply_game_ids_filter(relation)
       apply_sort(relation)
     end
 
@@ -49,6 +51,12 @@ module Admin
       return relation unless @country_code
 
       relation.where(country_code: @country_code)
+    end
+
+    def apply_game_ids_filter(relation)
+      return relation unless @game_ids.present?
+
+      relation.where(game_id: @game_ids)
     end
 
     def apply_sort(relation)

@@ -1,0 +1,25 @@
+<%= render(Admin::SimpleFilterComponent.new(
+  form: form,
+  has_active_filters: has_active_filters?,
+  params_to_remove: FILTER_PARAMS,
+  request: @request
+)) do %>
+  <%= render(Admin::GameMultiSelectFilterComponent.new(
+    form: form,
+    selected_ids: selected_game_ids,
+    options: game_options,
+    aria_label: ServerVote.human_attribute_name(:game)
+  )) %>
+  <%= render(Admin::ServerMultiSelectFilterComponent.new(
+    form: form,
+    selected_ids: selected_server_ids,
+    options: server_options,
+    aria_label: ServerVote.human_attribute_name(:server)
+  )) %>
+  <%= render(Admin::AccountMultiSelectFilterComponent.new(
+    form: form,
+    selected_ids: selected_account_ids,
+    selected_labels: selected_account_labels,
+    aria_label: ServerVote.human_attribute_name(:account)
+  )) %>
+<% end %>

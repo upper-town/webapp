@@ -4,11 +4,13 @@ module Admin
       @search_term = params[:q]
       @filter_status = params[:status]
       @filter_country_code = params[:country_code]
+      @filter_game_ids = params[:game_ids]
       @sort_column = params[:sort].presence
       @sort_direction = params[:sort_dir].presence
       relation = Admin::ServersQuery.call(
         status: @filter_status,
         country_code: @filter_country_code,
+        game_ids: @filter_game_ids,
         sort: @sort_column,
         sort_dir: @sort_direction
       )

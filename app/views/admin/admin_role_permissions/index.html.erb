@@ -1,0 +1,43 @@
+<%= turbo_frame_tag "admin_role_permissions" do %>
+  <div class="card mb-4">
+    <div class="card-header">
+      <h5 class="card-title mb-0"><%= t("admin.admin_roles.show.permissions") %></h5>
+    </div>
+    <div class="card-body">
+      <div class="admin-pagination-search-row mb-3">
+        <%= render(Admin::SearchFormComponent.new(
+          url: permissions_admin_admin_role_path(@admin_role),
+          search_term: @search_term,
+          placeholder: t("admin.admin_permissions.index.search_placeholder")
+        )) %>
+      </div>
+
+      <%=
+        render(Admin::TableComponent.new(
+          collection: @admin_permissions,
+          empty_message: t("admin.admin_roles.show.permissions_empty"),
+          columns: [
+            [
+              t("admin.shared.id"),
+              -> { link_to(it.id, admin_admin_permission_path(it), class: "fw-medium", data: { turbo_frame: "_top" }) },
+              { copyable: :id },
+            ],
+            [
+              t("admin.admin_roles.columns.key"),
+              -> { content_tag(:code, it.key) },
+              { copyable: :key },
+            ],
+            [
+              t("admin.admin_roles.columns.description"),
+              -> { it.description.presence },
+            ],
+            [
+              t("admin.shared.actions"),
+              -> { render(Admin::IndexActionsComponent.new(view_path: admin_admin_permission_path(it), link_options: { data: { turbo_frame: "_top" } })) },
+            ],
+          ],
+        ))
+      %>
+    </div>
+  </div>
+<% end %>

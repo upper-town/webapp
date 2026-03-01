@@ -1,0 +1,54 @@
+<%= turbo_frame_tag "account_verified_servers" do %>
+  <div class="card mb-4">
+    <div class="card-header">
+      <h5 class="card-title mb-0"><%= t("admin.accounts.show.verified_servers") %></h5>
+    </div>
+    <div class="card-body">
+      <div class="admin-pagination-search-row mb-3">
+        <%= render(Admin::SearchFormComponent.new(
+          url: verified_servers_admin_account_path(@account),
+          search_term: @search_term,
+          placeholder: t("admin.servers.index.search_placeholder")
+        )) %>
+      </div>
+
+      <%=
+        render(Admin::TableComponent.new(
+          collection: @servers,
+          empty_message: t("admin.accounts.show.verified_servers_empty"),
+          columns: [
+            [
+              t("admin.shared.id"),
+              -> { link_to(it.id, admin_server_path(it), class: "fw-medium", data: { turbo_frame: "_top" }) },
+              { copyable: :id },
+            ],
+            [
+              Server.human_attribute_name(:name),
+              -> { it.name.presence },
+              { copyable: :name },
+            ],
+            [
+              Server.human_attribute_name(:game),
+              -> { it.game&.name },
+            ],
+            [
+              t("admin.shared.status"),
+              -> { render(Admin::ServerStatusBadgesComponent.new(server: it)) },
+            ],
+            [
+              t("admin.shared.actions"),
+              -> {
+                render(Admin::IndexActionsComponent.new(
+                  view_path: admin_server_path(it),
+                  edit_path: edit_admin_server_path(it),
+                  extra_actions: [{ path: server_path(it), label: t("admin.servers.edit_actions.public"), target: "_blank", rel: "noopener noreferrer" }],
+                  link_options: { data: { turbo_frame: "_top" } },
+                ))
+              },
+            ],
+          ],
+        ))
+      %>
+    </div>
+  </div>
+<% end %>

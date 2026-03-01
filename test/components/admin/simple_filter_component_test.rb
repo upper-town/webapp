@@ -1,7 +1,7 @@
 require "test_helper"
 
-class Admin::FilterComponentTest < ViewComponent::TestCase
-  let(:described_class) { Admin::FilterComponent }
+class Admin::SimpleFilterComponentTest < ViewComponent::TestCase
+  let(:described_class) { Admin::SimpleFilterComponent }
 
   def build_form
     view_context = ApplicationController.new.view_context
@@ -54,6 +54,22 @@ class Admin::FilterComponentTest < ViewComponent::TestCase
       assert_selector("input[type='hidden'][name='q'][value='foo']", visible: :all)
       assert_no_selector("input[type='hidden'][name='status']", visible: :all)
       assert_no_selector("input[type='hidden'][name='country_code']", visible: :all)
+    end
+
+    it "preserves array params and excludes game_ids[] when in params_to_remove" do
+      req = build_request_with_params("http://uppertown.test/admin/servers?q=bar&game_ids[]=1&game_ids[]=2&sort=name")
+      render_inline(described_class.new(
+        form: build_form,
+        has_active_filters: false,
+        params_to_remove: %w[game_ids[]],
+        request: req
+      )) do
+        "Fields"
+      end
+
+      assert_selector("input[type='hidden'][name='q'][value='bar']", visible: :all)
+      assert_selector("input[type='hidden'][name='sort'][value='name']", visible: :all)
+      assert_no_selector("input[type='hidden'][name='game_ids[]']", visible: :all)
     end
 
     it "renders clear button when has_active_filters is true" do

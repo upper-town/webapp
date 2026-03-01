@@ -188,6 +188,42 @@
   min-width: 9rem;
 }
 
+/* Multi-select filter: match form-select appearance, hide Bootstrap's caret, use Bootstrap Icons */
+.admin-multi-select-filter .dropdown-toggle,
+.admin-fetchable-multi-select-filter .dropdown-toggle {
+  min-width: 12rem;
+  background-image: none;
+  border: 1px solid var(--bs-border-color);
+  background-color: var(--bs-body-bg);
+  font-size: 0.875rem;
+}
+
+.admin-multi-select-filter .dropdown-menu,
+.admin-fetchable-multi-select-filter .dropdown-menu {
+  min-width: 16rem;
+  max-height: 20rem;
+  overflow-y: auto;
+}
+
+.admin-multi-select-filter .dropdown-toggle:hover,
+.admin-multi-select-filter .dropdown-toggle:focus,
+.admin-fetchable-multi-select-filter .dropdown-toggle:hover,
+.admin-fetchable-multi-select-filter .dropdown-toggle:focus {
+  border-color: var(--bs-border-color);
+  background-color: var(--bs-body-bg);
+}
+
+.admin-multi-select-filter .dropdown-toggle::after,
+.admin-fetchable-multi-select-filter .dropdown-toggle::after {
+  display: none;
+}
+
+.admin-multi-select-filter__caret,
+.admin-fetchable-multi-select-filter__caret {
+  margin-left: 0.25rem;
+  flex-shrink: 0;
+}
+
 .admin-pagination-search-row .admin-servers-filter-inline .form-select {
   height: 2.375rem;
 }

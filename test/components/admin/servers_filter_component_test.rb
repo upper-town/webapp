@@ -14,23 +14,32 @@ class Admin::ServersFilterComponentTest < ViewComponent::TestCase
     CountrySelectOptionsQuery.stub(:new, ->(**) { fake_instance }) { yield }
   end
 
+  def with_stubbed_game_options(data = [["Minecraft", 1], ["PWI", 2]])
+    GameSelectOptionsQuery.stub(:call, data) { yield }
+  end
+
   describe "rendering" do
-    it "renders status and country selects" do
+    it "renders status, game multi-select, and country selects" do
       with_stubbed_country_query do
-        render_inline(described_class.new(form: build_form))
+        with_stubbed_game_options do
+          render_inline(described_class.new(form: build_form))
+        end
       end
 
       assert_selector("select[name='status']")
+      assert_selector("button[data-bs-toggle='dropdown']", text: /All games/i)
       assert_selector("select[name='country_code']")
       assert_selector("select[name='status'][aria-label='Status']")
     end
 
     it "shows clear button when filters are active" do
       with_stubbed_country_query([]) do
-        render_inline(described_class.new(
-          form: build_form,
-          selected_value_status: "verified"
-        ))
+        with_stubbed_game_options([]) do
+          render_inline(described_class.new(
+            form: build_form,
+            selected_value_status: "verified"
+          ))
+        end
       end
 
       assert_selector("a.btn", text: "Clear")
@@ -39,10 +48,12 @@ class Admin::ServersFilterComponentTest < ViewComponent::TestCase
     it "includes hidden fields for q, sort, sort_dir when present in request" do
       req = build_request(url: "http://uppertown.test/admin/servers?q=my+search&sort=name&sort_dir=asc")
       with_stubbed_country_query([]) do
-        render_inline(described_class.new(
-          form: build_form,
-          request: req
-        ))
+        with_stubbed_game_options([]) do
+          render_inline(described_class.new(
+            form: build_form,
+            request: req
+          ))
+        end
       end
 
       assert_selector("input[type='hidden'][name='q']", visible: :all)
@@ -60,6 +71,12 @@ class Admin::ServersFilterComponentTest < ViewComponent::TestCase
 
     it "returns true when country_code is present" do
       component = described_class.new(form: build_form, selected_value_country_code: "US")
+
+      assert(component.has_active_filters?)
+    end
+
+    it "returns true when game_ids is present" do
+      component = described_class.new(form: build_form, selected_game_ids: ["1"])
 
       assert(component.has_active_filters?)
     end

@@ -1,0 +1,50 @@
+<%= turbo_frame_tag "server_verified_accounts" do %>
+  <div class="card mb-4">
+    <div class="card-header">
+      <h5 class="card-title mb-0"><%= t("admin.servers.show.verified_accounts") %></h5>
+    </div>
+    <div class="card-body">
+      <div class="admin-pagination-search-row mb-3">
+        <%= render(Admin::SearchFormComponent.new(
+          url: verified_accounts_admin_server_path(@server),
+          search_term: @search_term,
+          placeholder: t("admin.accounts.index.search_placeholder")
+        )) %>
+      </div>
+
+      <%=
+        render(Admin::TableComponent.new(
+          collection: @accounts,
+          empty_message: t("admin.servers.show.verified_accounts_empty"),
+          columns: [
+            [
+              t("admin.shared.id"),
+              -> { link_to(it.id, admin_account_path(it), class: "fw-medium", data: { turbo_frame: "_top" }) },
+              { copyable: :id },
+            ],
+            [
+              t("admin.accounts.columns.user"),
+              -> { link_to(it.user.email, admin_user_path(it.user), data: { turbo_frame: "_top" }) },
+              { copyable: ->(it) { it.user&.email } },
+            ],
+            [
+              t("admin.accounts.columns.uuid"),
+              -> { content_tag(:code, truncate(it.uuid, length: 12), class: "small", title: it.uuid) },
+              { copyable: :uuid },
+            ],
+            [
+              t("admin.shared.actions"),
+              -> {
+                render(Admin::IndexActionsComponent.new(
+                  view_path: admin_account_path(it),
+                  extra_actions: [{ path: admin_user_path(it.user), label: t("admin.accounts.columns.user"), data: { turbo_frame: "_top" } }],
+                  link_options: { data: { turbo_frame: "_top" } },
+                ))
+              },
+            ],
+          ],
+        ))
+      %>
+    </div>
+  </div>
+<% end %>

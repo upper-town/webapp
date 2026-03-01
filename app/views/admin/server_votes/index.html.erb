@@ -5,13 +5,8 @@
       <small class="text-body-secondary"><%= t("admin.server_votes.index.for_server", name: @server.name) %></small>
     <% elsif @game %>
       <small class="text-body-secondary"><%= t("admin.server_votes.index.for_game", name: @game.name) %></small>
-    <% elsif @account %>
-      <small class="text-body-secondary"><%= t("admin.server_votes.index.for_account", email: @account.user.email) %></small>
     <% end %>
   </h1>
-  <% if @server || @game || @account %>
-    <%= link_to(t("admin.server_votes.index.all_server_votes"), admin_server_votes_path, class: "btn btn-outline-secondary") %>
-  <% end %>
 </div>
 
 <% request_helper = RequestHelper.new(request) %>
@@ -21,11 +16,30 @@
   <div class="admin-pagination-search-row__pagination">
     <%= render(PaginationComponent.new(@pagination, align: :start)) %>
   </div>
+  <%= form_with(
+    method: :get,
+    url: admin_server_votes_path,
+    class: "d-flex align-items-center gap-2 flex-wrap admin-servers-filter-inline",
+    html: { "aria-label": t("admin.server_votes.index.filter.title") },
+    data: {
+      controller: "admin-filter",
+      action: "change->admin-filter#filter"
+    }
+  ) do |form| %>
+    <%= render(Admin::ServerVotesFilterComponent.new(
+      form: form,
+      selected_game_ids: @filter_game_ids,
+      selected_server_ids: @filter_server_ids,
+      selected_account_ids: @filter_account_ids,
+      selected_account_labels: @filter_account_labels,
+      request: request
+    )) %>
+  <% end %>
   <%= render(Admin::SearchFormComponent.new(
     url: admin_server_votes_path,
     search_term: @search_term,
     placeholder: t("admin.server_votes.index.search_placeholder"),
-    hidden_params: params.permit(:server_id, :game_id, :account_id, :sort, :sort_dir).to_h.compact
+    hidden_params: params.permit(:server_id, :game_id, :account_id, { game_ids: [] }, { server_ids: [] }, { account_ids: [] }, :sort, :sort_dir).to_h.compact
   )) %>
 </div>
 

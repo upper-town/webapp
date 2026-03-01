@@ -22,11 +22,10 @@
   ],
 )) %>
 
-<%= render(Admin::DetailsTableComponent.new(
-  sections: [
-    {
-      title: t("admin.admin_permissions.show.roles_with_permission"),
-      rows: @admin_permission.roles.any? ? @admin_permission.roles.map { |r| [content_tag(:code, r.key), link_to(r.description.presence || r.key, admin_admin_role_path(r))] } : [[-> { content_tag(:span, t("admin.shared.none"), class: "text-body-secondary") }]],
-    },
-  ],
-)) %>
+<%= turbo_frame_tag("admin_permission_roles", src: roles_admin_admin_permission_path(@admin_permission), loading: :lazy) do %>
+  <div class="card mb-4">
+    <div class="card-body text-center text-body-secondary py-5">
+      <p class="mb-0"><%= t("admin.shared.loading") %></p>
+    </div>
+  </div>
+<% end %>

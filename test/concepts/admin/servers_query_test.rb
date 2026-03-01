@@ -69,6 +69,22 @@ class Admin::ServersQueryTest < ActiveSupport::TestCase
       assert_equal(1, result.count)
     end
 
+    it "filters by game_ids" do
+      game1 = create_game
+      game2 = create_game
+      game3 = create_game
+      server1 = create_server(game: game1)
+      server2 = create_server(game: game2)
+      _server3 = create_server(game: game3)
+
+      result = described_class.new(game_ids: [game1.id, game2.id]).call
+
+      assert_includes(result, server1)
+      assert_includes(result, server2)
+      assert_not_includes(result, _server3)
+      assert_equal(2, result.count)
+    end
+
     it "applies both status and country_code when provided" do
       server = create_server(verified_at: Time.current, country_code: "US")
       _other = create_server(verified_at: Time.current, country_code: "DE")

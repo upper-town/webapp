@@ -138,6 +138,7 @@ en:
       cancel: "Cancel"
       details: "Details"
       actions: "Actions"
+      status: "Status"
       id: "ID"
       created: "Created"
       updated: "Updated"
@@ -147,6 +148,33 @@ en:
       active: "Active"
       copy_to_clipboard: "Copy to clipboard"
       copied: "Copied!"
+      filter_multiselect_placeholder: "Search…"
+      filter_multiselect_all: "All"
+      filter_multiselect_count:
+        one: "1 selected"
+        other: "%{count} selected"
+      filter_multiselect_no_results: "No matches"
+      filter_multiselect_game_placeholder: "Search games…"
+      filter_multiselect_all_games: "All games"
+      filter_multiselect_games_count:
+        one: "1 game"
+        other: "%{count} games"
+      filter_multiselect_no_games_match: "No games match"
+      filter_multiselect_server_placeholder: "Search servers…"
+      filter_multiselect_all_servers: "All servers"
+      filter_multiselect_servers_count:
+        one: "1 server"
+        other: "%{count} servers"
+      filter_multiselect_no_servers_match: "No servers match"
+      filter_multiselect_account_placeholder: "Search accounts…"
+      filter_multiselect_account_remote_placeholder: "Type to search accounts…"
+      filter_multiselect_account_remote_min_chars: "Type at least %{count} characters"
+      filter_multiselect_account_remote_loading: "Searching…"
+      filter_multiselect_all_accounts: "All accounts"
+      filter_multiselect_accounts_count:
+        one: "1 account"
+        other: "%{count} accounts"
+      filter_multiselect_no_accounts_match: "No accounts match"
       expired: "Expired"
       locked: "Locked"
       verified: "Verified"
@@ -236,6 +264,7 @@ en:
         back_to: "Back to Admin Users"
         admin_account: "Admin Account"
         roles: "Roles"
+        roles_empty: "No roles assigned to this Admin Account."
         super_admin: "Super admin"
         sessions: "Sessions"
         tokens: "Tokens"
@@ -261,6 +290,7 @@ en:
         title: "Account #%{id}"
         back_to: "Back to accounts"
         verified_servers: "Verified servers"
+        verified_servers_empty: "No verified servers."
         stats: "Stats"
         server_accounts: "Server Accounts"
         server_votes: "Server Votes"
@@ -357,6 +387,7 @@ en:
       show:
         back_to: "Back to Admin Roles"
         permissions: "Permissions"
+        permissions_empty: "No permissions assigned to this role."
         admin_accounts_with_role: "Admin Accounts with this role"
         admin_accounts_empty: "No Admin Accounts with this role."
       edit:
@@ -381,6 +412,7 @@ en:
       show:
         back_to: "Back to Admin Permissions"
         roles_with_permission: "Roles with this permission"
+        roles_empty: "No roles have this permission."
       columns:
         roles: "Roles"
 
@@ -428,6 +460,7 @@ en:
       show:
         back_to: "Back to servers"
         verified_accounts: "Verified accounts"
+        verified_accounts_empty: "No verified accounts."
         stats: "Stats"
         stats_records: "Stats records"
         votes: "Votes"
@@ -479,11 +512,12 @@ en:
     server_votes:
       index:
         title: "Server Votes"
+        filter:
+          title: "Filter server votes"
         search_placeholder: "Search by ID, server, game, email…"
         for_server: "for %{name}"
         for_game: "for %{name}"
         for_account: "for %{email}"
-        all_server_votes: "All Server Votes"
         empty_message: "No Server Votes found."
       show:
         title: "Server Vote #%{id}"

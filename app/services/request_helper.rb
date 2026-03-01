@@ -27,21 +27,30 @@ class RequestHelper
 
   def parse_query_and_uri
     parsed_uri = URI.parse(request.original_url)
-    parsed_query = URI.decode_www_form(parsed_uri.query || "").to_h
+    pairs = URI.decode_www_form(parsed_uri.query || "")
+    parsed_query = build_query_hash(pairs)
 
     [parsed_query, parsed_uri]
+  end
+
+  def build_query_hash(pairs)
+    pairs.each_with_object({}) do |(key, value), hash|
+      hash[key] = hash.key?(key) ? Array(hash[key]) << value : value
+    end
   end
 
   # rubocop:disable Rails/OutputSafety
   def hidden_fields_for_query(params_merge = {}, params_remove = [])
     parsed_query, _parsed_uri = parse_and_update_query_and_uri(params_merge, params_remove)
 
-    parsed_query.map do |key, value|
-      hidden_field_tag(
-        ERB::Util.html_escape(key),
-        ERB::Util.html_escape(value),
-        id: nil
-      )
+    parsed_query.flat_map do |key, value|
+      Array(value).map do |v|
+        hidden_field_tag(
+          ERB::Util.html_escape(key),
+          ERB::Util.html_escape(v.to_s),
+          id: nil
+        )
+      end
     end.join.html_safe
   end
   # rubocop:enable Rails/OutputSafety

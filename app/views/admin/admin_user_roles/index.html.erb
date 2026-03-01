@@ -1,0 +1,43 @@
+<%= turbo_frame_tag "admin_user_roles" do %>
+  <div class="card mb-4">
+    <div class="card-header">
+      <h5 class="card-title mb-0"><%= t("admin.admin_users.show.roles") %></h5>
+    </div>
+    <div class="card-body">
+      <div class="admin-pagination-search-row mb-3">
+        <%= render(Admin::SearchFormComponent.new(
+          url: roles_admin_admin_user_path(@admin_user),
+          search_term: @search_term,
+          placeholder: t("admin.admin_roles.index.search_placeholder")
+        )) %>
+      </div>
+
+      <%=
+        render(Admin::TableComponent.new(
+          collection: @admin_roles,
+          empty_message: t("admin.admin_users.show.roles_empty"),
+          columns: [
+            [
+              t("admin.shared.id"),
+              -> { link_to(it.id, admin_admin_role_path(it), class: "fw-medium", data: { turbo_frame: "_top" }) },
+              { copyable: :id },
+            ],
+            [
+              t("admin.admin_roles.columns.key"),
+              -> { content_tag(:code, it.key) },
+              { copyable: :key },
+            ],
+            [
+              t("admin.admin_roles.columns.description"),
+              -> { it.description.presence },
+            ],
+            [
+              t("admin.shared.actions"),
+              -> { render(Admin::IndexActionsComponent.new(view_path: admin_admin_role_path(it), edit_path: edit_admin_admin_role_path(it), link_options: { data: { turbo_frame: "_top" } })) },
+            ],
+          ],
+        ))
+      %>
+    </div>
+  </div>
+<% end %>

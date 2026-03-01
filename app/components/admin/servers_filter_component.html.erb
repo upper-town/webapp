@@ -1,4 +1,4 @@
-<%= render(Admin::FilterComponent.new(
+<%= render(Admin::SimpleFilterComponent.new(
   form: form,
   has_active_filters: has_active_filters?,
   params_to_remove: FILTER_PARAMS,
@@ -14,6 +14,12 @@
       "aria-label": t("admin.servers.index.filter.status")
     }
   ) %>
+  <%= render(Admin::GameMultiSelectFilterComponent.new(
+    form: form,
+    selected_ids: selected_game_ids,
+    options: game_options,
+    aria_label: Server.human_attribute_name(:game)
+  )) %>
   <%= render(CountrySelectComponent.new(
     form,
     only_in_use: true,

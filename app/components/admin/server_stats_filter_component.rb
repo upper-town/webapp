@@ -14,7 +14,7 @@ module Admin
       @form = form
       @selected_value_period = selected_value_period
       @request = request
-      # clear_url ignored; FilterComponent builds it from request via RequestHelper
+      # clear_url ignored; SimpleFilterComponent builds it from request via RequestHelper
     end
 
     def has_active_filters?

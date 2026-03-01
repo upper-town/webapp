@@ -54,6 +54,10 @@
           { copyable: true },
         ],
         [t("admin.users.show.sign_in_count"), @admin_user.sign_in_count, { copyable: true }],
+        [
+          t("admin.admin_accounts.columns.super_admin"),
+          @admin_user.account&.super_admin? ? content_tag(:span, t("admin.shared.yes"), class: "badge text-bg-warning") : t("admin.shared.no"),
+        ],
         [t("admin.shared.created"), l(@admin_user.created_at), { copyable: true }],
         [t("admin.shared.updated"), l(@admin_user.updated_at), { copyable: true }],
       ],
@@ -61,20 +65,13 @@
   ],
 )) %>
 
-<%= render(Admin::DetailsTableComponent.new(
-  sections: [
-    {
-      title: t("admin.admin_users.show.roles"),
-      rows: [
-        [
-          t("admin.admin_accounts.columns.super_admin"),
-          @admin_user.account&.super_admin? ? content_tag(:span, t("admin.shared.yes"), class: "badge text-bg-warning") : t("admin.shared.no"),
-        ],
-        *(@admin_user.account&.roles&.any? ? @admin_user.account.roles.map { |role| [role.key, role.description] } : [[-> { content_tag(:span, t("admin.shared.none"), class: "text-body-secondary") }]]),
-      ],
-    },
-  ],
-)) %>
+<%= turbo_frame_tag("admin_user_roles", src: roles_admin_admin_user_path(@admin_user), loading: :lazy) do %>
+  <div class="card mb-4">
+    <div class="card-body text-center text-body-secondary py-5">
+      <p class="mb-0"><%= t("admin.shared.loading") %></p>
+    </div>
+  </div>
+<% end %>
 
 <%= turbo_frame_tag("admin_user_sessions", src: sessions_admin_admin_user_path(@admin_user), loading: :lazy) do %>
   <div class="card mb-4">

@@ -1,0 +1,86 @@
+<div
+  class="admin-fetchable-multi-select-filter"
+  data-controller="admin-fetchable-multi-select-filter"
+  data-admin-fetchable-multi-select-filter-param-name-value="<%= param_name %>"
+  data-admin-fetchable-multi-select-filter-selected-value="<%= selected_ids.to_json %>"
+  data-admin-fetchable-multi-select-filter-search-url-value="<%= search_url_with_params %>"
+  data-admin-fetchable-multi-select-filter-min-chars-value="<%= min_chars %>"
+  data-admin-fetchable-multi-select-filter-static-options-value="<%= static_options.to_json %>"
+  data-admin-fetchable-multi-select-filter-selected-labels-value="<%= selected_labels_json %>"
+  data-all-label="<%= all_label %>"
+  data-count-label="<%= count_label %>"
+  data-admin-fetchable-multi-select-filter-count-label-one-value="<%= count_label_one %>"
+  data-min-chars-label="<%= min_chars_label %>"
+  data-loading-label="<%= loading_label %>"
+>
+  <div class="dropdown" data-admin-fetchable-multi-select-filter-target="dropdown">
+    <button
+      type="button"
+      class="<%= select_class %> dropdown-toggle d-flex align-items-center justify-content-between text-start"
+      id="<%= dropdown_id %>"
+      data-bs-toggle="dropdown"
+      data-bs-auto-close="outside"
+      aria-expanded="false"
+      aria-haspopup="listbox"
+      aria-label="<%= aria_label %>"
+    >
+      <span class="admin-fetchable-multi-select-filter__trigger-text text-truncate" data-admin-fetchable-multi-select-filter-target="triggerText">
+        <%= trigger_text %>
+      </span>
+      <i class="bi bi-chevron-down admin-fetchable-multi-select-filter__caret" aria-hidden="true"></i>
+    </button>
+    <div class="dropdown-menu p-2" role="listbox">
+      <div role="group">
+        <input
+          type="search"
+          class="form-control form-control-sm mb-2"
+          placeholder="<%= placeholder %>"
+          autocomplete="off"
+          data-admin-fetchable-multi-select-filter-target="searchInput"
+          data-action="input->admin-fetchable-multi-select-filter#filter change->admin-fetchable-multi-select-filter#onSearchChange keydown->admin-fetchable-multi-select-filter#handleKeydown focus->admin-fetchable-multi-select-filter#onSearchFocus"
+          aria-label="<%= placeholder %>"
+        >
+        <turbo-frame id="<%= options_list_id %>" data-admin-fetchable-multi-select-filter-target="optionsFrame" role="group">
+          <div data-admin-fetchable-multi-select-filter-target="optionsList" role="group">
+            <% static_options.each do |name, id| %>
+              <button
+                type="button"
+                class="dropdown-item d-flex align-items-center gap-2"
+                role="option"
+                data-id="<%= id %>"
+                data-name="<%= name %>"
+                data-admin-fetchable-multi-select-filter-target="option"
+                data-action="click->admin-fetchable-multi-select-filter#toggle"
+              >
+                <span class="form-check">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    <%= "checked" if selected_ids.include?(id.to_s) %>
+                    tabindex="-1"
+                    aria-hidden="true"
+                  >
+                </span>
+                <span class="text-truncate"><%= name %></span>
+              </button>
+            <% end %>
+          </div>
+        </turbo-frame>
+      </div>
+      <div class="admin-fetchable-multi-select-filter__min-chars visually-hidden text-muted small px-2 py-1" data-admin-fetchable-multi-select-filter-target="minCharsHint">
+      </div>
+      <div class="admin-fetchable-multi-select-filter__loading visually-hidden" data-admin-fetchable-multi-select-filter-target="loading">
+        <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+        <span data-admin-fetchable-multi-select-filter-target="loadingText"></span>
+      </div>
+      <div class="admin-fetchable-multi-select-filter__no-results visually-hidden" data-admin-fetchable-multi-select-filter-target="noResults">
+        <%= no_results_label %>
+      </div>
+    </div>
+  </div>
+  <div class="admin-fetchable-multi-select-filter__hidden-inputs" data-admin-fetchable-multi-select-filter-target="hiddenInputs">
+    <% selected_ids.each do |id| %>
+      <input type="hidden" name="<%= hidden_input_name %>" value="<%= id %>" data-admin-fetchable-multi-select-filter-target="hiddenInput">
+    <% end %>
+  </div>
+</div>

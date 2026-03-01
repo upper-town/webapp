@@ -1,6 +1,9 @@
 <%= form_with(url:, method: :get, class: "d-flex gap-2 admin-search-form", data: { controller: "search-form", "search-form-clear-url-value": clear_url, "search-form-param-value": param }) do |form| %>
   <% hidden_params.each do |key, value| %>
-    <%= tag.input(type: "hidden", name: key, value: value) %>
+    <% input_name = value.is_a?(Array) ? (key.to_s.end_with?("[]") ? key : "#{key}[]") : key %>
+    <% Array(value).each do |v| %>
+      <%= tag.input(type: "hidden", name: input_name, value: v) %>
+    <% end %>
   <% end %>
   <%= form.search_field param, value: search_term, placeholder:, class: "form-control", data: { "search-form-target": "input" }.merge(show_clear? ? { action: "keydown->search-form#clear input->search-form#clearOnInput" } : {}) %>
   <% if show_clear? %>

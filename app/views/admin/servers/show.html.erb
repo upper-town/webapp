@@ -59,14 +59,13 @@
   ],
 )) %>
 
-<%= render(Admin::DetailsTableComponent.new(
-  sections: [
-    {
-      title: t("admin.servers.show.verified_accounts"),
-      rows: @server.verified_accounts.any? ? @server.verified_accounts.map { |account| [link_to(account.user.email, admin_user_path(account.user))] } : [[-> { content_tag(:span, t("admin.shared.none"), class: "text-body-secondary") }]],
-    },
-  ],
-)) %>
+<%= turbo_frame_tag("server_verified_accounts", src: verified_accounts_admin_server_path(@server), loading: :lazy) do %>
+  <div class="card mb-4">
+    <div class="card-body text-center text-body-secondary py-5">
+      <p class="mb-0"><%= t("admin.shared.loading") %></p>
+    </div>
+  </div>
+<% end %>
 
 <%= render(Admin::DetailsTableComponent.new(
   sections: [

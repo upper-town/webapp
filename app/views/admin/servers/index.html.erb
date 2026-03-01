@@ -21,6 +21,7 @@
       form: form,
       selected_value_status: @filter_status,
       selected_value_country_code: @filter_country_code,
+      selected_game_ids: @filter_game_ids,
       request: request
     )) %>
   <% end %>
@@ -28,7 +29,7 @@
     url: admin_servers_path,
     search_term: @search_term,
     placeholder: t("admin.servers.index.search_placeholder"),
-    hidden_params: params.permit(:status, :country_code, :sort, :sort_dir).to_h.compact
+    hidden_params: params.permit(:status, :country_code, { game_ids: [] }, :sort, :sort_dir).to_h.compact
   )) %>
 </div>
 
