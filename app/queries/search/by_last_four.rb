@@ -10,7 +10,7 @@ module Search
 
     def by_last_four(table_column)
       if match_last_four?
-        base_model.where("#{table_column} = ?", term)
+        base_model.where("#{sanitized_table_column(table_column)} = ?", term)
       else
         base_model.none
       end

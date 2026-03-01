@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -134,6 +132,7 @@ Rails.application.routes.draw do
         post :mark_for_deletion
         post :unmark_for_deletion
       end
+      resources :webhook_configs, only: [:index, :new, :create, :show, :edit, :update]
     end
     resources :server_votes, only: [:index]
   end

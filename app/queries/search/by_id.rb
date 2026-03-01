@@ -10,7 +10,7 @@ module Search
 
     def by_id(table_column)
       if match_id?
-        base_model.where("#{table_column} = ?", term)
+        base_model.where("#{sanitized_table_column(table_column)} = ?", term)
       else
         base_model.none
       end

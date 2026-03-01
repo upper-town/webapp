@@ -62,5 +62,6 @@ module ActionDispatch
   class IntegrationTest
     include RequestTestSetup
     include AdminRequestTestHelper
+    include InsideRequestTestHelper
   end
 end

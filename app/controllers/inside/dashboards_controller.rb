@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Inside
   class DashboardsController < BaseController
     RECENT_SERVERS_LIMIT = 5

@@ -1,0 +1,48 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+  <div>
+    <h1 class="mb-1"><%= t("inside.webhook_configs.show.title", name: @server.name) %></h1>
+    <div class="d-flex flex-wrap gap-2 mt-2">
+      <%= link_to inside_server_webhook_configs_path(@server), class: "btn btn-outline-secondary btn-sm" do %>
+        <i class="bi bi-arrow-left me-1"></i>
+        <%= t("inside.webhook_configs.show.back_to") %>
+      <% end %>
+      <%= link_to edit_inside_server_webhook_config_path(@server, @webhook_config), class: "btn btn-primary btn-sm" do %>
+        <i class="bi bi-pencil me-1"></i>
+        <%= t("inside.webhook_configs.show.edit") %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="card border-0 shadow-sm mb-4">
+  <div class="card-body">
+    <h5 class="card-title mb-3"><%= t("inside.webhook_configs.show.details") %></h5>
+
+    <dl class="row mb-0">
+      <dt class="col-sm-3 text-body-secondary"><%= WebhookConfig.human_attribute_name(:url) %></dt>
+      <dd class="col-sm-9">
+        <%= link_to(@webhook_config.url, @webhook_config.url, target: "_blank", rel: "noopener noreferrer", class: "text-break") %>
+      </dd>
+
+      <dt class="col-sm-3 text-body-secondary"><%= WebhookConfig.human_attribute_name(:method) %></dt>
+      <dd class="col-sm-9"><code><%= @webhook_config.method %></code></dd>
+
+      <dt class="col-sm-3 text-body-secondary"><%= t("inside.webhook_configs.show.status") %></dt>
+      <dd class="col-sm-9">
+        <span class="badge <%= @webhook_config.enabled? ? "bg-success" : "bg-secondary" %>">
+          <%= @webhook_config.enabled? ? t("inside.webhook_configs.index.enabled") : t("inside.webhook_configs.index.disabled") %>
+        </span>
+      </dd>
+
+      <dt class="col-sm-3 text-body-secondary"><%= WebhookConfig.human_attribute_name(:event_types) %></dt>
+      <dd class="col-sm-9"><code><%= @webhook_config.event_types.join(", ") %></code></dd>
+
+      <dt class="col-sm-3 text-body-secondary"><%= t("inside.webhook_configs.show.secret") %></dt>
+      <dd class="col-sm-9"><span class="text-body-secondary">••••••••</span></dd>
+    </dl>
+  </div>
+</div>
+
+<p class="small text-body-secondary">
+  <%= t("inside.webhook_configs.show.integration_help") %>
+</p>

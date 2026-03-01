@@ -1,0 +1,7 @@
+# Brakeman configuration
+# See https://brakemanscanner.org/docs/configuration/
+
+# Search::Base#sanitized_table_column validates and quotes table.column identifiers
+# via connection.quote_table_name/quote_column_name — safe for SQL
+sql_safe_methods:
+  - :sanitized_table_column

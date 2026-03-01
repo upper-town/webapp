@@ -84,7 +84,7 @@ class SignUpEtcTest < ApplicationSystemTestCase
       assert_equal("user@upper.town", session.user.email)
       assert_in_delta(4.months.from_now, session.expires_at, 10.minutes)
 
-      click_on("Sign Out")
+      sign_out
 
       assert_text("Your have been logged out.")
 
@@ -153,7 +153,7 @@ class SignUpEtcTest < ApplicationSystemTestCase
 
       assert_text("Email address has been changed.")
 
-      click_on("Sign Out")
+      sign_out
 
       assert_text("Your have been logged out.")
 
@@ -189,7 +189,7 @@ class SignUpEtcTest < ApplicationSystemTestCase
 
       assert_text("Email address has been restored.")
 
-      click_on("Sign Out")
+      sign_out
 
       assert_text("Your have been logged out.")
 
@@ -225,5 +225,10 @@ class SignUpEtcTest < ApplicationSystemTestCase
     /<a href="(.+)">#{text}<\/a>/
       .match(mail_message.body.to_s)[1]
       .presence || raise("match_link: not matched")
+  end
+
+  def sign_out
+    find(".navbar .dropdown-toggle", match: :first).click
+    click_on("Sign Out")
   end
 end

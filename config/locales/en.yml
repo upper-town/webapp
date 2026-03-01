@@ -781,6 +781,11 @@ en:
         server: "Server"
         account: "Account"
         verified_at: "Verified at"
+      webhook_config:
+        url: "URL"
+        method: "Method"
+        event_types: "Event types"
+        secret: "Secret"
     errors:
       models:
         server:
@@ -975,6 +980,7 @@ en:
         title: "My Servers"
         add_server: "Add server"
         edit: "Edit"
+        webhooks: "Webhooks"
         view_page: "View page"
         archive: "Archive"
         unarchive: "Unarchive"
@@ -1014,6 +1020,7 @@ en:
       edit:
         title: "Edit %{name}"
         back_to: "Back to My Servers"
+        webhooks: "Webhooks"
         view_public_page: "View public page"
         details: "Details"
         banner_image_section: "Banner image"
@@ -1024,6 +1031,51 @@ en:
         cancel: "Cancel"
       max_verified_servers_per_account: "You already have too many verified servers associated with your account."
       max_not_verified_servers_per_account: "You have many servers pending verification. Please verify them first before adding more servers."
+
+    webhook_configs:
+      index:
+        title: "Webhooks for %{name}"
+        back_to_servers: "Back to My Servers"
+        edit_server: "Edit server"
+        add_webhook: "Add webhook"
+        view: "View"
+        edit: "Edit"
+        enabled: "Enabled"
+        disabled: "Disabled"
+        empty_title: "No webhooks yet"
+        empty_message: "Configure webhooks to receive vote events and other notifications when your server gets votes."
+      new:
+        title: "Add webhook for %{name}"
+        back_to: "Back to webhooks"
+        submit: "Add webhook"
+      edit:
+        title: "Edit webhook for %{name}"
+        back_to: "Back to webhook"
+        submit: "Update webhook"
+      show:
+        title: "Webhook for %{name}"
+        back_to: "Back to webhooks"
+        edit: "Edit"
+        details: "Details"
+        status: "Status"
+        secret: "Secret"
+        integration_help: "When votes are cast on your server, webhook events are sent to this URL. Configure your endpoint to verify the HMAC signature using your secret."
+      form:
+        details: "Details"
+        event_types: "Event types"
+        url_placeholder: "https://example.com/webhooks"
+        url_help: "Endpoint that will receive webhook payloads."
+        secret_placeholder: "Leave blank to keep current"
+        secret_help_new: "Minimum 32 characters recommended."
+        secret_help_keep: "Leave blank to keep the current secret."
+        event_types_placeholder: "*"
+        event_types_help: "Comma-separated patterns (e.g. * , server_vote.* ). Use * for all events."
+        disabled_help: "Disabled webhooks will not receive events."
+        cancel: "Cancel"
+      create:
+        success: "Webhook has been added."
+      update:
+        success: "Webhook has been updated."
 
   server_votes:
     create:

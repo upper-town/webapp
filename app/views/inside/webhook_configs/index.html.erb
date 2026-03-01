@@ -1,0 +1,72 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+  <div>
+    <h1 class="mb-1"><%= t("inside.webhook_configs.index.title", name: @server.name) %></h1>
+    <div class="d-flex flex-wrap gap-2 mt-2">
+      <%= link_to inside_servers_path, class: "btn btn-outline-secondary btn-sm" do %>
+        <i class="bi bi-arrow-left me-1"></i>
+        <%= t("inside.webhook_configs.index.back_to_servers") %>
+      <% end %>
+      <%= link_to edit_inside_server_path(@server), class: "btn btn-outline-secondary btn-sm" do %>
+        <i class="bi bi-pencil me-1"></i>
+        <%= t("inside.webhook_configs.index.edit_server") %>
+      <% end %>
+    </div>
+  </div>
+  <%= link_to new_inside_server_webhook_config_path(@server), class: "btn btn-primary" do %>
+    <i class="bi bi-plus-lg me-1"></i>
+    <%= t("inside.webhook_configs.index.add_webhook") %>
+  <% end %>
+</div>
+
+<% if @webhook_configs.any? %>
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="list-group list-group-flush">
+      <% @webhook_configs.each do |webhook_config| %>
+        <div class="list-group-item d-flex justify-content-between align-items-center flex-wrap gap-2">
+          <div class="flex-grow-1 min-w-0">
+            <%= link_to(
+              truncate(webhook_config.url, length: 60),
+              webhook_config.url,
+              target: "_blank",
+              rel: "noopener noreferrer",
+              class: "text-decoration-none fw-medium"
+            ) %>
+            <div class="small text-body-secondary mt-1">
+              <span class="badge <%= webhook_config.enabled? ? "bg-success" : "bg-secondary" %> me-1">
+                <%= webhook_config.enabled? ? t("inside.webhook_configs.index.enabled") : t("inside.webhook_configs.index.disabled") %>
+              </span>
+              <code class="small"><%= webhook_config.method %></code>
+              <span class="ms-1"><%= webhook_config.event_types.join(", ") %></span>
+            </div>
+          </div>
+          <div class="d-flex gap-2">
+            <%= link_to(
+              t("inside.webhook_configs.index.view"),
+              inside_server_webhook_config_path(@server, webhook_config),
+              class: "btn btn-outline-secondary btn-sm"
+            ) %>
+            <%= link_to(
+              t("inside.webhook_configs.index.edit"),
+              edit_inside_server_webhook_config_path(@server, webhook_config),
+              class: "btn btn-primary btn-sm"
+            ) %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% else %>
+  <div class="card border-0 shadow-sm bg-body-secondary bg-opacity-25">
+    <div class="card-body text-center py-5">
+      <i class="bi bi-link-45deg display-4 text-body-secondary mb-3"></i>
+      <h5 class="card-title"><%= t("inside.webhook_configs.index.empty_title") %></h5>
+      <p class="card-text text-body-secondary mb-3">
+        <%= t("inside.webhook_configs.index.empty_message") %>
+      </p>
+      <%= link_to new_inside_server_webhook_config_path(@server), class: "btn btn-primary" do %>
+        <i class="bi bi-plus-lg me-1"></i>
+        <%= t("inside.webhook_configs.index.add_webhook") %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module ServersHelper
   def format_server_ranking(value)
     number = format_server_number(value)

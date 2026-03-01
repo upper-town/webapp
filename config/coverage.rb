@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 SimpleCov.start do
   primary_coverage :line
   enable_coverage  :branch

@@ -10,7 +10,7 @@ module Search
 
     def by_remote_ip(table_column)
       if match_remote_ip?
-        base_model.where("#{table_column} ILIKE ?", term_for_like)
+        base_model.where("#{sanitized_table_column(table_column)} ILIKE ?", term_for_like)
       else
         base_model.none
       end
