@@ -1,8 +1,8 @@
-<%= render(Admin::SimpleFilterComponent.new(
+<%= render(Admin::FilterComponent.new(
   form: form,
   has_active_filters: has_active_filters?,
   params_to_remove: FILTER_PARAMS,
-  request: @request
+  request: request
 )) do %>
   <%= render(Admin::GameMultiSelectFilterComponent.new(
     form: form,

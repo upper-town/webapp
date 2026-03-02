@@ -9,9 +9,7 @@ class Admin::ServersFilterComponentTest < ViewComponent::TestCase
   end
 
   def with_stubbed_country_query(data = [["🇺🇸 United States", "US"]])
-    fake_instance = Object.new
-    fake_instance.define_singleton_method(:call) { data }
-    CountrySelectOptionsQuery.stub(:new, ->(**) { fake_instance }) { yield }
+    CountrySelectOptionsQuery.stub(:call, data) { yield }
   end
 
   def with_stubbed_game_options(data = [["Minecraft", 1], ["PWI", 2]])
@@ -26,10 +24,19 @@ class Admin::ServersFilterComponentTest < ViewComponent::TestCase
         end
       end
 
-      assert_selector("select[name='status']")
+      assert_selector("button[aria-label='Status']", text: /All statuses/i)
       assert_selector("button[data-bs-toggle='dropdown']", text: /All games/i)
-      assert_selector("select[name='country_code']")
-      assert_selector("select[name='status'][aria-label='Status']")
+      assert_selector("button[aria-label='Country']", text: /All countries/i)
+    end
+
+    it "omits game multi-select when hide_game_filter is true" do
+      with_stubbed_country_query do
+        render_inline(described_class.new(form: build_form, hide_game_filter: true))
+      end
+
+      assert_selector("button[aria-label='Status']", text: /All statuses/i)
+      assert_no_selector("button[data-bs-toggle='dropdown']", text: /All games/i)
+      assert_selector("button[aria-label='Country']", text: /All countries/i)
     end
 
     it "shows clear button when filters are active" do
@@ -37,7 +44,7 @@ class Admin::ServersFilterComponentTest < ViewComponent::TestCase
         with_stubbed_game_options([]) do
           render_inline(described_class.new(
             form: build_form,
-            selected_value_status: "verified"
+            selected_status_ids: ["verified"]
           ))
         end
       end
@@ -64,13 +71,13 @@ class Admin::ServersFilterComponentTest < ViewComponent::TestCase
 
   describe "#has_active_filters?" do
     it "returns true when status is present" do
-      component = described_class.new(form: build_form, selected_value_status: "verified")
+      component = described_class.new(form: build_form, selected_status_ids: ["verified"])
 
       assert(component.has_active_filters?)
     end
 
-    it "returns true when country_code is present" do
-      component = described_class.new(form: build_form, selected_value_country_code: "US")
+    it "returns true when country_codes is present" do
+      component = described_class.new(form: build_form, selected_country_codes: ["US"])
 
       assert(component.has_active_filters?)
     end
@@ -79,6 +86,16 @@ class Admin::ServersFilterComponentTest < ViewComponent::TestCase
       component = described_class.new(form: build_form, selected_game_ids: ["1"])
 
       assert(component.has_active_filters?)
+    end
+
+    it "returns false when game_ids is present but hide_game_filter is true" do
+      component = described_class.new(
+        form: build_form,
+        selected_game_ids: ["1"],
+        hide_game_filter: true
+      )
+
+      assert_not(component.has_active_filters?)
     end
 
     it "returns false when no filters are set" do

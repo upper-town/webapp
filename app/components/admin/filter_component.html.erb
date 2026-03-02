@@ -1,6 +1,6 @@
 <div class="d-flex align-items-center gap-2 flex-wrap">
   <%= content %>
-  <%= RequestHelper.new(current_request).hidden_fields_for_query({}, params_to_remove) %>
+  <%= request_helper.hidden_fields_for_query({}, params_to_remove) %>
   <% if has_active_filters %>
     <%= link_to(t("admin.shared.clear_search"), clear_url, class: "btn btn-outline-secondary") %>
   <% end %>

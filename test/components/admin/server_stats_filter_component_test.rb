@@ -9,17 +9,17 @@ class Admin::ServerStatsFilterComponentTest < ViewComponent::TestCase
   end
 
   describe "rendering" do
-    it "renders period select" do
+    it "renders period multi-select" do
       render_inline(described_class.new(form: build_form))
 
-      assert_selector("select[name='period']")
-      assert_selector("select[name='period'][aria-label='#{I18n.t('admin.server_stats.index.filter.period')}']")
+      assert_selector("button[aria-label='#{I18n.t('admin.server_stats.index.filter.period')}']", text: /All periods/i)
+      assert_selector("input[name='periods[]']", visible: :all, count: 0)
     end
 
     it "shows clear button when period filter is active" do
       render_inline(described_class.new(
         form: build_form,
-        selected_value_period: "month"
+        selected_period_ids: ["month"]
       ))
 
       assert_selector("a.btn", text: "Clear")
@@ -40,7 +40,7 @@ class Admin::ServerStatsFilterComponentTest < ViewComponent::TestCase
 
   describe "#has_active_filters?" do
     it "returns true when period is present" do
-      component = described_class.new(form: build_form, selected_value_period: "month")
+      component = described_class.new(form: build_form, selected_period_ids: ["month"])
 
       assert(component.has_active_filters?)
     end

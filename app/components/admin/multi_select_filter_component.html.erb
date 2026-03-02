@@ -25,16 +25,24 @@
       <i class="bi bi-chevron-down admin-multi-select-filter__caret" aria-hidden="true"></i>
     </button>
     <div class="dropdown-menu p-2" role="listbox">
-      <div class="mb-2">
+      <div class="mb-2 input-group input-group-sm">
         <input
           type="search"
-          class="form-control form-control-sm"
+          class="form-control"
           placeholder="<%= placeholder %>"
           autocomplete="off"
           data-admin-multi-select-filter-target="searchInput"
-          data-action="input->admin-multi-select-filter#filter keydown->admin-multi-select-filter#handleKeydown focus->admin-multi-select-filter#onSearchFocus"
+          data-action="input->admin-multi-select-filter#filter keydown->admin-multi-select-filter#handleKeydown keydown.enter->admin-multi-select-filter#submitForm focus->admin-multi-select-filter#onSearchFocus"
           aria-label="<%= placeholder %>"
         >
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          data-action="click->admin-multi-select-filter#submitForm"
+          aria-label="<%= apply_label %>"
+        >
+          <%= apply_label %>
+        </button>
       </div>
       <div id="<%= options_list_id %>" data-admin-multi-select-filter-target="optionsList" role="group">
         <% options.each do |name, id| %>
@@ -51,7 +59,7 @@
               <input
                 type="checkbox"
                 class="form-check-input"
-                <%= "checked" if selected_ids.include?(id.to_s) %>
+                <%= "checked" if option_checked?(id) %>
                 tabindex="-1"
                 aria-hidden="true"
               >

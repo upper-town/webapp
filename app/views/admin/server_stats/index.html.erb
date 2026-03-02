@@ -23,15 +23,11 @@
     method: :get,
     url: admin_server_stats_path,
     class: "d-flex align-items-center gap-2 flex-wrap admin-servers-filter-inline",
-    html: { "aria-label": t("admin.server_stats.index.filter.title") },
-    data: {
-      controller: "admin-filter",
-      action: "change->admin-filter#filter"
-    }
+    html: { "aria-label": t("admin.server_stats.index.filter.title") }
   ) do |form| %>
     <%= render(Admin::ServerStatsFilterComponent.new(
       form: form,
-      selected_value_period: @filter_period,
+      selected_period_ids: @filter_periods,
       request: request
     )) %>
   <% end %>
@@ -39,7 +35,7 @@
     url: admin_server_stats_path,
     search_term: @search_term,
     placeholder: t("admin.server_stats.index.search_placeholder"),
-    hidden_params: params.permit(:server_id, :game_id, :period, :sort, :sort_dir).to_h.compact
+    hidden_params: params.permit(:server_id, :game_id, { periods: [] }, :sort, :sort_dir).to_h.compact
   )) %>
 </div>
 

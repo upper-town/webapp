@@ -32,7 +32,7 @@ Generate a commit message that summarizes everything the current branch changed 
 
 ## Commit Message Format
 
-The message has two parts — a title line followed by a blank line and a bullet list:
+The message has two parts: a title line followed by a blank line and a bullet list:
 
     <Title: one-line imperative summary, max ~72 chars>
 
@@ -45,13 +45,14 @@ The message has two parts — a title line followed by a blank line and a bullet
 - **Title**: imperative mood ("Add X", "Fix Y", "Refactor Z"), concise, no trailing period.
 - **Body**: a flat bullet list of the notable additions, changes, removals, or fixes. Each bullet is one short sentence. Omit trivial or mechanical changes (whitespace, import reordering) unless they are the only change.
 - **Every line** (title and each bullet) must be at most 72 characters. Reword to stay within the limit rather than wrapping mid-sentence.
-- Keep the total message short — aim for 3–8 bullets. Group related changes into a single bullet when possible.
+- **ASCII only**: use plain ASCII characters (hyphens, commas, parentheses). No em dashes, arrows, or other Unicode symbols.
+- Keep the total message short - aim for 3-8 bullets. Group related changes into a single bullet when possible.
 - Do **not** list every file; describe *what* changed at a meaningful level of abstraction.
-- **Output in a markdown code block** — wrap the commit message in triple backticks (```) so the user can click the copy button in the IDE to copy it in one action.
+- **Output in a markdown code block** - wrap the commit message in triple backticks (```) so the user can click the copy button in the IDE to copy it in one action.
 
 ## Examples
 
-Example 1 — feature branch:
+Example 1 - feature branch:
 
     Add hCaptcha verification to user sign-up
 
@@ -60,7 +61,7 @@ Example 1 — feature branch:
     - Show captcha widget on registration and password reset forms
     - Add tests for captcha verification flow
 
-Example 2 — fix branch:
+Example 2 - fix branch:
 
     Fix server vote count not resetting at period boundary
 
@@ -68,7 +69,7 @@ Example 2 — fix branch:
     - Update vote consolidation query to respect time zones
     - Add regression test for midnight UTC edge case
 
-Example 3 — chore/refactor branch:
+Example 3 - chore/refactor branch:
 
     Refactor admin permission checks into policy objects
 

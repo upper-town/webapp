@@ -3,13 +3,13 @@ module Admin
     def index
       @game = game_from_params
       @search_term = params[:q]
-      @filter_status = params[:status]
-      @filter_country_code = params[:country_code]
+      @filter_status_ids = params[:status]
+      @filter_country_codes = params[:country_codes]
       @sort_column = params[:sort].presence
       @sort_direction = params[:sort_dir].presence
       relation = Admin::ServersQuery.call(
-        status: @filter_status,
-        country_code: @filter_country_code,
+        status: @filter_status_ids,
+        country_codes: @filter_country_codes,
         relation: @game.servers,
         sort: @sort_column,
         sort_dir: @sort_direction

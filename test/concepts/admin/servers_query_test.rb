@@ -59,6 +59,19 @@ class Admin::ServersQueryTest < ActiveSupport::TestCase
       assert_equal(1, result.count)
     end
 
+    it "filters by multiple statuses with OR logic" do
+      server_verified = create_server(verified_at: Time.current, archived_at: nil)
+      server_archived = create_server(verified_at: nil, archived_at: Time.current)
+      _server_other = create_server(verified_at: nil, archived_at: nil)
+
+      result = described_class.new(status: %w[verified archived]).call
+
+      assert_includes(result, server_verified)
+      assert_includes(result, server_archived)
+      assert_not_includes(result, _server_other)
+      assert_equal(2, result.count)
+    end
+
     it "filters by country_code" do
       server_us = create_server(country_code: "US")
       _server_de = create_server(country_code: "DE")
@@ -67,6 +80,19 @@ class Admin::ServersQueryTest < ActiveSupport::TestCase
 
       assert_includes(result, server_us)
       assert_equal(1, result.count)
+    end
+
+    it "filters by multiple country_codes" do
+      server_us = create_server(country_code: "US")
+      server_de = create_server(country_code: "DE")
+      _server_br = create_server(country_code: "BR")
+
+      result = described_class.new(country_codes: %w[US DE]).call
+
+      assert_includes(result, server_us)
+      assert_includes(result, server_de)
+      assert_not_includes(result, _server_br)
+      assert_equal(2, result.count)
     end
 
     it "filters by game_ids" do

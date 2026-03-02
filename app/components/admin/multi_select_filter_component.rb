@@ -1,8 +1,10 @@
 module Admin
   class MultiSelectFilterComponent < ApplicationComponent
-    attr_reader :form, :param_name, :selected_ids, :options, :placeholder, :all_label, :count_label,
-                :count_label_one, :no_results_label, :aria_label, :select_class, :input_id, :dropdown_id,
-                :options_list_id
+    DEFAULT_SELECT_CLASS = "#{ServersFilterComponent::DEFAULT_SELECT_CLASS} btn"
+
+    attr_reader :form, :param_name, :selected_ids, :options, :placeholder, :apply_label, :all_label,
+                :count_label, :count_label_one, :no_results_label, :aria_label, :select_class,
+                :dropdown_id, :options_list_id
 
     # rubocop:disable Metrics/ParameterLists
     def initialize(
@@ -11,23 +13,24 @@ module Admin
       options: [],
       selected_ids: [],
       placeholder: nil,
+      apply_label: nil,
       all_label: nil,
       count_label: nil,
       count_label_one: nil,
       no_results_label: nil,
       aria_label: nil,
       select_class: nil,
-      input_id: nil,
       dropdown_id: nil,
       options_list_id: nil
     )
       super()
 
       @form = form
-      @param_name = param_name.to_s.delete_suffix("[]")
-      @selected_ids = Array(selected_ids).map(&:to_s).compact_blank
+      @param_name = normalize_param_name(param_name)
+      @selected_ids = normalize_ids(selected_ids)
       @options = options
       @placeholder = placeholder || I18n.t("admin.shared.filter_multiselect_placeholder")
+      @apply_label = apply_label || I18n.t("admin.shared.filter_multiselect_apply")
       @all_label = all_label || I18n.t("admin.shared.filter_multiselect_all")
       # rubocop:disable Style/FormatStringToken
       @count_label = count_label || I18n.t("admin.shared.filter_multiselect_count.other")
@@ -35,8 +38,7 @@ module Admin
       # rubocop:enable Style/FormatStringToken
       @no_results_label = no_results_label || I18n.t("admin.shared.filter_multiselect_no_results")
       @aria_label = aria_label
-      @select_class = select_class || "form-select form-select-sm admin-servers-filter-inline__select btn"
-      @input_id = input_id || "admin_multi_select_filter_input_#{@param_name}"
+      @select_class = select_class || DEFAULT_SELECT_CLASS
       @dropdown_id = dropdown_id || "admin_multi_select_filter_dropdown_#{@param_name}"
       @options_list_id = options_list_id || "admin_multi_select_filter_options_#{@param_name}"
     end
@@ -65,6 +67,10 @@ module Admin
 
     def hidden_input_name
       "#{param_name}[]"
+    end
+
+    def option_checked?(id)
+      selected_ids.include?(id.to_s)
     end
   end
 end

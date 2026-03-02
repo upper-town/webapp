@@ -149,6 +149,7 @@ en:
       copy_to_clipboard: "Copy to clipboard"
       copied: "Copied!"
       filter_multiselect_placeholder: "Search…"
+      filter_multiselect_apply: "Apply"
       filter_multiselect_all: "All"
       filter_multiselect_count:
         one: "1 selected"
@@ -175,6 +176,24 @@ en:
         one: "1 account"
         other: "%{count} accounts"
       filter_multiselect_no_accounts_match: "No accounts match"
+      filter_multiselect_status_placeholder: "Search statuses…"
+      filter_multiselect_all_statuses: "All statuses"
+      filter_multiselect_statuses_count:
+        one: "1 status"
+        other: "%{count} statuses"
+      filter_multiselect_no_statuses_match: "No statuses match"
+      filter_multiselect_country_placeholder: "Search countries…"
+      filter_multiselect_all_countries: "All countries"
+      filter_multiselect_countries_count:
+        one: "1 country"
+        other: "%{count} countries"
+      filter_multiselect_no_countries_match: "No countries match"
+      filter_multiselect_period_placeholder: "Search periods…"
+      filter_multiselect_all_periods: "All periods"
+      filter_multiselect_periods_count:
+        one: "1 period"
+        other: "%{count} periods"
+      filter_multiselect_no_periods_match: "No periods match"
       expired: "Expired"
       locked: "Locked"
       verified: "Verified"

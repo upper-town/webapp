@@ -31,15 +31,25 @@
     </button>
     <div class="dropdown-menu p-2" role="listbox">
       <div role="group">
-        <input
-          type="search"
-          class="form-control form-control-sm mb-2"
-          placeholder="<%= placeholder %>"
-          autocomplete="off"
-          data-admin-fetchable-multi-select-filter-target="searchInput"
-          data-action="input->admin-fetchable-multi-select-filter#filter change->admin-fetchable-multi-select-filter#onSearchChange keydown->admin-fetchable-multi-select-filter#handleKeydown focus->admin-fetchable-multi-select-filter#onSearchFocus"
-          aria-label="<%= placeholder %>"
-        >
+        <div class="input-group input-group-sm mb-2">
+          <input
+            type="search"
+            class="form-control"
+            placeholder="<%= placeholder %>"
+            autocomplete="off"
+            data-admin-fetchable-multi-select-filter-target="searchInput"
+            data-action="input->admin-fetchable-multi-select-filter#filter change->admin-fetchable-multi-select-filter#onSearchChange keydown->admin-fetchable-multi-select-filter#handleKeydown keydown.enter->admin-fetchable-multi-select-filter#submitForm focus->admin-fetchable-multi-select-filter#onSearchFocus"
+            aria-label="<%= placeholder %>"
+          >
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            data-action="click->admin-fetchable-multi-select-filter#submitForm"
+            aria-label="<%= apply_label %>"
+          >
+            <%= apply_label %>
+          </button>
+        </div>
         <turbo-frame id="<%= options_list_id %>" data-admin-fetchable-multi-select-filter-target="optionsFrame" role="group">
           <div data-admin-fetchable-multi-select-filter-target="optionsList" role="group">
             <% static_options.each do |name, id| %>
@@ -56,7 +66,7 @@
                   <input
                     type="checkbox"
                     class="form-check-input"
-                    <%= "checked" if selected_ids.include?(id.to_s) %>
+                    <%= "checked" if option_checked?(id) %>
                     tabindex="-1"
                     aria-hidden="true"
                   >

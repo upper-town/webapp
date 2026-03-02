@@ -9,7 +9,7 @@ class Admin::MultiSelectFilterComponentTest < ViewComponent::TestCase
   end
 
   describe "rendering" do
-    it "renders dropdown with options" do
+    it "renders dropdown with options and apply button" do
       render_inline(described_class.new(
         form: build_form,
         param_name: "game_ids",
@@ -19,6 +19,7 @@ class Admin::MultiSelectFilterComponentTest < ViewComponent::TestCase
       assert_selector("[data-controller='admin-multi-select-filter']")
       assert_selector("button[data-bs-toggle='dropdown']", text: /All/i)
       assert_selector("input[type='search']")
+      assert_selector("button.btn-outline-primary", text: "Apply")
       assert_selector("button[role='option']", text: "Minecraft")
       assert_selector("button[role='option']", text: "PWI")
     end

@@ -1,6 +1,6 @@
 module Admin
   class AccountMultiSelectFilterComponent < ApplicationComponent
-    attr_reader :inner
+    attr_reader :inner, :form, :selected_ids, :selected_labels
 
     STATIC_OPTIONS = [[I18n.t("admin.shared.anonymous"), Admin::ServerVotesQuery::ANONYMOUS_VALUE]].freeze
 
@@ -15,10 +15,10 @@ module Admin
 
     def before_render
       @inner = Admin::FetchableMultiSelectFilterComponent.new(
-        form: @form,
+        form:,
         param_name: "account_ids",
-        selected_ids: @selected_ids,
-        selected_labels: @selected_labels,
+        selected_ids:,
+        selected_labels:,
         static_options: STATIC_OPTIONS,
         placeholder: I18n.t("admin.shared.filter_multiselect_account_remote_placeholder"),
         all_label: I18n.t("admin.shared.filter_multiselect_all_accounts"),

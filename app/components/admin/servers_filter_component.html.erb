@@ -1,31 +1,25 @@
-<%= render(Admin::SimpleFilterComponent.new(
+<%= render(Admin::FilterComponent.new(
   form: form,
   has_active_filters: has_active_filters?,
   params_to_remove: FILTER_PARAMS,
-  request: @request
+  request: request
 )) do %>
-  <%= form.select(
-    :status,
-    options_for_select(status_options, selected_value_status),
-    {},
-    {
-      id: "admin_servers_filter_status",
-      class: select_class,
-      "aria-label": t("admin.servers.index.filter.status")
-    }
-  ) %>
-  <%= render(Admin::GameMultiSelectFilterComponent.new(
+  <%= render(Admin::StatusMultiSelectFilterComponent.new(
     form: form,
-    selected_ids: selected_game_ids,
-    options: game_options,
-    aria_label: Server.human_attribute_name(:game)
+    selected_ids: selected_status_ids,
+    aria_label: t("admin.servers.index.filter.status")
   )) %>
-  <%= render(CountrySelectComponent.new(
-    form,
-    only_in_use: true,
-    blank_name: t("admin.servers.index.filter.all_countries"),
-    selected_value: selected_value_country_code,
-    select_class: select_class,
+  <% unless hide_game_filter %>
+    <%= render(Admin::GameMultiSelectFilterComponent.new(
+      form: form,
+      selected_ids: selected_game_ids,
+      options: game_options,
+      aria_label: Server.human_attribute_name(:game)
+    )) %>
+  <% end %>
+  <%= render(Admin::CountryMultiSelectFilterComponent.new(
+    form: form,
+    selected_ids: selected_country_codes,
     aria_label: Server.human_attribute_name(:country)
   )) %>
 <% end %>

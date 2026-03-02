@@ -1,8 +1,8 @@
 module Admin
   class FetchableMultiSelectFilterComponent < ApplicationComponent
     attr_reader :form, :param_name, :selected_ids, :selected_labels, :static_options,
-                :placeholder, :all_label, :count_label, :count_label_one, :no_results_label,
-                :aria_label, :select_class, :input_id, :dropdown_id, :options_list_id,
+                :placeholder, :apply_label, :all_label, :count_label, :count_label_one,
+                :no_results_label, :aria_label, :select_class, :dropdown_id, :options_list_id,
                 :search_url, :search_url_params, :min_chars, :min_chars_label, :loading_label
 
     # rubocop:disable Metrics/ParameterLists
@@ -13,13 +13,13 @@ module Admin
       selected_labels: [],
       static_options: [],
       placeholder: nil,
+      apply_label: nil,
       all_label: nil,
       count_label: nil,
       count_label_one: nil,
       no_results_label: nil,
       aria_label: nil,
       select_class: nil,
-      input_id: nil,
       dropdown_id: nil,
       options_list_id: nil,
       search_url:,
@@ -31,11 +31,12 @@ module Admin
       super()
 
       @form = form
-      @param_name = param_name.to_s.delete_suffix("[]")
-      @selected_ids = Array(selected_ids).map(&:to_s).compact_blank
+      @param_name = normalize_param_name(param_name)
+      @selected_ids = normalize_ids(selected_ids)
       @selected_labels = Array(selected_labels)
       @static_options = static_options
       @placeholder = placeholder || I18n.t("admin.shared.filter_multiselect_placeholder")
+      @apply_label = apply_label || I18n.t("admin.shared.filter_multiselect_apply")
       @all_label = all_label || I18n.t("admin.shared.filter_multiselect_all")
       # rubocop:disable Style/FormatStringToken
       @count_label = count_label || I18n.t("admin.shared.filter_multiselect_count.other")
@@ -43,8 +44,7 @@ module Admin
       # rubocop:enable Style/FormatStringToken
       @no_results_label = no_results_label || I18n.t("admin.shared.filter_multiselect_no_results")
       @aria_label = aria_label
-      @select_class = select_class || "form-select form-select-sm admin-servers-filter-inline__select btn"
-      @input_id = input_id || "admin_fetchable_multi_select_filter_input_#{@param_name}"
+      @select_class = select_class || Admin::MultiSelectFilterComponent::DEFAULT_SELECT_CLASS
       @dropdown_id = dropdown_id || "admin_fetchable_multi_select_filter_dropdown_#{@param_name}"
       @options_list_id = options_list_id || "admin_fetchable_multi_select_filter_options_#{@param_name}"
       @search_url = search_url
@@ -59,8 +59,7 @@ module Admin
       return unless search_url.present?
 
       params = search_url_params.merge("target" => options_list_id)
-      query = params.map { |k, v| "#{k}=#{ERB::Util.url_encode(v.to_s)}" }.join("&")
-      "#{search_url}?#{query}"
+      "#{search_url}?#{params.to_query}"
     end
 
     def selected_options_from_labels
@@ -87,6 +86,10 @@ module Admin
 
     def hidden_input_name
       "#{param_name}[]"
+    end
+
+    def option_checked?(id)
+      selected_ids.include?(id.to_s)
     end
   end
 end

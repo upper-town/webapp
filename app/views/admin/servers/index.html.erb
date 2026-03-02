@@ -11,16 +11,12 @@
     method: :get,
     url: admin_servers_path,
     class: "d-flex align-items-center gap-2 flex-wrap admin-servers-filter-inline",
-    html: { "aria-label": t("admin.servers.index.filter.title") },
-    data: {
-      controller: "admin-filter",
-      action: "change->admin-filter#filter"
-    }
+    html: { "aria-label": t("admin.servers.index.filter.title") }
   ) do |form| %>
     <%= render(Admin::ServersFilterComponent.new(
       form: form,
-      selected_value_status: @filter_status,
-      selected_value_country_code: @filter_country_code,
+      selected_status_ids: @filter_status_ids,
+      selected_country_codes: @filter_country_codes,
       selected_game_ids: @filter_game_ids,
       request: request
     )) %>
@@ -29,7 +25,7 @@
     url: admin_servers_path,
     search_term: @search_term,
     placeholder: t("admin.servers.index.search_placeholder"),
-    hidden_params: params.permit(:status, :country_code, { game_ids: [] }, :sort, :sort_dir).to_h.compact
+    hidden_params: params.permit({ status: [] }, { country_codes: [] }, { game_ids: [] }, :sort, :sort_dir).to_h.compact
   )) %>
 </div>
 

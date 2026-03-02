@@ -2,13 +2,13 @@ module Admin
   class ServerStatsController < BaseController
     def index
       @search_term = params[:q]
-      @filter_period = params[:period]
+      @filter_periods = params[:periods]
       @sort_column = params[:sort].presence
       @sort_direction = params[:sort_dir].presence
       relation = Admin::ServerStatsQuery.call(
         server_id: params[:server_id],
         game_id: params[:game_id],
-        period: @filter_period,
+        periods: @filter_periods,
         sort: @sort_column,
         sort_dir: @sort_direction
       )

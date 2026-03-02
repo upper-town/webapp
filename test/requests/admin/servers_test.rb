@@ -20,7 +20,7 @@ class Admin::ServersRequestTest < ActionDispatch::IntegrationTest
       sign_in_as_admin
       create_server(verified_at: Time.current, country_code: "US")
 
-      get(admin_servers_path, params: { status: "verified", country_code: "US", q: "test" })
+      get(admin_servers_path, params: { status: ["verified"], country_codes: ["US"], q: "test" })
 
       assert_response(:success)
     end
@@ -42,8 +42,8 @@ class Admin::ServersRequestTest < ActionDispatch::IntegrationTest
       create_server(verified_at: Time.current, country_code: "US", name: "Test Server")
 
       get(admin_servers_path, params: {
-        status: "verified",
-        country_code: "US",
+        status: ["verified"],
+        country_codes: ["US"],
         q: "Test",
         sort: "name",
         sort_dir: "asc"

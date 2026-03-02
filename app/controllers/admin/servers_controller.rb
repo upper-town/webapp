@@ -2,14 +2,14 @@ module Admin
   class ServersController < BaseController
     def index
       @search_term = params[:q]
-      @filter_status = params[:status]
-      @filter_country_code = params[:country_code]
+      @filter_status_ids = params[:status]
+      @filter_country_codes = params[:country_codes]
       @filter_game_ids = params[:game_ids]
       @sort_column = params[:sort].presence
       @sort_direction = params[:sort_dir].presence
       relation = Admin::ServersQuery.call(
-        status: @filter_status,
-        country_code: @filter_country_code,
+        status: @filter_status_ids,
+        country_codes: @filter_country_codes,
         game_ids: @filter_game_ids,
         sort: @sort_column,
         sort_dir: @sort_direction

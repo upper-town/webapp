@@ -1,7 +1,7 @@
 require "test_helper"
 
-class Admin::SimpleFilterComponentTest < ViewComponent::TestCase
-  let(:described_class) { Admin::SimpleFilterComponent }
+class Admin::FilterComponentTest < ViewComponent::TestCase
+  let(:described_class) { Admin::FilterComponent }
 
   def build_form
     view_context = ApplicationController.new.view_context

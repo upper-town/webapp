@@ -28,10 +28,13 @@ All components inherit from `ApplicationComponent < ViewComponent::Base`. Use Bo
 | `Admin::DetailsTableComponent` | Admin key-value detail views with optional copy; includes `Admin::CopyableCell` |
 | `Admin::CopyableCell` | Module (not a component) providing `copy_cell_wrapper` and `copy_button_html`; included by `Admin::TableComponent` and `Admin::DetailsTableComponent` |
 | `Admin::SearchFormComponent` | Admin search/filter forms |
-| `Admin::SimpleFilterComponent` | Reusable admin filter wrapper (fields via block, hidden params, clear button); used by `ServersFilterComponent`, `ServerStatsFilterComponent` |
+| `Admin::FilterComponent` | Reusable admin filter wrapper (fields via block, hidden params, clear button); used by `ServersFilterComponent`, `ServerStatsFilterComponent` |
 | `Admin::MultiSelectFilterComponent` | Multi-select with client-side filtering; static options only; used by `GameMultiSelectFilterComponent`, `ServerMultiSelectFilterComponent` |
 | `Admin::FetchableMultiSelectFilterComponent` | Multi-select with backend fetch; options built dynamically as user searches; used only by `AccountMultiSelectFilterComponent` on admin server votes |
 | `Admin::GameMultiSelectFilterComponent` | Game-specific wrapper for `MultiSelectFilterComponent`; used on admin servers index |
+| `Admin::StatusMultiSelectFilterComponent` | Status-specific wrapper for `MultiSelectFilterComponent`; used on admin servers index |
+| `Admin::CountryMultiSelectFilterComponent` | Country-specific wrapper for `MultiSelectFilterComponent`; used on admin servers index |
+| `Admin::PeriodMultiSelectFilterComponent` | Period-specific wrapper for `MultiSelectFilterComponent`; used on admin server stats index |
 | `Admin::ServerStatusBadgesComponent` | Server status badges (verified, archived, etc.) |
 | `Admin::IndexActionsComponent`, `Admin::ShowActionsComponent` | Admin action buttons |
 

@@ -64,7 +64,7 @@ class Admin::GamesRequestTest < ActionDispatch::IntegrationTest
       game = create_game
       create_server(game: game, verified_at: Time.current, country_code: "US")
 
-      get(servers_admin_game_path(game), params: { status: "verified", country_code: "US", q: "test" })
+      get(servers_admin_game_path(game), params: { status: ["verified"], country_codes: ["US"], q: "test" })
 
       assert_response(:success)
     end

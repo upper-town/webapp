@@ -15,10 +15,10 @@ module Admin
 
     DEFAULT_SORT = { column: "reference_date", direction: :desc }.freeze
 
-    def initialize(server_id: nil, game_id: nil, period: nil, sort: nil, sort_dir: nil)
+    def initialize(server_id: nil, game_id: nil, period: nil, periods: nil, sort: nil, sort_dir: nil)
       @server_id = server_id
       @game_id = game_id
-      @period = period.presence
+      @periods = Array(periods || period).flatten.map(&:to_s).compact_blank.presence
       @sort = sort.presence
       @sort_dir = sort_dir.presence
     end
@@ -27,7 +27,7 @@ module Admin
       scope = ServerStat.includes(:server, :game).left_joins(:server, :game)
       scope = scope.where(server_id: @server_id) if @server_id.present?
       scope = scope.where(game_id: @game_id) if @game_id.present?
-      scope = scope.where(period: @period) if @period.present?
+      scope = scope.where(period: @periods) if @periods.present?
       apply_sort(scope)
     end
 

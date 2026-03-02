@@ -6,7 +6,7 @@ import { Controller } from '@hotwired/stimulus'
  * - Options are built dynamically as the user searches (remote mode)
  * - Click to toggle selection
  * - Updates hidden inputs for form submission
- * - Dispatches change event for admin-filter auto-submit
+ * - Submits form on selection change
  *
  * Requires data-admin-fetchable-multi-select-filter-param-name-value (e.g. "game_ids").
  * When data-admin-fetchable-multi-select-filter-search-url-value is set, uses remote search via Turbo.visit +
@@ -39,7 +39,6 @@ export default class extends Controller {
     this.labelCache = this.buildLabelCacheFromSelectedLabels()
     this.searchDebounceTimer = null
 
-    this.options = [...this.staticOptions]
     this.updateTriggerText()
     const hasSelectedNotStatic = this.selectedIds.some(
       (id) => !this.staticOptions.some(([, optId]) => String(optId) === id)
@@ -70,8 +69,11 @@ export default class extends Controller {
   }
 
   filter(event) {
-    const query = event?.target?.value ?? this.searchInputTarget?.value ?? ''
-    this.filterRemote(query)
+    this.filterRemote(this.searchQuery(event))
+  }
+
+  searchQuery(event) {
+    return event?.target?.value ?? this.searchInputTarget?.value ?? ''
   }
 
   filterRemote(query) {
@@ -161,7 +163,6 @@ export default class extends Controller {
     this.syncHiddenInputs()
     this.syncCheckboxes()
     this.updateTriggerText()
-    this.submitForm()
   }
 
   syncHiddenInputs() {
@@ -202,21 +203,22 @@ export default class extends Controller {
 
   submitForm() {
     const form = this.element.closest('form')
-    if (form) {
-      form.requestSubmit()
-    }
+    if (form) form.requestSubmit()
   }
 
   handleKeydown(event) {
     if (event.key === 'Escape') {
-      const bsDropdown = this.dropdownTarget?.querySelector('[data-bs-toggle="dropdown"]')
-      if (bsDropdown && window.bootstrap?.Dropdown) {
-        const dropdown = bootstrap.Dropdown.getInstance(bsDropdown)
-        if (dropdown) dropdown.hide()
-      }
+      this.hideDropdown()
     } else if (event.key === 'Enter') {
       event.preventDefault()
       event.stopPropagation()
+    }
+  }
+
+  hideDropdown() {
+    const toggle = this.dropdownTarget?.querySelector('[data-bs-toggle="dropdown"]')
+    if (toggle && window.bootstrap?.Dropdown) {
+      bootstrap.Dropdown.getInstance(toggle)?.hide()
     }
   }
 

@@ -20,11 +20,7 @@
     method: :get,
     url: admin_server_votes_path,
     class: "d-flex align-items-center gap-2 flex-wrap admin-servers-filter-inline",
-    html: { "aria-label": t("admin.server_votes.index.filter.title") },
-    data: {
-      controller: "admin-filter",
-      action: "change->admin-filter#filter"
-    }
+    html: { "aria-label": t("admin.server_votes.index.filter.title") }
   ) do |form| %>
     <%= render(Admin::ServerVotesFilterComponent.new(
       form: form,

@@ -21,9 +21,9 @@ module Admin
 
     DEFAULT_SORT = { column: "id", direction: :desc }.freeze
 
-    def initialize(status: nil, country_code: nil, game_ids: nil, relation: nil, sort: nil, sort_dir: nil)
-      @status = status.presence
-      @country_code = country_code.presence
+    def initialize(status: nil, country_code: nil, country_codes: nil, game_ids: nil, relation: nil, sort: nil, sort_dir: nil)
+      @status_ids = Array(status).flatten.map(&:to_s).compact_blank.presence
+      @country_codes = Array(country_codes || country_code).flatten.map(&:to_s).compact_blank.presence
       @game_ids = Array(game_ids).flatten.map(&:to_s).compact_blank.presence
       @relation = relation
       @sort = sort.presence
@@ -41,16 +41,18 @@ module Admin
     private
 
     def apply_status_filter(relation)
-      scope_name = STATUS_SCOPES[@status]
-      return relation unless scope_name
+      return relation unless @status_ids.present?
 
-      relation.public_send(scope_name)
+      scopes = @status_ids.filter_map { |s| STATUS_SCOPES[s] }.uniq
+      return relation if scopes.empty?
+
+      scopes.map { |scope_name| relation.public_send(scope_name) }.reduce(:or)
     end
 
     def apply_country_filter(relation)
-      return relation unless @country_code
+      return relation unless @country_codes.present?
 
-      relation.where(country_code: @country_code)
+      relation.where(country_code: @country_codes)
     end
 
     def apply_game_ids_filter(relation)
