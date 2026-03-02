@@ -7,11 +7,10 @@ class Servers::IndexResultComponentTest < ViewComponent::TestCase
     described_class.new(server:, server_stats_hash:, period:, show_more_info:)
   end
 
-  def build_stats_hash(year: {}, month: {}, week: {})
+  def build_stats_hash(year: {}, month: {})
     {
       Periods::YEAR => { ranking_number: nil, vote_count: nil }.merge(year),
-      Periods::MONTH => { ranking_number: nil, vote_count: nil }.merge(month),
-      Periods::WEEK => { ranking_number: nil, vote_count: nil }.merge(week)
+      Periods::MONTH => { ranking_number: nil, vote_count: nil }.merge(month)
     }
   end
 
@@ -98,38 +97,34 @@ class Servers::IndexResultComponentTest < ViewComponent::TestCase
     it "renders ranking numbers for all periods" do
       server = create_server
       stats = build_stats_hash(
-        year:  { ranking_number: 1  },
-        month: { ranking_number: 5  },
-        week:  { ranking_number: 10 }
+        year:  { ranking_number: 1 },
+        month: { ranking_number: 5 }
       )
 
       render_inline(build_component(server:, server_stats_hash: stats))
 
       assert_text("#1")
       assert_text("#5")
-      assert_text("#10")
     end
 
     it "renders vote counts for all periods" do
       server = create_server
       stats = build_stats_hash(
         year:  { vote_count: 1_000 },
-        month: { vote_count: 200   },
-        week:  { vote_count: 50    }
+        month: { vote_count: 200   }
       )
 
       render_inline(build_component(server:, server_stats_hash: stats))
 
       assert_text("1,000")
       assert_text("200")
-      assert_text("50")
     end
 
     it "highlights the active period in world ranking" do
       server = create_server
       stats = build_stats_hash
 
-      render_inline(build_component(server:, server_stats_hash: stats, period: Periods::WEEK))
+      render_inline(build_component(server:, server_stats_hash: stats, period: Periods::YEAR))
 
       assert_selector(".border-primary", minimum: 1)
     end

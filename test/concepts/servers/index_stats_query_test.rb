@@ -21,7 +21,6 @@ class Servers::IndexStatsQueryTest < ActiveSupport::TestCase
   describe "#call" do
     it "returns accordingly" do
       create_servers_and_votes(
-        Time.iso8601("2024-01-07T12:00:00Z"),
         Time.iso8601("2024-01-31T12:00:00Z"),
         Time.iso8601("2024-12-31T12:00:00Z"),
         [
@@ -51,23 +50,19 @@ class Servers::IndexStatsQueryTest < ActiveSupport::TestCase
           {
             Server.find_by!(name: "Server 1").id => {
               "year"  => { ranking_number: 1, vote_count: 300 },
-              "month" => { ranking_number: 5, vote_count:  30 },
-              "week"  => { ranking_number: 6, vote_count:   3 }
+              "month" => { ranking_number: 5, vote_count:  30 }
             },
             Server.find_by!(name: "Server 2").id => {
               "year"  => { ranking_number: 5, vote_count: 160 },
-              "month" => { ranking_number: 1, vote_count: 150 },
-              "week"  => { ranking_number: 4, vote_count:  10 }
+              "month" => { ranking_number: 1, vote_count: 150 }
             },
             Server.find_by!(name: "Server 3").id => {
               "year"  => { ranking_number: 3, vote_count: 175 },
-              "month" => { ranking_number: 3, vote_count: 100 },
-              "week"  => { ranking_number: 2, vote_count:  75 }
+              "month" => { ranking_number: 3, vote_count: 100 }
             },
             Server.find_by!(name: "Server 4").id => {
               "year"  => { ranking_number: 7, vote_count: 30 },
-              "month" => { ranking_number: 8, vote_count:  5 },
-              "week"  => { ranking_number: 5, vote_count:  5 }
+              "month" => { ranking_number: 8, vote_count:  5 }
             },
             Server.find_by!(name: "Server 5").id => {
               "year"  => { ranking_number: 8, vote_count: 20 },
@@ -79,33 +74,27 @@ class Servers::IndexStatsQueryTest < ActiveSupport::TestCase
             # Server.find_by!(name: 'Server 7').id => {},
             Server.find_by!(name: "Server 8").id => {
               "year"  => { ranking_number: 2, vote_count: 200 },
-              "month" => { ranking_number: 6, vote_count:  20 },
-              "week"  => { ranking_number: 7, vote_count:   1 }
+              "month" => { ranking_number: 6, vote_count:  20 }
             },
             Server.find_by!(name: "Server 9").id => {
               "year"  => { ranking_number: 4, vote_count: 170 },
-              "month" => { ranking_number: 2, vote_count: 100 },
-              "week"  => { ranking_number: 3, vote_count:  60 }
+              "month" => { ranking_number: 2, vote_count: 100 }
             },
             Server.find_by!(name: "Server 10").id => {
               "year"  => { ranking_number: 6, vote_count: 80 },
-              "month" => { ranking_number: 4, vote_count: 80 },
-              "week"  => { ranking_number: 1, vote_count: 80 }
+              "month" => { ranking_number: 4, vote_count: 80 }
             },
             Server.find_by!(name: "Server 11").id => {
               "year"  => { ranking_number: 1, vote_count: 220 },
-              "month" => { ranking_number: 3, vote_count:  25 },
-              "week"  => { ranking_number: 3, vote_count:   2 }
+              "month" => { ranking_number: 3, vote_count:  25 }
             },
             Server.find_by!(name: "Server 12").id => {
               "year"  => { ranking_number: 2, vote_count: 190 },
-              "month" => { ranking_number: 1, vote_count: 110 },
-              "week"  => { ranking_number: 2, vote_count:  40 }
+              "month" => { ranking_number: 1, vote_count: 110 }
             },
             Server.find_by!(name: "Server 13").id => {
               "year"  => { ranking_number: 3, vote_count: 50 },
-              "month" => { ranking_number: 2, vote_count: 50 },
-              "week"  => { ranking_number: 1, vote_count: 50 }
+              "month" => { ranking_number: 2, vote_count: 50 }
             }
           },
           query_result(Server.pluck(:id), current_time)
@@ -118,22 +107,24 @@ class Servers::IndexStatsQueryTest < ActiveSupport::TestCase
     Servers::IndexStatsQuery.new(server_ids, current_time).call
   end
 
-  def create_servers_and_votes(week_time, month_time, year_time, rows)
-    rows.each do |game_name, server_name, country_code, votes_week, votes_month, votes_year|
+  def create_servers_and_votes(month_time, year_time, rows)
+    min_time = month_time.beginning_of_month + 6.days
+
+    rows.each do |game_name, server_name, country_code, votes_min, votes_month, votes_year|
       game = Game.find_by(name: game_name)
       game ||= create_game(name: game_name)
 
       server = Server.find_by(name: server_name)
       server ||= create_server(game:, name: server_name, country_code:)
 
-      votes_week.times do
+      votes_min.times do
         create_server_vote(
           server:,
           game: server.game,
-          created_at: week_time
+          created_at: min_time
         )
       end
-      (votes_month - votes_week).times do
+      (votes_month - votes_min).times do
         create_server_vote(
           server:,
           game: server.game,
@@ -150,10 +141,10 @@ class Servers::IndexStatsQueryTest < ActiveSupport::TestCase
     end
 
     Server.find_each do |server|
-      Servers::ConsolidateVoteCounts.call(server, nil, week_time, year_time)
+      Servers::ConsolidateVoteCounts.call(server, nil, min_time, year_time)
     end
     Game.find_each do |game|
-      Servers::ConsolidateRankings.call(game, nil, week_time, year_time)
+      Servers::ConsolidateRankings.call(game, nil, min_time, year_time)
     end
   end
 end

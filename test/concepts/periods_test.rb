@@ -34,16 +34,6 @@ class PeriodsTest < ActiveSupport::TestCase
       end
     end
 
-    describe "when period is week" do
-      it "returns the end_of_week date in UTC" do
-        reference_date = described_class.reference_date_for(
-          "week", Time.iso8601("2024-09-01T21:00:00-03")
-        )
-
-        assert_equal(Date.iso8601("2024-09-08"), reference_date)
-      end
-    end
-
     describe "when period is something else" do
       it "raises an error" do
         error = assert_raises(StandardError) do
@@ -82,19 +72,6 @@ class PeriodsTest < ActiveSupport::TestCase
       end
     end
 
-    describe "when period is week" do
-      it "returns the end_of_week date in UTC" do
-        reference_range = described_class.reference_range_for(
-          "week", Time.iso8601("2024-09-01T21:00:00-03")
-        )
-
-        assert_equal(
-          Time.iso8601("2024-09-02T00:00:00Z")..Time.iso8601("2024-09-08T23:59:59.999999999Z"),
-          reference_range
-        )
-      end
-    end
-
     describe "when period is something else" do
       it "raises an error" do
         error = assert_raises(StandardError) do
@@ -124,16 +101,6 @@ class PeriodsTest < ActiveSupport::TestCase
         )
 
         assert_equal(Time.iso8601("2024-10-01T00:00:00Z"), reference_date)
-      end
-    end
-
-    describe "when period is week" do
-      it "returns the beginning of next_week time in UTC" do
-        reference_date = described_class.next_time_for(
-          "week", Time.iso8601("2024-09-01T21:00:00-03")
-        )
-
-        assert_equal(Time.iso8601("2024-09-09T00:00:00Z"), reference_date)
       end
     end
 
@@ -231,44 +198,6 @@ class PeriodsTest < ActiveSupport::TestCase
               [
                 Date.iso8601("2025-01-31"),
                 Time.iso8601("2025-01-01T00:00:00Z")..Time.iso8601("2025-01-31T23:59:59.999999999Z")
-              ]
-            ],
-            yielded_args
-          )
-        end
-      end
-    end
-
-    describe "when period is week" do
-      it "yields all reference_date and reference_range weeks in UTC between past_time and current_time" do
-        around_loop_through do
-          yielded_args = []
-
-          described_class.loop_through(
-            "week",
-            Time.iso8601("2024-09-01T21:00:00-03"),
-            Time.iso8601("2024-09-22T21:00:00-03")
-          ) do |*args|
-            yielded_args << args
-          end
-
-          assert_equal(
-            [
-              [
-                Date.iso8601("2024-09-08"),
-                Time.iso8601("2024-09-02T00:00:00Z")..Time.iso8601("2024-09-08T23:59:59.999999999Z")
-              ],
-              [
-                Date.iso8601("2024-09-15"),
-                Time.iso8601("2024-09-09T00:00:00Z")..Time.iso8601("2024-09-15T23:59:59.999999999Z")
-              ],
-              [
-                Date.iso8601("2024-09-22"),
-                Time.iso8601("2024-09-16T00:00:00Z")..Time.iso8601("2024-09-22T23:59:59.999999999Z")
-              ],
-              [
-                Date.iso8601("2024-09-29"),
-                Time.iso8601("2024-09-23T00:00:00Z")..Time.iso8601("2024-09-29T23:59:59.999999999Z")
               ]
             ],
             yielded_args

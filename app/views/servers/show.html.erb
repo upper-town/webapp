@@ -55,7 +55,6 @@
               <th></th>
               <th class="text-center"><%= t("servers.show.period_year") %></th>
               <th class="text-center"><%= t("servers.show.period_month") %></th>
-              <th class="text-center"><%= t("servers.show.period_week") %></th>
             </tr>
           </thead>
           <tbody>
@@ -63,13 +62,11 @@
               <td><%= t("servers.show.ranking") %></td>
               <td class="text-center"><%= format_server_ranking(stats.dig(Periods::YEAR, :ranking_number)) %></td>
               <td class="text-center"><%= format_server_ranking(stats.dig(Periods::MONTH, :ranking_number)) %></td>
-              <td class="text-center"><%= format_server_ranking(stats.dig(Periods::WEEK, :ranking_number)) %></td>
             </tr>
             <tr>
               <td><%= t("servers.show.votes") %></td>
               <td class="text-center"><%= format_server_vote_count(stats.dig(Periods::YEAR, :vote_count)) %></td>
               <td class="text-center"><%= format_server_vote_count(stats.dig(Periods::MONTH, :vote_count)) %></td>
-              <td class="text-center"><%= format_server_vote_count(stats.dig(Periods::WEEK, :vote_count)) %></td>
             </tr>
           </tbody>
         </table>

@@ -10,17 +10,6 @@ class Servers::StatsPreviousConsolidatorJobTest < ActiveSupport::TestCase
       travel_to(current_time) do
         called = 0
         Servers::StatsConsolidator.stub(:call, ->(periods, time) do
-          assert_equal(["week"], periods)
-          assert_equal(Time.iso8601("2025-06-08T23:59:59.999999999Z"), time)
-          called += 1
-          nil
-        end) do
-          described_class.new.perform("week")
-        end
-        assert_equal(1, called)
-
-        called = 0
-        Servers::StatsConsolidator.stub(:call, ->(periods, time) do
           assert_equal(["month"], periods)
           assert_equal(Time.iso8601("2025-05-31T23:59:59.999999999Z"), time)
           called += 1

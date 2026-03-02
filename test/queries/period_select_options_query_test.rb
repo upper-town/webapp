@@ -8,8 +8,7 @@ class PeriodSelectOptionsQueryTest < ActiveSupport::TestCase
       assert_equal(
         [
           ["Year",  "year"],
-          ["Month", "month"],
-          ["Week",  "week"]
+          ["Month", "month"]
         ],
         described_class.new.call
       )

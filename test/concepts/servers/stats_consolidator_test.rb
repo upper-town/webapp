@@ -43,7 +43,7 @@ class Servers::StatsConsolidatorTest < ActiveSupport::TestCase
         create_server_stat(server: server7, vote_count_consolidated_at: "2025-06-01T11:59:59Z", reference_date: "2025-06-30")
 
         create_server_vote(server: server8, created_at:      "2025-06-01T12:00:00Z")
-        create_server_stat(server: server8, vote_count_consolidated_at: "2025-06-01T11:59:59Z", reference_date: "2025-06-16") # next week
+        create_server_stat(server: server8, vote_count_consolidated_at: "2025-06-01T11:59:59Z", reference_date: "2025-05-31") # previous month, not in current period
 
         create_server_vote(server: server9, created_at:      "2025-06-10T18:00:01Z") # future vote
         create_server_stat(server: server9, vote_count_consolidated_at: "2025-06-01T11:59:59Z", reference_date: "2025-12-31")
@@ -52,14 +52,14 @@ class Servers::StatsConsolidatorTest < ActiveSupport::TestCase
         servers_consolidate_vote_counts_called = 0
         Servers::ConsolidateVoteCounts.stub(:call, ->(server, periods, time) do
           assert_includes([server1, server3, server7], server)
-          assert_equal(["year", "month", "week"], periods)
+          assert_equal(["year", "month"], periods)
           assert_equal(current_time, time)
           servers_consolidate_vote_counts_called += 1
           nil
         end) do
           Servers::ConsolidateRankings.stub(:call, ->(game, periods, time) do
             assert_includes([game1, game2], game)
-            assert_equal(["year", "month", "week"], periods)
+            assert_equal(["year", "month"], periods)
             assert_equal(current_time, time)
             servers_consolidate_rankings_called += 1
             nil

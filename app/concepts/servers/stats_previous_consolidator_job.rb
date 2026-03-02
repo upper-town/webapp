@@ -10,7 +10,6 @@ module Servers
 
     def current_time(period)
       case period
-      when Periods::WEEK  then 1.week.ago.end_of_week
       when Periods::MONTH then 1.month.ago.end_of_month
       when Periods::YEAR  then 1.year.ago.end_of_year
       else

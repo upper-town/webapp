@@ -25,7 +25,6 @@ module Servers
     #   <#Interger (Server.id)> => {
     #     "year"  => { ranking_number: <#Interger>, vote_count: <#Interger> },
     #     "month" => { ranking_number: <#Interger>, vote_count: <#Interger> },
-    #     "week"  => { ranking_number: <#Interger>, vote_count: <#Interger> },
     #   },
     #   ...
     # }

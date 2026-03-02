@@ -2,7 +2,7 @@ require "test_helper"
 
 class PeriodSelectComponentTest < ViewComponent::TestCase
   let(:described_class) { PeriodSelectComponent }
-  let(:query_data) { [["Year", "year"], ["Month", "month"], ["Week", "week"]] }
+  let(:query_data) { [["Year", "year"], ["Month", "month"]] }
 
   def build_form
     view_context = ApplicationController.new.view_context
@@ -32,16 +32,14 @@ class PeriodSelectComponentTest < ViewComponent::TestCase
 
       assert_selector("option[value='year']", text: "Year")
       assert_selector("option[value='month']", text: "Month")
-      assert_selector("option[value='week']", text: "Week")
     end
 
     it "marks the selected value on the period option" do
       with_stubbed_query do
-        render_inline(described_class.new(build_form, selected_value: "week"))
+        render_inline(described_class.new(build_form, selected_value: "year"))
       end
 
-      assert_selector("option[value='week'][selected]")
-      assert_no_selector("option[value='year'][selected]")
+      assert_selector("option[value='year'][selected]")
       assert_no_selector("option[value='month'][selected]")
     end
 
@@ -65,9 +63,9 @@ class PeriodSelectComponentTest < ViewComponent::TestCase
 
     it "accepts a custom default_value" do
       with_stubbed_query do
-        component = described_class.new(nil, default_value: Periods::WEEK)
+        component = described_class.new(nil, default_value: Periods::YEAR)
 
-        assert_equal(Periods::WEEK, component.default_value)
+        assert_equal(Periods::YEAR, component.default_value)
       end
     end
   end

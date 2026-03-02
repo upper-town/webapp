@@ -144,7 +144,7 @@ app/concepts/
 │   └── webhooks/       # Demo webhook request parsing (Demo::Webhooks::Request)
 ├── inside/             # Inside (authenticated user) dashboard
 │   └── dashboard_stats.rb
-├── periods.rb          # Year/month/week time period utilities
+├── periods.rb          # Year/month time period utilities
 ├── servers/            # Server CRUD, verification, voting, archiving, stats consolidation
 │   └── verify_accounts/  # JSON file-based account verification pipeline
 ├── users/              # User creation, auth, email confirmation, password resets, email changes

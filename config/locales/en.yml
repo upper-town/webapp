@@ -1217,7 +1217,6 @@ en:
       vote_count: "Vote Count"
       year: "Year"
       month: "Month"
-      week: "Week"
       vote_up: "Vote Up"
       more_info: "More Info"
       verified: "Verified"
@@ -1234,5 +1233,4 @@ en:
       browse_servers: "Browse servers"
       period_year: "Year"
       period_month: "Month"
-      period_week: "Week"
       verified_badge: "Verified"

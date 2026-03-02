@@ -6,11 +6,6 @@ servers_stats_consolidator_job:
   class: Servers::StatsConsolidatorJob
   schedule: "* * * * *"
 
-servers_stats_previous_consolidator_job_week:
-  class: Servers::StatsPreviousConsolidatorJob
-  schedule: "15 0 * * 1"
-  args: ["week"]
-
 servers_stats_previous_consolidator_job_month:
   class: Servers::StatsPreviousConsolidatorJob
   schedule: "30 0 1 * *"

@@ -1,13 +1,11 @@
 module Periods
   YEAR  = "year"
   MONTH = "month"
-  WEEK  = "week"
 
-  PERIODS = [YEAR, MONTH, WEEK]
+  PERIODS = [YEAR, MONTH]
   PERIOD_OPTIONS = [
     ["Year",  YEAR],
-    ["Month", MONTH],
-    ["Week",  WEEK]
+    ["Month", MONTH]
   ]
 
   extend self
@@ -22,7 +20,6 @@ module Periods
     case period
     when YEAR  then current_time.end_of_year.to_date
     when MONTH then current_time.end_of_month.to_date
-    when WEEK  then current_time.end_of_week.to_date
     else
       raise "Invalid period for Periods.reference_date_for"
     end
@@ -34,7 +31,6 @@ module Periods
     case period
     when YEAR  then current_time.all_year
     when MONTH then current_time.all_month
-    when WEEK  then current_time.all_week
     else
       raise "Invalid period for Periods.reference_range_for"
     end
@@ -46,7 +42,6 @@ module Periods
     case period
     when YEAR  then current_time.next_year
     when MONTH then current_time.next_month
-    when WEEK  then current_time.next_week
     else
       raise "Invalid period for Periods.next_time_for"
     end

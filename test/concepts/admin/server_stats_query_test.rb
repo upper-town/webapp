@@ -43,7 +43,6 @@ class Admin::ServerStatsQueryTest < ActiveSupport::TestCase
     it "filters by period when provided" do
       ss_month = create_server_stat(period: "month")
       create_server_stat(period: "year")
-      ss_week = create_server_stat(period: "week")
 
       result = described_class.call(period: "month")
 
@@ -53,14 +52,14 @@ class Admin::ServerStatsQueryTest < ActiveSupport::TestCase
 
     it "filters by multiple periods when provided" do
       ss_month = create_server_stat(period: "month")
-      ss_week = create_server_stat(period: "week")
-      create_server_stat(period: "year")
+      ss_year = create_server_stat(period: "year")
+      create_server_stat(period: "month")
 
-      result = described_class.call(periods: %w[month week])
+      result = described_class.call(periods: %w[month year])
 
-      assert_equal(2, result.size)
+      assert_equal(3, result.size)
       assert_includes(result, ss_month)
-      assert_includes(result, ss_week)
+      assert_includes(result, ss_year)
     end
 
     it "sorts by sort and sort_dir when provided" do

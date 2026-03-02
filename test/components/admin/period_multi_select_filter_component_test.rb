@@ -17,10 +17,10 @@ class Admin::PeriodMultiSelectFilterComponentTest < ViewComponent::TestCase
     end
 
     it "renders with selected periods" do
-      render_inline(described_class.new(form: build_form, selected_ids: %w[month week]))
+      render_inline(described_class.new(form: build_form, selected_ids: %w[month year]))
 
       assert_selector("input[name='periods[]'][value='month']", visible: :all)
-      assert_selector("input[name='periods[]'][value='week']", visible: :all)
+      assert_selector("input[name='periods[]'][value='year']", visible: :all)
     end
   end
 end

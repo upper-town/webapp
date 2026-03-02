@@ -38,7 +38,6 @@ class Servers::IndexQueryTest < ActiveSupport::TestCase
   describe "#call" do
     it "returns accordingly" do
       create_servers_and_votes(
-        Time.iso8601("2024-01-07T12:00:00Z"),
         Time.iso8601("2024-01-31T12:00:00Z"),
         Time.iso8601("2024-12-31T12:00:00Z"),
         [
@@ -89,18 +88,6 @@ class Servers::IndexQueryTest < ActiveSupport::TestCase
           ],
           query_result("Game A", "month",  ["US"], current_time)
         )
-        assert_equal(
-          [
-            ["Server 3", 2,    75],
-            ["Server 2", 4,    10],
-            ["Server 4", 5,     5],
-            ["Server 1", 6,     3],
-            ["Server 7", nil, nil],
-            ["Server 6", nil, nil],
-            ["Server 5", nil, nil]
-          ],
-          query_result("Game A", "week",  ["US"], current_time)
-        )
 
         # Game A, BR
         assert_equal(
@@ -118,14 +105,6 @@ class Servers::IndexQueryTest < ActiveSupport::TestCase
             ["Server 8",  6,  20]
           ],
           query_result("Game A", "month",  ["BR"], current_time)
-        )
-        assert_equal(
-          [
-            ["Server 10", 1, 80],
-            ["Server 9",  3, 60],
-            ["Server 8",  7,  1]
-          ],
-          query_result("Game A", "week",  ["BR"], current_time)
         )
 
         # Game A, all
@@ -159,21 +138,6 @@ class Servers::IndexQueryTest < ActiveSupport::TestCase
           ],
           query_result("Game A", "month",  ["US", "BR"], current_time)
         )
-        assert_equal(
-          [
-            ["Server 10", 1,    80],
-            ["Server 3",  2,    75],
-            ["Server 9",  3,    60],
-            ["Server 2",  4,    10],
-            ["Server 4",  5,     5],
-            ["Server 1",  6,     3],
-            ["Server 8",  7,     1],
-            ["Server 7",  nil, nil],
-            ["Server 6",  nil, nil],
-            ["Server 5",  nil, nil]
-          ],
-          query_result("Game A", "week",  ["US", "BR"], current_time)
-        )
 
         # Game B, US
         assert_equal(
@@ -192,14 +156,6 @@ class Servers::IndexQueryTest < ActiveSupport::TestCase
           ],
           query_result("Game B", "month", ["US"], current_time)
         )
-        assert_equal(
-          [
-            ["Server 13", 1, 50],
-            ["Server 12", 2, 40],
-            ["Server 11", 3,  2]
-          ],
-          query_result("Game B", "week", ["US"], current_time)
-        )
 
         # Game B, all
         assert_equal(
@@ -217,14 +173,6 @@ class Servers::IndexQueryTest < ActiveSupport::TestCase
             ["Server 11", 3,  25]
           ],
           query_result("Game B", "month", ["US", "BR"], current_time)
-        )
-        assert_equal(
-          [
-            ["Server 13", 1, 50],
-            ["Server 12", 2, 40],
-            ["Server 11", 3,  2]
-          ],
-          query_result("Game B", "week", ["US", "BR"], current_time)
         )
 
         # All Games, US
@@ -258,21 +206,6 @@ class Servers::IndexQueryTest < ActiveSupport::TestCase
           ],
           query_result(nil, "month", ["US"], current_time)
         )
-        assert_equal(
-          [
-            ["Server 13", 1,    50],
-            ["Server 3",  2,    75],
-            ["Server 12", 2,    40],
-            ["Server 11", 3,     2],
-            ["Server 2",  4,    10],
-            ["Server 4",  5,     5],
-            ["Server 1",  6,     3],
-            ["Server 7",  nil, nil],
-            ["Server 6",  nil, nil],
-            ["Server 5",  nil, nil]
-          ],
-          query_result(nil, "week", ["US"], current_time)
-        )
 
         # All Games, BR
         assert_equal(
@@ -290,14 +223,6 @@ class Servers::IndexQueryTest < ActiveSupport::TestCase
             ["Server 8",  6,  20]
           ],
           query_result(nil, "month",  ["BR"], current_time)
-        )
-        assert_equal(
-          [
-            ["Server 10", 1, 80],
-            ["Server 9",  3, 60],
-            ["Server 8",  7,  1]
-          ],
-          query_result(nil, "week",  ["BR"], current_time)
         )
 
         # All Games, all
@@ -337,24 +262,6 @@ class Servers::IndexQueryTest < ActiveSupport::TestCase
           ],
           query_result(nil, "month", nil, current_time)
         )
-        assert_equal(
-          [
-            ["Server 10", 1,    80],
-            ["Server 13", 1,    50],
-            ["Server 3",  2,    75],
-            ["Server 12", 2,    40],
-            ["Server 9",  3,    60],
-            ["Server 11", 3,     2],
-            ["Server 2",  4,    10],
-            ["Server 4",  5,     5],
-            ["Server 1",  6,     3],
-            ["Server 8",  7,     1],
-            ["Server 7",  nil, nil],
-            ["Server 6",  nil, nil],
-            ["Server 5",  nil, nil]
-          ],
-          query_result(nil, "week", nil, current_time)
-        )
       end
     end
   end
@@ -380,22 +287,24 @@ class Servers::IndexQueryTest < ActiveSupport::TestCase
     end
   end
 
-  def create_servers_and_votes(week_time, month_time, year_time, rows)
-    rows.each do |game_name, server_name, country_code, votes_week, votes_month, votes_year|
+  def create_servers_and_votes(month_time, year_time, rows)
+    min_time = month_time.beginning_of_month + 6.days
+
+    rows.each do |game_name, server_name, country_code, votes_min, votes_month, votes_year|
       game = Game.find_by(name: game_name)
       game ||= create_game(name: game_name)
 
       server = Server.find_by(name: server_name)
       server ||= create_server(game:, name: server_name, country_code:)
 
-      votes_week.times do
+      votes_min.times do
         create_server_vote(
           server:,
           game: server.game,
-          created_at: week_time
+          created_at: min_time
         )
       end
-      (votes_month - votes_week).times do
+      (votes_month - votes_min).times do
         create_server_vote(
           server:,
           game: server.game,
@@ -412,10 +321,10 @@ class Servers::IndexQueryTest < ActiveSupport::TestCase
     end
 
     Server.find_each do |server|
-      Servers::ConsolidateVoteCounts.call(server, nil, week_time, year_time)
+      Servers::ConsolidateVoteCounts.call(server, nil, min_time, year_time)
     end
     Game.find_each do |game|
-      Servers::ConsolidateRankings.call(game, nil, week_time, year_time)
+      Servers::ConsolidateRankings.call(game, nil, min_time, year_time)
     end
   end
 end
