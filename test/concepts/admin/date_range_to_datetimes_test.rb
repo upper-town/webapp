@@ -95,5 +95,69 @@ class Admin::DateRangeToDatetimesTest < ActiveSupport::TestCase
       assert_equal(expected_start, result[:start_datetime])
       assert_equal(expected_end, result[:end_datetime])
     end
+
+    it "combines date and time when start_time and end_time are provided" do
+      result = described_class.call(
+        start_date: "2024-01-15",
+        end_date: "2024-01-15",
+        start_time: "09:30:45",
+        end_time: "17:00:00",
+        time_zone: "UTC"
+      )
+
+      expected_start = Time.zone.parse("2024-01-15 09:30:45")
+      expected_end = Time.zone.parse("2024-01-15 17:00:00")
+
+      assert_equal(expected_start, result[:start_datetime])
+      assert_equal(expected_end, result[:end_datetime])
+    end
+
+    it "defaults to beginning_of_day when start_time is blank" do
+      result = described_class.call(
+        start_date: "2024-01-15",
+        end_date: "2024-01-15",
+        end_time: "12:00:00",
+        time_zone: "UTC"
+      )
+
+      assert_equal(Time.zone.parse("2024-01-15").beginning_of_day, result[:start_datetime])
+      assert_equal(Time.zone.parse("2024-01-15 12:00:00"), result[:end_datetime])
+    end
+
+    it "defaults to end_of_day when end_time is blank" do
+      result = described_class.call(
+        start_date: "2024-01-15",
+        end_date: "2024-01-15",
+        start_time: "08:00:00",
+        time_zone: "UTC"
+      )
+
+      assert_equal(Time.zone.parse("2024-01-15 08:00:00"), result[:start_datetime])
+      assert_equal(Time.zone.parse("2024-01-15").end_of_day, result[:end_datetime])
+    end
+
+    it "accepts HH:mm format for time" do
+      result = described_class.call(
+        start_date: "2024-01-15",
+        end_date: "2024-01-15",
+        start_time: "09:30",
+        end_time: "17:00",
+        time_zone: "UTC"
+      )
+
+      assert_equal(Time.zone.parse("2024-01-15 09:30:00"), result[:start_datetime])
+      assert_equal(Time.zone.parse("2024-01-15 17:00:00"), result[:end_datetime])
+    end
+
+    it "falls back to beginning_of_day when start_time is invalid" do
+      result = described_class.call(
+        start_date: "2024-01-15",
+        end_date: "2024-01-15",
+        start_time: "invalid",
+        time_zone: "UTC"
+      )
+
+      assert_equal(Time.zone.parse("2024-01-15").beginning_of_day, result[:start_datetime])
+    end
   end
 end

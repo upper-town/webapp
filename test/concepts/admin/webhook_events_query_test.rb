@@ -15,7 +15,7 @@ class Admin::WebhookEventsQueryTest < ActiveSupport::TestCase
           event2,
           event1
         ],
-        described_class.new.call
+        described_class.call.to_a
       )
     end
 
@@ -26,7 +26,7 @@ class Admin::WebhookEventsQueryTest < ActiveSupport::TestCase
       create_webhook_event(config: config2)
       event3 = create_webhook_event(config: config1)
 
-      result = described_class.new(webhook_config_id: config1.id).call
+      result = described_class.call(webhook_config_id: config1.id).to_a
 
       assert_equal([event3, event1], result)
     end

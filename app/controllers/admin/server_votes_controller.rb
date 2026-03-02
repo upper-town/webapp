@@ -9,8 +9,8 @@ module Admin
       @filter_end_date = params[:end_date]
       @filter_time_zone = params[:time_zone].presence || cookies["browser_time_zone"]
       @filter_time_zone_param_present = params[:time_zone].present?
-      @sort_column = params[:sort].presence
-      @sort_direction = params[:sort_dir].presence
+      @sort_key = params[:sort_key].presence
+      @sort_dir = params[:sort_dir].presence
       relation = Admin::ServerVotesQuery.call(
         server_id: params[:server_id],
         game_id: params[:game_id],
@@ -21,14 +21,11 @@ module Admin
         start_date: @filter_start_date,
         end_date: @filter_end_date,
         time_zone: @filter_time_zone,
-        sort: @sort_column,
-        sort_dir: @sort_direction
+        search_term: @search_term,
+        sort_key: @sort_key,
+        sort_dir: @sort_dir
       )
-      @pagination = Pagination.new(
-        Admin::Queries::ServerVotesQuery.call(ServerVote, relation, @search_term),
-        request,
-        per_page: 50
-      )
+      @pagination = Pagination.new(relation, request, per_page: 50)
       @server_votes = @pagination.results
       @server = single_record_for_subtitle(Server, params[:server_id], params[:server_ids])
       @game = single_record_for_subtitle(Game, params[:game_id], params[:game_ids])

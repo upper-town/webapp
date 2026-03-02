@@ -2,14 +2,14 @@ module Admin
   class TableComponent < ApplicationComponent
     include CopyableCell
 
-    attr_reader :collection, :columns, :empty_message, :sort_column, :sort_direction, :sort_url_builder
+    attr_reader :collection, :columns, :empty_message, :sort_key, :sort_dir, :sort_url_builder
 
     def initialize(
       collection: [],
       columns: [],
       empty_message: "No results",
-      sort_column: nil,
-      sort_direction: nil,
+      sort_key: nil,
+      sort_dir: nil,
       sort_url_builder: nil
     )
       super()
@@ -17,8 +17,8 @@ module Admin
       @collection = collection
       @columns = columns
       @empty_message = empty_message
-      @sort_column = sort_column.presence
-      @sort_direction = sort_direction.presence&.downcase
+      @sort_key = sort_key.presence
+      @sort_dir = sort_dir.presence&.downcase
       @sort_url_builder = sort_url_builder
     end
 
@@ -29,24 +29,24 @@ module Admin
       key.present?
     end
 
-    def sort_key(col)
+    def sortable_key(col)
       column_opts(col)&.dig(:sortable)
     end
 
     def sort_link_url(col)
-      key = sort_key(col)
-      return nil unless key
+      key = sortable_key(col)
+      return unless key
 
-      next_direction = (sort_column == key) && sort_direction == "asc" ? "desc" : "asc"
+      next_direction = (sort_key == key) && sort_dir == "asc" ? "desc" : "asc"
       sort_url_builder.call(key, next_direction)
     end
 
     def sort_icon(col)
-      key = sort_key(col)
-      return nil unless key
-      return nil unless sort_column == key
+      key = sortable_key(col)
+      return unless key
+      return unless sort_key == key
 
-      sort_direction == "asc" ? "bi-sort-down-alt" : "bi-sort-up-alt"
+      sort_dir == "asc" ? "bi-sort-down-alt" : "bi-sort-up-alt"
     end
 
     def empty?

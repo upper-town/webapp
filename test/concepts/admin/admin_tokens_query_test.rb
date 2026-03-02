@@ -15,7 +15,7 @@ class Admin::AdminTokensQueryTest < ActiveSupport::TestCase
           admin_token2,
           admin_token1
         ],
-        described_class.new.call
+        described_class.call.to_a
       )
     end
   end

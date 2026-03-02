@@ -15,7 +15,7 @@ class Admin::AdminCodesQueryTest < ActiveSupport::TestCase
           admin_code2,
           admin_code1
         ],
-        described_class.new.call
+        described_class.call.to_a
       )
     end
   end

@@ -2,12 +2,14 @@ module Admin
   class TokensController < BaseController
     def index
       @search_term = params[:q]
-      relation = Admin::TokensQuery.new.call
-      @pagination = Pagination.new(
-        Admin::Queries::TokensQuery.call(Token, relation, @search_term),
-        request,
-        per_page: 50
+      @sort_key = params[:sort_key].presence
+      @sort_dir = params[:sort_dir].presence
+      relation = Admin::TokensQuery.call(
+        search_term: @search_term,
+        sort_key: @sort_key,
+        sort_dir: @sort_dir
       )
+      @pagination = Pagination.new(relation, request, per_page: 50)
       @tokens = @pagination.results
 
       render(status: :ok)

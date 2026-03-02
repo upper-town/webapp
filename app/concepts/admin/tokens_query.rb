@@ -2,14 +2,25 @@ module Admin
   class TokensQuery
     include Callable
 
-    def initialize(user_id: nil)
+    def initialize(
+      user_id: nil,
+      search_term: nil,
+      relation: nil,
+      sort_key: nil,
+      sort_dir: nil
+    )
       @user_id = user_id
+      @search_term = search_term&.squish
+      @relation = relation
+      @sort_key = sort_key.presence
+      @sort_dir = sort_dir.presence
     end
 
     def call
-      scope = Token.includes(:user)
-      scope = scope.where(user_id: @user_id) if @user_id.present?
-      scope.order(id: :desc)
+      relation = @relation || Token.includes(:user)
+      relation = Admin::TokensFilterQuery.call(relation, user_id: @user_id)
+      relation = Admin::TokensSearchQuery.call(Token, relation, @search_term)
+      Admin::TokensSortQuery.call(relation, sort_key: @sort_key, sort_dir: @sort_dir)
     end
   end
 end

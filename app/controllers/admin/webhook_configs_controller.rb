@@ -2,12 +2,14 @@ module Admin
   class WebhookConfigsController < BaseController
     def index
       @search_term = params[:q]
-      relation = Admin::WebhookConfigsQuery.new.call
-      @pagination = Pagination.new(
-        Admin::Queries::WebhookConfigsQuery.call(WebhookConfig, relation, @search_term),
-        request,
-        per_page: 50
+      @sort_key = params[:sort_key].presence
+      @sort_dir = params[:sort_dir].presence
+      relation = Admin::WebhookConfigsQuery.call(
+        search_term: @search_term,
+        sort_key: @sort_key,
+        sort_dir: @sort_dir
       )
+      @pagination = Pagination.new(relation, request, per_page: 50)
       @webhook_configs = @pagination.results
 
       render(status: :ok)

@@ -2,26 +2,21 @@ module Admin
   class AdminRolesQuery
     include Callable
 
-    SORT_COLUMNS = {
-      "id" => "admin_roles.id",
-      "key" => "admin_roles.key",
-      "description" => "admin_roles.description"
-    }.freeze
-
-    DEFAULT_SORT = { column: "key", direction: :asc }.freeze
-
-    def initialize(sort: nil, sort_dir: nil)
-      @sort = sort.presence
+    def initialize(search_term: nil, relation: nil, sort_key: nil, sort_dir: nil)
+      @search_term = search_term&.squish
+      @relation = relation
+      @sort_key = sort_key.presence
       @sort_dir = sort_dir.presence
     end
 
     def call
-      scope = AdminRole.includes(:permissions)
-      column = SORT_COLUMNS[@sort]
-      return scope.reorder(SORT_COLUMNS[DEFAULT_SORT[:column]] => DEFAULT_SORT[:direction]) unless column
-
-      direction = @sort_dir.to_s.downcase == "asc" ? :asc : :desc
-      scope.reorder(column => direction)
+      relation = @relation || AdminRole.includes(:permissions)
+      relation = Admin::AdminRolesSearchQuery.call(AdminRole, relation, @search_term)
+      Admin::AdminRolesSortQuery.call(
+        relation,
+        sort_key: @sort_key.presence || "key",
+        sort_dir: @sort_dir.presence || "asc"
+      )
     end
   end
 end

@@ -1,7 +1,7 @@
 <h1 class="mb-4"><%= t("admin.admin_users.index.title") %></h1>
 
 <% request_helper = RequestHelper.new(request) %>
-<% sort_url_builder = ->(key, dir) { request_helper.url_with_query({ sort: key, sort_dir: dir, page: 1 }, []) } %>
+<% sort_url_builder = ->(key, dir) { request_helper.url_with_query({ sort_key: key, sort_dir: dir, page: 1 }, []) } %>
 
 <div class="admin-pagination-search-row mb-3">
   <div class="admin-pagination-search-row__pagination">
@@ -11,7 +11,7 @@
     url: admin_admin_users_path,
     search_term: @search_term,
     placeholder: t("admin.admin_users.index.search_placeholder"),
-    hidden_params: params.permit(:sort, :sort_dir).to_h.compact
+    hidden_params: params.permit(:sort_key, :sort_dir).to_h.compact
   )) %>
 </div>
 
@@ -19,8 +19,8 @@
   render(Admin::TableComponent.new(
     collection: @admin_users,
     empty_message: t("admin.admin_users.index.empty_message"),
-    sort_column: @sort_column,
-    sort_direction: @sort_direction,
+    sort_key: @sort_key,
+    sort_dir: @sort_dir,
     sort_url_builder: sort_url_builder,
     columns: [
       [t("admin.shared.id"), -> { link_to(it.id, admin_admin_user_path(it), class: "fw-medium") }, { copyable: :id, sortable: "id" }],

@@ -3,12 +3,15 @@ module Admin
     def index
       @admin_role = admin_role_from_params
       @search_term = params[:q]
-      relation = @admin_role.accounts.includes(:admin_user, :roles).order(id: :desc)
-      @pagination = Pagination.new(
-        Admin::Queries::AdminAccountsQuery.call(AdminAccount, relation, @search_term),
-        request,
-        per_page: 50
+      @sort_key = params[:sort_key].presence
+      @sort_dir = params[:sort_dir].presence
+      relation = Admin::AdminAccountsQuery.call(
+        search_term: @search_term,
+        sort_key: @sort_key,
+        sort_dir: @sort_dir,
+        relation: @admin_role.accounts.includes(:admin_user, :roles)
       )
+      @pagination = Pagination.new(relation, request, per_page: 50)
       @admin_accounts = @pagination.results
     end
 

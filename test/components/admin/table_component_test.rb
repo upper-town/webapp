@@ -127,7 +127,7 @@ class Admin::TableComponentTest < ViewComponent::TestCase
 
     it "renders sortable column as link when sort_url_builder provided" do
       user = create_user
-      sort_url_builder = ->(key, dir) { "/admin?sort=#{key}&sort_dir=#{dir}" }
+      sort_url_builder = ->(key, dir) { "/admin?sort_key=#{key}&sort_dir=#{dir}" }
       columns = [["Email", :email, { sortable: "email" }]]
       render_inline(described_class.new(
         collection: [user],
@@ -135,12 +135,12 @@ class Admin::TableComponentTest < ViewComponent::TestCase
         sort_url_builder:
       ))
 
-      assert_selector("th a.admin-table-sort-link[href='/admin?sort=email&sort_dir=asc']", text: "Email")
+      assert_selector("th a.admin-table-sort-link[href='/admin?sort_key=email&sort_dir=asc']", text: "Email")
     end
 
     it "renders non-sortable column as plain text" do
       user = create_user
-      sort_url_builder = ->(key, dir) { "/admin?sort=#{key}&sort_dir=#{dir}" }
+      sort_url_builder = ->(key, dir) { "/admin?sort_key=#{key}&sort_dir=#{dir}" }
       columns = [
         ["Email", :email, { sortable: "email" }],
         ["ID", :id]

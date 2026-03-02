@@ -12,7 +12,7 @@ module ServersHelper
   private
 
   def format_server_number(value)
-    return nil if value.nil? || value.negative?
+    return if value.nil? || value.negative?
 
     if value < 100_000
       number_with_delimiter(value)

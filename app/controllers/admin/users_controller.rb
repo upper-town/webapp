@@ -2,14 +2,27 @@ module Admin
   class UsersController < BaseController
     def index
       @search_term = params[:q]
-      @sort_column = params[:sort].presence
-      @sort_direction = params[:sort_dir].presence
-      relation = Admin::UsersQuery.call(sort: @sort_column, sort_dir: @sort_direction)
-      @pagination = Pagination.new(
-        Admin::Queries::UsersQuery.call(User, relation, @search_term),
-        request,
-        per_page: 50
+      @filter_start_date = params[:start_date]
+      @filter_end_date = params[:end_date]
+      @filter_start_time = params[:start_time]
+      @filter_end_time = params[:end_time]
+      @filter_time_zone = params[:time_zone].presence || cookies["browser_time_zone"]
+      @filter_time_zone_param_present = params[:time_zone].present?
+      @filter_date_column = params[:date_column].presence || "created_at"
+      @sort_key = params[:sort_key].presence
+      @sort_dir = params[:sort_dir].presence
+      relation = Admin::UsersQuery.call(
+        search_term: @search_term,
+        start_date: @filter_start_date,
+        end_date: @filter_end_date,
+        start_time: @filter_start_time,
+        end_time: @filter_end_time,
+        time_zone: @filter_time_zone,
+        date_column: @filter_date_column,
+        sort_key: @sort_key,
+        sort_dir: @sort_dir
       )
+      @pagination = Pagination.new(relation, request, per_page: 50)
       @users = @pagination.results
 
       render(status: :ok)

@@ -1,4 +1,6 @@
 class ValidateSiteUrl
+  # Path: one or more segments, then optional trailing slash + zero or more safe chars.
+  # Query: optional ? followed by safe chars (key=value&key2=value2).
   PATTERN = %r{
     \A
       (?<protocol>
@@ -8,7 +10,14 @@ class ValidateSiteUrl
       (?<host>
         ([a-z0-9] [a-z0-9-]{,49} \.){,4}
          [a-z0-9] [a-z0-9-]{,49} \.
-         [a-z0-9] [a-z0-9-]{,49}/?
+         [a-z0-9] [a-z0-9-]{,49}
+      )
+      (?<path>
+        (/[a-z0-9\-._~]+)*
+        (/[a-z0-9\-._~]*)?
+      )
+      (?<query>
+        (\?[a-z0-9\-._~=%&]*)?
       )
     \z
   }xi
@@ -42,6 +51,7 @@ class ValidateSiteUrl
     errors.clear
 
     validate_format
+    validate_path_safety
     validate_site_url_domain
 
     errors.empty?
@@ -57,6 +67,18 @@ class ValidateSiteUrl
     return if demo_site_url?
 
     unless site_url.match?(PATTERN)
+      @errors << :format_invalid
+    end
+  end
+
+  def validate_path_safety
+    return if demo_site_url?
+    return if errors.include?(:format_invalid)
+
+    path = site_url.match(PATTERN)&.named_captures&.fetch("path", nil).to_s
+    return if path.empty?
+
+    if path.include?("..") || path.include?("//")
       @errors << :format_invalid
     end
   end

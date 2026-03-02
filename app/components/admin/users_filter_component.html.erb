@@ -1,0 +1,21 @@
+<%= render(Admin::FilterComponent.new(
+  form: form,
+  params_to_remove: FILTER_PARAMS,
+  request: request
+)) do %>
+  <%= render(Admin::DateRangeFilterComponent.new(
+    form: form,
+    start_date: start_date,
+    end_date: end_date,
+    start_time: start_time,
+    end_time: end_time,
+    time_zone: time_zone,
+    time_zone_param_present: time_zone_param_present,
+    show_time_zone: true,
+    show_time: true,
+    show_date_column: true,
+    date_column: date_column,
+    date_column_options: date_column_options,
+    request: request
+  )) %>
+<% end %>

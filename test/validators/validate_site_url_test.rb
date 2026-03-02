@@ -116,6 +116,22 @@ class ValidateSiteUrlTest < ActiveSupport::TestCase
       end
     end
 
+    describe "path safety" do
+      it "rejects path traversal (..) in path" do
+        validator = described_class.new("https://sub1.com/foo/../bar")
+
+        assert_not(validator.valid?)
+        assert_includes(validator.errors, :format_invalid)
+      end
+
+      it "rejects double slashes in path" do
+        validator = described_class.new("https://sub1.com/foo//bar")
+
+        assert_not(validator.valid?)
+        assert_includes(validator.errors, :format_invalid)
+      end
+    end
+
     describe "when site_url is valid" do
       it "returns true and does not set errors" do
         [
@@ -137,7 +153,11 @@ class ValidateSiteUrlTest < ActiveSupport::TestCase
             "sub3xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx." \
             "sub4xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx." \
             "sub5xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx." \
-            "comxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            "comxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+
+          "https://sub1.com/path",
+          "https://sub1.com/path?key=value",
+          "https://sub1.com/foo/bar?key=value&other=123"
         ].each do |valid_site_url|
           validator = described_class.new(valid_site_url)
 

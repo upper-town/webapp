@@ -1,0 +1,16 @@
+module Admin
+  class WebhookBatchesSearchQuery < Search::Base
+    include Search::ById
+    include Search::ByName
+
+    private
+
+    def scopes
+      relation
+        .merge(
+          by_id("webhook_batches.id")
+            .or(by_name("webhook_batches.status"))
+        )
+    end
+  end
+end

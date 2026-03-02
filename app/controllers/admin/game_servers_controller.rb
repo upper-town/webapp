@@ -5,20 +5,17 @@ module Admin
       @search_term = params[:q]
       @filter_status_ids = params[:status]
       @filter_country_codes = params[:country_codes]
-      @sort_column = params[:sort].presence
-      @sort_direction = params[:sort_dir].presence
+      @sort_key = params[:sort_key].presence
+      @sort_dir = params[:sort_dir].presence
       relation = Admin::ServersQuery.call(
         status: @filter_status_ids,
         country_codes: @filter_country_codes,
+        search_term: @search_term,
         relation: @game.servers,
-        sort: @sort_column,
-        sort_dir: @sort_direction
+        sort_key: @sort_key,
+        sort_dir: @sort_dir
       )
-      @pagination = Pagination.new(
-        Admin::Queries::ServersQuery.call(Server, relation, @search_term),
-        request,
-        per_page: 50
-      )
+      @pagination = Pagination.new(relation, request, per_page: 50)
       @servers = @pagination.results
     end
 

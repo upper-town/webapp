@@ -31,10 +31,10 @@ class Admin::ServersRequestTest < ActionDispatch::IntegrationTest
       create_server(name: "Beta")
       create_server(name: "Gamma")
 
-      get(admin_servers_path, params: { sort: "name", sort_dir: "asc" })
+      get(admin_servers_path, params: { sort_key: "name", sort_dir: "asc" })
 
       assert_response(:success)
-      assert_select "th a.admin-table-sort-link[href*='sort=name']"
+      assert_select "th a.admin-table-sort-link[href*='sort_key=name']"
     end
 
     it "preserves sort params with filters and search" do
@@ -45,13 +45,13 @@ class Admin::ServersRequestTest < ActionDispatch::IntegrationTest
         status: ["verified"],
         country_codes: ["US"],
         q: "Test",
-        sort: "name",
+        sort_key: "name",
         sort_dir: "asc"
       })
 
       assert_response(:success)
-      assert_select "th a.admin-table-sort-link[href*='sort=name']"
-      assert_select "input[name=sort][value=name]"
+      assert_select "th a.admin-table-sort-link[href*='sort_key=name']"
+      assert_select "input[name=sort_key][value=name]"
       assert_select "input[name=sort_dir][value=asc]"
     end
   end

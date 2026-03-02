@@ -2,12 +2,15 @@ module Admin
   class WebhookEventsController < BaseController
     def index
       @search_term = params[:q]
-      relation = Admin::WebhookEventsQuery.call(webhook_config_id: params[:webhook_config_id])
-      @pagination = Pagination.new(
-        Admin::Queries::WebhookEventsQuery.call(WebhookEvent, relation, @search_term),
-        request,
-        per_page: 50
+      @sort_key = params[:sort_key].presence
+      @sort_dir = params[:sort_dir].presence
+      relation = Admin::WebhookEventsQuery.call(
+        webhook_config_id: params[:webhook_config_id],
+        search_term: @search_term,
+        sort_key: @sort_key,
+        sort_dir: @sort_dir
       )
+      @pagination = Pagination.new(relation, request, per_page: 50)
       @webhook_events = @pagination.results
       config_id = params[:webhook_config_id]
       @webhook_config = WebhookConfig.find_by(id: config_id) if config_id.present?

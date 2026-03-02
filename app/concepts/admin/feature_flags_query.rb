@@ -2,25 +2,17 @@ module Admin
   class FeatureFlagsQuery
     include Callable
 
-    SORT_COLUMNS = {
-      "id" => "feature_flags.id",
-      "name" => "feature_flags.name",
-      "value" => "feature_flags.value"
-    }.freeze
-
-    DEFAULT_SORT = { column: "id", direction: :desc }.freeze
-
-    def initialize(sort: nil, sort_dir: nil)
-      @sort = sort.presence
+    def initialize(search_term: nil, relation: nil, sort_key: nil, sort_dir: nil)
+      @search_term = search_term&.squish
+      @relation = relation
+      @sort_key = sort_key.presence
       @sort_dir = sort_dir.presence
     end
 
     def call
-      column = SORT_COLUMNS[@sort]
-      return FeatureFlag.reorder(SORT_COLUMNS[DEFAULT_SORT[:column]] => DEFAULT_SORT[:direction]) unless column
-
-      direction = @sort_dir.to_s.downcase == "asc" ? :asc : :desc
-      FeatureFlag.reorder(column => direction)
+      relation = @relation || FeatureFlag
+      relation = Admin::FeatureFlagsSearchQuery.call(FeatureFlag, relation, @search_term)
+      Admin::FeatureFlagsSortQuery.call(relation, sort_key: @sort_key, sort_dir: @sort_dir)
     end
   end
 end

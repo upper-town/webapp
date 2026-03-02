@@ -51,6 +51,27 @@ class Admin::DateRangeFilterComponentTest < ViewComponent::TestCase
       assert_no_selector("select[name=time_zone]")
     end
 
+    it "renders time inputs when show_time is true" do
+      render_inline(described_class.new(form: build_form, show_time: true))
+
+      assert_selector("input[type=time][name=start_time][step=1]")
+      assert_selector("input[type=time][name=end_time][step=1]")
+    end
+
+    it "does not render time inputs when show_time is false" do
+      render_inline(described_class.new(form: build_form, show_time: false))
+
+      assert_no_selector("input[name=start_time]")
+      assert_no_selector("input[name=end_time]")
+    end
+
+    it "renders time inputs with prefixed param names when param_prefix and show_time are set" do
+      render_inline(described_class.new(form: build_form, show_time: true, param_prefix: "created_at"))
+
+      assert_selector("input[name=created_at_start_time]")
+      assert_selector("input[name=created_at_end_time]")
+    end
+
     it "renders timezone select with prefixed param when param_prefix is set" do
       render_inline(described_class.new(
         form: build_form,
@@ -59,6 +80,23 @@ class Admin::DateRangeFilterComponentTest < ViewComponent::TestCase
       ))
 
       assert_selector("select[name=created_at_time_zone]")
+    end
+
+    it "renders date_column select when show_date_column is true" do
+      render_inline(described_class.new(
+        form: build_form,
+        show_date_column: true,
+        date_column: "created_at",
+        date_column_options: [["Created at", "created_at"], ["Updated at", "updated_at"]]
+      ))
+
+      assert_selector("select[name=date_column]")
+    end
+
+    it "does not render date_column select when show_date_column is false" do
+      render_inline(described_class.new(form: build_form, show_date_column: false))
+
+      assert_no_selector("select[name=date_column]")
     end
   end
 
@@ -96,6 +134,22 @@ class Admin::DateRangeFilterComponentTest < ViewComponent::TestCase
 
       assert_text("All dates")
     end
+
+    it "includes time in trigger_text when show_time and times are present" do
+      render_inline(described_class.new(
+        form: build_form,
+        show_time: true,
+        start_date: "2024-01-15",
+        end_date: "2024-01-20",
+        start_time: "09:00:00",
+        end_time: "17:30:00"
+      ))
+
+      assert_text("2024-01-15")
+      assert_text("2024-01-20")
+      assert_text("09:00:00")
+      assert_text("17:30:00")
+    end
   end
 
   describe "#show_clear_button?" do
@@ -106,16 +160,36 @@ class Admin::DateRangeFilterComponentTest < ViewComponent::TestCase
       assert component.show_clear_button?
     end
 
-    it "returns true when show_time_zone and time_zone_param_present" do
-      req = build_request(url: "http://uppertown.test/admin/server_votes?time_zone=America/New_York")
+    it "returns true when show_time_zone and time_zone_param_present and timezone differs from browser" do
+      req = build_request(
+        url: "http://uppertown.test/admin/server_votes?time_zone=America/New_York",
+        headers: { "HTTP_COOKIE" => "browser_time_zone=America/Los_Angeles" }
+      )
       component = described_class.new(
         form: build_form,
         show_time_zone: true,
         time_zone_param_present: true,
+        time_zone: "America/New_York",
         request: req
       )
 
       assert component.show_clear_button?
+    end
+
+    it "returns false when show_time_zone and time_zone_param_present but timezone matches browser" do
+      req = build_request(
+        url: "http://uppertown.test/admin/server_votes?time_zone=America/New_York",
+        headers: { "HTTP_COOKIE" => "browser_time_zone=America/New_York" }
+      )
+      component = described_class.new(
+        form: build_form,
+        show_time_zone: true,
+        time_zone_param_present: true,
+        time_zone: "America/New_York",
+        request: req
+      )
+
+      assert_not component.show_clear_button?
     end
 
     it "returns false when request is nil" do

@@ -11,7 +11,7 @@ class Admin::ServerAccountsQueryTest < ActiveSupport::TestCase
 
       assert_equal(
         [sa3, sa2, sa1],
-        described_class.new.call
+        described_class.call.to_a
       )
     end
 
@@ -21,7 +21,7 @@ class Admin::ServerAccountsQueryTest < ActiveSupport::TestCase
       create_server_account
       sa3 = create_server_account(server:)
 
-      result = described_class.new(server_id: server.id).call
+      result = described_class.call(server_id: server.id).to_a
 
       assert_equal([sa3, sa1], result)
     end
@@ -32,7 +32,7 @@ class Admin::ServerAccountsQueryTest < ActiveSupport::TestCase
       create_server_account
       sa3 = create_server_account(account:)
 
-      result = described_class.new(account_id: account.id).call
+      result = described_class.call(account_id: account.id).to_a
 
       assert_equal([sa3, sa1], result)
     end

@@ -10,7 +10,7 @@ class Admin::AdminPermissionsQueryTest < ActiveSupport::TestCase
 
       assert_equal(
         [perm_a, perm_z],
-        described_class.new.call
+        described_class.call.to_a
       )
     end
   end

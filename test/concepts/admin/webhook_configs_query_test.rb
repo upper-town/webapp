@@ -15,7 +15,7 @@ class Admin::WebhookConfigsQueryTest < ActiveSupport::TestCase
           config2,
           config1
         ],
-        described_class.new.call
+        described_class.call.to_a
       )
     end
   end

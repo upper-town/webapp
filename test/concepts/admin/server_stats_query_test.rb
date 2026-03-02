@@ -67,7 +67,7 @@ class Admin::ServerStatsQueryTest < ActiveSupport::TestCase
       ss2 = create_server_stat(vote_count: 30)
       ss3 = create_server_stat(vote_count: 20)
 
-      result = described_class.call(sort: "vote_count", sort_dir: "asc")
+      result = described_class.call(sort_key: "vote_count", sort_dir: "asc")
 
       assert_equal([ss1, ss3, ss2], result.to_a)
     end

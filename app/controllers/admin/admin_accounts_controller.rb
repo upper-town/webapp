@@ -2,14 +2,14 @@ module Admin
   class AdminAccountsController < BaseController
     def index
       @search_term = params[:q]
-      @sort_column = params[:sort].presence
-      @sort_direction = params[:sort_dir].presence
-      relation = Admin::AdminAccountsQuery.call(sort: @sort_column, sort_dir: @sort_direction)
-      @pagination = Pagination.new(
-        Admin::Queries::AdminAccountsQuery.call(AdminAccount, relation, @search_term),
-        request,
-        per_page: 50
+      @sort_key = params[:sort_key].presence
+      @sort_dir = params[:sort_dir].presence
+      relation = Admin::AdminAccountsQuery.call(
+        search_term: @search_term,
+        sort_key: @sort_key,
+        sort_dir: @sort_dir
       )
+      @pagination = Pagination.new(relation, request, per_page: 50)
       @admin_accounts = @pagination.results
 
       render(status: :ok)

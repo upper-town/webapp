@@ -72,11 +72,11 @@ class Admin::ServersQueryTest < ActiveSupport::TestCase
       assert_equal(2, result.count)
     end
 
-    it "filters by country_code" do
+    it "filters by country_codes" do
       server_us = create_server(country_code: "US")
       _server_de = create_server(country_code: "DE")
 
-      result = described_class.new(country_code: "US").call
+      result = described_class.new(country_codes: ["US"]).call
 
       assert_includes(result, server_us)
       assert_equal(1, result.count)
@@ -111,12 +111,12 @@ class Admin::ServersQueryTest < ActiveSupport::TestCase
       assert_equal(2, result.count)
     end
 
-    it "applies both status and country_code when provided" do
+    it "applies both status and country_codes when provided" do
       server = create_server(verified_at: Time.current, country_code: "US")
       _other = create_server(verified_at: Time.current, country_code: "DE")
       _unverified = create_server(verified_at: nil, country_code: "US")
 
-      result = described_class.new(status: "verified", country_code: "US").call
+      result = described_class.new(status: "verified", country_codes: ["US"]).call
 
       assert_includes(result, server)
       assert_equal(1, result.count)
@@ -140,7 +140,7 @@ class Admin::ServersQueryTest < ActiveSupport::TestCase
       server2 = create_server
       server3 = create_server
 
-      result = described_class.new(sort: "id", sort_dir: "asc").call
+      result = described_class.new(sort_key: "id", sort_dir: "asc").call
 
       assert_equal([server1, server2, server3], result.to_a)
     end
@@ -150,7 +150,7 @@ class Admin::ServersQueryTest < ActiveSupport::TestCase
       server2 = create_server
       server3 = create_server
 
-      result = described_class.new(sort: "id", sort_dir: "desc").call
+      result = described_class.new(sort_key: "id", sort_dir: "desc").call
 
       assert_equal([server3, server2, server1], result.to_a)
     end
@@ -160,8 +160,8 @@ class Admin::ServersQueryTest < ActiveSupport::TestCase
       server_b = create_server(name: "Beta Server")
       server_c = create_server(name: "Gamma Server")
 
-      result_asc = described_class.new(sort: "name", sort_dir: "asc").call
-      result_desc = described_class.new(sort: "name", sort_dir: "desc").call
+      result_asc = described_class.new(sort_key: "name", sort_dir: "asc").call
+      result_desc = described_class.new(sort_key: "name", sort_dir: "desc").call
 
       assert_equal([server_a, server_b, server_c], result_asc.to_a)
       assert_equal([server_c, server_b, server_a], result_desc.to_a)
@@ -173,7 +173,7 @@ class Admin::ServersQueryTest < ActiveSupport::TestCase
       server_a = create_server(game: game_a)
       server_b = create_server(game: game_b)
 
-      result = described_class.new(sort: "game", sort_dir: "asc").call
+      result = described_class.new(sort_key: "game", sort_dir: "asc").call
 
       assert_equal([server_a, server_b], result.to_a)
     end
@@ -184,8 +184,8 @@ class Admin::ServersQueryTest < ActiveSupport::TestCase
 
       result = described_class.new(
         status: "verified",
-        country_code: "US",
-        sort: "name",
+        country_codes: ["US"],
+        sort_key: "name",
         sort_dir: "asc"
       ).call
 

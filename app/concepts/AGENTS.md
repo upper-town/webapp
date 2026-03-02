@@ -38,8 +38,10 @@ Business logic lives here, organized by **domain concept** (not by technical lay
 `admin/` contains:
 
 - **Update/Create services** — `Admin::Servers::Update`, `Admin::Games::Create`, etc.
-- **Base queries** — `Admin::ServersQuery`, `Admin::UsersQuery`, etc. at top level (return base `ActiveRecord::Relation`)
-- **Search queries** — `Admin::Queries::ServersQuery`, `Admin::Queries::UsersQuery`, etc. in `admin/queries/` extend `Search::Base` from `app/queries/search/` and mix in search scopes (`Search::ById`, `Search::ByEmail`, `Search::ByName`, `Search::ByUuid`, `Search::ByLastFour`, `Search::ByRemoteIp`) to filter the base relation by search term
+- **Coordinator queries** — `Admin::ServersQuery`, `Admin::ServerVotesQuery`, etc. at top level orchestrate filter + search + sort; return final `ActiveRecord::Relation`
+- **Filter queries** — `Admin::ServersFilterQuery`, `Admin::ServerVotesFilterQuery`, etc. extend `Filter::Base` from `app/queries/filter/` and apply AND-composed filters
+- **Search queries** — `Admin::ServersSearchQuery`, `Admin::GamesSearchQuery`, `Admin::WebhookConfigsSearchQuery`, etc. extend `Search::Base` from `app/queries/search/` and apply OR-composed search
+- **Sort queries** — `Admin::ServersSortQuery`, `Admin::GamesSortQuery`, etc. extend `Sort::Base` from `app/queries/sort/` and implement `sort_key_columns`; coordinator queries pass default `sort_key`/`sort_dir` when params are nil (e.g. `AdminRolesQuery` passes `"key"`/`"asc"`)
 - **Dashboard** — `Admin::DashboardStats`
 - **Constraints** — `Admin::Constraint`, `Admin::JobsConstraint`
 

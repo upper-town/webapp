@@ -11,7 +11,7 @@ class Admin::WebhookBatchesQueryTest < ActiveSupport::TestCase
 
       assert_equal(
         [batch3, batch2, batch1],
-        described_class.new.call
+        described_class.call.to_a
       )
     end
 
@@ -21,7 +21,7 @@ class Admin::WebhookBatchesQueryTest < ActiveSupport::TestCase
       create_webhook_batch
       batch3 = create_webhook_batch(config:)
 
-      result = described_class.new(webhook_config_id: config.id).call
+      result = described_class.call(webhook_config_id: config.id).to_a
 
       assert_equal([batch3, batch1], result)
     end
