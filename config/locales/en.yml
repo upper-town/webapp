@@ -197,6 +197,7 @@ en:
       date_range_filter:
         start_date: "From date"
         end_date: "To date"
+        time_zone: "Timezone"
         from: "From"
         to: "To"
         all_dates: "All dates"

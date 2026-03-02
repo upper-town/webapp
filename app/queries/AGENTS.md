@@ -14,6 +14,7 @@ This file provides guidance for AI agents working in `app/queries/`. See the pro
 | `app/queries/country_select_options_query.rb` | Options for country dropdowns |
 | `app/queries/game_select_options_query.rb` | Options for game dropdowns |
 | `app/queries/period_select_options_query.rb` | Options for period dropdowns |
+| `app/queries/time_zone_select_options_query.rb` | Options for timezone dropdowns |
 
 ## Search Module (`app/queries/search/`)
 

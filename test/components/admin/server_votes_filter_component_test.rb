@@ -64,5 +64,28 @@ class Admin::ServerVotesFilterComponentTest < ViewComponent::TestCase
 
       assert component.has_active_filters?
     end
+
+    it "has_active_filters? returns true when time_zone_param_present is true" do
+      component = described_class.new(
+        form: build_form,
+        time_zone_param_present: true
+      )
+
+      assert component.has_active_filters?
+    end
+
+    it "renders timezone select when time_zone is passed" do
+      GameSelectOptionsQuery.stub(:call, []) do
+        ServerSelectOptionsQuery.stub(:call, []) do
+          render_inline(described_class.new(
+            form: build_form,
+            time_zone: "America/New_York",
+            time_zone_param_present: false
+          ))
+        end
+      end
+
+      assert_selector("select[name=time_zone]")
+    end
   end
 end

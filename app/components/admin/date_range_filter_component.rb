@@ -2,14 +2,27 @@ module Admin
   class DateRangeFilterComponent < ApplicationComponent
     DEFAULT_SELECT_CLASS = "form-select admin-servers-filter-inline__select btn"
 
-    attr_reader :form, :start_date, :end_date, :param_prefix, :request
+    attr_reader :form, :start_date, :end_date, :time_zone, :time_zone_param_present,
+                :show_time_zone, :param_prefix, :request
 
-    def initialize(form:, start_date: nil, end_date: nil, param_prefix: nil, request: nil)
+    def initialize(
+      form:,
+      start_date: nil,
+      end_date: nil,
+      time_zone: nil,
+      time_zone_param_present: false,
+      show_time_zone: false,
+      param_prefix: nil,
+      request: nil
+    )
       super()
 
       @form = form
       @start_date = start_date
       @end_date = end_date
+      @time_zone = time_zone
+      @time_zone_param_present = time_zone_param_present
+      @show_time_zone = show_time_zone
       @param_prefix = param_prefix
       @request = request
     end
@@ -20,6 +33,14 @@ module Admin
 
     def end_date_param
       param_prefix.present? ? "#{param_prefix}_end_date" : "end_date"
+    end
+
+    def time_zone_param
+      param_prefix.present? ? "#{param_prefix}_time_zone" : "time_zone"
+    end
+
+    def time_zone_options
+      @time_zone_options ||= TimeZoneSelectOptionsQuery.call(selected_time_zone: time_zone)
     end
 
     def format_date_for_input(value)
@@ -47,13 +68,17 @@ module Admin
     end
 
     def show_clear_button?
-      request.present? && (start_date.present? || end_date.present?)
+      return false unless request.present?
+
+      start_date.present? || end_date.present? || (show_time_zone && time_zone_param_present)
     end
 
     def clear_url
       return unless request.present?
 
-      RequestHelper.new(request).url_with_query({}, [start_date_param, end_date_param])
+      params_to_remove = [start_date_param, end_date_param]
+      params_to_remove << time_zone_param if show_time_zone
+      RequestHelper.new(request).url_with_query({}, params_to_remove)
     end
 
     def clear_button_aria_label

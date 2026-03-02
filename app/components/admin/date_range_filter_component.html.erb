@@ -25,6 +25,12 @@
           <%= form.label(end_date_param, t("admin.shared.date_range_filter.end_date"), class: "form-label small mb-1") %>
           <%= form.date_field(end_date_param, value: format_date_for_input(end_date), class: "form-control form-control-sm") %>
         </div>
+        <% if show_time_zone %>
+          <div class="mb-2">
+            <%= form.label(time_zone_param, t("admin.shared.date_range_filter.time_zone"), class: "form-label small mb-1") %>
+            <%= form.select(time_zone_param, options_for_select(time_zone_options, time_zone), {}, class: "form-select form-select-sm") %>
+          </div>
+        <% end %>
       </div>
       <div class="input-group input-group-sm">
         <button

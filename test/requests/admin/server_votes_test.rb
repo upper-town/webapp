@@ -15,6 +15,14 @@ class Admin::ServerVotesRequestTest < ActionDispatch::IntegrationTest
 
       assert_response(:success)
     end
+
+    it "accepts time_zone filter param" do
+      sign_in_as_admin
+
+      get(admin_server_votes_path, params: { time_zone: "America/New_York" })
+
+      assert_response(:success)
+    end
   end
 
   describe "GET /admin/server_votes/:id" do

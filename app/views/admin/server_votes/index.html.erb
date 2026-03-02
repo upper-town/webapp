@@ -31,6 +31,8 @@
       selected_account_labels: @filter_account_labels,
       start_date: @filter_start_date,
       end_date: @filter_end_date,
+      time_zone: @filter_time_zone,
+      time_zone_param_present: @filter_time_zone_param_present,
       request: request
     )) %>
   <% end %>
@@ -38,7 +40,7 @@
     url: admin_server_votes_path,
     search_term: @search_term,
     placeholder: t("admin.server_votes.index.search_placeholder"),
-    hidden_params: params.permit(:server_id, :game_id, :account_id, { game_ids: [] }, { server_ids: [] }, { account_ids: [] }, :start_date, :end_date, :sort, :sort_dir).to_h.compact
+    hidden_params: params.permit(:server_id, :game_id, :account_id, { game_ids: [] }, { server_ids: [] }, { account_ids: [] }, :start_date, :end_date, :time_zone, :sort, :sort_dir).to_h.compact
   )) %>
 </div>
 
