@@ -20,6 +20,7 @@
     method: :get,
     url: admin_server_votes_path,
     class: "d-flex align-items-center gap-2 flex-wrap admin-servers-filter-inline",
+    data: { controller: "admin-filter" },
     html: { "aria-label": t("admin.server_votes.index.filter.title") }
   ) do |form| %>
     <%= render(Admin::ServerVotesFilterComponent.new(
@@ -28,6 +29,8 @@
       selected_server_ids: @filter_server_ids,
       selected_account_ids: @filter_account_ids,
       selected_account_labels: @filter_account_labels,
+      start_date: @filter_start_date,
+      end_date: @filter_end_date,
       request: request
     )) %>
   <% end %>
@@ -35,7 +38,7 @@
     url: admin_server_votes_path,
     search_term: @search_term,
     placeholder: t("admin.server_votes.index.search_placeholder"),
-    hidden_params: params.permit(:server_id, :game_id, :account_id, { game_ids: [] }, { server_ids: [] }, { account_ids: [] }, :sort, :sort_dir).to_h.compact
+    hidden_params: params.permit(:server_id, :game_id, :account_id, { game_ids: [] }, { server_ids: [] }, { account_ids: [] }, :start_date, :end_date, :sort, :sort_dir).to_h.compact
   )) %>
 </div>
 

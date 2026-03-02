@@ -9,13 +9,15 @@ class Admin::ServerVotesFilterComponentTest < ViewComponent::TestCase
   end
 
   describe "rendering" do
-    it "renders game, server, and account multi-select filters" do
+    it "renders game, server, account multi-select filters and date range filter" do
       GameSelectOptionsQuery.stub(:call, []) do
         ServerSelectOptionsQuery.stub(:call, []) do
           render_inline(described_class.new(form: build_form))
         end
       end
 
+      assert_selector("input[type=date][name=start_date]")
+      assert_selector("input[type=date][name=end_date]")
       assert_selector("[data-admin-multi-select-filter-param-name-value='game_ids']")
       assert_selector("[data-admin-multi-select-filter-param-name-value='server_ids']")
       assert_selector("[data-admin-fetchable-multi-select-filter-param-name-value='account_ids']")
@@ -40,6 +42,24 @@ class Admin::ServerVotesFilterComponentTest < ViewComponent::TestCase
       component = described_class.new(
         form: build_form,
         selected_account_ids: [Admin::ServerVotesQuery::ANONYMOUS_VALUE]
+      )
+
+      assert component.has_active_filters?
+    end
+
+    it "has_active_filters? returns true when start_date is present" do
+      component = described_class.new(
+        form: build_form,
+        start_date: "2024-01-15"
+      )
+
+      assert component.has_active_filters?
+    end
+
+    it "has_active_filters? returns true when end_date is present" do
+      component = described_class.new(
+        form: build_form,
+        end_date: "2024-01-20"
       )
 
       assert component.has_active_filters?

@@ -3,6 +3,12 @@
   params_to_remove: FILTER_PARAMS,
   request: request
 )) do %>
+  <%= render(Admin::DateRangeFilterComponent.new(
+    form: form,
+    start_date: start_date,
+    end_date: end_date,
+    request: request
+  )) %>
   <%= render(Admin::GameMultiSelectFilterComponent.new(
     form: form,
     selected_ids: selected_game_ids,

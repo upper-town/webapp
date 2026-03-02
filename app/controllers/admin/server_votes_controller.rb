@@ -5,6 +5,8 @@ module Admin
       @filter_game_ids = params[:game_ids]
       @filter_server_ids = params[:server_ids]
       @filter_account_ids = params[:account_ids]
+      @filter_start_date = params[:start_date]
+      @filter_end_date = params[:end_date]
       @sort_column = params[:sort].presence
       @sort_direction = params[:sort_dir].presence
       relation = Admin::ServerVotesQuery.call(
@@ -14,6 +16,9 @@ module Admin
         game_ids: @filter_game_ids,
         server_ids: @filter_server_ids,
         account_ids: @filter_account_ids,
+        start_date: @filter_start_date,
+        end_date: @filter_end_date,
+        time_zone: cookies["browser_time_zone"],
         sort: @sort_column,
         sort_dir: @sort_direction
       )

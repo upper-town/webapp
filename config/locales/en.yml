@@ -194,6 +194,13 @@ en:
         one: "1 period"
         other: "%{count} periods"
       filter_multiselect_no_periods_match: "No periods match"
+      date_range_filter:
+        start_date: "From date"
+        end_date: "To date"
+        from: "From"
+        to: "To"
+        all_dates: "All dates"
+        aria_label: "Date range"
       expired: "Expired"
       locked: "Locked"
       verified: "Verified"

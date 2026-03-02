@@ -1,0 +1,45 @@
+<div class="admin-date-range-filter admin-multi-select-filter">
+  <div class="dropdown">
+    <button
+      type="button"
+      class="<%= DEFAULT_SELECT_CLASS %> dropdown-toggle d-flex align-items-center justify-content-between text-start"
+      id="<%= dropdown_id %>"
+      data-bs-toggle="dropdown"
+      data-bs-auto-close="outside"
+      aria-expanded="false"
+      aria-haspopup="dialog"
+      aria-label="<%= t("admin.shared.date_range_filter.aria_label") %>"
+    >
+      <span class="admin-multi-select-filter__trigger-text text-truncate">
+        <%= trigger_text %>
+      </span>
+      <i class="bi bi-chevron-down admin-multi-select-filter__caret" aria-hidden="true"></i>
+    </button>
+    <div class="dropdown-menu p-2" role="dialog" aria-label="<%= t("admin.shared.date_range_filter.aria_label") %>">
+      <div class="mb-2">
+        <div class="mb-2">
+          <%= form.label(start_date_param, t("admin.shared.date_range_filter.start_date"), class: "form-label small mb-1") %>
+          <%= form.date_field(start_date_param, value: format_date_for_input(start_date), class: "form-control form-control-sm") %>
+        </div>
+        <div class="mb-2">
+          <%= form.label(end_date_param, t("admin.shared.date_range_filter.end_date"), class: "form-label small mb-1") %>
+          <%= form.date_field(end_date_param, value: format_date_for_input(end_date), class: "form-control form-control-sm") %>
+        </div>
+      </div>
+      <div class="input-group input-group-sm">
+        <button
+          type="submit"
+          class="btn btn-outline-primary"
+          aria-label="<%= t("admin.shared.filter_multiselect_apply") %>"
+        >
+          <%= t("admin.shared.filter_multiselect_apply") %>
+        </button>
+        <% if show_clear_button? %>
+          <%= link_to(clear_url, class: "btn btn-outline-secondary d-flex align-items-center justify-content-center", aria: { label: clear_button_aria_label }) do %>
+            <%= t("admin.shared.clear_search") %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
