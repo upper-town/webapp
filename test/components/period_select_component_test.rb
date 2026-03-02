@@ -50,6 +50,14 @@ class PeriodSelectComponentTest < ViewComponent::TestCase
 
       assert_no_selector("option[selected]")
     end
+
+    it "renders data-action when data_action is provided" do
+      with_stubbed_query do
+        render_inline(described_class.new(build_form, data_action: "change->servers#filter"))
+      end
+
+      assert_selector("select[data-action='change->servers#filter']")
+    end
   end
 
   describe "#default_value" do

@@ -14,7 +14,8 @@
       <%= render(PeriodSelectComponent.new(
         form,
         selected_value: selected_value_period,
-        select_class: "form-select"
+        select_class: "form-select",
+        data_action: "change->servers#filter"
       )) %>
     </div>
     <div class="d-flex flex-column gap-1 flex-fill servers-index-filter-period-country__field servers-index-filter-period-country__country">

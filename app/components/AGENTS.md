@@ -20,7 +20,7 @@ All components inherit from `ApplicationComponent < ViewComponent::Base`. Use Bo
 | `FlashItemComponent` | Renders individual flash items |
 | `PaginationComponent` | Offset-based pagination; supports `align: :center` (default) or `align: :start` |
 | `PaginationCursorComponent` | Cursor-based pagination |
-| `GameSelectComponent`, `CountrySelectComponent`, `PeriodSelectComponent` | Select dropdowns |
+| `GameSelectComponent`, `CountrySelectComponent`, `PeriodSelectComponent` | Select dropdowns; `PeriodSelectComponent` accepts optional `data_action` for auto-submit (e.g. `change->servers#filter`) |
 | `MultiSelectFilterComponent` | Multi-select with client-side filtering; used by `GameMultiSelectFilterComponent`, `CountryMultiSelectFilterComponent` |
 | `GameMultiSelectFilterComponent`, `CountryMultiSelectFilterComponent` | Game/country multi-select wrappers for public server index filter |
 | `Servers::IndexResultComponent` | Server listing result row/card |

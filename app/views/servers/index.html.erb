@@ -2,10 +2,7 @@
   method: :get,
   url: servers_path,
   html: { "aria-label": t("servers.index.filter.title") },
-  data: {
-    controller: "servers",
-    action: "change->servers#filter"
-  }
+  data: { controller: "servers" }
 ) do |form| %>
   <%= render(Servers::IndexFilterComponent.new(
     form: form,
