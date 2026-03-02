@@ -1,4 +1,4 @@
-import { Controller } from '@hotwired/stimulus'
+import { Controller } from "@hotwired/stimulus"
 
 /**
  * Submits the form on change (e.g. select change). Use on admin filter forms

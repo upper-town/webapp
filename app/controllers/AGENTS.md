@@ -22,7 +22,7 @@ Controllers are organized by route area. Base controllers and auth concerns defi
 
 | Path | Purpose |
 |------|---------|
-| (root) | Public controllers: `HomeController`, `ServersController`, `ServerVotesController`, `AccountsController` — extend `ApplicationController` |
+| (root) | Public controllers: `ServersController`, `ServerVotesController`, `AccountsController` — extend `ApplicationController` |
 | `admin/` | Admin dashboard controllers (users, servers, games, webhooks, etc.) |
 | `inside/` | Authenticated user controllers (dashboard, servers, accounts, webhook configs) |
 | `users/` | User auth (sessions, email confirmations, password resets, change email) |

@@ -19,7 +19,7 @@ Upper Town is a Rails 8.1 web application for a gaming community, providing feat
 
 **Bootstrap & Bootstrap Icons**: Bootstrap (CSS, JS) and Bootstrap Icons are available in the codebase via `app/assets/stylesheets/` and `vendor/javascript/`. Default to Bootstrap components and Bootstrap Icons (`<i class="bi bi-*"></i>`) when possible—no external imports needed.
 
-**JavaScript**: Inline JavaScript in HTML (e.g. `onclick`, `href="javascript:..."`) does not work—security checks block it. Put all JavaScript in separate files under `app/javascript/` (e.g. Stimulus controllers in `app/javascript/controllers/`).
+**JavaScript**: Inline JavaScript in HTML (e.g. `onclick`, `href="javascript:..."`) does not work—security checks block it. Put all JavaScript in separate files under `app/javascript/` (e.g. Stimulus controllers in `app/javascript/controllers/`). Use double quotes for strings in `.js` files (see `app/javascript/AGENTS.md`).
 
 - SolidQueue (jobs), SolidCache (caching), SolidCable (WebSockets)
 - Kamal (deployment), Puma + Thruster (web server)

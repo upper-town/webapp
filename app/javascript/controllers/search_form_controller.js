@@ -1,10 +1,10 @@
-import { Controller } from '@hotwired/stimulus'
+import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ['input']
+  static targets = ["input"]
   static values = {
     clearUrl: String,
-    param: { type: String, default: 'q' },
+    param: { type: String, default: "q" },
   }
 
   connect() {
@@ -20,20 +20,20 @@ export default class extends Controller {
   }
 
   clear(event) {
-    if (event.key === 'Escape') {
+    if (event.key === "Escape") {
       event.preventDefault()
       this.navigateToClear()
     }
   }
 
   clearOnInput(event) {
-    if (event.target.value === '') {
+    if (event.target.value === "") {
       this.navigateToClear()
     }
   }
 
   navigateToClear() {
-    const frame = this.element.closest('turbo-frame')
+    const frame = this.element.closest("turbo-frame")
     if (frame?.id) {
       Turbo.visit(this.clearUrlValue, { frame: frame.id })
     } else {

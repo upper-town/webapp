@@ -21,6 +21,8 @@ All components inherit from `ApplicationComponent < ViewComponent::Base`. Use Bo
 | `PaginationComponent` | Offset-based pagination; supports `align: :center` (default) or `align: :start` |
 | `PaginationCursorComponent` | Cursor-based pagination |
 | `GameSelectComponent`, `CountrySelectComponent`, `PeriodSelectComponent` | Select dropdowns |
+| `MultiSelectFilterComponent` | Multi-select with client-side filtering; used by `GameMultiSelectFilterComponent`, `CountryMultiSelectFilterComponent` |
+| `GameMultiSelectFilterComponent`, `CountryMultiSelectFilterComponent` | Game/country multi-select wrappers for public server index filter |
 | `Servers::IndexResultComponent` | Server listing result row/card |
 | `Servers::IndexFilterComponent` | Server index filter form (game, period, country) |
 | `Inside::ServerCardComponent` | Server card for Inside dashboard |

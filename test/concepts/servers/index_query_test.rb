@@ -3,12 +3,12 @@ require "test_helper"
 class Servers::IndexQueryTest < ActiveSupport::TestCase
   let(:described_class) { Servers::IndexQuery }
 
-  describe "#game" do
-    it "returns game" do
+  describe "#game_ids" do
+    it "returns game_ids" do
       game = create_game
 
-      assert_nil(described_class.new.game)
-      assert_equal(game, described_class.new(game).game)
+      assert_nil(described_class.new.game_ids)
+      assert_equal([game.id.to_s], described_class.new([game.id]).game_ids)
     end
   end
 
@@ -360,7 +360,11 @@ class Servers::IndexQueryTest < ActiveSupport::TestCase
   end
 
   def query_result(game_name, period, country_codes, current_time)
-    Servers::IndexQuery.new(Game.find_by(name: game_name), period, country_codes, current_time).call.map do |server|
+    game_ids = if game_name
+      game = Game.find_by(name: game_name)
+      game ? [game.id] : nil
+    end
+    Servers::IndexQuery.new(game_ids, period, country_codes, current_time).call.map do |server|
       server_stat = ServerStat.find_by(
         server:,
         game: server.game,

@@ -2,16 +2,16 @@ class ServersController < ApplicationController
   def index
     current_time = Time.current
 
-    @game = game_from_params
+    @game_ids = game_ids_from_params
     @period = period_from_params
     @country_codes = country_codes_from_params
 
-    @selected_value_game_id = @game ? @game.id : nil
+    @selected_value_game_ids = @game_ids
     @selected_value_period = @period
-    @selected_value_country_code = @country_codes ? @country_codes.join(",") : nil
+    @selected_value_country_codes = @country_codes
 
     @pagination = Pagination.new(
-      Servers::IndexQuery.call(@game, @period, @country_codes, current_time),
+      Servers::IndexQuery.call(@game_ids, @period, @country_codes, current_time),
       request
     )
 
@@ -33,13 +33,13 @@ class ServersController < ApplicationController
 
   private
 
-  def game_from_params
-    value = params[:game_id]
+  def game_ids_from_params
+    values = Array(params[:game_ids]).flatten.map(&:to_s).compact_blank.uniq
 
-    if value.blank?
+    if values.empty?
       nil
-    elsif (game = Game.find_by(id: value))
-      game
+    elsif values.all? { |id| Game.exists?(id) }
+      values.map(&:to_i)
     else
       raise InvalidQueryParamError
     end
@@ -58,7 +58,7 @@ class ServersController < ApplicationController
   end
 
   def country_codes_from_params
-    values = StringHelper.values_list_uniq(params[:country_code] || "")
+    values = Array(params[:country_codes]).flatten.map(&:to_s).compact_blank.uniq
 
     if values.empty?
       nil

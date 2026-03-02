@@ -6,7 +6,8 @@ class CountrySelectComponent < ApplicationComponent
     :blank_name,
     :selected_value,
     :select_class,
-    :aria_label
+    :aria_label,
+    :param_name
   )
 
   def initialize(
@@ -16,7 +17,8 @@ class CountrySelectComponent < ApplicationComponent
     blank_name: "All",
     selected_value: nil,
     select_class: "form-select mb-2",
-    aria_label: nil
+    aria_label: nil,
+    param_name: "country_code"
   )
     super()
 
@@ -27,6 +29,7 @@ class CountrySelectComponent < ApplicationComponent
     @selected_value = selected_value
     @select_class = select_class
     @aria_label = aria_label
+    @param_name = param_name
 
     @query = CountrySelectOptionsQuery.new(only_in_use:, with_continents:)
   end
@@ -37,5 +40,15 @@ class CountrySelectComponent < ApplicationComponent
 
   def options
     @options ||= @query.call
+  end
+
+  def select_html_options
+    opts = {
+      class: select_class,
+      data: { "controller" => "country-select" }
+    }
+    opts["aria-label"] = aria_label if aria_label.present?
+    opts["name"] = "#{param_name}[]" if param_name == "country_codes"
+    opts
   end
 end

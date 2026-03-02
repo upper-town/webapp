@@ -9,7 +9,7 @@
 
 <div class="row g-3 mb-4">
   <div class="col-md-6 col-lg-4">
-    <%= link_to inside_servers_path, class: "card text-decoration-none text-dark h-100 border-0 shadow-sm" do %>
+    <%= link_to inside_servers_path, class: "card text-decoration-none text-dark h-100 border-0 shadow-sm inside-dashboard-card" do %>
       <div class="card-body">
         <div class="d-flex align-items-center gap-2 mb-2">
           <span class="rounded-2 bg-primary bg-opacity-10 p-2">
@@ -33,7 +33,7 @@
   </div>
 
   <div class="col-md-6 col-lg-4">
-    <%= link_to inside_server_votes_path, class: "card text-decoration-none text-dark h-100 border-0 shadow-sm" do %>
+    <%= link_to inside_server_votes_path, class: "card text-decoration-none text-dark h-100 border-0 shadow-sm inside-dashboard-card" do %>
       <div class="card-body">
         <div class="d-flex align-items-center gap-2 mb-2">
           <span class="rounded-2 bg-success bg-opacity-10 p-2">
@@ -52,7 +52,7 @@
   </div>
 
   <div class="col-md-6 col-lg-4">
-    <%= link_to inside_account_path, class: "card text-decoration-none text-dark h-100 border-0 shadow-sm" do %>
+    <div class="card h-100 border-0 shadow-sm inside-dashboard-card">
       <div class="card-body">
         <div class="d-flex align-items-center gap-2 mb-2">
           <span class="rounded-2 bg-info bg-opacity-10 p-2">
@@ -62,11 +62,18 @@
             <%= t("inside.dashboard.manage_account") %>
           </h5>
         </div>
-        <p class="card-text mb-0 small">
-          <%= link_to t("inside.dashboard.view_profile"), account_path(current_account), class: "text-decoration-none" %>
-        </p>
+        <div class="d-flex flex-wrap gap-2">
+          <%= link_to inside_account_path, class: "btn btn-sm btn-outline-secondary text-decoration-none" do %>
+            <i class="bi bi-gear me-1"></i>
+            <%= t("inside.dashboard.settings") %>
+          <% end %>
+          <%= link_to account_path(current_account), class: "btn btn-sm btn-outline-secondary text-decoration-none" do %>
+            <i class="bi bi-person me-1"></i>
+            <%= t("inside.dashboard.view_profile") %>
+          <% end %>
+        </div>
       </div>
-    <% end %>
+    </div>
   </div>
 </div>
 
@@ -119,21 +126,25 @@
     </div>
   </div>
 <% else %>
-  <div class="card border-0 shadow-sm bg-body-secondary bg-opacity-25">
-    <div class="card-body text-center py-5">
-      <i class="bi bi-hdd-stack display-4 text-body-secondary mb-3"></i>
-      <h5 class="card-title"><%= t("inside.dashboard.no_servers_yet") %></h5>
-      <p class="card-text text-body-secondary mb-3">
-        <%= t("inside.dashboard.add_first_server") %> <%= t("inside.dashboard.add_first_server_help") %>
-      </p>
-      <div class="d-flex gap-2 justify-content-center flex-wrap">
-        <%= link_to new_inside_server_path, class: "btn btn-primary" do %>
-          <i class="bi bi-plus-lg me-1"></i>
-          <%= t("inside.dashboard.add_server") %>
-        <% end %>
-        <%= link_to servers_path, class: "btn btn-outline-secondary" do %>
-          <%= t("inside.dashboard.browse_servers") %>
-        <% end %>
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-8 col-xl-7">
+      <div class="card border-0 shadow-sm bg-body-secondary bg-opacity-25">
+        <div class="card-body text-center py-5">
+          <i class="bi bi-hdd-stack display-4 text-body-secondary mb-3"></i>
+          <h5 class="card-title"><%= t("inside.dashboard.no_servers_yet") %></h5>
+          <p class="card-text text-body-secondary mb-3">
+            <%= t("inside.dashboard.add_first_server") %> <%= t("inside.dashboard.add_first_server_help") %>
+          </p>
+          <div class="d-flex gap-2 justify-content-center flex-wrap">
+            <%= link_to new_inside_server_path, class: "btn btn-primary" do %>
+              <i class="bi bi-plus-lg me-1"></i>
+              <%= t("inside.dashboard.add_server") %>
+            <% end %>
+            <%= link_to servers_path, class: "btn btn-outline-secondary" do %>
+              <%= t("inside.dashboard.browse_servers") %>
+            <% end %>
+          </div>
+        </div>
       </div>
     </div>
   </div>

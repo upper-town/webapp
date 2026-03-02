@@ -1,9 +1,9 @@
-import { Controller } from '@hotwired/stimulus'
+import { Controller } from "@hotwired/stimulus"
 
-const DEFAULT = 'default'
+const DEFAULT = "default"
 
 export default class extends Controller {
-  static targets = ['element']
+  static targets = ["element"]
 
   static values = {
     name: { type: String, default: DEFAULT },

@@ -9,9 +9,9 @@
 ) do |form| %>
   <%= render(Servers::IndexFilterComponent.new(
     form: form,
-    selected_value_game_id: @selected_value_game_id,
+    selected_value_game_ids: @selected_value_game_ids,
     selected_value_period: @selected_value_period,
-    selected_value_country_code: @selected_value_country_code
+    selected_value_country_codes: @selected_value_country_codes
   )) %>
 <% end %>
 

@@ -1,0 +1,81 @@
+<div
+  class="multi-select-filter"
+  data-controller="multi-select-filter"
+  data-multi-select-filter-param-name-value="<%= param_name %>"
+  data-multi-select-filter-options-value="<%= options_json %>"
+  data-multi-select-filter-selected-value="<%= selected_ids.to_json %>"
+  data-all-label="<%= all_label %>"
+  data-count-label="<%= count_label %>"
+  data-multi-select-filter-count-label-one-value="<%= count_label_one %>"
+>
+  <div class="dropdown" data-multi-select-filter-target="dropdown">
+    <button
+      type="button"
+      class="<%= select_class %> dropdown-toggle d-flex align-items-center justify-content-between text-start"
+      id="<%= dropdown_id %>"
+      data-bs-toggle="dropdown"
+      data-bs-auto-close="outside"
+      aria-expanded="false"
+      aria-haspopup="listbox"
+      aria-label="<%= aria_label %>"
+    >
+      <span class="multi-select-filter__trigger-text text-truncate" data-multi-select-filter-target="triggerText">
+        <%= trigger_text %>
+      </span>
+      <i class="bi bi-chevron-down multi-select-filter__caret" aria-hidden="true"></i>
+    </button>
+    <div class="dropdown-menu p-2" role="listbox">
+      <div class="mb-2 input-group input-group-sm">
+        <input
+          type="search"
+          class="form-control"
+          placeholder="<%= placeholder %>"
+          autocomplete="off"
+          data-multi-select-filter-target="searchInput"
+          data-action="input->multi-select-filter#filter keydown->multi-select-filter#handleKeydown keydown.enter->multi-select-filter#submitForm focus->multi-select-filter#onSearchFocus"
+          aria-label="<%= placeholder %>"
+        >
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          data-action="click->multi-select-filter#submitForm"
+          aria-label="<%= apply_label %>"
+        >
+          <%= apply_label %>
+        </button>
+      </div>
+      <div id="<%= options_list_id %>" data-multi-select-filter-target="optionsList" role="group">
+        <% options.each do |name, id| %>
+          <button
+            type="button"
+            class="dropdown-item d-flex align-items-center gap-2"
+            role="option"
+            data-id="<%= id %>"
+            data-name="<%= name %>"
+            data-multi-select-filter-target="option"
+            data-action="click->multi-select-filter#toggle"
+          >
+            <span class="form-check">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                <%= "checked" if option_checked?(id) %>
+                tabindex="-1"
+                aria-hidden="true"
+              >
+            </span>
+            <span class="text-truncate"><%= name %></span>
+          </button>
+        <% end %>
+      </div>
+      <div class="multi-select-filter__no-results visually-hidden" data-multi-select-filter-target="noResults">
+        <%= no_results_label %>
+      </div>
+    </div>
+  </div>
+  <div class="multi-select-filter__hidden-inputs" data-multi-select-filter-target="hiddenInputs">
+    <% selected_ids.each do |id| %>
+      <input type="hidden" name="<%= hidden_input_name %>" value="<%= id %>" data-multi-select-filter-target="hiddenInput">
+    <% end %>
+  </div>
+</div>

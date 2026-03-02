@@ -10,7 +10,7 @@ class Navigate {
   fetchAsTurboStream() {
     fetch(this.url, {
       headers: {
-        Accept: 'text/vnd.turbo-stream.html',
+        Accept: "text/vnd.turbo-stream.html",
       },
     })
       .then((response) => response.text())
@@ -18,7 +18,7 @@ class Navigate {
   }
 
   openInNewTab() {
-    window.open(this.url, '_blank', 'noopener')
+    window.open(this.url, "_blank", "noopener")
   }
 }
 

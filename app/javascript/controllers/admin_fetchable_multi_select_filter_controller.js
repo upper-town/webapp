@@ -1,4 +1,4 @@
-import { Controller } from '@hotwired/stimulus'
+import { Controller } from "@hotwired/stimulus"
 
 /**
  * Fetchable multi-select for admin filter forms with backend fetch support.
@@ -15,9 +15,9 @@ import { Controller } from '@hotwired/stimulus'
  */
 export default class extends Controller {
   static targets = [
-    'searchInput', 'optionsList', 'optionsFrame',
-    'option', 'hiddenInputs', 'hiddenInput', 'triggerText', 'noResults',
-    'dropdown', 'minCharsHint', 'loading', 'loadingText'
+    "searchInput", "optionsList", "optionsFrame",
+    "option", "hiddenInputs", "hiddenInput", "triggerText", "noResults",
+    "dropdown", "minCharsHint", "loading", "loadingText"
   ]
 
   static values = {
@@ -32,8 +32,8 @@ export default class extends Controller {
 
   connect() {
     this.selectedIds = [...(this.selectedValue || [])]
-    this.paramName = this.paramNameValue || 'ids'
-    this.searchUrl = this.searchUrlValue || ''
+    this.paramName = this.paramNameValue || "ids"
+    this.searchUrl = this.searchUrlValue || ""
     this.minChars = this.minCharsValue || 2
     this.staticOptions = this.staticOptionsValue || []
     this.labelCache = this.buildLabelCacheFromSelectedLabels()
@@ -50,8 +50,8 @@ export default class extends Controller {
     this.boundShowLoading = () => this.showLoading()
     this.boundHideLoading = () => this.hideLoading()
     if (this.hasOptionsFrameTarget) {
-      this.optionsFrameTarget.addEventListener('turbo:before-fetch-request', this.boundShowLoading)
-      this.optionsFrameTarget.addEventListener('turbo:frame-render', this.boundHideLoading)
+      this.optionsFrameTarget.addEventListener("turbo:before-fetch-request", this.boundShowLoading)
+      this.optionsFrameTarget.addEventListener("turbo:frame-render", this.boundHideLoading)
     }
   }
 
@@ -63,8 +63,8 @@ export default class extends Controller {
   disconnect() {
     if (this.searchDebounceTimer) clearTimeout(this.searchDebounceTimer)
     if (this.hasOptionsFrameTarget) {
-      this.optionsFrameTarget.removeEventListener('turbo:before-fetch-request', this.boundShowLoading)
-      this.optionsFrameTarget.removeEventListener('turbo:frame-render', this.boundHideLoading)
+      this.optionsFrameTarget.removeEventListener("turbo:before-fetch-request", this.boundShowLoading)
+      this.optionsFrameTarget.removeEventListener("turbo:frame-render", this.boundHideLoading)
     }
   }
 
@@ -73,11 +73,11 @@ export default class extends Controller {
   }
 
   searchQuery(event) {
-    return event?.target?.value ?? this.searchInputTarget?.value ?? ''
+    return event?.target?.value ?? this.searchInputTarget?.value ?? ""
   }
 
   filterRemote(query) {
-    const q = (query || '').trim()
+    const q = (query || "").trim()
     if (this.searchDebounceTimer) clearTimeout(this.searchDebounceTimer)
 
     this.hideMinCharsHint()
@@ -101,45 +101,45 @@ export default class extends Controller {
     if (!frame?.id) return
 
     const url = new URL(this.searchUrl, window.location.origin)
-    if (query) url.searchParams.set('q', query)
-    this.selectedIds.forEach((id) => url.searchParams.append('selected_ids[]', id))
+    if (query) url.searchParams.set("q", query)
+    this.selectedIds.forEach((id) => url.searchParams.append("selected_ids[]", id))
 
     Turbo.visit(url.toString(), { frame: frame.id })
   }
 
   showMinCharsHint() {
     if (!this.hasMinCharsHintTarget) return
-    const template = this.element.dataset.minCharsLabel || `Type at least %{count} characters`
-    this.minCharsHintTarget.textContent = template.replace('%{count}', this.minChars)
-    this.minCharsHintTarget.classList.remove('visually-hidden')
-    this.minCharsHintTarget.classList.add('dropdown-item', 'disabled')
+    const template = this.element.dataset.minCharsLabel || "Type at least %{count} characters"
+    this.minCharsHintTarget.textContent = template.replace("%{count}", this.minChars)
+    this.minCharsHintTarget.classList.remove("visually-hidden")
+    this.minCharsHintTarget.classList.add("dropdown-item", "disabled")
   }
 
   hideMinCharsHint() {
     if (!this.hasMinCharsHintTarget) return
-    this.minCharsHintTarget.classList.add('visually-hidden')
-    this.minCharsHintTarget.classList.remove('dropdown-item', 'disabled')
+    this.minCharsHintTarget.classList.add("visually-hidden")
+    this.minCharsHintTarget.classList.remove("dropdown-item", "disabled")
   }
 
   hideNoResults() {
     if (!this.hasNoResultsTarget) return
-    this.noResultsTarget.classList.add('visually-hidden')
-    this.noResultsTarget.classList.remove('dropdown-item', 'disabled')
+    this.noResultsTarget.classList.add("visually-hidden")
+    this.noResultsTarget.classList.remove("dropdown-item", "disabled")
   }
 
   showLoading() {
     if (!this.hasLoadingTarget) return
     if (this.hasLoadingTextTarget) {
-      this.loadingTextTarget.textContent = this.element.dataset.loadingLabel || 'Loading…'
+      this.loadingTextTarget.textContent = this.element.dataset.loadingLabel || "Loading…"
     }
-    this.loadingTarget.classList.remove('visually-hidden')
-    this.loadingTarget.classList.add('dropdown-item', 'disabled')
+    this.loadingTarget.classList.remove("visually-hidden")
+    this.loadingTarget.classList.add("dropdown-item", "disabled")
   }
 
   hideLoading() {
     if (!this.hasLoadingTarget) return
-    this.loadingTarget.classList.add('visually-hidden')
-    this.loadingTarget.classList.remove('dropdown-item', 'disabled')
+    this.loadingTarget.classList.add("visually-hidden")
+    this.loadingTarget.classList.remove("dropdown-item", "disabled")
   }
 
   toggle(event) {
@@ -168,20 +168,20 @@ export default class extends Controller {
   syncHiddenInputs() {
     const container = this.hiddenInputsTarget
     const inputName = `${this.paramName}[]`
-    container.innerHTML = ''
+    container.innerHTML = ""
     this.selectedIds.forEach((id) => {
-      const input = document.createElement('input')
-      input.type = 'hidden'
+      const input = document.createElement("input")
+      input.type = "hidden"
       input.name = inputName
       input.value = id
-      input.dataset.adminFetchableMultiSelectFilterTarget = 'hiddenInput'
+      input.dataset.adminFetchableMultiSelectFilterTarget = "hiddenInput"
       container.appendChild(input)
     })
   }
 
   syncCheckboxes() {
     this.optionTargets.forEach((opt) => {
-      const checkbox = opt.querySelector('input[type="checkbox"]')
+      const checkbox = opt.querySelector("input[type=\"checkbox\"]")
       if (checkbox) {
         checkbox.checked = this.selectedIds.includes(opt.dataset.id)
       }
@@ -192,31 +192,31 @@ export default class extends Controller {
     if (!this.hasTriggerTextTarget) return
     const selected = this.selectedIds
     if (selected.length === 0) {
-      this.triggerTextTarget.textContent = this.element.dataset.allLabel || 'All'
+      this.triggerTextTarget.textContent = this.element.dataset.allLabel || "All"
     } else if (selected.length === 1 && this.hasCountLabelOneValue) {
       this.triggerTextTarget.textContent = this.countLabelOneValue
     } else {
-      const template = this.element.dataset.countLabel || '%{count} selected'
-      this.triggerTextTarget.textContent = template.replace('%{count}', selected.length)
+      const template = this.element.dataset.countLabel || "%{count} selected"
+      this.triggerTextTarget.textContent = template.replace("%{count}", selected.length)
     }
   }
 
   submitForm() {
-    const form = this.element.closest('form')
+    const form = this.element.closest("form")
     if (form) form.requestSubmit()
   }
 
   handleKeydown(event) {
-    if (event.key === 'Escape') {
+    if (event.key === "Escape") {
       this.hideDropdown()
-    } else if (event.key === 'Enter') {
+    } else if (event.key === "Enter") {
       event.preventDefault()
       event.stopPropagation()
     }
   }
 
   hideDropdown() {
-    const toggle = this.dropdownTarget?.querySelector('[data-bs-toggle="dropdown"]')
+    const toggle = this.dropdownTarget?.querySelector("[data-bs-toggle=\"dropdown\"]")
     if (toggle && window.bootstrap?.Dropdown) {
       bootstrap.Dropdown.getInstance(toggle)?.hide()
     }

@@ -6,14 +6,14 @@ class Cookies {
   #buildAttrsStr(attrs) {
     return Object.entries(attrs)
       .map(([key, value]) => {
-        if (typeof value === 'boolean') {
+        if (typeof value === "boolean") {
           return value ? key : undefined
         } else {
           return `${key}=${value}`
         }
       })
       .filter((keyValue) => keyValue !== undefined)
-      .join('; ')
+      .join("; ")
   }
 }
 

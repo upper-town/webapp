@@ -30,21 +30,23 @@ Generate a commit message that summarizes everything the current branch changed 
 
 4. Compose the commit message following the format below.
 
+5. Verify every line (title and bullets) is at most 72 characters. Reword if needed.
+
 ## Commit Message Format
 
 The message has two parts: a title line followed by a blank line and a bullet list:
 
-    <Title: one-line imperative summary, max ~72 chars>
+    <Title: one-line imperative summary, 72 chars max>
 
-    - <change 1>
-    - <change 2>
+    - <change 1, 72 chars max>
+    - <change 2, 72 chars max>
     - ...
 
 ### Rules
 
 - **Title**: imperative mood ("Add X", "Fix Y", "Refactor Z"), concise, no trailing period.
 - **Body**: a flat bullet list of the notable additions, changes, removals, or fixes. Each bullet is one short sentence. Omit trivial or mechanical changes (whitespace, import reordering) unless they are the only change.
-- **Every line** (title and each bullet) must be at most 72 characters. Reword to stay within the limit rather than wrapping mid-sentence.
+- **72 chars max per line**: Every line (title and each bullet) must be at most 72 characters. Before outputting, verify each line. Reword long lines to stay within the limit; do not wrap mid-sentence.
 - **ASCII only**: use plain ASCII characters (hyphens, commas, parentheses). No em dashes, arrows, or other Unicode symbols.
 - Keep the total message short - aim for 3-8 bullets. Group related changes into a single bullet when possible.
 - Do **not** list every file; describe *what* changed at a meaningful level of abstraction.

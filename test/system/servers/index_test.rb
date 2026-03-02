@@ -46,5 +46,15 @@ class ServersIndexTest < ApplicationSystemTestCase
         )
       end
     end
+
+    it "filters by country when country_codes param is present" do
+      create_game(name: "Test Game", slug: "test-game")
+      create_server(game: Game.find_by(slug: "test-game"), name: "US Server", country_code: "US")
+
+      visit(servers_path(country_codes: ["US"]))
+
+      assert_current_path(/\?.*country_codes/)
+      assert_text("US Server")
+    end
   end
 end

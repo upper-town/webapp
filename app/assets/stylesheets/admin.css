@@ -195,7 +195,6 @@
   background-image: none;
   border: 1px solid var(--bs-border-color);
   background-color: var(--bs-body-bg);
-  font-size: 0.875rem;
 }
 
 .admin-multi-select-filter .dropdown-menu,

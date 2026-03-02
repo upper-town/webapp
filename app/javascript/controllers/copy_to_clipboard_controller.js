@@ -1,11 +1,11 @@
-import { Controller } from '@hotwired/stimulus'
+import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static values = {
     value: String
   }
 
-  static targets = ['content']
+  static targets = ["content"]
 
   copy(event) {
     event.preventDefault()
@@ -24,31 +24,31 @@ export default class extends Controller {
   }
 
   showCopiedFeedback() {
-    const btn = this.element.querySelector('[data-copy-btn]')
+    const btn = this.element.querySelector("[data-copy-btn]")
     if (!btn) return
 
     const originalHtml = btn.innerHTML
     const originalTitle = btn.title
     btn.innerHTML = this.copiedIcon
     btn.title = this.copiedTitle
-    btn.classList.add('text-success')
+    btn.classList.add("text-success")
 
     setTimeout(() => {
       btn.innerHTML = originalHtml
       btn.title = originalTitle
-      btn.classList.remove('text-success')
+      btn.classList.remove("text-success")
     }, 1500)
   }
 
   fallbackCopy(text) {
-    const textarea = document.createElement('textarea')
+    const textarea = document.createElement("textarea")
     textarea.value = text
-    textarea.style.position = 'fixed'
-    textarea.style.opacity = '0'
+    textarea.style.position = "fixed"
+    textarea.style.opacity = "0"
     document.body.appendChild(textarea)
     textarea.select()
     try {
-      document.execCommand('copy')
+      document.execCommand("copy")
       this.showCopiedFeedback()
     } finally {
       document.body.removeChild(textarea)
@@ -56,10 +56,10 @@ export default class extends Controller {
   }
 
   get copiedIcon() {
-    return '<i class="bi bi-check-lg" style="font-size: 0.875rem"></i>'
+    return "<i class=\"bi bi-check-lg\" style=\"font-size: 0.875rem\"></i>"
   }
 
   get copiedTitle() {
-    return this.element.dataset.copiedTitle || 'Copied!'
+    return this.element.dataset.copiedTitle || "Copied!"
   }
 }

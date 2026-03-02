@@ -13,7 +13,7 @@ Rails.application.routes.draw do
 
   # /
 
-  root to: "home#index"
+  root to: "servers#index"
 
   resources :servers, only: [:index, :show] do
     resources :server_votes, as: "votes", path: "votes", only: [:index, :new, :create]

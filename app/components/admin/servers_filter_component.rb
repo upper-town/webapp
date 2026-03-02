@@ -1,6 +1,6 @@
 module Admin
   class ServersFilterComponent < ApplicationComponent
-    DEFAULT_SELECT_CLASS = "form-select form-select-sm admin-servers-filter-inline__select"
+    DEFAULT_SELECT_CLASS = "form-select admin-servers-filter-inline__select"
 
     attr_reader :form, :selected_status_ids, :selected_country_codes, :selected_game_ids, :game_options, :request, :hide_game_filter
 

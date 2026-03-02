@@ -2,10 +2,10 @@ module Servers
   class IndexQuery
     include Callable
 
-    attr_reader :game, :period, :country_codes, :current_time
+    attr_reader :game_ids, :period, :country_codes, :current_time
 
-    def initialize(game = nil, period = nil, country_codes = nil, current_time = nil)
-      @game = game
+    def initialize(game_ids = nil, period = nil, country_codes = nil, current_time = nil)
+      @game_ids = build_game_ids(game_ids)
       @period = period || Periods::MONTH
       @country_codes = build_country_codes(country_codes)
       @current_time = current_time || Time.current
@@ -13,7 +13,7 @@ module Servers
 
     def call
       scope = Server.includes(:game)
-      scope = scope.where(game:) if game.present?
+      scope = scope.where(game_id: game_ids) if game_ids.present?
       scope = scope.where(country_code: country_codes) if country_codes
       scope = scope.joins(sql_left_join_server_stats)
 
@@ -54,6 +54,13 @@ module Servers
       return if values.nil?
 
       values.select { Server::COUNTRY_CODES.include?(it) }
+    end
+
+    def build_game_ids(values)
+      return if values.nil?
+
+      ids = Array(values).flatten.map(&:to_s).compact_blank.uniq
+      ids.presence
     end
   end
 end

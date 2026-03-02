@@ -1,9 +1,9 @@
-import { Controller } from '@hotwired/stimulus'
-import Navigate from 'lib/navigate'
+import { Controller } from "@hotwired/stimulus"
+import Navigate from "lib/navigate"
 
-const TURBO_VISIT = 'turbo_visit'
-const TURBO_STREAM = 'turbo_stream'
-const NEW_TAB = 'new_tab'
+const TURBO_VISIT = "turbo_visit"
+const TURBO_STREAM = "turbo_stream"
+const NEW_TAB = "new_tab"
 
 export default class extends Controller {
   static values = {
@@ -27,7 +27,7 @@ export default class extends Controller {
         this.navigate.openInNewTab()
         break
       default:
-        throw 'Invalid mode value for navigate controller'
+        throw "Invalid mode value for navigate controller"
     }
   }
 }

@@ -1,7 +1,7 @@
-import { Controller } from '@hotwired/stimulus'
+import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  #eventName = 'turbo:submit-end'
+  #eventName = "turbo:submit-end"
 
   connect() {
     this.element.addEventListener(this.#eventName, this.#followRedirect)

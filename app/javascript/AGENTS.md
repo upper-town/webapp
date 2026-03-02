@@ -6,6 +6,8 @@ This file provides guidance for AI agents when working with JavaScript in this r
 
 The app uses **Stimulus** (Hotwire) for JavaScript behavior. All JavaScript lives under `app/javascript/`. Inline JavaScript in HTML (e.g. `onclick`, `href="javascript:..."`) does not work—security checks block it.
 
+**Style**: Use double quotes for strings in `.js` files (imports, string literals, etc.). Single quotes are not preferred.
+
 ## Structure
 
 | Path | Purpose |
@@ -33,7 +35,8 @@ Controllers are loaded via importmap (`config/importmap.rb`). No external npm pa
 | `admin-filter` | Admin filter form auto-submit on change (native selects) |
 | `captcha` | hCaptcha widget integration |
 | `game-select`, `country-select`, `period-select` | Select component behavior |
-| `admin-multi-select-filter` | Multi-select with client-side filtering; static options |
+| `admin-multi-select-filter` | Multi-select with client-side filtering; static options (admin) |
+| `multi-select-filter` | Multi-select with client-side filtering; static options (public server index) |
 | `admin-fetchable-multi-select-filter` | Multi-select with backend fetch; used for account filter on admin server votes |
 | `navigate` | Turbo navigation helpers |
 | `browser-time-zone` | Sends time zone to server |
