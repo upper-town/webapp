@@ -14,11 +14,7 @@ class Admin::FilterComponentTest < ViewComponent::TestCase
 
   describe "rendering" do
     it "renders content block" do
-      render_inline(described_class.new(
-        form: build_form,
-        has_active_filters: false,
-        params_to_remove: []
-      )) do
+      render_inline(described_class.new(form: build_form, params_to_remove: [])) do
         "Filter fields"
       end
 
@@ -29,7 +25,6 @@ class Admin::FilterComponentTest < ViewComponent::TestCase
       req = build_request_with_params("http://uppertown.test/admin/servers?q=search&sort=name")
       render_inline(described_class.new(
         form: build_form,
-        has_active_filters: false,
         params_to_remove: [],
         request: req
       )) do
@@ -44,7 +39,6 @@ class Admin::FilterComponentTest < ViewComponent::TestCase
       req = build_request_with_params("http://uppertown.test/admin/servers?q=foo&status=verified&country_code=US")
       render_inline(described_class.new(
         form: build_form,
-        has_active_filters: false,
         params_to_remove: %w[status country_code],
         request: req
       )) do
@@ -60,7 +54,6 @@ class Admin::FilterComponentTest < ViewComponent::TestCase
       req = build_request_with_params("http://uppertown.test/admin/servers?q=bar&game_ids[]=1&game_ids[]=2&sort=name")
       render_inline(described_class.new(
         form: build_form,
-        has_active_filters: false,
         params_to_remove: %w[game_ids[]],
         request: req
       )) do
@@ -72,35 +65,8 @@ class Admin::FilterComponentTest < ViewComponent::TestCase
       assert_no_selector("input[type='hidden'][name='game_ids[]']", visible: :all)
     end
 
-    it "renders clear button when has_active_filters is true" do
-      render_inline(described_class.new(
-        form: build_form,
-        has_active_filters: true,
-        params_to_remove: []
-      )) do
-        "Fields"
-      end
-
-      assert_selector("a.btn", text: I18n.t("admin.shared.clear_search"))
-    end
-
-    it "does not render clear button when has_active_filters is false" do
-      render_inline(described_class.new(
-        form: build_form,
-        has_active_filters: false,
-        params_to_remove: []
-      )) do
-        "Fields"
-      end
-
-      assert_no_selector("a", text: I18n.t("admin.shared.clear_search"))
-    end
-
     it "has d-flex layout classes" do
-      render_inline(described_class.new(
-        form: build_form,
-        params_to_remove: []
-      )) do
+      render_inline(described_class.new(form: build_form, params_to_remove: [])) do
         "Fields"
       end
 
@@ -109,22 +75,19 @@ class Admin::FilterComponentTest < ViewComponent::TestCase
   end
 
   describe "attr_readers" do
-    it "exposes form, clear_url, has_active_filters, params_to_remove" do
+    it "exposes form, params_to_remove, request_helper" do
       form = build_form
       req = build_request_with_params("http://uppertown.test/admin/servers?x=1")
       component = described_class.new(
         form: form,
-        has_active_filters: true,
         params_to_remove: %w[status],
         request: req
       )
       render_inline(component) { "Fields" }
 
       assert_equal(form, component.form)
-      assert_includes(component.clear_url, "x=1")
-      assert_not_includes(component.clear_url, "status")
-      assert(component.has_active_filters)
       assert_equal(%w[status], component.params_to_remove)
+      assert(component.request_helper.is_a?(RequestHelper))
     end
   end
 end

@@ -1,17 +1,15 @@
-<%= form_with(url:, method: :get, class: "d-flex gap-2 admin-search-form", data: { controller: "search-form", "search-form-clear-url-value": clear_url, "search-form-param-value": param }) do |form| %>
+<%= form_with(url:, method: :get, class: "admin-search-form", data: { controller: "search-form", "search-form-clear-url-value": clear_url, "search-form-param-value": param }) do |form| %>
   <% hidden_params.each do |key, value| %>
     <% input_name = value.is_a?(Array) ? (key.to_s.end_with?("[]") ? key : "#{key}[]") : key %>
     <% Array(value).each do |v| %>
       <%= tag.input(type: "hidden", name: input_name, value: v) %>
     <% end %>
   <% end %>
-  <%= form.search_field param, value: search_term, placeholder:, class: "form-control", data: { "search-form-target": "input" }.merge(show_clear? ? { action: "keydown->search-form#clear input->search-form#clearOnInput" } : {}) %>
-  <% if show_clear? %>
-    <div class="btn-group">
-      <%= form.submit(t("admin.shared.search"), class: "btn btn-outline-primary", name: nil) %>
-      <%= link_to(t("admin.shared.clear_search"), clear_url, class: "btn btn-outline-secondary") %>
-    </div>
-  <% else %>
+  <div class="input-group">
+    <%= form.search_field param, value: search_term, placeholder:, class: "form-control", data: { "search-form-target": "input" }.merge(show_clear? ? { action: "keydown->search-form#clear input->search-form#clearOnInput" } : {}) %>
     <%= form.submit(t("admin.shared.search"), class: "btn btn-outline-primary", name: nil) %>
-  <% end %>
+    <% if show_clear? %>
+      <%= link_to(t("admin.shared.clear_search"), clear_url, class: "btn btn-outline-secondary d-flex align-items-center justify-content-center", aria: { label: t("admin.shared.clear_search") }) %>
+    <% end %>
+  </div>
 <% end %>

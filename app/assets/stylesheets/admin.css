@@ -138,10 +138,14 @@
   color: var(--bs-gray-800);
 }
 
-/* Admin search form input width (default for standalone search) */
-.admin-search-form .form-control {
-  width: 36rem;
-  flex-shrink: 0;
+/* Admin search form: flexible input group that fills available space */
+.admin-search-form {
+  width: 100%;
+}
+
+.admin-search-form .input-group {
+  width: 100%;
+  min-width: 14rem;
 }
 
 /* Admin pagination + search row: side-by-side when space allows, search wraps below when narrow */
@@ -168,16 +172,14 @@
   max-width: 100%;
 }
 
-.admin-pagination-search-row .admin-search-form .form-control {
-  width: auto;
-  flex: 1;
+.admin-pagination-search-row .admin-search-form .input-group {
   min-width: 6rem;
 }
 
 /* Match heights for vertical alignment */
 .admin-pagination-search-row .page-link,
-.admin-pagination-search-row .form-control,
-.admin-pagination-search-row .btn {
+.admin-pagination-search-row .input-group .form-control,
+.admin-pagination-search-row .input-group .btn {
   height: 2.375rem;
   box-sizing: border-box;
 }

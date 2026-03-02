@@ -39,19 +39,6 @@ class Admin::ServersFilterComponentTest < ViewComponent::TestCase
       assert_selector("button[aria-label='Country']", text: /All countries/i)
     end
 
-    it "shows clear button when filters are active" do
-      with_stubbed_country_query([]) do
-        with_stubbed_game_options([]) do
-          render_inline(described_class.new(
-            form: build_form,
-            selected_status_ids: ["verified"]
-          ))
-        end
-      end
-
-      assert_selector("a.btn", text: "Clear")
-    end
-
     it "includes hidden fields for q, sort, sort_dir when present in request" do
       req = build_request(url: "http://uppertown.test/admin/servers?q=my+search&sort=name&sort_dir=asc")
       with_stubbed_country_query([]) do

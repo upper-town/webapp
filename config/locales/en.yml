@@ -673,6 +673,7 @@ en:
   shared:
     aria:
       toggle_navigation: "Toggle navigation"
+      clear_filter: "Clear %{filter} filter"
       admin_navigation: "Admin navigation"
       main_navigation: "Main navigation"
       pagination: "Pagination"

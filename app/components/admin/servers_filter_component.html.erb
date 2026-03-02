@@ -1,25 +1,27 @@
 <%= render(Admin::FilterComponent.new(
   form: form,
-  has_active_filters: has_active_filters?,
   params_to_remove: FILTER_PARAMS,
   request: request
 )) do %>
   <%= render(Admin::StatusMultiSelectFilterComponent.new(
     form: form,
     selected_ids: selected_status_ids,
-    aria_label: t("admin.servers.index.filter.status")
+    aria_label: t("admin.servers.index.filter.status"),
+    request: request
   )) %>
   <% unless hide_game_filter %>
     <%= render(Admin::GameMultiSelectFilterComponent.new(
       form: form,
       selected_ids: selected_game_ids,
       options: game_options,
-      aria_label: Server.human_attribute_name(:game)
+      aria_label: Server.human_attribute_name(:game),
+      request: request
     )) %>
   <% end %>
   <%= render(Admin::CountryMultiSelectFilterComponent.new(
     form: form,
     selected_ids: selected_country_codes,
-    aria_label: Server.human_attribute_name(:country)
+    aria_label: Server.human_attribute_name(:country),
+    request: request
   )) %>
 <% end %>

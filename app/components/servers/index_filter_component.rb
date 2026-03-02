@@ -4,14 +4,16 @@ module Servers
       :form,
       :selected_value_game_ids,
       :selected_value_period,
-      :selected_value_country_codes
+      :selected_value_country_codes,
+      :request
     )
 
     def initialize(
       form:,
       selected_value_game_ids: nil,
       selected_value_period: Periods::MONTH,
-      selected_value_country_codes: nil
+      selected_value_country_codes: nil,
+      request: nil
     )
       super()
 
@@ -19,16 +21,8 @@ module Servers
       @selected_value_game_ids = normalize_ids(selected_value_game_ids)
       @selected_value_period = selected_value_period
       @selected_value_country_codes = normalize_ids(selected_value_country_codes)
+      @request = request
     end
 
-    def has_active_filters?
-      selected_value_game_ids.present? ||
-        selected_value_period != Periods::MONTH ||
-        selected_value_country_codes.present?
-    end
-
-    def clear_url
-      servers_path
-    end
   end
 end

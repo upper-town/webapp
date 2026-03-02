@@ -16,15 +16,6 @@ class Admin::ServerStatsFilterComponentTest < ViewComponent::TestCase
       assert_selector("input[name='periods[]']", visible: :all, count: 0)
     end
 
-    it "shows clear button when period filter is active" do
-      render_inline(described_class.new(
-        form: build_form,
-        selected_period_ids: ["month"]
-      ))
-
-      assert_selector("a.btn", text: "Clear")
-    end
-
     it "includes hidden fields for q, sort, sort_dir when present in request" do
       req = build_request(url: "http://uppertown.test/admin/server_stats?q=my+search&sort=period&sort_dir=asc")
       render_inline(described_class.new(

@@ -3,7 +3,7 @@ class MultiSelectFilterComponent < ApplicationComponent
 
   attr_reader :form, :param_name, :selected_ids, :options, :placeholder, :apply_label, :all_label,
               :count_label, :count_label_one, :no_results_label, :aria_label, :select_class,
-              :dropdown_id, :options_list_id
+              :dropdown_id, :options_list_id, :request
 
   # rubocop:disable Metrics/ParameterLists
   def initialize(
@@ -20,7 +20,8 @@ class MultiSelectFilterComponent < ApplicationComponent
     aria_label: nil,
     select_class: nil,
     dropdown_id: nil,
-    options_list_id: nil
+    options_list_id: nil,
+    request: nil
   )
     super()
 
@@ -38,8 +39,25 @@ class MultiSelectFilterComponent < ApplicationComponent
     @select_class = select_class || DEFAULT_SELECT_CLASS
     @dropdown_id = dropdown_id || "multi_select_filter_dropdown_#{@param_name}"
     @options_list_id = options_list_id || "multi_select_filter_options_#{@param_name}"
+    @request = request
   end
   # rubocop:enable Metrics/ParameterLists
+
+  def show_clear_button?
+    request.present? && selected_ids.present?
+  end
+
+  def clear_url
+    return unless request.present?
+
+    RequestHelper.new(request).url_with_query({}, ["#{param_name}[]"])
+  end
+
+  def clear_button_aria_label
+    return I18n.t("shared.aria.clear_filter", filter: aria_label) if aria_label.present?
+
+    I18n.t("servers.index.filter.clear")
+  end
 
   def options_json
     options.to_json

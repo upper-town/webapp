@@ -3,7 +3,8 @@ module Admin
     attr_reader :form, :param_name, :selected_ids, :selected_labels, :static_options,
                 :placeholder, :apply_label, :all_label, :count_label, :count_label_one,
                 :no_results_label, :aria_label, :select_class, :dropdown_id, :options_list_id,
-                :search_url, :search_url_params, :min_chars, :min_chars_label, :loading_label
+                :search_url, :search_url_params, :min_chars, :min_chars_label, :loading_label,
+                :request
 
     # rubocop:disable Metrics/ParameterLists
     def initialize(
@@ -26,7 +27,8 @@ module Admin
       search_url_params: {},
       min_chars: 2,
       min_chars_label: nil,
-      loading_label: nil
+      loading_label: nil,
+      request: nil
     )
       super()
 
@@ -52,8 +54,25 @@ module Admin
       @min_chars = min_chars
       @min_chars_label = min_chars_label
       @loading_label = loading_label
+      @request = request
     end
     # rubocop:enable Metrics/ParameterLists
+
+    def show_clear_button?
+      request.present? && selected_ids.present?
+    end
+
+    def clear_url
+      return unless request.present?
+
+      RequestHelper.new(request).url_with_query({}, ["#{param_name}[]"])
+    end
+
+    def clear_button_aria_label
+      return I18n.t("shared.aria.clear_filter", filter: aria_label) if aria_label.present?
+
+      I18n.t("admin.shared.clear_search")
+    end
 
     def search_url_with_params
       return unless search_url.present?

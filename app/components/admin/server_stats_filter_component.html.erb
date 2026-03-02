@@ -1,12 +1,12 @@
 <%= render(Admin::FilterComponent.new(
   form: form,
-  has_active_filters: has_active_filters?,
   params_to_remove: FILTER_PARAMS,
   request: request
 )) do %>
   <%= render(Admin::PeriodMultiSelectFilterComponent.new(
     form: form,
     selected_ids: selected_period_ids,
-    aria_label: t("admin.server_stats.index.filter.period")
+    aria_label: t("admin.server_stats.index.filter.period"),
+    request: request
   )) %>
 <% end %>

@@ -43,6 +43,11 @@
         >
           <%= apply_label %>
         </button>
+        <% if show_clear_button? %>
+          <%= link_to(clear_url, class: "btn btn-outline-secondary d-flex align-items-center justify-content-center", aria: { label: clear_button_aria_label }) do %>
+            <%= t("admin.shared.clear_search") %>
+          <% end %>
+        <% end %>
       </div>
       <div id="<%= options_list_id %>" data-admin-multi-select-filter-target="optionsList" role="group">
         <% options.each do |name, id| %>

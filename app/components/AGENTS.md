@@ -30,7 +30,7 @@ All components inherit from `ApplicationComponent < ViewComponent::Base`. Use Bo
 | `Admin::DetailsTableComponent` | Admin key-value detail views with optional copy; includes `Admin::CopyableCell` |
 | `Admin::CopyableCell` | Module (not a component) providing `copy_cell_wrapper` and `copy_button_html`; included by `Admin::TableComponent` and `Admin::DetailsTableComponent` |
 | `Admin::SearchFormComponent` | Admin search/filter forms |
-| `Admin::FilterComponent` | Reusable admin filter wrapper (fields via block, hidden params, clear button); used by `Admin::ServersFilterComponent`, `Admin::ServerStatsFilterComponent`, `Admin::ServerVotesFilterComponent` |
+| `Admin::FilterComponent` | Reusable admin filter wrapper (fields via block, hidden params); used by `Admin::ServersFilterComponent`, `Admin::ServerStatsFilterComponent`, `Admin::ServerVotesFilterComponent` |
 | `Admin::ServersFilterComponent` | Admin servers index filter (status, game, country); uses `Admin::FilterComponent` |
 | `Admin::ServerStatsFilterComponent` | Admin server stats index filter (period); uses `Admin::FilterComponent` |
 | `Admin::ServerVotesFilterComponent` | Admin server votes index filter (game, server, account); uses `Admin::FilterComponent` |
@@ -53,7 +53,7 @@ When adding a component that is not an admin filter: inherit from `ApplicationCo
 
 When adding a new admin index filter:
 
-1. **Wrapper** — Use `Admin::FilterComponent` with a block for the filter fields. Pass `form:`, `has_active_filters:`, `params_to_remove:`, and optionally `request:`.
+1. **Wrapper** — Use `Admin::FilterComponent` with a block for the filter fields. Pass `form:`, `params_to_remove:`, and optionally `request:`.
 2. **Static multi-select** — Use `Admin::MultiSelectFilterComponent` (or a wrapper like `Admin::GameMultiSelectFilterComponent`) when options are known and finite. The `admin-multi-select-filter` Stimulus controller submits the form when the user applies selections.
 3. **Dynamic fetch multi-select** — Use `Admin::FetchableMultiSelectFilterComponent` (or `Admin::AccountMultiSelectFilterComponent`) when options come from an API. Wired to `admin-fetchable-multi-select-filter` Stimulus controller.
 4. **Simple select auto-submit** — For a native `<select>` that should submit on change: add `data-controller="admin-filter"` to the form and `data-action="change->admin-filter#filter"` to the select.
