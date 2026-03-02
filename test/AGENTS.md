@@ -6,6 +6,8 @@ This file provides guidance to AI agents when working with tests in this reposit
 
 The test suite uses **Minitest** with spec-style `describe`/`it` blocks, **Capybara** for system tests, **WebMock** for HTTP stubbing, and **VCR** (optional) for recording HTTP interactions. Tests run in parallel by default.
 
+**Data setup**: Prefer explicit setup in each test case. Use `let`, `before`, `around` sparingly—only for small shared setup (e.g. `described_class`).
+
 ## Commands
 
 ```bash
@@ -62,7 +64,7 @@ Integration tests also get **RequestTestSetup** (sets `host!`). System tests get
 
 ## Factories
 
-Use `ApplicationRecordTestFactoryHelper` factories. No fixtures are used.
+Use `ApplicationRecordTestFactoryHelper` factories. No fixtures are used. Concept tests often define `*_attributes` helper methods (e.g. `server_attributes`) locally for building form params.
 
 ```ruby
 # Create persisted record
@@ -88,6 +90,8 @@ ApplicationRecordTestFactoryHelper.define(:user, User,
 ## Common Patterns
 
 ### Concept Tests
+
+Mirror `app/concepts/` structure. Set up data explicitly in each `it` block:
 
 ```ruby
 class Servers::CreateTest < ActiveSupport::TestCase
@@ -218,8 +222,9 @@ assert_selector("span.badge.bg-success", text: "Verified")
 
 1. **New concept** — Add `test/concepts/<domain>/<service>_test.rb` mirroring `app/concepts/`.
 2. **New model** — Add `test/models/<model>_test.rb` or `test/models/<namespace>/<model>_test.rb`.
-3. **New route/controller** — Add request test in `test/requests/` or system test in `test/system/`.
-4. **New factory** — Add `test/support/factories/<name>_test_factory.rb` and call `ApplicationRecordTestFactoryHelper.define`.
+3. **New component** — Add `test/components/<namespace>/<component>_test.rb` mirroring `app/components/`.
+4. **New route/controller** — Add request test in `test/requests/` or system test in `test/system/`.
+5. **New factory** — Add `test/support/factories/<name>_test_factory.rb` and call `ApplicationRecordTestFactoryHelper.define`.
 
 ## Assertions
 

@@ -17,6 +17,7 @@ This file provides guidance for AI agents working with migrations and seeds in `
 
 ### Conventions
 
+- **Reversible migrations** — Use `change` when possible; avoid `up`/`down` unless necessary.
 - **Datetime columns** — Use `t.datetime`; the app configures `ActiveRecord::Base.datetime_type = :timestamptz` for PostgreSQL.
 - **Soft deletes** — Timestamp columns: `archived_at`, `marked_for_deletion_at`, `disabled_at`.
 - **UUIDs** — UUIDv7 for `accounts.uuid` and `server_votes.uuid` (via `pgcrypto` extension).
@@ -52,6 +53,7 @@ end
 
 ```bash
 bin/rails db:migrate           # Run primary migrations
+bin/rails db:migrate:status    # Check migration status
 bin/rails db:seed              # Run seeds
 bin/rails db:seed:replant      # Truncate and re-seed (used in CI)
 ```

@@ -112,7 +112,7 @@ This file provides guidance for AI agents when working with Bootstrap, layouts, 
 ### Validation
 
 - `field_error_proc` wraps invalid fields in `field-with-errors` and adds `invalid-feedback`
-- `form_error_messages_handler_controller` adds `is-invalid` to inputs when form has errors
+- `form-error-messages-handler` Stimulus controller adds `is-invalid` to inputs when form has errors
 - Ensure `aria-invalid="true"` and `aria-describedby` point to error message when invalid (Rails/Bootstrap handle this when using standard patterns)
 
 ### Select Components

@@ -1,6 +1,10 @@
 # Intro
 
-This file provides guidance to AI agents when working with code in this repository. When adding new features, follow existing patterns: place business logic in `app/concepts/` under the appropriate domain, use `Callable` for services/queries, return `ApplicationResult` from services, use form objects for user input and pass them (not splatted attributes) to services, use model attribute locales (`activerecord.attributes`) for attribute labels instead of custom per-page keys, and add tests in `test/concepts/` mirroring the concept structure.
+This file provides guidance to AI agents when working with code in this repository. **Start here** for architecture and patterns; use the **Key File Locations** table to find directory-specific guides (`app/concepts/AGENTS.md`, `app/components/AGENTS.md`, etc.) when working in those areas.
+
+When adding new features, follow existing patterns: place business logic in `app/concepts/` under the appropriate domain, use `Callable` for services/queries, return `ApplicationResult` from services, use form objects for user input and pass them (not splatted attributes) to services, use model attribute locales (`activerecord.attributes`) for attribute labels instead of custom per-page keys, and add tests in `test/concepts/` mirroring the concept structure.
+
+**Avoid**: Splatting form attributes into service calls; inline JavaScript in HTML; duplicating model attribute labels in page-specific locale keys.
 
 ## Project Overview
 
@@ -62,23 +66,35 @@ bin/ci             # Full CI pipeline (see config/ci.rb)
 
 ## Key File Locations
 
+**Directory guides** (read when editing code in that area):
+
 | Purpose | Path |
 |---------|------|
-| Bootstrap & UI guidelines | `app/assets/stylesheets/AGENTS.md` |
+| Concepts (services, queries, jobs) | `app/concepts/AGENTS.md` |
+| Components (ViewComponents) | `app/components/AGENTS.md` |
+| Controllers | `app/controllers/AGENTS.md` |
+| Models (records, forms, validators) | `app/models/AGENTS.md` |
+| Queries (shared, search) | `app/queries/AGENTS.md` |
+| JavaScript & Stimulus | `app/javascript/AGENTS.md` |
+| Bootstrap & UI | `app/assets/stylesheets/AGENTS.md` |
+| Config | `config/AGENTS.md` |
+| Database (migrations, seeds) | `db/AGENTS.md` |
+| Tests | `test/AGENTS.md` |
+
+**Key files:**
+
+| Purpose | Path |
+|---------|------|
 | Callable module | `app/services/callable.rb` |
 | ApplicationResult | `app/services/application_result.rb` |
-| AppUtil (env helpers, webapp_host) | `app/lib/app_util.rb` |
+| RequestHelper | `app/services/request_helper.rb` |
+| AppUtil | `app/lib/app_util.rb` |
 | Current (request context) | `app/values/current.rb` |
-| Locales (i18n) | `config/locales/` |
-| Recurring job schedules | `config/recurring.yml` |
-| CI pipeline definition | `config/ci.rb` |
-| Concepts directory guide | `app/concepts/AGENTS.md` |
-| Components directory guide | `app/components/AGENTS.md` |
-| Test directory guide | `test/AGENTS.md` |
-| Database directory guide | `db/AGENTS.md` |
-| JavaScript & Stimulus guide | `app/javascript/AGENTS.md` |
-| Queries directory guide | `app/queries/AGENTS.md` |
-| Search module (admin search mixins) | `app/queries/search/` |
+| Policies | `app/policies/` |
+| Locales | `config/locales/` |
+| Recurring jobs | `config/recurring.yml` |
+| CI pipeline | `config/ci.rb` |
+| Search mixins | `app/queries/search/` |
 
 ## Locales
 
@@ -124,7 +140,10 @@ app/concepts/
 ├── admin_users/        # Admin user creation, auth, email confirmation, password resets
 ├── captcha.rb          # hCaptcha verification
 ├── demo/               # Dev-only constraint and webhook request handler
-│   └── webhook_events/ # Demo webhook event creation
+│   ├── webhook_events/ # Demo webhook event creation
+│   └── webhooks/       # Demo webhook request parsing (Demo::Webhooks::Request)
+├── inside/             # Inside (authenticated user) dashboard
+│   └── dashboard_stats.rb
 ├── periods.rb          # Year/month/week time period utilities
 ├── servers/            # Server CRUD, verification, voting, archiving, stats consolidation
 │   └── verify_accounts/  # JSON file-based account verification pipeline
@@ -287,7 +306,7 @@ Use form objects for any user input that drives a create/update flow. Forms vali
 
 ### ViewComponents
 
-Components inherit from `ApplicationComponent < ViewComponent::Base` and live in `app/components/`. Key components: `AlertComponent`, `FlashItemComponent`, `PaginationComponent`, `PaginationCursorComponent`, select components (`GameSelectComponent`, `CountrySelectComponent`, `PeriodSelectComponent`), `Servers::IndexResultComponent`, `Admin::TableComponent`, `Admin::DetailsTableComponent`, `Admin::SearchFormComponent`, `Admin::ServerStatusBadgesComponent`, `Admin::IndexActionsComponent`, `Admin::ShowActionsComponent`.
+Components inherit from `ApplicationComponent < ViewComponent::Base` and live in `app/components/`. Key components: `AlertComponent`, `FlashItemComponent`, `PaginationComponent`, `PaginationCursorComponent`, select components (`GameSelectComponent`, `CountrySelectComponent`, `PeriodSelectComponent`), `Servers::IndexResultComponent`, `Admin::TableComponent`, `Admin::DetailsTableComponent`, `Admin::SearchFormComponent`, `Admin::ServerStatusBadgesComponent`, `Admin::IndexActionsComponent`, `Admin::ShowActionsComponent`. For the full list including admin filter components, see `app/components/AGENTS.md`.
 
 Define `attr_reader` for instance variables and use the reader methods in templates (e.g. `url` instead of `@url`). Usually add parentheses around method calls with arguments; omit them only when it makes sense.
 

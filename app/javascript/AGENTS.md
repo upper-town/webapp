@@ -28,15 +28,16 @@ Controllers are loaded via importmap (`config/importmap.rb`). No external npm pa
 | Controller | Purpose |
 |------------|---------|
 | `copy-to-clipboard` | Copy text to clipboard; used by `Admin::CopyableCell` |
-| `form_error_messages_handler` | Adds `is-invalid` to inputs in `field-with-errors`; removes on input |
-| `search_form` | Admin search form behavior |
-| `admin_filter` | Admin filter form auto-submit on change |
+| `form-error-messages-handler` | Adds `is-invalid` to inputs in `field-with-errors`; removes on input |
+| `search-form` | Admin search form behavior |
+| `admin-filter` | Admin filter form auto-submit on change (native selects) |
 | `captcha` | hCaptcha widget integration |
-| `game_select`, `country_select`, `period_select` | Select component behavior |
-| `admin-multi-select-filter` | Multi-select with client-side filtering; static options only |
-| `admin-fetchable-multi-select-filter` | Multi-select with backend fetch; options built dynamically as user searches; used only for account filter on admin server votes |
+| `game-select`, `country-select`, `period-select` | Select component behavior |
+| `admin-multi-select-filter` | Multi-select with client-side filtering; static options |
+| `admin-fetchable-multi-select-filter` | Multi-select with backend fetch; used for account filter on admin server votes |
 | `navigate` | Turbo navigation helpers |
-| `browser_time_zone` | Sends time zone to server |
+| `browser-time-zone` | Sends time zone to server |
+| `select-text` | Select text on click; used in pagination |
 
 ## Adding New Behavior
 

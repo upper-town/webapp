@@ -13,8 +13,9 @@ Business logic lives here, organized by **domain concept** (not by technical lay
 | Server CRUD, voting, archiving | `servers/` | `Servers::Create`, `Servers::Update`, `Servers::CreateVote` |
 | User auth, email, password | `users/` or `admin_users/` | `Users::Create`, `AdminUsers::AuthenticateSession` |
 | Admin list/filter/update for X | `admin/` | `Admin::Servers::Update`, `Admin::UsersQuery` |
+| Inside (authenticated user) dashboard stats | `inside/` | `Inside::DashboardStats` |
 | Webhook events, batching | `webhooks/` | `Webhooks::CreateEvents`, `Webhooks::PublishBatchJob` |
-| Dev-only webhook testing | `demo/` | `Demo::WebhookEvents::Create` |
+| Dev-only webhook testing | `demo/` | `Demo::WebhookEvents::Create`, `Demo::Webhooks::Request` |
 | Shared time utilities | `periods.rb` | `Periods` |
 | hCaptcha verification | `captcha.rb` | `Captcha` |
 
@@ -28,7 +29,7 @@ Business logic lives here, organized by **domain concept** (not by technical lay
 ## Key Patterns
 
 - **Include `Callable`** — Enables `MyService.call(args)` class method.
-- **Return `ApplicationResult`** — Define nested `Result` class with `attribute :record` when needed.
+- **Return `ApplicationResult`** — Define nested `Result` class with `attribute :record` (or domain-specific names like `attribute :user`, `attribute :server`) when the service returns a created/updated record.
 - **Form positional, context keyword** — `def initialize(form, account:)` not `def initialize(account:, form:)`.
 - **Record + form for updates** — `def initialize(server, form)` for `Servers::Update`, `Admin::Servers::Update`.
 
@@ -43,3 +44,7 @@ Business logic lives here, organized by **domain concept** (not by technical lay
 - **Constraints** — `Admin::Constraint`, `Admin::JobsConstraint`
 
 Admin services typically receive the record and form (or form only for create), and perform updates with authorization already enforced by the controller.
+
+## Adding New Concepts
+
+When adding a new concept: create the service/query/job under the appropriate directory, include `Callable`, return `ApplicationResult` from services, add a form object in `app/models/` if the service needs user input (see `app/models/AGENTS.md`), and add tests in `test/concepts/` mirroring the structure. See `test/AGENTS.md` for test patterns.
