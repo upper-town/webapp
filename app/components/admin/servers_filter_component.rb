@@ -2,7 +2,8 @@ module Admin
   class ServersFilterComponent < ApplicationComponent
     DEFAULT_SELECT_CLASS = "form-select admin-servers-filter-inline__select"
 
-    attr_reader :form, :selected_status_ids, :selected_country_codes, :selected_game_ids, :game_options, :request, :hide_game_filter
+    attr_reader :form, :selected_status_ids, :selected_country_codes, :selected_game_ids, :game_options, :request,
+:hide_game_filter
 
     FILTER_PARAMS = %w[status[] country_codes[] game_ids[]].freeze
 
@@ -27,7 +28,9 @@ module Admin
     end
 
     def has_active_filters?
-      selected_status_ids.present? || selected_country_codes.present? || (!hide_game_filter && selected_game_ids.present?)
+      selected_status_ids.present? ||
+        selected_country_codes.present? ||
+        (!hide_game_filter && selected_game_ids.present?)
     end
 
     def select_class

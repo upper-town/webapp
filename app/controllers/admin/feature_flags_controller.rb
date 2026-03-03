@@ -24,7 +24,7 @@ module Admin
     end
 
     def create
-      @form = Admin::FeatureFlags::Form.new(feature_flag_form_params)
+      @form = Admin::FeatureFlags::Form.new(**feature_flag_form_params)
 
       if @form.invalid?
         flash.now[:alert] = @form.errors
@@ -79,7 +79,7 @@ module Admin
 
     def feature_flag_form_params
       filtered = params.expect(feature_flag: [:name, :value, :comment])
-      (filtered[:feature_flag] || filtered["feature_flag"] || {}).to_h.symbolize_keys.compact
+      (filtered || {}).to_h.symbolize_keys.compact
     end
   end
 end

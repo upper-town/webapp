@@ -11,7 +11,7 @@ Configuration is split across application settings, environments, database confi
 | File | Purpose |
 |------|---------|
 | `config/application.rb` | Application-wide settings |
-| `config/routes.rb` | Route definitions |
+| `config/routes.rb` | Route definitions; use `scope`, `constraints` (e.g. `Admin::Constraint`), `resources` |
 | `config/database.yml` | Primary and Solid* database connections |
 | `config/queue.yml`, `config/cache.yml`, `config/cable.yml` | SolidQueue, SolidCache, SolidCable configs |
 | `config/ci.rb` | CI pipeline definition (run via `bin/ci`) |
@@ -19,7 +19,7 @@ Configuration is split across application settings, environments, database confi
 | `config/deploy.yml` | Kamal deployment configuration |
 | `config/coverage.rb` | Test coverage (used when `COVERAGE=true`) |
 | `config/importmap.rb` | JavaScript import map (Stimulus, Bootstrap) |
-| `config/locales/` | i18n translations (`en.yml`, etc.) |
+| `config/locales/` | i18n translations; structure: `en.admin.<resource>.*`, `en.activerecord.attributes.<model>.*` |
 | `config/storage.yml` | Active Storage (local disk, etc.) |
 | `config/puma.rb` | Web server configuration |
 | `config/brakeman.yml`, `config/bundler-audit.yml` | Security tool configs |
@@ -30,7 +30,7 @@ Run with `bin/ci`. Steps include: setup, bundler-audit, importmap audit, Brakema
 
 ## Recurring Jobs (`config/recurring.yml`)
 
-Defines cron-like schedules for SolidQueue. Examples: webhook publishing, stats consolidation, server verification, cleanup jobs. Edit this file to add or change recurring jobs.
+Defines cron-like schedules for SolidQueue. Examples: webhook publishing, stats consolidation, server verification, cleanup jobs. Edit this file to add or change recurring jobs. Format: `class:` (job class), `schedule:` (cron expression), optional `args:`, `queue:`. Jobs must extend `ApplicationJob` or `ApplicationPollingJob`. See existing entries for examples.
 
 ## Initializers
 

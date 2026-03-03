@@ -66,31 +66,6 @@ en:
       quick_links: "Quick links"
       jobs_solidqueue: "SolidQueue"
       jobs_view_queue: "View job queue and workers"
-    users:
-      update:
-        success: "User updated."
-    admin_users:
-      update:
-        success: "Admin User updated."
-    admin_accounts:
-      update:
-        success: "Admin Account roles updated."
-    admin_roles:
-      update:
-        success: "Role permissions updated."
-    feature_flags:
-      create:
-        success: "Feature Flag created."
-      update:
-        success: "Feature Flag updated."
-    webhook_configs:
-      create:
-        success: "Webhook Config created."
-      update:
-        success: "Webhook Config updated."
-    servers:
-      update:
-        success: "Server updated."
     nav:
       brand: "Admin"
       dashboard: "Dashboard"
@@ -252,6 +227,8 @@ en:
         user: "User"
 
     users:
+      update:
+        success: "User updated."
       index:
         title: "Users"
         search_placeholder: "Search by ID, email…"
@@ -283,6 +260,8 @@ en:
         email_confirmed: "Email confirmed"
 
     admin_users:
+      update:
+        success: "Admin User updated."
       index:
         title: "Admin Users"
         search_placeholder: "Search by ID, email…"
@@ -328,6 +307,8 @@ en:
         verified_servers: "Verified servers"
 
     admin_accounts:
+      update:
+        success: "Admin Account roles updated."
       admin_account: "Admin Account"
       index:
         title: "Admin Accounts"
@@ -407,6 +388,8 @@ en:
         admin_user: "Admin User"
 
     admin_roles:
+      update:
+        success: "Role permissions updated."
       index:
         title: "Admin Roles"
         search_placeholder: "Search by ID, key…"
@@ -473,6 +456,8 @@ en:
         info_help: "Additional info. Max 1000 characters."
 
     servers:
+      update:
+        success: "Server updated."
       index:
         title: "Servers"
         search_placeholder: "Search by ID, name, game…"
@@ -555,6 +540,10 @@ en:
         back_to: "Back to Server Votes"
 
     webhook_configs:
+      create:
+        success: "Webhook Config created."
+      update:
+        success: "Webhook Config updated."
       index:
         title: "Webhook Configs"
         search_placeholder: "Search by ID, URL…"
@@ -643,6 +632,10 @@ en:
         events: "Events"
 
     feature_flags:
+      create:
+        success: "Feature Flag created."
+      update:
+        success: "Feature Flag updated."
       index:
         title: "Feature Flags"
         search_placeholder: "Search by ID, name, value…"

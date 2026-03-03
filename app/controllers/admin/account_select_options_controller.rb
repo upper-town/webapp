@@ -19,7 +19,8 @@ module Admin
 
       @options = options
       @selected_ids = selected_ids
-      @turbo_frame_id = request.headers["Turbo-Frame"].presence || "admin_fetchable_multi_select_filter_options_account_ids"
+      @turbo_frame_id = request.headers["Turbo-Frame"].presence ||
+        "admin_fetchable_multi_select_filter_options_account_ids"
 
       respond_to do |format|
         format.html do

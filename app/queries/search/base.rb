@@ -27,10 +27,9 @@ module Search
     end
 
     # Validates and quotes table.column identifiers to satisfy Brakeman and prevent SQL injection.
-    # Only allows identifiers matching /\A[a-z_][a-z0-9_]*\.[a-z_][a-z0-9_]*\z/i
     def sanitized_table_column(table_column)
       unless table_column.to_s.match?(/\A[a-z_][a-z0-9_]*\.[a-z_][a-z0-9_]*\z/i)
-        raise ArgumentError, "Invalid table.column format: #{table_column.inspect}"
+        raise ArgumentError, "Invalid table_column format: #{table_column.inspect}"
       end
 
       table, column = table_column.split(".", 2)

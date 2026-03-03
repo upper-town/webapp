@@ -28,6 +28,8 @@ Admin list pages use a **coordinator** that orchestrates filter and search:
 
 Flow: base relation → filter → search → sort. The controller calls the coordinator once with all params; pagination receives the final relation.
 
+**Typical coordinator params**: `status:`, `country_codes:`, `game_ids:` (or domain-specific filter keys), `search_term:`, `sort_key:`, `sort_dir:`. Controller passes `params[:status]`, `params[:country_codes]`, etc. Filter param names in the form must match what the controller expects (e.g. `status` for multi-select, `q` for search).
+
 ## Filter Module (`app/queries/filter/`)
 
 ### Filter::Base
@@ -84,4 +86,4 @@ Example: `Admin::ServersSearchQuery` extends `Search::Base` and includes `Search
 
 `CountrySelectOptionsQuery`, `GameSelectOptionsQuery`, `PeriodSelectOptionsQuery` return arrays of `[label, value]` for use with `form.select`. Include `Callable` and use `.call` to invoke.
 
-**Adding a new select options query**: Create a class in `app/queries/` that includes `Callable`, returns `[[label, value], ...]`, and follows the pattern of existing `*_select_options_query.rb` files.
+**Adding a new select options query**: Create a class in `app/queries/` that includes `Callable`, returns `[[label, value], ...]`, and follows the pattern of existing `*_select_options_query.rb` files. Use with `form.select :attr, options, {}, class: "form-select"` or via select components.

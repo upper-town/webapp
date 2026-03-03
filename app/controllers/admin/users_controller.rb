@@ -67,7 +67,7 @@ module Admin
 
     def update_params
       filtered = params.expect(admin_users_edit_form: [:locked, :locked_reason, :locked_comment])
-      (filtered[:admin_users_edit_form] || filtered["admin_users_edit_form"] || {}).to_h.symbolize_keys
+      (filtered || {}).to_h.symbolize_keys
     end
   end
 end

@@ -29,7 +29,7 @@ Business logic lives here, organized by **domain concept** (not by technical lay
 ## Key Patterns
 
 - **Include `Callable`** — Enables `MyService.call(args)` class method.
-- **Return `ApplicationResult`** — Define nested `Result` class with `attribute :record` (or domain-specific names like `attribute :user`, `attribute :server`) when the service returns a created/updated record.
+- **Return `ApplicationResult`** — Define nested `Result` class with `attribute :record` (or domain-specific names like `attribute :user`, `attribute :server`) when the service returns a created/updated record. For services that return nothing (e.g. archive), use `Result.success` or a minimal Result with no attributes.
 - **Form positional, context keyword** — `def initialize(form, account:)` not `def initialize(account:, form:)`.
 - **Record + form for updates** — `def initialize(server, form)` for `Servers::Update`, `Admin::Servers::Update`.
 
@@ -46,6 +46,22 @@ Business logic lives here, organized by **domain concept** (not by technical lay
 - **Constraints** — `Admin::Constraint`, `Admin::JobsConstraint`
 
 Admin services typically receive the record and form (or form only for create), and perform updates with authorization already enforced by the controller.
+
+**Jobs**: Use `ApplicationJob` for one-off or retried jobs (polynomial backoff). Use `ApplicationPollingJob` for recurring jobs that should not retry on failure (e.g. cleanup, consolidation).
+
+## Adding a New Admin Index (List) Resource
+
+When adding a new admin list page with filters and search:
+
+1. **Coordinator query** — `Admin::<Resource>Query` in `app/concepts/admin/`; accepts `status:`, `country_codes:`, `game_ids:` (or domain-specific), `search_term:`, `sort_key:`, `sort_dir:`; chains filter → search → sort; returns `ActiveRecord::Relation`.
+2. **Filter query** — `Admin::<Resource>FilterQuery` extends `Filter::Base`; implements private `scopes`; use `Filter::ByValues`, `Filter::ByDateRange` mixins as needed.
+3. **Search query** — `Admin::<Resource>SearchQuery` extends `Search::Base`; implements private `scopes`; mix in `Search::ById`, `Search::ByEmail`, `Search::ByName`, etc.
+4. **Sort query** — `Admin::<Resource>SortQuery` extends `Sort::Base`; implements `sort_key_columns` (private).
+5. **Controller** — Call coordinator with params; wrap relation in `Pagination.new(relation, request, per_page: 50)`.
+6. **View** — Use `Admin::FilterComponent`, `Admin::SearchFormComponent`, `Admin::TableComponent`; wire filter form with `data-controller="admin-filter"` or appropriate multi-select controller. Use `RequestHelper#url_with_query` for sort links; pass `hidden_params` to SearchFormComponent to preserve filter params. See `app/views/admin/servers/index.html.erb`.
+7. **Locales** — Add keys under `admin.<resource>.*` for columns, filters, actions.
+
+See `app/concepts/admin/servers_query.rb` and `Admin::ServersController#index` as reference.
 
 ## Adding New Concepts
 

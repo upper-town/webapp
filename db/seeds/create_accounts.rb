@@ -2,6 +2,8 @@ module Seeds
   class CreateAccounts
     include Callable
 
+    DEMO_USER_IDS = [101, 202]
+
     attr_reader :user_ids
 
     def initialize(user_ids)
@@ -31,8 +33,6 @@ module Seeds
         }
       ]
     end
-
-    DEMO_USER_IDS = [101, 202].freeze
 
     def account_hashes
       (user_ids - DEMO_USER_IDS).map do |user_id|

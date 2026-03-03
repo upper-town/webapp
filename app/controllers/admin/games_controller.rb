@@ -24,7 +24,7 @@ module Admin
     end
 
     def create
-      @form = Admin::Games::Form.new(game_form_params)
+      @form = Admin::Games::Form.new(**game_form_params)
 
       if @form.invalid?
         flash.now[:alert] = @form.errors
@@ -79,7 +79,7 @@ module Admin
 
     def game_form_params
       filtered = params.expect(game: [:name, :slug, :site_url, :description, :info])
-      (filtered[:game] || filtered["game"] || {}).to_h.symbolize_keys.compact
+      (filtered || {}).to_h.symbolize_keys.compact
     end
   end
 end

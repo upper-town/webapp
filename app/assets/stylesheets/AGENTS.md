@@ -8,6 +8,10 @@ This file provides guidance for AI agents when working with Bootstrap, layouts, 
 - **Bootstrap Icons** — `app/assets/stylesheets/bootstrap-icons.min.css`; use `<i class="bi bi-*"></i>`
 - **Official docs**: [getbootstrap.com/docs/5.3](https://getbootstrap.com/docs/5.3/)
 
+## Quick Reference
+
+Common utilities: `mb-3` (margin), `d-flex`, `gap-2`, `text-body-secondary`, `btn btn-primary`, `form-control`, `form-label`, `card`, `table table-hover`. Icons: `<i class="bi bi-plus-lg"></i>` (Bootstrap Icons).
+
 ## Core Principles
 
 ### Mobile-first & Responsive

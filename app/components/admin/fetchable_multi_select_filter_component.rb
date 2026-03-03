@@ -10,7 +10,7 @@ module Admin
     def initialize(
       form:,
       param_name:,
-      selected_ids: [],
+      search_url:, selected_ids: [],
       selected_labels: [],
       static_options: [],
       placeholder: nil,
@@ -23,7 +23,6 @@ module Admin
       select_class: nil,
       dropdown_id: nil,
       options_list_id: nil,
-      search_url:,
       search_url_params: {},
       min_chars: 2,
       min_chars_label: nil,
@@ -40,10 +39,8 @@ module Admin
       @placeholder = placeholder || I18n.t("admin.shared.filter_multiselect_placeholder")
       @apply_label = apply_label || I18n.t("admin.shared.filter_multiselect_apply")
       @all_label = all_label || I18n.t("admin.shared.filter_multiselect_all")
-      # rubocop:disable Style/FormatStringToken
       @count_label = count_label || I18n.t("admin.shared.filter_multiselect_count.other")
       @count_label_one = count_label_one || I18n.t("admin.shared.filter_multiselect_count.one")
-      # rubocop:enable Style/FormatStringToken
       @no_results_label = no_results_label || I18n.t("admin.shared.filter_multiselect_no_results")
       @aria_label = aria_label
       @select_class = select_class || Admin::MultiSelectFilterComponent::DEFAULT_SELECT_CLASS

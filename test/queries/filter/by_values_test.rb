@@ -17,14 +17,14 @@ class Filter::ByValuesTest < ActiveSupport::TestCase
     it "filters by country_codes when provided" do
       server_us = create_server(country_code: "US")
       server_de = create_server(country_code: "DE")
-      _server_br = create_server(country_code: "BR")
+      server_br = create_server(country_code: "BR")
 
       relation = Server.all
       result = described_class.call(relation, country_codes: %w[US DE])
 
       assert_includes(result, server_us)
       assert_includes(result, server_de)
-      assert_not_includes(result, _server_br)
+      assert_not_includes(result, server_br)
       assert_equal(2, result.count)
     end
 
@@ -67,7 +67,7 @@ class Filter::ByValuesTest < ActiveSupport::TestCase
 
     it "handles single game_id as string" do
       game = create_game
-      server = create_server(game: game)
+      server = create_server(game:)
       create_server
 
       relation = Server.all

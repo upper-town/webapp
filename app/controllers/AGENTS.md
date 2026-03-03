@@ -32,10 +32,11 @@ Controllers are organized by route area. Base controllers and auth concerns defi
 
 ## Key Patterns
 
-- **Controller–Service–Form flow**: Build form from params → validate form → call service with form object → handle result (redirect or re-render with errors).
-- **Strong parameters**: Use `params.require(:key).permit(...)` for form params; the param key matches the form's `model_name` (e.g. `server` for `Servers::CreateForm`).
+- **Controller–Service–Form flow**: Build form from params → validate form → call service with form object → handle result (redirect or re-render with errors). See root `AGENTS.md` for the full flow.
+- **Admin index flow**: Call coordinator query with filter/search/sort params → wrap in `Pagination.new` → render. See `app/concepts/AGENTS.md` for "Adding a New Admin Index (List) Resource".
+- **Strong parameters**: Use `params.expect(key: [...])` (Rails 8) for form params; the key matches the form's `model_name.param_key`. Extract with `(filtered[:key] || filtered["key"] || {}).to_h.symbolize_keys`.
 - **Auth**: Use `authenticate_user!`, `authenticate_admin!`, etc. from concerns. Policies checked in controllers before calling services.
-- **Flash**: Use `redirect_to(..., success: "...")` or `flash.now[:alert]` for errors.
+- **Flash**: Use `redirect_to(..., success: "...")` for create/update success (sets `flash[:success]`); use `flash[:notice]` for admin success messages; use `flash.now[:alert]` for validation/error messages when re-rendering. Flash types: `success`, `notice`, `alert`, `primary`, `danger`, etc. (see `AddFlashTypes`).
 
 ## Route Areas
 
@@ -48,4 +49,4 @@ Controllers are organized by route area. Base controllers and auth concerns defi
 
 Auth routes: `/users` (user sign-up/sign-in), `/admin_users` (admin sign-up/sign-in). Public profiles at `/u/:id`.
 
-Views live in `app/views/` under matching structure (`admin/`, `inside/`, `users/`, etc.). Use the layout for each area (`application.html.erb`, `application_admin.html.erb`).
+Views live in `app/views/` under matching structure (`admin/`, `inside/`, `users/`, etc.). Use the layout for each area (`application.html.erb`, `application_admin.html.erb`). See `app/views/AGENTS.md` for view structure and conventions.

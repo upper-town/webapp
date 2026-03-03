@@ -126,6 +126,5 @@ class Admin::AccountSelectOptionsRequestTest < ActionDispatch::IntegrationTest
       assert_equal("text/html", response.media_type)
       assert_includes(response.body, "alice@upper.town")
     end
-
   end
 end

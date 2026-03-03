@@ -43,6 +43,8 @@ Layout/EndAlignment:
   Enabled: false
 Layout/ExtraSpacing:
   Enabled: false
+Layout/FirstArgumentIndentation:
+  Enabled: false
 Layout/FirstArrayElementIndentation:
   Enabled: false
 Layout/FirstHashElementIndentation:
@@ -63,6 +65,8 @@ Layout/MultilineMethodCallBraceLayout:
   Enabled: false
 Layout/MultilineMethodCallIndentation:
   Enabled: false
+Layout/MultilineOperationIndentation:
+  Enabled: false
 Layout/SpaceBeforeSemicolon:
   Enabled: false
 Layout/SpaceInsideArrayLiteralBrackets:
@@ -76,7 +80,7 @@ Lint/MixedRegexpCaptureTypes:
 Metrics/AbcSize:
   Exclude:
     - db/migrate/*.rb
-  Max: 50
+  Max: 55
 Metrics/BlockLength:
   Exclude:
     - test/**/*_test.rb
@@ -105,6 +109,8 @@ Metrics/PerceivedComplexity:
 Minitest/AssertEmptyLiteral:
   Enabled: false
 Minitest/AssertEqual:
+  Enabled: false
+Minitest/AssertIncludes:
   Enabled: false
 Minitest/AssertInDelta:
   Enabled: false

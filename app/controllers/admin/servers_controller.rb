@@ -69,7 +69,7 @@ module Admin
         :banner_image,
         :banner_image_approved
       ])
-      raw = (filtered[:server] || filtered["server"] || {}).to_h.symbolize_keys
+      raw = (filtered || {}).to_h.symbolize_keys
       {
         game_id: raw[:game_id],
         country_code: raw[:country_code],

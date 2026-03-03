@@ -22,10 +22,8 @@ module Admin
         static_options: STATIC_OPTIONS,
         placeholder: I18n.t("admin.shared.filter_multiselect_account_remote_placeholder"),
         all_label: I18n.t("admin.shared.filter_multiselect_all_accounts"),
-        # rubocop:disable Style/FormatStringToken
         count_label: I18n.t("admin.shared.filter_multiselect_accounts_count.other"),
         count_label_one: I18n.t("admin.shared.filter_multiselect_accounts_count.one"),
-        # rubocop:enable Style/FormatStringToken
         no_results_label: I18n.t("admin.shared.filter_multiselect_no_accounts_match"),
         search_url: helpers.admin_account_select_options_path,
         search_url_params: { only_with_votes: "true" },

@@ -6,6 +6,30 @@ When adding new features, follow existing patterns: place business logic in `app
 
 **Avoid**: Splatting form attributes into service calls; inline JavaScript in HTML; duplicating model attribute labels in page-specific locale keys.
 
+## Quick Reference for AI Agents
+
+| Task | Read first | Then |
+|------|------------|------|
+| Add a new create/update flow | `app/concepts/AGENTS.md`, `app/models/AGENTS.md` | Controller–Service–Form flow in this file |
+| Add an admin index with filters | `app/concepts/AGENTS.md` (Admin Concept), `app/queries/AGENTS.md` | `app/components/AGENTS.md` (Adding Admin Filters) |
+| Add a ViewComponent or edit views | `app/components/AGENTS.md`, `app/views/AGENTS.md` | `app/assets/stylesheets/AGENTS.md` (Bootstrap) |
+| Add JavaScript behavior | `app/javascript/AGENTS.md` | No inline JS; use Stimulus |
+| Add a form or validation | `app/models/AGENTS.md` | Validators in `app/validators/` |
+| Add a migration or seed | `db/AGENTS.md` | Multi-database setup in this file |
+| Add a test | `test/AGENTS.md` | Mirror `app/concepts/` in `test/concepts/` |
+| Add a locale key | `config/locales/` | Prefer `activerecord.attributes.<model>.<attr>` for labels |
+| Add a route | `config/routes.rb` | Match controller path; use `constraints` for admin |
+| Add a policy | `app/policies/` | `*Policy` with `allowed?`; check in controller before service |
+| Add a background job | `app/concepts/<domain>/` | `*Job` suffix; extend `ApplicationJob`; add to `config/recurring.yml` if recurring |
+
+## Common Pitfalls
+
+- **Splatting form attributes** — Pass the form object: `Service.call(@form, account: current_account)`, not `Service.call(**@form.attributes, account: current_account)`.
+- **Inline JavaScript** — CSP blocks `onclick`, `href="javascript:..."`. Use Stimulus controllers.
+- **Duplicate attribute labels** — Use `Model.human_attribute_name(:attr)` or `form.label(:attr)`; avoid `admin.servers.columns.name` when it equals `activerecord.attributes.server.name`.
+- **Calling models from controllers** — Controllers delegate to services; they do not call `Model.create`, `model.update`, etc. directly.
+- **Missing `model_name` on forms** — If `form_with model: @form` should submit under `server` params, the form needs `model_name` pointing to `Server`.
+
 ## Project Overview
 
 Upper Town is a Rails 8.1 web application for a gaming community, providing features for server voting, stats tracking, and admin management. Production site: https://upper.town
@@ -17,7 +41,7 @@ Upper Town is a Rails 8.1 web application for a gaming community, providing feat
 - Hotwire (Turbo + Stimulus), ViewComponent, Bootstrap, Bootstrap Icons
 - Propshaft (asset pipeline), importmap-rails (JS)
 
-**Bootstrap & Bootstrap Icons**: Bootstrap (CSS, JS) and Bootstrap Icons are available in the codebase via `app/assets/stylesheets/` and `vendor/javascript/`. Default to Bootstrap components and Bootstrap Icons (`<i class="bi bi-*"></i>`) when possible—no external imports needed.
+**Bootstrap & Bootstrap Icons**: Bootstrap (CSS, JS) and Bootstrap Icons are available in the codebase via `app/assets/stylesheets/` and `vendor/javascript/`. Default to Bootstrap components and Bootstrap Icons (e.g. `<i class="bi bi-plus-lg"></i>`) when possible—no external imports needed.
 
 **JavaScript**: Inline JavaScript in HTML (e.g. `onclick`, `href="javascript:..."`) does not work—security checks block it. Put all JavaScript in separate files under `app/javascript/` (e.g. Stimulus controllers in `app/javascript/controllers/`). Use double quotes for strings in `.js` files (see `app/javascript/AGENTS.md`).
 
@@ -62,7 +86,7 @@ bin/bundler-audit  # Gem vulnerability audit
 bin/ci             # Full CI pipeline (see config/ci.rb)
 ```
 
-**CI pipeline** (`bin/ci`): setup, bundler-audit, importmap audit, Brakeman, `bin/rails test`, `bin/rails test:system`, `db:seed:replant` (test env).
+**CI pipeline** (`bin/ci`): setup, bundler-audit, importmap audit, Brakeman, `bin/rails test`, `bin/rails test:system`, `db:seed:replant` (test env). See `config/ci.rb`.
 
 ## Key File Locations
 
@@ -75,6 +99,7 @@ bin/ci             # Full CI pipeline (see config/ci.rb)
 | Controllers | `app/controllers/AGENTS.md` |
 | Models (records, forms, validators) | `app/models/AGENTS.md` |
 | Queries (shared, search) | `app/queries/AGENTS.md` |
+| Views (ERB, layouts, partials) | `app/views/AGENTS.md` |
 | JavaScript & Stimulus | `app/javascript/AGENTS.md` |
 | Bootstrap & UI | `app/assets/stylesheets/AGENTS.md` |
 | Config | `config/AGENTS.md` |
@@ -87,7 +112,8 @@ bin/ci             # Full CI pipeline (see config/ci.rb)
 |---------|------|
 | Callable module | `app/services/callable.rb` |
 | ApplicationResult | `app/services/application_result.rb` |
-| RequestHelper | `app/services/request_helper.rb` |
+| RequestHelper | `app/services/request_helper.rb` — `url_with_query(params_merge, params_remove)` for sort/filter URLs |
+| Pagination | `app/services/pagination.rb` — wraps relation + request; use `Pagination.new(relation, request, per_page: 50)` |
 | AppUtil | `app/lib/app_util.rb` |
 | Current (request context) | `app/values/current.rb` |
 | Policies | `app/policies/` |
@@ -106,6 +132,8 @@ The app uses Rails i18n with locale files in `config/locales/`. Use `t("key")` i
 - `form.label(:attr)` without a second argument in forms — Rails resolves labels from the form’s `model_name` (which points to the underlying model when forms use `ActiveModel::Name.new(Model, nil, "Model")`)
 
 Avoid duplicating attribute labels in `admin.<resource>.columns` or `admin.<resource>.form` when they map to model attributes. Keep custom keys for help text (`*_help`), placeholders (`*_placeholder`), section titles, and context-specific labels (e.g. "Replace banner image" vs "Banner image").
+
+**Typical locale structure**: `admin.<resource>.columns.<attr>` for table headers; `admin.<resource>.form.<attr>_help` for form help; `admin.<resource>.<action>.success` for flash messages; `activerecord.attributes.<model>.<attr>` for shared attribute labels.
 
 ## Architecture
 
@@ -214,10 +242,10 @@ result.add_error(:field, :type)  # add more errors
 
 **Queries** — `*Query` suffix classes in `app/concepts/` (domain-specific) or `app/queries/` (shared, e.g., `CountrySelectOptionsQuery`, `GameSelectOptionsQuery`). Include `Callable`. Return `ActiveRecord::Relation` or primitive values. Used for complex read operations. Admin search queries in `app/concepts/admin/queries/` extend `Search::Base` and mix in `Search::ById`, `Search::ByEmail`, etc. from `app/queries/search/`.
 
-**Policies** — `*Policy` suffix with `allowed?` method. Live in `app/policies/` (e.g., `Admin::AccessPolicy`, `ServerBannerImagePolicy`). Check authorization rules:
+**Policies** — `*Policy` suffix with `allowed?` method. Live in `app/policies/` (e.g., `Admin::AccessPolicy`, `ServerBannerImagePolicy`). `Admin::AccessPolicy` takes `(admin_account, permission_key)`; keys come from `AdminPermission` (e.g. `AdminPermission::JOBS_ACCESS`). Super admins bypass permission checks.
 
 ```ruby
-Admin::AccessPolicy.new(admin_account, permission_key).allowed?
+Admin::AccessPolicy.new(admin_account, AdminPermission::JOBS_ACCESS).allowed?
 ```
 
 **Validators** — Two-tier pattern in `app/validators/`:

@@ -32,7 +32,7 @@ Add indexes for foreign keys and frequently queried columns. Use `add_index` exp
 
 - **Entry point**: `db/seeds.rb` loads `db/seeds/runner.rb`.
 - **Modular seeds**: `db/seeds/create_*.rb` — each module includes `Callable` (same pattern as concepts).
-- **Order**: `Runner` orchestrates: admin roles and permissions → admin users → admin accounts → users → accounts → games → servers → webhook configs.
+- **Order**: `Runner` orchestrates: admin roles and permissions → admin users → admin accounts → users → accounts → games → servers → webhook configs. Add new seed modules to `Runner` in dependency order.
 
 ### Seed Module Pattern
 
@@ -48,6 +48,12 @@ module Seeds
   end
 end
 ```
+
+## Adding Migrations
+
+- **Primary (models)**: `bin/rails g migration AddXToY ...` — creates in `db/migrate/`.
+- **Queue/Cache/Cable**: Use `db/queue_migrate/`, `db/cache_migrate/`, `db/cable_migrate/` for Solid* tables. Run with `bin/rails db:migrate` (all paths are applied).
+- **New table**: Use `create_table`; add `timestamps`; add indexes for FKs and frequently queried columns. Rails uses `bigint` for `id` by default on PostgreSQL.
 
 ## Running
 

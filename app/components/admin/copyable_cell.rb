@@ -21,7 +21,8 @@ module Admin
       content_tag(:span, class: "d-inline-flex align-items-center gap-1", data: data_attrs) do
         parts = []
         if content_target_value.present?
-          parts << content_tag(:span, content_target_value, data: { copy_to_clipboard_target: "content" }, class: "visually-hidden")
+          parts << content_tag(:span, content_target_value, data: { copy_to_clipboard_target: "content" },
+            class: "visually-hidden")
         end
         content_data = content_target_value.present? ? {} : { copy_to_clipboard_target: "content" }
         parts << content_tag(:span, display_content, data: content_data)

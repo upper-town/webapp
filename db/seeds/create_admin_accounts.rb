@@ -2,6 +2,8 @@ module Seeds
   class CreateAdminAccounts
     include Callable
 
+    SUPER_ADMIN_USER_IDS = [101, 202]
+
     attr_reader :admin_user_ids
 
     def initialize(admin_user_ids)
@@ -17,8 +19,6 @@ module Seeds
     end
 
     private
-
-    SUPER_ADMIN_USER_IDS = [101, 202].freeze
 
     def admin_account_hashes
       (admin_user_ids - SUPER_ADMIN_USER_IDS).map do |admin_user_id|
@@ -40,9 +40,9 @@ module Seeds
 
       now = Time.current
       AdminAccountRole.insert_all(
-        regular_account_ids.map { |admin_account_id|
+        regular_account_ids.map do |admin_account_id|
           { admin_account_id:, admin_role_id: admin_role.id, created_at: now, updated_at: now }
-        }
+        end
       )
     end
   end

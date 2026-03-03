@@ -8,12 +8,12 @@ class Admin::ServersFilterComponentTest < ViewComponent::TestCase
     ActionView::Helpers::FormBuilder.new("", nil, view_context, {})
   end
 
-  def with_stubbed_country_query(data = [["🇺🇸 United States", "US"]])
-    CountrySelectOptionsQuery.stub(:call, data) { yield }
+  def with_stubbed_country_query(data = [["🇺🇸 United States", "US"]], &)
+    CountrySelectOptionsQuery.stub(:call, data, &)
   end
 
-  def with_stubbed_game_options(data = [["Minecraft", 1], ["PWI", 2]])
-    GameSelectOptionsQuery.stub(:call, data) { yield }
+  def with_stubbed_game_options(data = [["Minecraft", 1], ["PWI", 2]], &)
+    GameSelectOptionsQuery.stub(:call, data, &)
   end
 
   describe "rendering" do

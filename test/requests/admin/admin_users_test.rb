@@ -71,4 +71,37 @@ class Admin::AdminUsersRequestTest < ActionDispatch::IntegrationTest
       assert_response(:success)
     end
   end
+
+  describe "GET /admin/admin_users/:id/roles" do
+    it "responds with success when authenticated" do
+      sign_in_as_admin
+      admin_user = create_admin_user
+
+      get(roles_admin_admin_user_path(admin_user))
+
+      assert_response(:success)
+    end
+  end
+
+  describe "PATCH /admin/admin_users/:id" do
+    it "updates admin user and redirects to show" do
+      sign_in_as_admin
+      admin_user = create_admin_user(
+        email_confirmed_at: Time.current,
+        locked_at: Time.current,
+        locked_reason: "Test lock",
+        locked_comment: "Test comment"
+      )
+
+      patch(admin_admin_user_path(admin_user), params: {
+        admin_admin_users_edit_form: { locked: "0", locked_reason: "", locked_comment: "" }
+      })
+
+      assert_redirected_to(admin_admin_user_path(admin_user))
+      admin_user.reload
+      assert_nil(admin_user.locked_at)
+      assert_nil(admin_user.locked_reason)
+      assert_nil(admin_user.locked_comment)
+    end
+  end
 end

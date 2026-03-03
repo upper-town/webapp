@@ -67,6 +67,28 @@ class Admin::ServersRequestTest < ActionDispatch::IntegrationTest
     end
   end
 
+  describe "PATCH /admin/servers/:id" do
+    it "updates server and redirects to show" do
+      sign_in_as_admin
+      server = create_server(description: "Original description")
+
+      patch(admin_server_path(server), params: {
+        server: {
+          game_id: server.game_id,
+          country_code: server.country_code,
+          name: server.name,
+          site_url: server.site_url,
+          description: "Updated description",
+          info: server.info,
+          banner_image_approved: server.banner_image_approved?.to_s
+        }
+      })
+
+      assert_redirected_to(admin_server_path(server))
+      assert_equal("Updated description", server.reload.description)
+    end
+  end
+
   describe "GET /admin/servers/:id/edit" do
     it "responds with success when authenticated" do
       sign_in_as_admin

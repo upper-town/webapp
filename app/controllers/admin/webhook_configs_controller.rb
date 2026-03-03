@@ -25,7 +25,7 @@ module Admin
     end
 
     def create
-      @form = Admin::WebhookConfigs::Form.new(webhook_config_form_params)
+      @form = Admin::WebhookConfigs::Form.new(**webhook_config_form_params)
 
       if @form.invalid?
         @servers = Server.includes(:game).order(:name)
@@ -95,7 +95,7 @@ module Admin
         :event_types_string,
         :disabled
       ])
-      raw = (filtered[:webhook_config] || filtered["webhook_config"] || {}).to_h.symbolize_keys
+      raw = (filtered || {}).to_h.symbolize_keys
       {
         server_id: raw[:server_id].presence&.to_i,
         url: raw[:url],

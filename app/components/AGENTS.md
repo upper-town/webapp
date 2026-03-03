@@ -4,10 +4,11 @@ This file provides guidance for AI agents working with ViewComponents in `app/co
 
 ## Overview
 
-All components inherit from `ApplicationComponent < ViewComponent::Base`. Use Bootstrap for layout and styling; Bootstrap Icons (`<i class="bi bi-*"></i>`) for icons—no external imports needed.
+All components inherit from `ApplicationComponent < ViewComponent::Base`. Use Bootstrap for layout and styling; Bootstrap Icons (e.g. `<i class="bi bi-plus-lg"></i>`) for icons—no external imports needed.
 
 ## Conventions
 
+- **Template location** — Template lives next to the component: `alert_component.html.erb` for `AlertComponent`, `admin/table_component.html.erb` for `Admin::TableComponent`.
 - **`attr_reader`** — Define readers for instance variables and use them in templates (e.g. `variant` instead of `@variant`).
 - **Method calls with args** — Usually add parentheses: `row_value(value)`.
 - **`render?`** — Override when the component should render nothing (e.g. when `content.blank?`).
@@ -26,8 +27,8 @@ All components inherit from `ApplicationComponent < ViewComponent::Base`. Use Bo
 | `Servers::IndexResultComponent` | Server listing result row/card |
 | `Servers::IndexFilterComponent` | Server index filter form (game, period, country) |
 | `Inside::ServerCardComponent` | Server card for Inside dashboard |
-| `Admin::TableComponent` | Admin data tables; includes `Admin::CopyableCell` for copyable columns |
-| `Admin::DetailsTableComponent` | Admin key-value detail views with optional copy; includes `Admin::CopyableCell` |
+| `Admin::TableComponent` | Admin data tables; `columns:` is array of `[label, value_proc, { copyable:, sortable: }]`; pass `sort_url_builder`, `sort_key`, `sort_dir` for sortable headers |
+| `Admin::DetailsTableComponent` | Admin key-value detail views; `sections:` is array of rows, each row `[label, value, { copyable: }]`; value can be Proc |
 | `Admin::CopyableCell` | Module (not a component) providing `copy_cell_wrapper` and `copy_button_html`; included by `Admin::TableComponent` and `Admin::DetailsTableComponent` |
 | `Admin::SearchFormComponent` | Admin search/filter forms |
 | `Admin::FilterComponent` | Reusable admin filter wrapper (fields via block, hidden params); used by `Admin::ServersFilterComponent`, `Admin::ServerStatsFilterComponent`, `Admin::ServerVotesFilterComponent` |
@@ -54,7 +55,7 @@ When adding a component that is not an admin filter: inherit from `ApplicationCo
 
 When adding a new admin index filter:
 
-1. **Wrapper** — Use `Admin::FilterComponent` with a block for the filter fields. Pass `form:`, `params_to_remove:`, and optionally `request:`.
+1. **Wrapper** — Use `Admin::FilterComponent` with a block for the filter fields. Pass `form:`, `params_to_remove:` (array of param keys to strip on submit, e.g. `["page"]` to reset pagination when filters change), and optionally `request:`.
 2. **Static multi-select** — Use `Admin::MultiSelectFilterComponent` (or a wrapper like `Admin::GameMultiSelectFilterComponent`) when options are known and finite. The `admin-multi-select-filter` Stimulus controller submits the form when the user applies selections.
 3. **Dynamic fetch multi-select** — Use `Admin::FetchableMultiSelectFilterComponent` (or `Admin::AccountMultiSelectFilterComponent`) when options come from an API. Wired to `admin-fetchable-multi-select-filter` Stimulus controller.
 4. **Simple select auto-submit** — For a native `<select>` that should submit on change: add `data-controller="admin-filter"` to the form and `data-action="change->admin-filter#filter"` to the select.

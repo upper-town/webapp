@@ -71,4 +71,26 @@ class Admin::UsersRequestTest < ActionDispatch::IntegrationTest
       assert_response(:success)
     end
   end
+
+  describe "PATCH /admin/users/:id" do
+    it "updates user and redirects to show" do
+      sign_in_as_admin
+      user = create_user(
+        email_confirmed_at: Time.current,
+        locked_at: Time.current,
+        locked_reason: "Test lock",
+        locked_comment: "Test comment"
+      )
+
+      patch(admin_user_path(user), params: {
+        admin_users_edit_form: { locked: "0", locked_reason: "", locked_comment: "" }
+      })
+
+      assert_redirected_to(admin_user_path(user))
+      user.reload
+      assert_nil(user.locked_at)
+      assert_nil(user.locked_reason)
+      assert_nil(user.locked_comment)
+    end
+  end
 end

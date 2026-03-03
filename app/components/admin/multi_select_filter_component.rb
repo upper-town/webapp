@@ -33,10 +33,8 @@ module Admin
       @placeholder = placeholder || I18n.t("admin.shared.filter_multiselect_placeholder")
       @apply_label = apply_label || I18n.t("admin.shared.filter_multiselect_apply")
       @all_label = all_label || I18n.t("admin.shared.filter_multiselect_all")
-      # rubocop:disable Style/FormatStringToken
       @count_label = count_label || I18n.t("admin.shared.filter_multiselect_count.other")
       @count_label_one = count_label_one || I18n.t("admin.shared.filter_multiselect_count.one")
-      # rubocop:enable Style/FormatStringToken
       @no_results_label = no_results_label || I18n.t("admin.shared.filter_multiselect_no_results")
       @aria_label = aria_label
       @select_class = select_class || DEFAULT_SELECT_CLASS

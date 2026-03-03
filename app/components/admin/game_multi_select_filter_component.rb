@@ -12,10 +12,8 @@ module Admin
         selected_ids:,
         placeholder: I18n.t("admin.shared.filter_multiselect_game_placeholder"),
         all_label: I18n.t("admin.shared.filter_multiselect_all_games"),
-        # rubocop:disable Style/FormatStringToken
         count_label: I18n.t("admin.shared.filter_multiselect_games_count.other"),
         count_label_one: I18n.t("admin.shared.filter_multiselect_games_count.one"),
-        # rubocop:enable Style/FormatStringToken
         no_results_label: I18n.t("admin.shared.filter_multiselect_no_games_match"),
         **
       )

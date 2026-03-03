@@ -3,6 +3,8 @@ module Filter
     private
 
     def by_date_range(scope, start_date, end_date, time_zone, column: :created_at, start_time: nil, end_time: nil)
+      return scope if start_date.blank? && end_date.blank?
+
       start_date, end_date = normalize_date_order(start_date, end_date, time_zone)
       datetimes = Admin::DateRangeToDatetimes.call(
         start_date:,
@@ -11,8 +13,8 @@ module Filter
         end_time:,
         time_zone:
       )
-      range = build_range(datetimes)
-      return scope unless range
+      range = build_range(datetimes[:start_datetime], datetimes[:end_datetime])
+      return scope if range.blank?
 
       scope.where(column => range)
     end
@@ -30,14 +32,13 @@ module Filter
       [start_date, end_date]
     end
 
-    def build_range(datetimes)
-      start_dt = datetimes[:start_datetime]
-      end_dt = datetimes[:end_datetime]
-      return (start_dt..) if start_dt && end_dt.nil?
-      return (..end_dt) if end_dt && start_dt.nil?
-      return (start_dt..end_dt) if start_dt && end_dt
+    def build_range(start_datetime, end_datetime)
+      return unless start_datetime || end_datetime
 
-      nil
+      return (start_datetime..) if start_datetime && !end_datetime
+      return (..end_datetime) if end_datetime && !start_datetime
+
+      (start_datetime..end_datetime)
     end
   end
 end

@@ -79,7 +79,7 @@ class Admin::FilterComponentTest < ViewComponent::TestCase
       form = build_form
       req = build_request_with_params("http://uppertown.test/admin/servers?x=1")
       component = described_class.new(
-        form: form,
+        form:,
         params_to_remove: %w[status],
         request: req
       )
@@ -87,7 +87,7 @@ class Admin::FilterComponentTest < ViewComponent::TestCase
 
       assert_equal(form, component.form)
       assert_equal(%w[status], component.params_to_remove)
-      assert(component.request_helper.is_a?(RequestHelper))
+      assert_kind_of(RequestHelper, component.request_helper)
     end
   end
 end

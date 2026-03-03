@@ -4,7 +4,7 @@ module Filter
 
     def by_values(scope, values, column:)
       values = normalize_values(values)
-      return scope unless values.present?
+      return scope if values.blank?
 
       scope.where(column => values)
     end

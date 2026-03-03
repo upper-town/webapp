@@ -14,6 +14,7 @@ The test suite uses **Minitest** with spec-style `describe`/`it` blocks, **Capyb
 bin/rails test                              # Run unit/integration tests
 bin/rails test:system                       # Run browser tests (Capybara/Selenium)
 bin/rails test test/path/to/specific_test.rb # Run single test file
+bin/rails test test/path/to/file_test.rb:42 # Run single test at line 42
 HEADFUL=true bin/rails test:system          # Run with visible browser
 VCR_RECORD_ALL=true bin/rails test test/path # Re-record HTTP cassettes
 COVERAGE=true bin/rails test                # Generate coverage (disables parallel)
@@ -186,10 +187,10 @@ request = build_request(
 
 ### Integration Tests
 
-Use `request_headers` for realistic User-Agent. Set host via `RequestTestSetup` (automatic for `ActionDispatch::IntegrationTest`):
+Use `request_headers` for realistic User-Agent. Set host via `RequestTestSetup` (automatic for `ActionDispatch::IntegrationTest`). Param key for forms: use the form's `model_name.param_key` (e.g. `users_session_form` for `Users::SessionForm`, `server` for `Servers::CreateForm`):
 
 ```ruby
-post(users_sessions_url, headers: request_headers, params: { users_session_form: { ... } })
+post(users_sessions_url, headers: request_headers, params: { users_session_form: { email: "...", password: "..." } })
 assert_redirected_to(inside_dashboard_url)
 ```
 
@@ -235,7 +236,7 @@ Prefer Minitest assertions:
 - `assert(result.errors.of_kind?(:base, "message"))` for base errors with message
 - `assert_difference` / `assert_no_difference` for side effects
 - `assert_enqueued_with` / `assert_no_enqueued_jobs` for jobs
-- `assert_response`, `assert_redirected_to` for integration tests
+- `assert_response`, `assert_redirected_to` for integration tests; use path helpers (e.g. `assert_redirected_to inside_dashboard_path`)
 
 ## Coverage
 

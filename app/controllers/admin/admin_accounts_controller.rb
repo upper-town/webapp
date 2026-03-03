@@ -53,8 +53,8 @@ module Admin
     end
 
     def update_roles_form_params
-      filtered = params.expect(admin_account: [:role_ids])
-      (filtered[:admin_account] || filtered["admin_account"] || {}).to_h.symbolize_keys
+      filtered = params.expect(admin_account: [{ role_ids: [] }])
+      (filtered || {}).to_h.symbolize_keys
     end
   end
 end

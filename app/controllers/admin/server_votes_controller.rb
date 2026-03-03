@@ -60,13 +60,13 @@ module Admin
         cache_enabled: false
       ).to_h { |name, opt_id| [opt_id.to_s, [name, opt_id]] }
 
-      ids.map do |id|
+      ids.filter_map do |id|
         if id == Admin::ServerVotesQuery::ANONYMOUS_VALUE
           [anonymous_label, id]
         else
           lookup[id]
         end
-      end.compact
+      end
     end
 
     def server_vote_from_params

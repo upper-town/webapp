@@ -17,6 +17,17 @@ class Admin::AdminPermissionsRequestTest < ActionDispatch::IntegrationTest
     end
   end
 
+  describe "GET /admin/permissions/:id/roles" do
+    it "responds with success when authenticated" do
+      sign_in_as_admin
+      admin_permission = create_admin_permission
+
+      get(roles_admin_admin_permission_path(admin_permission))
+
+      assert_response(:success)
+    end
+  end
+
   describe "GET /admin/permissions/:id" do
     it "responds with success when authenticated" do
       sign_in_as_admin

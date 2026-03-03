@@ -228,7 +228,7 @@ class SignUpEtcTest < ApplicationSystemTestCase
   end
 
   def sign_out
-    find(".navbar .dropdown-toggle", match: :first).click
+    first(".navbar .dropdown-toggle").click
     click_on("Sign Out")
   end
 end

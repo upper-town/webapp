@@ -20,6 +20,8 @@ module AppUtil
     env_var_enabled?("SECRET_KEY_BASE_DUMMY")
   end
 
+  # Debugging utility: redirects ActiveRecord SQL logs to stdout.
+  # Useful in Rails console or when debugging queries. Not used in production.
   def show_active_record_log
     ActiveRecord::Base.logger = ActiveSupport::Logger.new($stdout)
   end
