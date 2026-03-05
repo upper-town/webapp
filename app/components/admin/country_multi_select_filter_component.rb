@@ -15,6 +15,7 @@ module Admin
         count_label: I18n.t("admin.shared.filter_multiselect_countries_count.other"),
         count_label_one: I18n.t("admin.shared.filter_multiselect_countries_count.one"),
         no_results_label: I18n.t("admin.shared.filter_multiselect_no_countries_match"),
+        option_checked_proc: country_option_checked_proc,
         **
       )
     end
@@ -22,7 +23,18 @@ module Admin
     private
 
     def country_options
-      CountrySelectOptionsQuery.call(only_in_use: true)
+      CountrySelectOptionsQuery.call(only_in_use: true, with_continents: true)
+    end
+
+    def country_option_checked_proc
+      ->(id, selected_ids) {
+        ids = selected_ids.map(&:to_s)
+        if id.to_s.include?(",")
+          id.to_s.split(",").all? { |code| ids.include?(code.strip) }
+        else
+          ids.include?(id.to_s)
+        end
+      }
     end
   end
 end

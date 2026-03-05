@@ -48,3 +48,6 @@
 
 # Ignore coverage result from the simplecov gem
 coverage/
+
+# Ignore Cursor plan files
+.cursor/plans

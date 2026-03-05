@@ -3,7 +3,7 @@ class MultiSelectFilterComponent < ApplicationComponent
 
   attr_reader :form, :param_name, :selected_ids, :options, :placeholder, :apply_label, :all_label,
               :count_label, :count_label_one, :no_results_label, :aria_label, :select_class,
-              :dropdown_id, :options_list_id, :request
+              :dropdown_id, :options_list_id, :request, :option_checked_proc
 
   # rubocop:disable Metrics/ParameterLists
   def initialize(
@@ -21,7 +21,8 @@ class MultiSelectFilterComponent < ApplicationComponent
     select_class: nil,
     dropdown_id: nil,
     options_list_id: nil,
-    request: nil
+    request: nil,
+    option_checked_proc: nil
   )
     super()
 
@@ -40,6 +41,7 @@ class MultiSelectFilterComponent < ApplicationComponent
     @dropdown_id = dropdown_id || "multi_select_filter_dropdown_#{@param_name}"
     @options_list_id = options_list_id || "multi_select_filter_options_#{@param_name}"
     @request = request
+    @option_checked_proc = option_checked_proc
   end
   # rubocop:enable Metrics/ParameterLists
 
@@ -85,6 +87,10 @@ class MultiSelectFilterComponent < ApplicationComponent
   end
 
   def option_checked?(id)
-    selected_ids.include?(id.to_s)
+    if option_checked_proc
+      option_checked_proc.call(id, selected_ids)
+    else
+      selected_ids.include?(id.to_s)
+    end
   end
 end

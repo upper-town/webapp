@@ -66,11 +66,26 @@ export default class extends Controller {
     const id = button.dataset.id
     if (!id) return
 
-    const idx = this.selectedIds.indexOf(id)
-    if (idx >= 0) {
-      this.selectedIds.splice(idx, 1)
+    if (id.includes(",")) {
+      const codes = id.split(",").map((c) => c.trim())
+      const allSelected = codes.every((code) => this.selectedIds.includes(code))
+      if (allSelected) {
+        codes.forEach((code) => {
+          const idx = this.selectedIds.indexOf(code)
+          if (idx >= 0) this.selectedIds.splice(idx, 1)
+        })
+      } else {
+        codes.forEach((code) => {
+          if (!this.selectedIds.includes(code)) this.selectedIds.push(code)
+        })
+      }
     } else {
-      this.selectedIds.push(id)
+      const idx = this.selectedIds.indexOf(id)
+      if (idx >= 0) {
+        this.selectedIds.splice(idx, 1)
+      } else {
+        this.selectedIds.push(id)
+      }
     }
 
     this.syncHiddenInputs()
@@ -97,7 +112,12 @@ export default class extends Controller {
     this.optionTargets.forEach((opt) => {
       const checkbox = opt.querySelector("input[type=\"checkbox\"]")
       if (checkbox) {
-        checkbox.checked = this.selectedIds.includes(opt.dataset.id)
+        const id = opt.dataset.id
+        const isContinent = id && id.includes(",")
+        const checked = isContinent
+          ? id.split(",").every((code) => this.selectedIds.includes(code.trim()))
+          : this.selectedIds.includes(id)
+        checkbox.checked = checked
       }
     })
   }

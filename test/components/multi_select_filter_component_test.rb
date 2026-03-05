@@ -145,4 +145,23 @@ class MultiSelectFilterComponentTest < ViewComponent::TestCase
       assert_nil(component.clear_url)
     end
   end
+
+  describe "#option_checked? with option_checked_proc" do
+    it "uses option_checked_proc when present" do
+      render_inline(
+        described_class.new(
+          form: build_form,
+          param_name: "ids",
+          options: [["Custom", "custom"], ["Other", "other"]],
+          selected_ids: [],
+          option_checked_proc: ->(id, _) { id == "custom" }
+        )
+      )
+
+      custom_checkbox = page.find("button[data-id='custom'] input[type='checkbox']")
+      other_checkbox = page.find("button[data-id='other'] input[type='checkbox']")
+      assert(custom_checkbox["checked"])
+      assert_not(other_checkbox["checked"])
+    end
+  end
 end

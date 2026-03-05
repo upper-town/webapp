@@ -122,6 +122,16 @@ bin/ci             # Full CI pipeline (see config/ci.rb)
 | CI pipeline | `config/ci.rb` |
 | Search mixins | `app/queries/search/` |
 
+**External documentation** — Look up official docs when needed:
+- **Rails**: https://guides.rubyonrails.org/, https://api.rubyonrails.org/
+- **PostgreSQL**: https://www.postgresql.org/docs/current/index.html
+- **HTML, JavaScript, Web**: https://developer.mozilla.org/en-US/docs/Web
+- **Bootstrap**: https://getbootstrap.com/docs/
+- **Turbo**: https://turbo.hotwired.dev/
+- **Stimulus**: https://stimulus.hotwired.dev/
+- **Mox mail server**: https://www.xmox.nl/
+- **Kamal**: https://kamal-deploy.org/docs/installation/
+
 ## Locales
 
 The app uses Rails i18n with locale files in `config/locales/`. Use `t("key")` in views and `I18n.t("key")` elsewhere for user-facing strings instead of hardcoding text.

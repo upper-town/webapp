@@ -50,10 +50,12 @@
         <% end %>
       </div>
       <div id="<%= options_list_id %>" data-multi-select-filter-target="optionsList" role="group">
-        <% options.each do |name, id| %>
+        <% options.each do |opt| %>
+          <% name, id = opt[0], opt[1] %>
+          <% extra_class = opt[2].is_a?(Hash) ? opt[2][:class] : nil %>
           <button
             type="button"
-            class="dropdown-item d-flex align-items-center gap-2"
+            class="dropdown-item d-flex align-items-center gap-2 <%= extra_class %>"
             role="option"
             data-id="<%= id %>"
             data-name="<%= name %>"

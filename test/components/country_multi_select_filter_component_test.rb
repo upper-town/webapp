@@ -27,5 +27,36 @@ class CountryMultiSelectFilterComponentTest < ViewComponent::TestCase
       assert_selector("input[name='country_codes[]'][value='US']", visible: :all)
       assert_selector("input[name='country_codes[]'][value='DE']", visible: :all)
     end
+
+    it "renders continent options when with_continents is used" do
+      options_with_continent = [
+        ["North America", "US,CA,MX", { class: "fw-bold" }],
+        ["🇺🇸 United States", "US"],
+        ["🇨🇦 Canada", "CA"],
+        ["🇩🇪 Germany", "DE"]
+      ]
+      CountrySelectOptionsQuery.stub(:call, options_with_continent) do
+        render_inline(described_class.new(form: build_form))
+      end
+
+      assert_selector("button[data-id='US,CA,MX']", text: "North America")
+      assert_selector("button[data-id='US,CA,MX'].fw-bold")
+      assert_selector("button[data-id='US']", text: /United States/)
+    end
+
+    it "shows continent as checked when all constituent countries are selected" do
+      options_with_continent = [
+        ["North America", "US,CA,MX", { class: "fw-bold" }],
+        ["🇺🇸 United States", "US"],
+        ["🇨🇦 Canada", "CA"],
+        ["🇩🇪 Germany", "DE"]
+      ]
+      CountrySelectOptionsQuery.stub(:call, options_with_continent) do
+        render_inline(described_class.new(form: build_form, selected_ids: %w[US CA MX]))
+      end
+
+      continent_checkbox = page.find("button[data-id='US,CA,MX'] input[type='checkbox']")
+      assert(continent_checkbox["checked"])
+    end
   end
 end
