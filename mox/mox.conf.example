@@ -1,0 +1,30 @@
+# Mox static config for acme.sh-managed TLS certificates.
+# Copy to /mnt/uppertown_production_webapp_volume/mox/config/mox.conf on the server.
+#
+# Certs are mounted from /mnt/uppertown_production_webapp_volume/certs/ (acme.sh output).
+# Requires domains.conf in the same directory (create via mox quickstart or manually).
+# Use tabs for indentation (sconf format).
+
+DataDir: /data
+LogLevel: info
+Hostname: mail.upper.town
+
+Listeners:
+	public:
+		IPs:
+			- 0.0.0.0
+		Hostname: mail.upper.town
+		TLS:
+			KeyCerts:
+				- CertFile: /mnt/certs/fullchain.pem
+				  KeyFile: /mnt/certs/privkey.pem
+		SMTP:
+			Enabled: true
+		Submission:
+			Enabled: true
+		Submissions:
+			Enabled: true
+		IMAP:
+			Enabled: true
+		IMAPS:
+			Enabled: true

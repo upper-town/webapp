@@ -1,0 +1,8 @@
+#!/bin/sh
+# Restart Mox to pick up renewed cert. Run by acme.sh --reloadcmd after renewal.
+# Copy to ~/bin/ on server: scp scripts/acme-reload-upper-town app@upper.town:~/bin/
+# Filter matches Kamal container names (e.g. mox-web-1)
+for cid in $(docker ps -q -f "name=mox-web" 2>/dev/null); do
+  docker restart "$cid"
+done
+logger -t acme-sh "Upper Town cert renewed; Mox restarted. Consider: bin/kamal deploy"

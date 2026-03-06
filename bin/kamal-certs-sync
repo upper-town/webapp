@@ -1,0 +1,22 @@
+#!/bin/sh
+# Fetches TLS certs from server and exports for Kamal proxy secrets.
+# Run before deploy: source bin/kamal-certs-sync && bin/kamal deploy
+#
+# Requires: SSH access to server, certs at CERT_DIR on server.
+# Set KAMAL_CERTS_SERVER to override (default: app@upper.town).
+
+set -e
+SERVER="${KAMAL_CERTS_SERVER:-app@upper.town}"
+CERT_DIR="/mnt/uppertown_production_webapp_volume/certs"
+
+# Verify certs exist before fetching
+if ! ssh "$SERVER" "test -f $CERT_DIR/fullchain.pem -a -f $CERT_DIR/privkey.pem"; then
+  echo "ERROR: Certs not found at $CERT_DIR on $SERVER" >&2
+  echo "Run scripts/setup-acme-sh-on-server.sh first." >&2
+  exit 1
+fi
+
+export CERTIFICATE_PEM=$(ssh "$SERVER" "cat $CERT_DIR/fullchain.pem")
+export PRIVATE_KEY_PEM=$(ssh "$SERVER" "cat $CERT_DIR/privkey.pem")
+
+echo "Certs fetched from $SERVER"

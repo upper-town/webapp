@@ -43,8 +43,7 @@ export default class extends Controller {
   fallbackCopy(text) {
     const textarea = document.createElement("textarea")
     textarea.value = text
-    textarea.style.position = "fixed"
-    textarea.style.opacity = "0"
+    textarea.classList.add("clipboard-fallback-textarea")
     document.body.appendChild(textarea)
     textarea.select()
     try {
@@ -56,7 +55,7 @@ export default class extends Controller {
   }
 
   get copiedIcon() {
-    return "<i class=\"bi bi-check-lg\" style=\"font-size: 0.875rem\"></i>"
+    return "<i class=\"bi bi-check-lg admin-copy-icon\"></i>"
   }
 
   get copiedTitle() {

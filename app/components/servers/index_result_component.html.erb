@@ -3,15 +3,14 @@
     <%= link_to(server_path(server), class: "text-decoration-none") do %>
       <%= image_tag(
         server.banner_image,
-        class: "card-img-top",
-        style: "height: 140px; object-fit: cover;"
+        class: "card-img-top server-card-banner"
       ) %>
     <% end %>
   <% end %>
 
   <div class="card-body d-flex flex-column">
     <div class="d-flex align-items-start gap-2 mb-2">
-      <div class="flex-shrink-0 rounded-2 bg-primary text-white text-center px-2 py-1" style="min-width: 3rem;">
+      <div class="flex-shrink-0 rounded-2 bg-primary text-white text-center px-2 py-1 ranking-badge">
         <span class="fw-bold small"><%= format_ranking_number(server_stats_hash.dig(period, :ranking_number)) %></span>
       </div>
       <div class="flex-grow-1 min-w-0">

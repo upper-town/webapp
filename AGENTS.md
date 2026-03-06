@@ -4,7 +4,7 @@ This file provides guidance to AI agents when working with code in this reposito
 
 When adding new features, follow existing patterns: place business logic in `app/concepts/` under the appropriate domain, use `Callable` for services/queries, return `ApplicationResult` from services, use form objects for user input and pass them (not splatted attributes) to services, use model attribute locales (`activerecord.attributes`) for attribute labels instead of custom per-page keys, and add tests in `test/concepts/` mirroring the concept structure.
 
-**Avoid**: Splatting form attributes into service calls; inline JavaScript in HTML; duplicating model attribute labels in page-specific locale keys.
+**Avoid**: Splatting form attributes into service calls; inline JavaScript in HTML; inline CSS (`style="..."`); duplicating model attribute labels in page-specific locale keys.
 
 ## Quick Reference for AI Agents
 
@@ -26,9 +26,17 @@ When adding new features, follow existing patterns: place business logic in `app
 
 - **Splatting form attributes** — Pass the form object: `Service.call(@form, account: current_account)`, not `Service.call(**@form.attributes, account: current_account)`.
 - **Inline JavaScript** — CSP blocks `onclick`, `href="javascript:..."`. Use Stimulus controllers.
+- **Inline style** — Do not use `style="..."` on elements. Put CSS in stylesheet files under `app/assets/stylesheets/` (loaded via Propshaft).
 - **Duplicate attribute labels** — Use `Model.human_attribute_name(:attr)` or `form.label(:attr)`; avoid `admin.servers.columns.name` when it equals `activerecord.attributes.server.name`.
 - **Calling models from controllers** — Controllers delegate to services; they do not call `Model.create`, `model.update`, etc. directly.
 - **Missing `model_name` on forms** — If `form_with model: @form` should submit under `server` params, the form needs `model_name` pointing to `Server`.
+
+## Asset Policies (No Inline Style or Script)
+
+This site enforces that **CSS and JavaScript live in proper files loaded through the asset pipeline**, not inline in HTML:
+
+- **No inline JavaScript** — Put all JS in files under `app/javascript/` (e.g. Stimulus controllers). CSP blocks `onclick`, `href="javascript:..."`, and `<script>` tags in views.
+- **No inline CSS** — Do not use `style="..."` on elements. Put styles in files under `app/assets/stylesheets/` (Propshaft). Use classes and the existing stylesheet structure.
 
 ## Project Overview
 

@@ -1,0 +1,55 @@
+# Deploy Mox mail server alongside the webapp on the same droplet.
+# Uses acme.sh-managed TLS certificates (see docs/acme-sh-certificate-plan.md).
+#
+# Prerequisites:
+# - acme.sh set up on server (scripts/setup-acme-sh-on-server.sh)
+# - DNS: MX upper.town -> mail.upper.town; A records for mail, mta-sts, autoconfig
+# - Mox config at /mnt/uppertown_production_webapp_volume/mox/config/mox.conf
+#
+# Deploy webapp first, then: source bin/kamal-certs-sync && bin/kamal deploy -c config/deploy-mox.yml
+
+service: mox
+# Official image; pulls from r.xmox.nl (registry below is for webapp, not used for Mox)
+image: r.xmox.nl/mox:v0.0.15
+
+servers:
+  web:
+    host: upper.town
+    proxy: true
+    options:
+      publish:
+        - "25:25"
+        - "587:587"
+        - "465:465"
+        - "143:143"
+        - "993:993"
+
+proxy:
+  ssl:
+    certificate_pem: CERTIFICATE_PEM
+    private_key_pem: PRIVATE_KEY_PEM
+  hosts:
+    - mail.upper.town
+    - mta-sts.upper.town
+    - autoconfig.upper.town
+  app_port: 80
+
+env:
+  clear:
+    MOX_CONFIG: /config/mox.conf
+
+volumes:
+  - /mnt/uppertown_production_webapp_volume/mox/config:/config
+  - /mnt/uppertown_production_webapp_volume/mox/data:/data
+  - /mnt/uppertown_production_webapp_volume/certs:/mnt/certs:ro
+
+registry:
+  server: localhost:5555
+
+ssh:
+  user: app
+  port: 22
+  config: true
+  keys_only: true
+  keys:
+    - ~/.ssh/app-uppertown-production

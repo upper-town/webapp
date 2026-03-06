@@ -1,7 +1,7 @@
 # sudo env HOME=$HOME USER=$USER LOGNAME=$USER bash
 # export BWS_ACCESS_TOKEN=
 # export BWS_PROJECT_ID=
-# bin/kamal deploy
+# source bin/kamal-certs-sync && bin/kamal deploy
 
 service: webapp
 
@@ -9,11 +9,11 @@ image: uppertown/webapp
 
 servers:
   web:
-    hosts:
-      - upper.town
+    host: upper.town
+    proxy: true
   workers:
-    hosts:
-      - upper.town
+    host: upper.town
+    proxy: false
     cmd: bin/jobs
 
 ssh:
@@ -22,10 +22,12 @@ ssh:
   config: true
   keys_only: true
   keys:
-    - "~/.ssh/app-uppertown-production"
+    - ~/.ssh/app-uppertown-production
 
 proxy:
-  ssl: true
+  ssl:
+    certificate_pem: CERTIFICATE_PEM
+    private_key_pem: PRIVATE_KEY_PEM
   host: upper.town
   response_timeout: 60
   healthcheck:
@@ -40,13 +42,14 @@ env:
   clear:
     APP_ENV: production
     APP_HOST: upper.town
+    # Thruster expects Puma on port 3000 by default.
     APP_PORT: 3000
     RAILS_ENV: production
     RAILS_MAX_THREADS: 5
     POSTGRES_POOL: 25
     POSTGRES_HOST: webapp-postgres
     NOREPLY_EMAIL: noreply@upper.town
-    PERIODS_MIN_PAST_TIME: "2024-01-01T00:00:00Z"
+    PERIODS_MIN_PAST_TIME: 2024-01-01T00:00:00Z
   secret:
     - POSTGRES_USER
     - POSTGRES_PASSWORD
@@ -86,7 +89,8 @@ accessories:
   postgres:
     image: postgres:18.0
     host: upper.town
-    port: "127.0.0.1:5432:5432" # POSTGRES_PORT
+    # POSTGRES_PORT
+    port: "127.0.0.1:5432:5432"
     env:
       secret:
         - POSTGRES_USER

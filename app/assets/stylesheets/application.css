@@ -167,6 +167,7 @@
 }
 
 @media (min-width: 576px) {
+
   .servers-index-filter-period-country .multi-select-filter .dropdown-toggle,
   .servers-index-filter-period-country .form-select {
     min-width: 12rem;
@@ -190,4 +191,27 @@
   .servers-index-filter-period-country__country {
     flex-grow: 1.5;
   }
+}
+
+.ranking-badge {
+  min-width: 3rem;
+}
+
+.server-card-banner {
+  height: 140px;
+  object-fit: cover;
+}
+
+.icon-size-1_5rem {
+  font-size: 1.5rem;
+}
+
+.icon-size-3rem {
+  font-size: 3rem;
+}
+
+.clipboard-fallback-textarea {
+  position: fixed;
+  left: -9999px;
+  opacity: 0;
 }
