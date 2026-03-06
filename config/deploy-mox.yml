@@ -1,0 +1,73 @@
+# Deploy Mox mail server alongside the webapp on the same droplet.
+# TLS: Kamal proxy manages certs via Let's Encrypt; Mox reuses them for SMTP/IMAP.
+# See docs/deploy-guide.md and mox/README.md.
+#
+# Prerequisites:
+# - DNS: MX upper.town -> mail.upper.town; A records for mail, mta-sts, autoconfig
+# - Mox config at /mnt/uppertown_production_webapp_volume/mox/config/mox.conf
+#
+# Deploy webapp first, then: bin/kamal deploy -c config/deploy-mox.yml
+#
+# Aliases (use -c config/deploy-mox.yml): shell, logs, config-test, mox-help, dnsrecords, dnscheck
+
+service: mox
+
+image: uppertown/mox
+
+registry:
+  server: localhost:5555
+
+builder:
+  context: mox
+  dockerfile: Dockerfile
+  arch: amd64
+  local: true
+
+primary_role: mail
+
+servers:
+  mail:
+    host: upper.town
+    proxy: true
+    options:
+      publish:
+        - "25:25"
+        - "587:587"
+        - "465:465"
+        - "143:143"
+        - "993:993"
+
+proxy:
+  ssl: true
+  hosts:
+    - mail.upper.town
+    - mta-sts.upper.town
+    - autoconfig.upper.town
+  app_port: 80
+
+ssh:
+  user: webapp
+  port: 22
+  config: true
+  keys_only: true
+  keys:
+    - ~/.ssh/webapp-uppertown-production
+
+env:
+  clear:
+    MOX_TLS_DOMAIN: mail.upper.town
+
+volumes:
+  - /mnt/uppertown_production_webapp_volume/mox/config:/mox/config
+  - /mnt/uppertown_production_webapp_volume/mox/data:/mox/data
+  # Kamal-proxy's ACME cert cache (autocert format). Entrypoint splits into cert/key for Mox.
+  # Verify path on server: docker volume inspect kamal-proxy-config
+  - /var/lib/docker/volumes/kamal-proxy-config/_data:/mnt/kamal-certs:ro
+
+aliases:
+  shell: app exec --interactive --reuse -r mail "sh"
+  logs: app logs -f
+  config-test: app exec -r mail "mox config test"
+  mox-help: app exec -r mail "mox help"
+  dnsrecords: app exec -r mail "mox config dnsrecords upper.town"
+  dnscheck: app exec -r mail "mox config dnscheck upper.town"

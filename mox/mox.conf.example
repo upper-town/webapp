@@ -1,0 +1,77 @@
+# Mox static config. Copy to /mnt/uppertown_production_webapp_volume/mox/config/mox.conf on the server.
+#
+# Certs: entrypoint splits Kamal-proxy's autocert cache into /run/mox-tls/ (see mox/entrypoint.sh).
+# Requires domains.conf in the same directory (create via mox quickstart or manually).
+# Use tabs for indentation (sconf format). Details: https://pkg.go.dev/github.com/mjl-/sconf
+# If behind NAT (e.g. Docker bridge), add NATIPs with your public IP to the public listener.
+
+DataDir: /mox/data
+LogLevel: info
+Hostname: mail.upper.town
+
+# Run as root (uid 0) in Docker. The container has no mox user.
+User: 0
+
+# Admin password file created by quickstart. Required for admin web interface.
+AdminPasswordFile: adminpasswd
+
+Listeners:
+	internal:
+		IPs:
+			- 127.0.0.1
+			- ::1
+		Hostname: localhost
+		AccountHTTP:
+			Enabled: true
+		AdminHTTP:
+			Enabled: true
+		WebmailHTTP:
+			Enabled: true
+		WebAPIHTTP:
+			Enabled: true
+		MetricsHTTP:
+			Enabled: true
+	public:
+		IPs:
+			- 0.0.0.0
+		Hostname: mail.upper.town
+		TLS:
+			KeyCerts:
+				-
+					CertFile: /run/mox-tls/cert.pem
+					KeyFile: /run/mox-tls/key.pem
+		SMTP:
+			Enabled: true
+		Submission:
+			Enabled: true
+		Submissions:
+			Enabled: true
+		IMAP:
+			Enabled: true
+		IMAPS:
+			Enabled: true
+		AdminHTTP:
+			Enabled: true
+		# MTA-STS policy at mta-sts.upper.town. Proxy terminates TLS, forwards HTTP to port 80.
+		MTASTSHTTPS:
+			Enabled: true
+			Port: 80
+			NonTLS: true
+		# Autoconfig at autoconfig.upper.town. Proxy terminates TLS, forwards HTTP to port 80.
+		AutoconfigHTTPS:
+			Enabled: true
+			Port: 80
+			NonTLS: true
+		# HTTP webserver for other web handlers. Proxy terminates TLS, forwards HTTP to port 80.
+		WebserverHTTP:
+			Enabled: true
+			Port: 80
+
+# Postmaster and TLS report delivery (quickstart creates admin account).
+Postmaster:
+	Account: admin
+	Mailbox: Postmaster
+HostTLSRPT:
+	Account: admin
+	Mailbox: TLSRPT
+	Localpart: tlsreports
