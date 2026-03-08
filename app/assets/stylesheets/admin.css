@@ -1,15 +1,6 @@
 /* Custom Admin CSS */
 
-/* Admin layout with vertical sidebar */
-.admin-layout {
-  min-height: 100vh;
-}
-
-.admin-layout-wrapper {
-  display: flex;
-  min-height: 100vh;
-}
-
+/* Admin layout wrapper: flex-column on mobile, flex-row on lg+ (via Bootstrap utilities) */
 .admin-sidebar {
   width: 240px;
   min-width: 240px;
@@ -24,9 +15,7 @@
 }
 
 .admin-sidebar-header {
-  padding: 1rem 1.25rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  flex-shrink: 0;
+  border-bottom-color: rgba(255, 255, 255, 0.1);
 }
 
 .admin-sidebar-brand {
@@ -38,12 +27,6 @@
 
 .admin-sidebar-brand:hover {
   color: var(--bs-white) !important;
-}
-
-.admin-sidebar-nav {
-  flex: 1;
-  padding: 0.75rem 0;
-  overflow-y: auto;
 }
 
 .admin-sidebar-nav .nav-link {
@@ -64,9 +47,6 @@
 }
 
 .admin-sidebar-section {
-  list-style: none;
-  margin-top: 1rem;
-  padding: 0.5rem 1.25rem 0.25rem;
   border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
 
@@ -101,10 +81,6 @@
 }
 
 @media (max-width: 991.98px) {
-  .admin-layout-wrapper {
-    flex-direction: column;
-  }
-
   .admin-sidebar {
     width: 100%;
     min-width: unset;
@@ -149,13 +125,6 @@
 }
 
 /* Admin pagination + search row: side-by-side when space allows, search wraps below when narrow */
-.admin-pagination-search-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem;
-}
-
 .admin-pagination-search-row .admin-pagination-search-row__pagination {
   flex-shrink: 0;
   margin: 0;
@@ -224,13 +193,6 @@
   display: none;
 }
 
-.admin-multi-select-filter__caret,
-.admin-fetchable-multi-select-filter__caret,
-.admin-date-range-filter .admin-multi-select-filter__caret {
-  margin-left: 0.25rem;
-  flex-shrink: 0;
-}
-
 .admin-pagination-search-row .admin-servers-filter-inline .form-select {
   height: 2.375rem;
 }
@@ -246,24 +208,6 @@
 /* Sortable table headers */
 .admin-table-sort-link:hover {
   color: var(--bs-primary) !important;
-}
-
-.admin-table-sort-icon {
-  font-size: 0.75rem;
-  opacity: 0.7;
-}
-
-.admin-table-sort-icon--muted {
-  opacity: 0.4;
-}
-
-/* Copy button and empty state icons */
-.admin-copy-icon {
-  font-size: 0.875rem;
-}
-
-.admin-empty-icon {
-  font-size: 2.5rem;
 }
 
 /* Dashboard stat cards: hover affordance for links */

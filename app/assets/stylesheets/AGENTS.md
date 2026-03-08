@@ -12,6 +12,10 @@ This file provides guidance for AI agents when working with Bootstrap, layouts, 
 
 Common utilities: `mb-3` (margin), `d-flex`, `gap-2`, `text-body-secondary`, `btn btn-primary`, `form-control`, `form-label`, `card`, `table table-hover`. Icons: `<i class="bi bi-plus-lg"></i>` (Bootstrap Icons).
 
+## Bootstrap Standards
+
+Stick to Bootstrap standards, patterns, and components. Use its utility classes for layout, spacing, typography, and colors instead of custom CSS. When adding or changing UI, prefer Bootstrap's documented patterns and components; only add custom CSS when Bootstrap does not provide an equivalent.
+
 ## Core Principles
 
 ### Mobile-first & Responsive

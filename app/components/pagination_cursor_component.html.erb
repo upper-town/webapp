@@ -4,11 +4,11 @@
       <ul class="pagination">
         <% if pagination_cursor.start_cursor? %>
           <li class="page-item disabled">
-            <span class="page-link"><%= first_icon %></span>
+            <span class="page-link text-center"><%= first_icon %></span>
           </li>
         <% else %>
           <li class="page-item">
-            <%= link_to(first_icon, pagination_cursor.start_cursor_url, class: "page-link") %>
+            <%= link_to(first_icon, pagination_cursor.start_cursor_url, class: "page-link text-center") %>
           </li>
         <% end %>
       </ul>
@@ -18,24 +18,24 @@
   <nav role="navigation" aria-label="<%= t('shared.aria.pagination') %>" class="pagination-cursor-prev-next">
     <ul class="pagination">
       <% if pagination_cursor.has_before_cursor? %>
-        <li class="page-item">
-          <%= link_to(prev_icon, pagination_cursor.before_cursor_url, class: "page-link") %>
+        <li class="page-item flex-grow-1">
+          <%= link_to(prev_icon, pagination_cursor.before_cursor_url, class: "page-link text-center") %>
         </li>
       <% else %>
-        <li class="page-item disabled">
-          <span class="page-link">
+        <li class="page-item flex-grow-1 disabled">
+          <span class="page-link text-center">
             <%= prev_icon %>
           </span>
         </li>
       <% end %>
 
       <% if pagination_cursor.has_after_cursor? %>
-        <li class="page-item">
-          <%= link_to(next_icon, pagination_cursor.after_cursor_url, class: "page-link") %>
+        <li class="page-item flex-grow-1">
+          <%= link_to(next_icon, pagination_cursor.after_cursor_url, class: "page-link text-center") %>
         </li>
       <% else %>
-        <li class="page-item disabled">
-          <span class="page-link">
+        <li class="page-item flex-grow-1 disabled">
+          <span class="page-link text-center">
             <%= next_icon %>
           </span>
         </li>

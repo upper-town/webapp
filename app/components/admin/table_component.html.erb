@@ -2,7 +2,7 @@
   <% if empty? %>
     <div class="card-body text-center py-5">
       <p class="text-body-secondary mb-2">
-        <i class="bi bi-inbox admin-empty-icon" aria-hidden="true"></i>
+        <i class="bi bi-inbox fs-1" aria-hidden="true"></i>
       </p>
       <p class="text-body-secondary mb-0"><%= empty_message %></p>
     </div>
@@ -21,9 +21,9 @@
                   ) do %>
                     <%= column_name(col) %>
                     <% if (icon = sort_icon(col)) %>
-                      <i class="bi <%= icon %> admin-table-sort-icon" aria-hidden="true"></i>
+                      <i class="bi <%= icon %> small opacity-75" aria-hidden="true"></i>
                     <% else %>
-                      <i class="bi bi-arrow-down-up admin-table-sort-icon admin-table-sort-icon--muted" aria-hidden="true"></i>
+                      <i class="bi bi-arrow-down-up small opacity-50" aria-hidden="true"></i>
                     <% end %>
                   <% end %>
                 <% else %>

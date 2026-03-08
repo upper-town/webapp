@@ -4,7 +4,7 @@
       <h5 class="card-title mb-0"><%= t("admin.admin_permissions.show.roles_with_permission") %></h5>
     </div>
     <div class="card-body">
-      <div class="admin-pagination-search-row mb-3">
+      <div class="admin-pagination-search-row d-flex flex-wrap align-items-center gap-2 mb-3">
         <%= render(Admin::SearchFormComponent.new(
           url: roles_admin_admin_permission_path(@admin_permission),
           search_term: @search_term,

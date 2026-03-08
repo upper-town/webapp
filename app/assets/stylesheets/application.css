@@ -62,15 +62,6 @@
   }
 }
 
-.pagination-prev-next li {
-  flex-grow: 1;
-}
-
-.pagination-prev-next li a,
-.pagination-prev-next li span {
-  text-align: center;
-}
-
 /* PaginationCursor */
 
 .pagination-cursor-goto select {
@@ -104,15 +95,6 @@
   }
 }
 
-.pagination-cursor-prev-next li {
-  flex-grow: 1;
-}
-
-.pagination-cursor-prev-next li a,
-.pagination-cursor-prev-next li span {
-  text-align: center;
-}
-
 /* Multi-select filter: match form-select appearance, hide Bootstrap's caret, use Bootstrap Icons */
 .multi-select-filter .dropdown-toggle {
   min-width: 12rem;
@@ -135,11 +117,6 @@
 
 .multi-select-filter .dropdown-toggle::after {
   display: none;
-}
-
-.multi-select-filter__caret {
-  margin-left: 0.25rem;
-  flex-shrink: 0;
 }
 
 /* Servers index filter */
@@ -198,15 +175,6 @@
 
 .server-card-banner {
   height: 140px;
-  object-fit: cover;
-}
-
-.icon-size-1_5rem {
-  font-size: 1.5rem;
-}
-
-.icon-size-3rem {
-  font-size: 3rem;
 }
 
 .clipboard-fallback-textarea {

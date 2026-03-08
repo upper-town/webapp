@@ -1,9 +1,5 @@
 <aside class="admin-sidebar">
-  <div class="admin-sidebar-header">
-    <%= link_to(t("admin.nav.brand"), admin_dashboard_path, class: "admin-sidebar-brand") %>
-  </div>
-
-  <nav class="admin-sidebar-nav" aria-label="<%= t('shared.aria.admin_navigation') %>">
+  <nav class="admin-sidebar-nav flex-grow-1 py-3 overflow-y-auto" aria-label="<%= t('shared.aria.admin_navigation') %>">
     <ul class="nav flex-column">
       <li class="nav-item">
         <%= link_to(admin_dashboard_path, class: nav_link_class(admin_root_path, admin_dashboard_path)) do %>
@@ -11,7 +7,7 @@
         <% end %>
       </li>
 
-      <li class="admin-sidebar-section">
+      <li class="admin-sidebar-section list-unstyled mt-3 pt-2 pb-1 px-3">
         <span class="admin-sidebar-section-label"><%= t("admin.nav.section_users") %></span>
       </li>
       <li class="nav-item">
@@ -40,7 +36,7 @@
         <% end %>
       </li>
 
-      <li class="admin-sidebar-section">
+      <li class="admin-sidebar-section list-unstyled mt-3 pt-2 pb-1 px-3">
         <span class="admin-sidebar-section-label"><%= t("admin.nav.section_admin") %></span>
       </li>
       <li class="nav-item">
@@ -79,7 +75,7 @@
         <% end %>
       </li>
 
-      <li class="admin-sidebar-section">
+      <li class="admin-sidebar-section list-unstyled mt-3 pt-2 pb-1 px-3">
         <span class="admin-sidebar-section-label"><%= t("admin.nav.section_platform") %></span>
       </li>
       <li class="nav-item">
@@ -108,7 +104,7 @@
         <% end %>
       </li>
 
-      <li class="admin-sidebar-section">
+      <li class="admin-sidebar-section list-unstyled mt-3 pt-2 pb-1 px-3">
         <span class="admin-sidebar-section-label"><%= t("admin.nav.section_webhook") %></span>
       </li>
       <li class="nav-item">
@@ -127,7 +123,7 @@
         <% end %>
       </li>
 
-      <li class="admin-sidebar-section">
+      <li class="admin-sidebar-section list-unstyled mt-3 pt-2 pb-1 px-3">
         <span class="admin-sidebar-section-label"><%= t("admin.nav.section_system") %></span>
       </li>
       <li class="nav-item">

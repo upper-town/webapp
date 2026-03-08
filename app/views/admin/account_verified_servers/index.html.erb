@@ -4,7 +4,7 @@
       <h5 class="card-title mb-0"><%= t("admin.accounts.show.verified_servers") %></h5>
     </div>
     <div class="card-body">
-      <div class="admin-pagination-search-row mb-3">
+      <div class="admin-pagination-search-row d-flex flex-wrap align-items-center gap-2 mb-3">
         <%= render(Admin::SearchFormComponent.new(
           url: verified_servers_admin_account_path(@account),
           search_term: @search_term,

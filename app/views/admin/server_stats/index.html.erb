@@ -15,7 +15,7 @@
 <% request_helper = RequestHelper.new(request) %>
 <% sort_url_builder = ->(key, dir) { request_helper.url_with_query({ sort_key: key, sort_dir: dir, page: 1 }, []) } %>
 
-<div class="admin-pagination-search-row mb-3">
+<div class="admin-pagination-search-row d-flex flex-wrap align-items-center gap-2 mb-3">
   <div class="admin-pagination-search-row__pagination">
     <%= render(PaginationComponent.new(@pagination, align: :start)) %>
   </div>

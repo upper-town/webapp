@@ -55,7 +55,7 @@ export default class extends Controller {
   }
 
   get copiedIcon() {
-    return "<i class=\"bi bi-check-lg admin-copy-icon\"></i>"
+    return "<i class=\"bi bi-check-lg small\"></i>"
   }
 
   get copiedTitle() {
