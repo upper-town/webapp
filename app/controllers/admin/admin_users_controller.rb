@@ -19,12 +19,6 @@ module Admin
       @admin_user = admin_user_from_params
     end
 
-    def new
-    end
-
-    def create
-    end
-
     def edit
       @admin_user = admin_user_from_params
       @form = Admin::AdminUsers::EditForm.new(admin_user: @admin_user)

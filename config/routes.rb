@@ -7,10 +7,6 @@ Rails.application.routes.draw do
 
   match "(*any)", to: redirect(subdomain: ""), via: :all, constraints: { subdomain: "www" }
 
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
-
   # /
 
   root to: "servers#index"
@@ -75,7 +71,7 @@ Rails.application.routes.draw do
       resources :admin_tokens, only: [:index, :show]
       resources :sessions, only: [:index, :show]
       resources :admin_sessions, only: [:index, :show]
-      resources :admin_users do
+      resources :admin_users, except: [:new, :create] do
         get "sessions", on: :member, to: "admin_user_sessions#index"
         get "tokens", on: :member, to: "admin_user_tokens#index"
         get "codes", on: :member, to: "admin_user_codes#index"

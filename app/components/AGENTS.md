@@ -45,6 +45,7 @@ All components inherit from `ApplicationComponent < ViewComponent::Base`. Use Bo
 | `Admin::ServerMultiSelectFilterComponent` | Server-specific wrapper for `MultiSelectFilterComponent`; used on admin server votes index |
 | `Admin::AccountMultiSelectFilterComponent` | Account-specific wrapper for `FetchableMultiSelectFilterComponent`; used on admin server votes index |
 | `Admin::ServerStatusBadgesComponent` | Server status badges (verified, archived, etc.) |
+| `Admin::SidebarComponent` | Admin layout sidebar navigation |
 | `Admin::IndexActionsComponent`, `Admin::ShowActionsComponent` | Admin action buttons |
 
 ## Adding New Components

@@ -25,7 +25,7 @@
   <%= render("shared/noscript") %>
   <% if signed_in_admin_user? %>
     <div class="d-flex flex-column flex-lg-row min-vh-100 admin-layout-wrapper">
-      <%= render("admin/shared/sidebar") %>
+      <%= render(Admin::SidebarComponent.new) %>
       <main id="main" tabindex="-1" class="admin-main">
         <div class="container-fluid pt-3">
           <%= render("shared/flash") %>
